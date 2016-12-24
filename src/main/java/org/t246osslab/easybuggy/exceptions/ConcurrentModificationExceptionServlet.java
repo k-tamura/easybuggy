@@ -1,0 +1,31 @@
+package org.t246osslab.easybuggy.exceptions;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@SuppressWarnings("serial")
+@WebServlet(urlPatterns = { "/cme" })
+public class ConcurrentModificationExceptionServlet extends HttpServlet {
+
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        List<String> list = new ArrayList<String>();
+        list.add("1");
+        list.add("2");
+
+        Iterator<String> iter = list.iterator();
+        while (iter.hasNext()) {
+            String s = (String) iter.next();
+            if (s.equals("2")) {
+                list.remove(s);
+            }
+        }
+    }
+}
