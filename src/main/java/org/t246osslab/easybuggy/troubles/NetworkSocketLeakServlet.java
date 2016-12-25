@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.pmw.tinylog.Logger;
 import org.t246osslab.easybuggy.utils.ApplicationUtils;
 import org.t246osslab.easybuggy.utils.Closer;
+import org.t246osslab.easybuggy.utils.MessageUtils;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/netsocketleak" })
@@ -40,7 +41,7 @@ public class NetworkSocketLeakServlet extends HttpServlet {
                 // while ((line = reader.readLine()) != null) {
                 // sb.append(line);
                 // }
-                sb.append("It works!");
+                sb.append(MessageUtils.getMsg("msg.socket.leak.occur", req.getLocale()));
             }
             writer = res.getWriter();
             res.setContentType("text/plain");

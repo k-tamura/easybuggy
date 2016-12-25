@@ -46,7 +46,7 @@ public class DeadlockServlet2 extends HttpServlet {
             writer.write(MessageUtils.getMsg("msg.note.sql.deadlock", locale));
             writer.write("<br><br>");
             writer.write(MessageUtils.getMsg("label.order", locale) + ": ");
-            writer.write("<input type=\"radio\" name=\"order\" value=\"asc\">");
+            writer.write("<input type=\"radio\" name=\"order\" value=\"asc\" checked>");
             writer.write(MessageUtils.getMsg("label.asc", locale));
             writer.write("<input type=\"radio\" name=\"order\" value=\"desc\">");
             writer.write(MessageUtils.getMsg("label.desc", locale));
@@ -55,14 +55,14 @@ public class DeadlockServlet2 extends HttpServlet {
             writer.write("<br><br>");
 
             EmbeddedJavaDb2 app = new EmbeddedJavaDb2();
-            if (order.equals("asc")) {
+            if ("asc".equals(order)) {
                 String message = app.update(new String[] { "Mark", "James" }, locale);
                 writer.write(message);
-            } else if (order.equals("desc")) {
+            } else if ("desc".equals(order)) {
                 String message = app.update(new String[] { "James", "Mark" }, locale);
                 writer.write(message);
             } else {
-                writer.write(MessageUtils.getMsg("msg.warn.enter.name.and.passwd", locale));
+                writer.write(MessageUtils.getMsg("msg.warn.enter.asc.or.desc", locale));
             }
             writer.write("</form>");
             writer.write("</BODY>");

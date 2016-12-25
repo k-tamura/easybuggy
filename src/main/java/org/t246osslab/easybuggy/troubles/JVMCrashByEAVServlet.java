@@ -30,11 +30,8 @@ public class JVMCrashByEAVServlet extends HttpServlet {
             Class<?> cl2 = Class.forName("sun.dc.path.PathConsumer");
             Constructor<?> cunstructor = cl.getConstructor(new Class[] { cl2 });
             cunstructor.newInstance(new Object[] { null });
-        } catch (ClassNotFoundException e) {
-            message = MessageUtils.getMsg("msg.info.jvm.not.crash", req.getLocale());
         } catch (Exception e) {
-            message = MessageUtils.getMsg("msg.unknown.exception.occur", req.getLocale());
-            Logger.error(e);
+            message = MessageUtils.getMsg("msg.info.jvm.not.crash", req.getLocale());
         } finally {
             res.setCharacterEncoding("UTF-8");
             res.setContentType("text/plain");

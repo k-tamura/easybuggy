@@ -71,7 +71,7 @@ public class DeadlockServlet extends HttpServlet {
 
     private void sleep() {
         try {
-            Thread.sleep(10000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             Logger.error(e);
         }

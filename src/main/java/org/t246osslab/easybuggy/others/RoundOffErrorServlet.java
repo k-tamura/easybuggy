@@ -20,7 +20,7 @@ public class RoundOffErrorServlet extends HttpServlet {
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         PrintWriter writer = null;
-        double number = -1;
+        int number = -1;
         String errorMessage = "";
         try {
             Locale locale = req.getLocale();
