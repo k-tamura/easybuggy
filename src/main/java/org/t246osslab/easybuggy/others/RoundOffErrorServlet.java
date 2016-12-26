@@ -32,7 +32,7 @@ public class RoundOffErrorServlet extends HttpServlet {
             writer.write("<TITLE>" + MessageUtils.getMsg("title.round.off.error.page", locale) + "</TITLE>");
             writer.write("</HEAD>");
             writer.write("<BODY>");
-            writer.write("<form action=\"/roe\" method=\"post\">");
+            writer.write("<form action=\"roe\" method=\"post\">");
             writer.write("<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\">");
             writer.write(" - 0.9 = ");
             String strNumber = req.getParameter("number");

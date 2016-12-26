@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.pmw.tinylog.Logger;
+import org.t246osslab.easybuggy.utils.ApplicationUtils;
 import org.t246osslab.easybuggy.utils.Closer;
 import org.t246osslab.easybuggy.utils.MessageUtils;
 
@@ -40,7 +41,7 @@ public class DeadlockServlet2 extends HttpServlet {
             writer.write("<TITLE>" + MessageUtils.getMsg("title.sql.deadlock.page", locale) + "</TITLE>");
             writer.write("</HEAD>");
             writer.write("<BODY>");
-            writer.write("<form action=\"/deadlock2\" method=\"post\">");
+            writer.write("<form action=\"deadlock2\" method=\"post\">");
             writer.write(MessageUtils.getMsg("msg.reset.all.users.passwd", locale));
             writer.write("<br><br>");
             writer.write(MessageUtils.getMsg("msg.note.sql.deadlock", locale));
@@ -78,23 +79,34 @@ public class DeadlockServlet2 extends HttpServlet {
 
 class EmbeddedJavaDb2 {
 
-    // static final String dbUrl = "jdbc:derby:demo;create=true";
-    // In-memory database URL
-    static final String dbUrl = "jdbc:derby:memory:demo;create=true";
+    static final String dbUrl = ApplicationUtils.getDatabaseURL();
+    static final String dbDriver = ApplicationUtils.getDatabaseDriver();
 
     static {
         Connection conn = null;
         Statement stmt = null;
         try {
+            if (dbDriver != null && !dbDriver.equals("")) {
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                } catch (ClassNotFoundException e) {
+                    Logger.error(e);
+                }
+            }
             conn = DriverManager.getConnection(dbUrl);
             stmt = conn.createStatement();
 
+            try {
+                stmt.executeUpdate("drop table users2");
+            } catch (SQLException e) {
+                // ignore exception if exist the table
+            }
             // create users table
-            stmt.executeUpdate("Create table users (id int primary key, name varchar(30), password varchar(100))");
+            stmt.executeUpdate("create table users2 (id int primary key, name varchar(30), password varchar(100))");
 
             // insert rows
-            stmt.executeUpdate("insert into users values (0,'Mark','password')");
-            stmt.executeUpdate("insert into users values (1,'James','pathwood')");
+            stmt.executeUpdate("insert into users2 values (0,'Mark','password')");
+            stmt.executeUpdate("insert into users2 values (1,'James','pathwood')");
 
         } catch (SQLException e) {
             Logger.error(e);
@@ -123,10 +135,17 @@ class EmbeddedJavaDb2 {
         int executeUpdate = 0;
         String message = "";
         try {
+            if (dbDriver != null && !dbDriver.equals("")) {
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                } catch (ClassNotFoundException e) {
+                    Logger.error(e);
+                }
+            }
             conn = DriverManager.getConnection(dbUrl);
             conn.setAutoCommit(false);
 
-            stmt = conn.prepareStatement("Update users set password = ?  where name = ?");
+            stmt = conn.prepareStatement("Update users2 set password = ?  where name = ?");
             stmt.setString(1, UUID.randomUUID().toString());
             stmt.setString(2, names[0]);
             executeUpdate = stmt.executeUpdate();

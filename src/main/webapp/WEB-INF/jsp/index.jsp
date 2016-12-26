@@ -21,12 +21,12 @@
 	</p>
 	<ul>
 		<li><p>
-				<a href="../memoryleak" target="_blank"><fmt:message
+				<a href="memoryleak" target="_blank"><fmt:message
 						key="function.name.memory.leak" /></a>:
 				<fmt:message key="function.description.memory.leak" />
 			</p></li>
 		<li><p>
-				<a href="../memoryleak2" target="_blank"><fmt:message
+				<a href="memoryleak2" target="_blank"><fmt:message
 						key="function.name.memory.leak2" /></a>:
 				<fmt:message key="function.description.memory.leak2" />
 			</p></li>
@@ -36,26 +36,26 @@
 				<fmt:message key="function.description.memory.leak3" />
 			</p></li>
 		<li><p>
-				<a href="../infiniteloop" target="_blank"><fmt:message
+				<a href="infiniteloop" target="_blank"><fmt:message
 						key="function.name.infinite.loop" /></a>:
 				<fmt:message key="function.description.infinite.loop" /></li>
 		<li><p>
-				<a href="../deadlock" target="_blank"><fmt:message
+				<a href="deadlock" target="_blank"><fmt:message
 						key="function.name.dead.lock" /></a>:
 				<fmt:message key="function.description.dead.lock" />
 			</p></li>
 		<li><p>
-				<a href="../deadlock2" target="_blank"><fmt:message
+				<a href="deadlock2" target="_blank"><fmt:message
 						key="function.name.dead.lock2" /></a>:
 				<fmt:message key="function.description.dead.lock2" />
 			</p></li>
 		<li><p>
-				<a href="../jvmcrasheav" target="_blank"><fmt:message
+				<a href="jvmcrasheav" target="_blank"><fmt:message
 						key="function.name.jvm.crash.eav" /> </a>:
 				<fmt:message key="function.description.jvm.crash.eav" />
 			</p></li>
 		<li><p>
-				<a href="../redirectloop" target="_blank"><fmt:message
+				<a href="redirectloop" target="_blank"><fmt:message
 						key="function.name.redirect.loop" /></a>:
 				<fmt:message key="function.description.redirect.loop" />
 			</p></li>
@@ -65,7 +65,7 @@
 				<fmt:message key="function.description.native.library.error" />
 			</p></li>
 		<li><p>
-				<a href="../netsocketleak" target="_blank"><fmt:message
+				<a href="netsocketleak" target="_blank"><fmt:message
 						key="function.name.network.socket.leak" /></a>:
 				<fmt:message key="function.description.network.socket.leak" />
 			</p></li>
@@ -94,12 +94,12 @@
 	</p>
 	<ul>
 		<li><p>
-				<a href="../xss" target="_blank"><fmt:message
+				<a href="xss" target="_blank"><fmt:message
 						key="function.name.xss" /></a>:
 				<fmt:message key="function.description.xss" />
 			</p></li>
 		<li><p>
-				<a href="../sqlijc" target="_blank"><fmt:message
+				<a href="sqlijc" target="_blank"><fmt:message
 						key="function.name.sql.injection" /></a>:
 				<fmt:message key="function.description.sql.injection" />
 			</p></li>
@@ -118,37 +118,37 @@
 	</p>
 	<ul>
 		<li><p>
-				<a href="../sofe" target="_blank"><fmt:message
+				<a href="sofe" target="_blank"><fmt:message
 						key="function.name.sof.error" /></a>:
 				<fmt:message key="function.description.sof.error" />
 			</p></li>
 		<li><p>
-				<a href="../oome" target="_blank"><fmt:message
+				<a href="oome" target="_blank"><fmt:message
 						key="function.name.oome.error" /> </a>:
 				<fmt:message key="function.description.oome.error" />
 			</p></li>
 		<li><p>
-				<a href="../oome2" target="_blank"><fmt:message
+				<a href="oome2" target="_blank"><fmt:message
 						key="function.name.oome.error2" /></a>:
 				<fmt:message key="function.description.oome.error2" />
 			</p></li>
 		<li><p>
-				<a href="../oome3" target="_blank"><fmt:message
-						key="function.name.oome.error3" /> </a>:
+				<a href="oome3" target="_blank"><fmt:message
+						key="function.name.oome.error3" /></a>:
 				<fmt:message key="function.description.oome.error3" />
 			</p></li>
 		<li><p>
-				<a href="../oome4" target="_blank"><fmt:message
+				<a href="oome4" target="_blank"><fmt:message
 						key="function.name.oome.error4" /></a>:
 				<fmt:message key="function.description.oome.error4" />
 			</p></li>
 		<li><p>
-				<a href="../oome5" target="_blank"><fmt:message
+				<a href="oome5" target="_blank"><fmt:message
 						key="function.name.oome.error5" /></a>:
 				<fmt:message key="function.description.oome.error5" />
 			</p></li>
 		<li><p>
-				<a href="../jnicall" target="_blank"><fmt:message
+				<a href="jnicall" target="_blank"><fmt:message
 						key="function.name.ul.error" /></a>:
 				<fmt:message key="function.description.ul.error" />
 			</p></li>
@@ -162,12 +162,12 @@
 	</p>
 	<ul>
 		<li><p>
-				<a href="../iof" target="_blank"><fmt:message
+				<a href="iof" target="_blank"><fmt:message
 						key="function.name.int.overflow" /></a>:
 				<fmt:message key="function.description.int.overflow" />
 			</p></li>
 		<li><p>
-				<a href="../roe" target="_blank"><fmt:message
+				<a href="roe" target="_blank"><fmt:message
 						key="function.name.round.off.error" /></a>:
 				<fmt:message key="function.description.round.off.error" />
 			</p></li>
@@ -182,7 +182,7 @@
 				<fmt:message key="function.description.cancellation.of.significant.digits" />
 			</p></li>
 		<li><p>
-				<a href="../lotd" target="_blank"><fmt:message
+				<a href="lotd" target="_blank"><fmt:message
 						key="function.name.loss.of.trailing.digits" /></a>:
 				<fmt:message key="function.description.loss.of.trailing.digits" />
 			</p></li>
@@ -196,42 +196,42 @@
 	</p>
 	<ul>
 		<li><p>
-				<a href="../ae" target="_blank"><fmt:message
+				<a href="ae" target="_blank"><fmt:message
 						key="function.name.artm.exception" /></a>:
 				<fmt:message key="function.description.artm.exception" />
 			</p></li>
 		<li><p>
-				<a href="../cce" target="_blank"><fmt:message
+				<a href="cce" target="_blank"><fmt:message
 						key="function.name.cc.exception" /></a>:
 				<fmt:message key="function.description.cc.exception" />
 			</p></li>
 		<li><p>
-				<a href="../cme" target="_blank"><fmt:message
+				<a href="cme" target="_blank"><fmt:message
 						key="function.name.cm.exception" /></a>:
 				<fmt:message key="function.description.cm.exception" />
 			</p></li>
 		<li><p>
-				<a href="../ioobe" target="_blank"><fmt:message
+				<a href="ioobe" target="_blank"><fmt:message
 						key="function.name.iob.exception" /></a>:
 				<fmt:message key="function.description.iob.exception" />
 			</p></li>
 		<li><p>
-				<a href="../murle" target="_blank"><fmt:message
+				<a href="murle" target="_blank"><fmt:message
 						key="function.name.murl.exception" /></a>:
 				<fmt:message key="function.description.murl.exception" />
 			</p></li>
 		<li><p>
-				<a href="../npe" target="_blank"><fmt:message
+				<a href="npe" target="_blank"><fmt:message
 						key="function.name.np.exception" /></a>:
 				<fmt:message key="function.description.np.exception" />
 			</p></li>
 		<li><p>
-				<a href="../nfe" target="_blank"><fmt:message
+				<a href="nfe" target="_blank"><fmt:message
 						key="function.name.nf.exception" /></a>:
 				<fmt:message key="function.description.nf.exception" />
 			</p></li>
 		<li><p>
-				<a href="../uhe" target="_blank"><fmt:message
+				<a href="uhe" target="_blank"><fmt:message
 						key="function.name.uh.exception" /></a>:
 				<fmt:message key="function.description.uh.exception" />
 			</p></li>

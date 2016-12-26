@@ -30,7 +30,7 @@ public class IntegerOverflowServlet extends HttpServlet {
             writer.write("<TITLE>" + MessageUtils.getMsg("title.integer.overflow.page", locale) + "</TITLE>");
             writer.write("</HEAD>");
             writer.write("<BODY>");
-            writer.write("<form action=\"/iof\" method=\"post\">");
+            writer.write("<form action=\"iof\" method=\"post\">");
             writer.write("<input type=\"text\" name=\"days\" size=\"8\" maxlength=\"8\">");
             writer.write(MessageUtils.getMsg("label.days", locale));
             writer.write("<br>");

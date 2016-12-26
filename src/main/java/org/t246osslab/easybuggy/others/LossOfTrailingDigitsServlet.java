@@ -32,7 +32,7 @@ public class LossOfTrailingDigitsServlet extends HttpServlet {
             writer.write("<TITLE>" + MessageUtils.getMsg("title.loss.of.trailing.digits.page", locale) + "</TITLE>");
             writer.write("</HEAD>");
             writer.write("<BODY>");
-            writer.write("<form action=\"/lotd\" method=\"post\">");
+            writer.write("<form action=\"lotd\" method=\"post\">");
             writer.write("<input type=\"text\" name=\"number\" size=\"18\" maxlength=\"18\">");
             writer.write(" + 1 = ");
             String strNumber = req.getParameter("number");

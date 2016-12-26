@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.pmw.tinylog.Logger;
+import org.t246osslab.easybuggy.utils.ApplicationUtils;
 import org.t246osslab.easybuggy.utils.Closer;
 import org.t246osslab.easybuggy.utils.MessageUtils;
 
@@ -39,7 +40,7 @@ public class SQLInjectionServlet extends HttpServlet {
             writer.write("<TITLE>" + MessageUtils.getMsg("title.sql.injection.page", locale) + "</TITLE>");
             writer.write("</HEAD>");
             writer.write("<BODY>");
-            writer.write("<form action=\"/sqlijc\" method=\"post\">");
+            writer.write("<form action=\"sqlijc\" method=\"post\">");
             writer.write(MessageUtils.getMsg("msg.enter.name.and.passwd", locale));
             writer.write("<br><br>");
             writer.write(MessageUtils.getMsg("msg.example.name.and.passwd", locale));
@@ -79,15 +80,25 @@ class EmbeddedJavaDb {
 
     static {
         Statement stmt = null;
-        // In-memory database URL
-        String dbUrl = "jdbc:derby:memory:demo;create=true";
         try {
+            String dbDriver = ApplicationUtils.getDatabaseDriver();
+            if (dbDriver != null && !dbDriver.equals("")) {
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                } catch (ClassNotFoundException e) {
+                    Logger.error(e);
+                }
+            }
+            String dbUrl = ApplicationUtils.getDatabaseURL();
             conn = DriverManager.getConnection(dbUrl);
             stmt = conn.createStatement();
-
+            try {
+                stmt.executeUpdate("drop table users");
+            } catch (SQLException e) {
+                // ignore exception if exist the table
+            }
             // create users table
-            stmt.executeUpdate(
-                    "Create table users (id int primary key, name varchar(30), password varchar(30), secret varchar(30))");
+            stmt.executeUpdate("create table users (id int primary key, name varchar(30), password varchar(30), secret varchar(30))");
 
             // insert rows
             stmt.executeUpdate("insert into users values (0,'Mark','password','57249037993')");

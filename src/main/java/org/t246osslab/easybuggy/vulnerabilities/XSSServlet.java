@@ -33,7 +33,7 @@ public class XSSServlet extends HttpServlet {
             writer.write("<TITLE>" + MessageUtils.getMsg("title.xss.page", locale) + "</TITLE>");
             writer.write("</HEAD>");
             writer.write("<BODY>");
-            writer.write("<form action=\"/xss\" method=\"post\">");
+            writer.write("<form action=\"xss\" method=\"post\">");
             writer.write(MessageUtils.getMsg("msg.enter.name", locale));
             writer.write("<br><br>");
             writer.write(MessageUtils.getMsg("msg.example.name", locale));
