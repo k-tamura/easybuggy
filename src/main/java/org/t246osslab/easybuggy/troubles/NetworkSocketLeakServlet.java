@@ -28,8 +28,9 @@ public class NetworkSocketLeakServlet extends HttpServlet {
         HttpURLConnection connection = null;
         InputStreamReader isr = null;
         BufferedReader reader = null;
-        StringBuilder sb = new StringBuilder();
         try {
+            res.setContentType("text/plain");
+            res.setCharacterEncoding("UTF-8");
             URL url = new URL("http://localhost:" + ApplicationUtils.getEasyBuggyPort() + "/ping");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -41,11 +42,9 @@ public class NetworkSocketLeakServlet extends HttpServlet {
                 // while ((line = reader.readLine()) != null) {
                 // sb.append(line);
                 // }
-                sb.append(MessageUtils.getMsg("msg.socket.leak.occur", req.getLocale()));
+                writer = res.getWriter();
+                writer.write(MessageUtils.getMsg("msg.socket.leak.occur", req.getLocale()));
             }
-            writer = res.getWriter();
-            res.setContentType("text/plain");
-            writer.write(sb.toString());
 
         } catch (IOException e) {
             Logger.error(e);
