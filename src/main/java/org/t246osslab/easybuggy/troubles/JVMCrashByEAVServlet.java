@@ -31,6 +31,7 @@ public class JVMCrashByEAVServlet extends HttpServlet {
             Constructor<?> cunstructor = cl.getConstructor(new Class[] { cl2 });
             cunstructor.newInstance(new Object[] { null });
         } catch (Exception e) {
+            Logger.error(e);
             message = MessageUtils.getMsg("msg.info.jvm.not.crash", req.getLocale());
         } finally {
             res.setCharacterEncoding("UTF-8");

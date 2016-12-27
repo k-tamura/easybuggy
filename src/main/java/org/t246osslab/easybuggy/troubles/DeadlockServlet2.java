@@ -57,10 +57,10 @@ public class DeadlockServlet2 extends HttpServlet {
 
             EmbeddedJavaDb2 app = new EmbeddedJavaDb2();
             if ("asc".equals(order)) {
-                String message = app.update(new String[] { "Mark", "James" }, locale);
+                String message = app.update(new int[] { 1, EmbeddedJavaDb2.MAX_USER_COUNT }, locale);
                 writer.write(message);
             } else if ("desc".equals(order)) {
-                String message = app.update(new String[] { "James", "Mark" }, locale);
+                String message = app.update(new int[] { EmbeddedJavaDb2.MAX_USER_COUNT, 1 }, locale);
                 writer.write(message);
             } else {
                 writer.write(MessageUtils.getMsg("msg.warn.enter.asc.or.desc", locale));
@@ -79,6 +79,7 @@ public class DeadlockServlet2 extends HttpServlet {
 
 class EmbeddedJavaDb2 {
 
+    static final int MAX_USER_COUNT = 1000;
     static final String dbUrl = ApplicationUtils.getDatabaseURL();
     static final String dbDriver = ApplicationUtils.getDatabaseDriver();
 
@@ -105,8 +106,9 @@ class EmbeddedJavaDb2 {
             stmt.executeUpdate("create table users2 (id int primary key, name varchar(30), password varchar(100))");
 
             // insert rows
-            stmt.executeUpdate("insert into users2 values (0,'Mark','password')");
-            stmt.executeUpdate("insert into users2 values (1,'James','pathwood')");
+            for (int i = 1; i <= MAX_USER_COUNT; i++) {
+                stmt.executeUpdate("insert into users2 values (" + i + ",'user" + i + "','password')");
+            }
 
         } catch (SQLException e) {
             Logger.error(e);
@@ -128,7 +130,7 @@ class EmbeddedJavaDb2 {
         }
     }
 
-    public String update(String[] names, Locale locale) {
+    public String update(int[] ids, Locale locale) {
 
         PreparedStatement stmt = null;
         Connection conn = null;
@@ -144,16 +146,17 @@ class EmbeddedJavaDb2 {
             }
             conn = DriverManager.getConnection(dbUrl);
             conn.setAutoCommit(false);
+            // conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
-            stmt = conn.prepareStatement("Update users2 set password = ?  where name = ?");
+            stmt = conn.prepareStatement("Update users2 set password = ?  where id = ?");
             stmt.setString(1, UUID.randomUUID().toString());
-            stmt.setString(2, names[0]);
+            stmt.setInt(2, ids[0]);
             executeUpdate = stmt.executeUpdate();
 
             Thread.sleep(5000);
 
             stmt.setString(1, UUID.randomUUID().toString());
-            stmt.setString(2, names[1]);
+            stmt.setInt(2, ids[1]);
             executeUpdate = executeUpdate + stmt.executeUpdate();
             conn.commit();
             message = MessageUtils.getMsg("msg.update.records", new Object[] { executeUpdate }, locale);
@@ -161,17 +164,36 @@ class EmbeddedJavaDb2 {
         } catch (SQLTransactionRollbackException e) {
             message = MessageUtils.getMsg("msg.deadlock.occurs", locale);
             Logger.error(e);
-            try {
-                conn.rollback();
-            } catch (SQLException e1) {
-                Logger.error(e1);
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e1) {
+                    Logger.error(e1);
+                }
+            }
+        } catch (SQLException e) {
+            if ("41000".equals(e.getSQLState())) {
+                message = MessageUtils.getMsg("msg.deadlock.occurs", locale);
+            } else {
+                message = MessageUtils.getMsg("msg.unknown.exception.occur", locale);
+            }
+            Logger.error(e);
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e1) {
+                    Logger.error(e1);
+                }
             }
         } catch (Exception e) {
+            message = MessageUtils.getMsg("easybuggy", locale);
             Logger.error(e);
-            try {
-                conn.rollback();
-            } catch (SQLException e1) {
-                Logger.error(e1);
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e1) {
+                    Logger.error(e1);
+                }
             }
         } finally {
             if (stmt != null) {
