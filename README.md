@@ -12,7 +12,7 @@ Access to:
 
     http://localhost:8989/main
     
-To develop:
+To develop
 -
    
-See [the wiki page](https://github.com/k-tamura/easybuggy/wiki).
+See [the wiki page](https://github.com/k-tamura/easybuggy/wiki#to-develop-on-eclipse).
