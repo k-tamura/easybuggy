@@ -70,8 +70,8 @@
 				<fmt:message key="function.description.network.socket.leak" />
 			</p></li>
 		<li><p>
-				<fmt:message key="function.name.database.connection.leak" />
-				:
+				<a href="dbconnectionleak " target="_blank"><fmt:message
+						key="function.name.database.connection.leak" /></a> :
 				<fmt:message key="function.description.database.connection.leak" />
 			</p></li>
 		<li><p>
