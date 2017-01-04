@@ -59,11 +59,11 @@
       <artifactId>jol-core</artifactId>
       <version>0.6</version>
     </dependency>
-    <!-- <dependency>
+    <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.17</version>
-    </dependency> -->
+    </dependency>
   </dependencies>
   <build>
       <plugins>
@@ -131,6 +131,7 @@
             <arguments>
               <argument>-Xmx256m</argument>
               <argument>-XX:MaxPermSize=32m</argument>
+              <argument>-XX:MaxDirectMemorySize=90m</argument>
               <argument>-Xloggc:logs/gc.log</argument>
               <argument>-XX:+PrintHeapAtGC</argument>
               <argument>-XX:+PrintGCDetails</argument>

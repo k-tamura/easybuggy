@@ -148,6 +148,11 @@
 				<fmt:message key="function.description.oome.error5" />
 			</p></li>
 		<li><p>
+				<a href="oome6" target="_blank"><fmt:message
+						key="function.name.oome.error6" /></a>:
+				<fmt:message key="function.description.oome.error6" />
+			</p></li>
+		<li><p>
 				<a href="jnicall" target="_blank"><fmt:message
 						key="function.name.ul.error" /></a>:
 				<fmt:message key="function.description.ul.error" />
