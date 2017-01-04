@@ -36,10 +36,6 @@
 				<fmt:message key="function.description.memory.leak3" />
 			</p></li>
 		<li><p>
-				<a href="infiniteloop" target="_blank"><fmt:message
-						key="function.name.infinite.loop" /></a>:
-				<fmt:message key="function.description.infinite.loop" /></li>
-		<li><p>
 				<a href="deadlock" target="_blank"><fmt:message
 						key="function.name.dead.lock" /></a>:
 				<fmt:message key="function.description.dead.lock" />
@@ -50,14 +46,18 @@
 				<fmt:message key="function.description.dead.lock2" />
 			</p></li>
 		<li><p>
-				<a href="jvmcrasheav" target="_blank"><fmt:message
-						key="function.name.jvm.crash.eav" /> </a>:
-				<fmt:message key="function.description.jvm.crash.eav" />
-			</p></li>
+				<a href="infiniteloop" target="_blank"><fmt:message
+						key="function.name.infinite.loop" /></a>:
+				<fmt:message key="function.description.infinite.loop" /></li>
 		<li><p>
 				<a href="redirectloop" target="_blank"><fmt:message
 						key="function.name.redirect.loop" /></a>:
 				<fmt:message key="function.description.redirect.loop" />
+			</p></li>
+		<li><p>
+				<a href="jvmcrasheav" target="_blank"><fmt:message
+						key="function.name.jvm.crash.eav" /> </a>:
+				<fmt:message key="function.description.jvm.crash.eav" />
 			</p></li>
 		<li><p>
 				<fmt:message key="function.name.native.library.error" />
