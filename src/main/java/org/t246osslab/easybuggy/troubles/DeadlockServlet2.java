@@ -38,12 +38,9 @@ public class DeadlockServlet2 extends HttpServlet {
             writer = res.getWriter();
             writer.write("<HTML>");
             writer.write("<HEAD>");
-            writer.write("<TITLE>" + MessageUtils.getMsg("title.sql.deadlock.page", locale) + "</TITLE>");
             writer.write("</HEAD>");
             writer.write("<BODY>");
             writer.write("<form action=\"deadlock2\" method=\"post\">");
-            writer.write(MessageUtils.getMsg("msg.reset.all.users.passwd", locale));
-            writer.write("<br><br>");
             writer.write(MessageUtils.getMsg("msg.note.sql.deadlock", locale));
             writer.write("<br><br>");
             writer.write(MessageUtils.getMsg("label.order", locale) + ": ");
