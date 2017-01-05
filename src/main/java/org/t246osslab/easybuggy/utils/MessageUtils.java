@@ -6,12 +6,25 @@ import java.util.ResourceBundle;
 
 import org.pmw.tinylog.Logger;
 
+/**
+ * Utility class to provide message properties.
+ */
 public class MessageUtils {
 
+    /**
+     * Return a message for a given property key.
+     * 
+     * @return A message for a given property key
+     */
     public static String getMsg(String propertyKey, Locale locale) {
         return getMsg(propertyKey, (Object[])null, locale);
     }
 
+    /**
+     * Return a message for a given property key, replaced with placeholders.
+     * 
+     * @return A message for a given property key, replaced with placeholders
+     */
     public static String getMsg(String propertyKey, Object[] placeholders, Locale locale) {
         String propertyValue = null;
         try {

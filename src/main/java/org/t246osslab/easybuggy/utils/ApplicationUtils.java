@@ -4,17 +4,21 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.pmw.tinylog.Logger;
+
+/**
+ * Utility class to provide application properties.
+ */
 public class ApplicationUtils {
-    
+
     // default port: 8989
-    private static int openBuggyPort = 8989;
-    
+    private static int easyBuggyPort = 8989;
+
     // default database url: derby in-memory
     private static String databaseURL = "jdbc:derby:memory:demo;create=true";
-    
+
     // default database url: null
     private static String databaseDriver = null;
-    
+
     static {
         ResourceBundle bundle = null;
         try {
@@ -23,7 +27,7 @@ public class ApplicationUtils {
             Logger.error(e);
         }
         try {
-            openBuggyPort = Integer.parseInt(bundle.getString("easybuggy.port"));
+            easyBuggyPort = Integer.parseInt(bundle.getString("easybuggy.port"));
         } catch (Exception e) {
             Logger.error(e);
         }
@@ -41,14 +45,29 @@ public class ApplicationUtils {
         }
     }
 
+    /**
+     * Return a Port number of EasyBuggy.
+     * 
+     * @return Port number of EasyBuggy
+     */
     public static int getEasyBuggyPort() {
-        return openBuggyPort;
+        return easyBuggyPort;
     }
 
+    /**
+     * Return a Database URL of EasyBuggy.
+     * 
+     * @return Database URL of EasyBuggy
+     */
     public static String getDatabaseURL() {
         return databaseURL;
     }
 
+    /**
+     * Return a Database driver of EasyBuggy.
+     * 
+     * @return Database driver of EasyBuggy
+     */
     public static String getDatabaseDriver() {
         return databaseDriver;
     }
