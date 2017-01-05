@@ -206,6 +206,11 @@
 				<fmt:message key="function.description.artm.exception" />
 			</p></li>
 		<li><p>
+				<a href="aioobe" target="_blank"><fmt:message
+						key="function.name.aioob.exception" /></a>:
+				<fmt:message key="function.description.aioob.exception" />
+			</p></li>
+		<li><p>
 				<a href="ase" target="_blank"><fmt:message
 						key="function.name.arrstr.exception" /></a>:
 				<fmt:message key="function.description.arrstr.exception" />
@@ -222,8 +227,8 @@
 			</p></li>
 		<li><p>
 				<a href="ioobe" target="_blank"><fmt:message
-						key="function.name.iob.exception" /></a>:
-				<fmt:message key="function.description.iob.exception" />
+						key="function.name.ioob.exception" /></a>:
+				<fmt:message key="function.description.ioob.exception" />
 			</p></li>
 		<li><p>
 				<a href="murle" target="_blank"><fmt:message
