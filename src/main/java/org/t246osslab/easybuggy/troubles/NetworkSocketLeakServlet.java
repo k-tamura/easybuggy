@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.pmw.tinylog.Logger;
 import org.t246osslab.easybuggy.utils.ApplicationUtils;
 import org.t246osslab.easybuggy.utils.Closer;
+import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
 
 @SuppressWarnings("serial")
@@ -29,21 +30,19 @@ public class NetworkSocketLeakServlet extends HttpServlet {
         InputStreamReader isr = null;
         BufferedReader reader = null;
         try {
-            res.setContentType("text/plain");
-            res.setCharacterEncoding("UTF-8");
             URL url = new URL("http://localhost:" + ApplicationUtils.getEasyBuggyPort() + "/ping");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                Logger.error("Unexpected response, HTTP response code: " + connection.getResponseCode());
+            } else {
                 // isr = new InputStreamReader(connection.getInputStream());
                 // reader = new BufferedReader(isr);
                 // String line = null;
                 // while ((line = reader.readLine()) != null) {
                 // sb.append(line);
                 // }
-                writer = res.getWriter();
-                writer.write(MessageUtils.getMsg("msg.socket.leak.occur", req.getLocale()));
             }
 
         } catch (IOException e) {
@@ -53,6 +52,8 @@ public class NetworkSocketLeakServlet extends HttpServlet {
             if (connection != null) {
                 //connection.disconnect();
             }
+            HTTPResponseCreator.createSimpleResponse(res, null,
+                    MessageUtils.getMsg("msg.socket.leak.occur", req.getLocale()));
         }
     }
 }

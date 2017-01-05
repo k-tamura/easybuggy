@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.pmw.tinylog.Logger;
 import org.t246osslab.easybuggy.utils.ApplicationUtils;
 import org.t246osslab.easybuggy.utils.Closer;
+import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
 
 @SuppressWarnings("serial")
@@ -31,41 +32,34 @@ public class SQLInjectionServlet extends HttpServlet {
             String name = req.getParameter("name");
             String password = req.getParameter("password");
             Locale locale = req.getLocale();
+            StringBuilder bodyHtml = new StringBuilder();
 
-            res.setContentType("text/html");
-            res.setCharacterEncoding("UTF-8");
-            writer = res.getWriter();
-            writer.write("<HTML>");
-            writer.write("<HEAD>");
-            writer.write("<TITLE>" + MessageUtils.getMsg("title.sql.injection.page", locale) + "</TITLE>");
-            writer.write("</HEAD>");
-            writer.write("<BODY>");
-            writer.write("<form action=\"sqlijc\" method=\"post\">");
-            writer.write(MessageUtils.getMsg("msg.enter.name.and.passwd", locale));
-            writer.write("<br><br>");
-            writer.write(MessageUtils.getMsg("msg.example.name.and.passwd", locale));
-            writer.write("<br><br>");
-            writer.write(MessageUtils.getMsg("msg.note.sql.injection", locale));
-            writer.write("<br><br>");
-            writer.write(MessageUtils.getMsg("label.name", locale) + ": ");
-            writer.write("<input type=\"text\" name=\"name\" size=\"20\" maxlength=\"20\">");
-            writer.write("&nbsp;&nbsp;");
-            writer.write(MessageUtils.getMsg("label.password", locale) + ": ");
-            writer.write("<input type=\"text\" name=\"password\" size=\"20\" maxlength=\"20\">");
-            writer.write("<br><br>");
-            writer.write("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
-            writer.write("<br><br>");
+            bodyHtml.append("<form action=\"sqlijc\" method=\"post\">");
+            bodyHtml.append(MessageUtils.getMsg("msg.enter.name.and.passwd", locale));
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getMsg("msg.example.name.and.passwd", locale));
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getMsg("msg.note.sql.injection", locale));
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getMsg("label.name", locale) + ": ");
+            bodyHtml.append("<input type=\"text\" name=\"name\" size=\"20\" maxlength=\"20\">");
+            bodyHtml.append("&nbsp;&nbsp;");
+            bodyHtml.append(MessageUtils.getMsg("label.password", locale) + ": ");
+            bodyHtml.append("<input type=\"text\" name=\"password\" size=\"20\" maxlength=\"20\">");
+            bodyHtml.append("<br><br>");
+            bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
+            bodyHtml.append("<br><br>");
 
-            EmbeddedJavaDb app = new EmbeddedJavaDb();
             if (name != null && password != null && !name.equals("") && !password.equals("")) {
+                EmbeddedJavaDb app = new EmbeddedJavaDb();
                 String message = app.selectUser(name, password, req);
-                writer.write(message);
+                bodyHtml.append(message);
             } else {
-                writer.write(MessageUtils.getMsg("msg.warn.enter.name.and.passwd", locale));
+                bodyHtml.append(MessageUtils.getMsg("msg.warn.enter.name.and.passwd", locale));
             }
-            writer.write("</form>");
-            writer.write("</BODY>");
-            writer.write("</HTML>");
+            bodyHtml.append("</form>");
+            
+            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.sql.injection.page", locale), bodyHtml.toString());
 
         } catch (Exception e) {
             Logger.error(e);

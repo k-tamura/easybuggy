@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.pmw.tinylog.Logger;
 import org.t246osslab.easybuggy.utils.Closer;
+import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
 
 @SuppressWarnings("serial")
@@ -22,20 +23,14 @@ public class IntegerOverflowServlet extends HttpServlet {
         PrintWriter writer = null;
         try {
             Locale locale = req.getLocale();
-            res.setContentType("text/html");
-            res.setCharacterEncoding("UTF-8");
-            writer = res.getWriter();
-            writer.write("<HTML>");
-            writer.write("<HEAD>");
-            writer.write("<TITLE>" + MessageUtils.getMsg("title.integer.overflow.page", locale) + "</TITLE>");
-            writer.write("</HEAD>");
-            writer.write("<BODY>");
-            writer.write("<form action=\"iof\" method=\"post\">");
-            writer.write("<input type=\"text\" name=\"days\" size=\"8\" maxlength=\"8\">");
-            writer.write(MessageUtils.getMsg("label.days", locale));
-            writer.write("<br>");
-            writer.write("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.convert", locale) + "\">");
-            writer.write("<br>");
+            StringBuilder bodyHtml = new StringBuilder();
+
+            bodyHtml.append("<form action=\"iof\" method=\"post\">");
+            bodyHtml.append("<input type=\"text\" name=\"days\" size=\"8\" maxlength=\"8\">");
+            bodyHtml.append(MessageUtils.getMsg("label.days", locale));
+            bodyHtml.append("<br>");
+            bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.convert", locale) + "\">");
+            bodyHtml.append("<br>");
             if (req.getParameter("days") != null) {
                 int days = -1;
                 try {
@@ -44,20 +39,22 @@ public class IntegerOverflowServlet extends HttpServlet {
                     // ignore
                 }
                 if (days >= 0) {
-                    writer.write(days + " " + MessageUtils.getMsg("label.days", locale) + " = " + days * 24 + " "
+                    bodyHtml.append(days + " " + MessageUtils.getMsg("label.days", locale) + " = " + days * 24 + " "
                             + MessageUtils.getMsg("label.hours", locale));
                 } else {
-                    writer.write("<font color=\"red\">" + MessageUtils.getMsg("msg.enter.positive.number", locale)
+                    bodyHtml.append("<font color=\"red\">" + MessageUtils.getMsg("msg.enter.positive.number", locale)
                             + "</font>");
                 }
             }
-            writer.write("<br>");
-            writer.write("<br>");
-            writer.write(MessageUtils.getMsg("msg.note.positive.number",
+            bodyHtml.append("<br>");
+            bodyHtml.append("<br>");
+            bodyHtml.append(MessageUtils.getMsg("msg.note.positive.number",
                     new String[] { String.valueOf(Integer.MAX_VALUE / 24) }, locale));
-            writer.write("</form>");
-            writer.write("</BODY>");
-            writer.write("</HTML>");
+            bodyHtml.append("</form>");
+
+            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.integer.overflow.page", locale),
+                    bodyHtml.toString());
+
         } catch (Exception e) {
             Logger.error(e);
         } finally {

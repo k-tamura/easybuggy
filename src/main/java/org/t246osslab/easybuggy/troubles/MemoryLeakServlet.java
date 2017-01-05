@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 //import org.openjdk.jol.info.GraphLayout;
+import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
 
 @SuppressWarnings("serial")
@@ -25,8 +26,9 @@ public class MemoryLeakServlet extends HttpServlet {
         }
         hm.put(String.valueOf(cnt++), sb.toString());
         //long totalSize = GraphLayout.parseInstance(sb).totalSize();
-        res.setContentType("text/plain");
-        res.setCharacterEncoding("UTF-8");
-        res.getWriter().write(MessageUtils.getMsg("msg.java.heap.space.leak.occur", req.getLocale()));
+        StringBuilder bodyHtml = new StringBuilder();
+        bodyHtml.append(MessageUtils.getMsg("msg.java.heap.space.leak.occur", req.getLocale()));
+        
+        HTTPResponseCreator.createSimpleResponse(res, null, bodyHtml.toString());
     }
 }

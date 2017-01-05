@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.pmw.tinylog.Logger;
 import org.t246osslab.easybuggy.utils.Closer;
+import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
 
 //import sun.dc.path.PathConsumer;
@@ -24,7 +25,6 @@ public class JVMCrashByEAVServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         // PathDasher dasher = new PathDasher(null);
         PrintWriter writer = null;
-        String message = "";
         try {
             Class<?> cl = Class.forName("sun.dc.pr.PathDasher");
             Class<?> cl2 = Class.forName("sun.dc.path.PathConsumer");
@@ -32,12 +32,9 @@ public class JVMCrashByEAVServlet extends HttpServlet {
             cunstructor.newInstance(new Object[] { null });
         } catch (Exception e) {
             Logger.error(e);
-            message = MessageUtils.getMsg("msg.info.jvm.not.crash", req.getLocale());
+            HTTPResponseCreator.createSimpleResponse(res, null,
+                    MessageUtils.getMsg("msg.info.jvm.not.crash", req.getLocale()));
         } finally {
-            res.setCharacterEncoding("UTF-8");
-            res.setContentType("text/plain");
-            writer =  res.getWriter();
-            writer.write(message);
             Closer.close(writer);
         }
     }

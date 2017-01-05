@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.pmw.tinylog.Logger;
 import org.t246osslab.easybuggy.utils.ApplicationUtils;
 import org.t246osslab.easybuggy.utils.Closer;
+import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
 
 @SuppressWarnings("serial")
@@ -33,38 +34,31 @@ public class DeadlockServlet2 extends HttpServlet {
             String order = req.getParameter("order");
             Locale locale = req.getLocale();
 
-            res.setContentType("text/html");
-            res.setCharacterEncoding("UTF-8");
-            writer = res.getWriter();
-            writer.write("<HTML>");
-            writer.write("<HEAD>");
-            writer.write("</HEAD>");
-            writer.write("<BODY>");
-            writer.write("<form action=\"deadlock2\" method=\"post\">");
-            writer.write(MessageUtils.getMsg("msg.note.sql.deadlock", locale));
-            writer.write("<br><br>");
-            writer.write(MessageUtils.getMsg("label.order", locale) + ": ");
-            writer.write("<input type=\"radio\" name=\"order\" value=\"asc\" checked>");
-            writer.write(MessageUtils.getMsg("label.asc", locale));
-            writer.write("<input type=\"radio\" name=\"order\" value=\"desc\">");
-            writer.write(MessageUtils.getMsg("label.desc", locale));
-            writer.write("<br><br>");
-            writer.write("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.update", locale) + "\">");
-            writer.write("<br><br>");
+            StringBuilder bodyHtml = new StringBuilder();
+            bodyHtml.append("<form action=\"deadlock2\" method=\"post\">");
+            bodyHtml.append(MessageUtils.getMsg("msg.note.sql.deadlock", locale));
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getMsg("label.order", locale) + ": ");
+            bodyHtml.append("<input type=\"radio\" name=\"order\" value=\"asc\" checked>");
+            bodyHtml.append(MessageUtils.getMsg("label.asc", locale));
+            bodyHtml.append("<input type=\"radio\" name=\"order\" value=\"desc\">");
+            bodyHtml.append(MessageUtils.getMsg("label.desc", locale));
+            bodyHtml.append("<br><br>");
+            bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.update", locale) + "\">");
+            bodyHtml.append("<br><br>");
 
             EmbeddedJavaDb2 app = new EmbeddedJavaDb2();
             if ("asc".equals(order)) {
                 String message = app.update(new int[] { 1, EmbeddedJavaDb2.MAX_USER_COUNT }, locale);
-                writer.write(message);
+                bodyHtml.append(message);
             } else if ("desc".equals(order)) {
                 String message = app.update(new int[] { EmbeddedJavaDb2.MAX_USER_COUNT, 1 }, locale);
-                writer.write(message);
+                bodyHtml.append(message);
             } else {
-                writer.write(MessageUtils.getMsg("msg.warn.enter.asc.or.desc", locale));
+                bodyHtml.append(MessageUtils.getMsg("msg.warn.enter.asc.or.desc", locale));
             }
-            writer.write("</form>");
-            writer.write("</BODY>");
-            writer.write("</HTML>");
+            bodyHtml.append("</form>");
+            HTTPResponseCreator.createSimpleResponse(res, null, bodyHtml.toString());
 
         } catch (Exception e) {
             Logger.error(e);

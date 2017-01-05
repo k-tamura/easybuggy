@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.pmw.tinylog.Logger;
+import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
 
 @SuppressWarnings("serial")
@@ -27,13 +28,12 @@ public class MemoryLeakServlet2 extends HttpServlet {
                 ClassPool pool = ClassPool.getDefault();
                 pool.makeClass("eu.plumbr.demo.Generated" + i).toClass();
             }
+            HTTPResponseCreator.createSimpleResponse(res, null,
+                    MessageUtils.getMsg("msg.permgen.space.leak.occur", req.getLocale()));
         } catch (Exception e) {
             Logger.error(e);
         } catch (Error e) {
             Logger.error(e);
         }
-        res.setContentType("text/plain");
-        res.setCharacterEncoding("UTF-8");
-        res.getWriter().write(MessageUtils.getMsg("msg.permgen.space.leak.occur", req.getLocale()));
     }
 }

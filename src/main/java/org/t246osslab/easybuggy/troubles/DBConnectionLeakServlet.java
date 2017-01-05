@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.pmw.tinylog.Logger;
 import org.t246osslab.easybuggy.utils.ApplicationUtils;
 import org.t246osslab.easybuggy.utils.Closer;
+import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
 
 @SuppressWarnings("serial")
@@ -33,10 +34,8 @@ public class DBConnectionLeakServlet extends HttpServlet {
         Connection conn = null;
         Statement stmt = null;
         Locale locale = req.getLocale();
+        StringBuilder bodyHtml = new StringBuilder();
         try {
-            res.setCharacterEncoding("UTF-8");
-            res.setContentType("text/plain");
-            writer = res.getWriter();
 
             if (dbDriver != null && !dbDriver.equals("")) {
                 try {
@@ -58,14 +57,15 @@ public class DBConnectionLeakServlet extends HttpServlet {
                 stmt.executeUpdate("create table users3 (id int primary key, name varchar(30), password varchar(100))");
             }
             stmt.executeUpdate("insert into users3 select count(*)+1, 'name', 'password' from users3");
-            writer.println(MessageUtils.getMsg("msg.db.connection.leak.occur", locale));
+            bodyHtml.append(MessageUtils.getMsg("msg.db.connection.leak.occur", locale));
 
         } catch (SQLException e) {
             Logger.error(e);
-            writer.println(MessageUtils.getMsg("msg.unknown.exception.occur", locale));
-            writer.println(e.getLocalizedMessage());
+            bodyHtml.append(MessageUtils.getMsg("msg.unknown.exception.occur", locale));
+            bodyHtml.append(e.getLocalizedMessage());
         } finally {
             Closer.close(writer);
+            HTTPResponseCreator.createSimpleResponse(res, null, bodyHtml.toString());
             /* A DB connection leaks because the following lines are commented out.
             if (stmt != null) {
                 try {

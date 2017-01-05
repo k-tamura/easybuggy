@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.pmw.tinylog.Logger;
 import org.t246osslab.easybuggy.utils.Closer;
+import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
 
 @SuppressWarnings("serial")
@@ -28,12 +29,11 @@ public class DeadlockServlet extends HttpServlet {
         PrintWriter writer = null;
         try {
             Locale locale = req.getLocale();
-            res.setCharacterEncoding("UTF-8");
-            res.setContentType("text/plain");
-            writer = res.getWriter();
+            StringBuilder bodyHtml = new StringBuilder();
+            
             if (isFirstLoad) {
                 isFirstLoad = false;
-                writer.write(MessageUtils.getMsg("msg.dead.lock.occur", locale));
+                bodyHtml.append(MessageUtils.getMsg("msg.dead.lock.occur", locale));
             } else {
                 if (switchFlag) {
                     switchFlag = !switchFlag;
@@ -42,8 +42,9 @@ public class DeadlockServlet extends HttpServlet {
                     switchFlag = !switchFlag;
                     lock21();
                 }
-                writer.println(MessageUtils.getMsg("msg.dead.lock.not.occur", locale));
+                bodyHtml.append(MessageUtils.getMsg("msg.dead.lock.not.occur", locale));
             }
+            HTTPResponseCreator.createSimpleResponse(res, null, bodyHtml.toString());
         } catch (Exception e) {
             Logger.error(e);
         } finally {

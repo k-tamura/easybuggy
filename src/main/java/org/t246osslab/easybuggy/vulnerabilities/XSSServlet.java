@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.pmw.tinylog.Logger;
 import org.t246osslab.easybuggy.utils.Closer;
+import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
 
 @SuppressWarnings("serial")
@@ -25,36 +26,31 @@ public class XSSServlet extends HttpServlet {
             String name = req.getParameter("name");
             Locale locale = req.getLocale();
 
-            res.setContentType("text/html");
-            res.setCharacterEncoding("UTF-8");
-            writer = res.getWriter();
-            writer.write("<HTML>");
-            writer.write("<HEAD>");
-            writer.write("<TITLE>" + MessageUtils.getMsg("title.xss.page", locale) + "</TITLE>");
-            writer.write("</HEAD>");
-            writer.write("<BODY>");
-            writer.write("<form action=\"xss\" method=\"post\">");
-            writer.write(MessageUtils.getMsg("msg.enter.name", locale));
-            writer.write("<br><br>");
-            writer.write(MessageUtils.getMsg("msg.example.name", locale));
-            writer.write("<br><br>");
-            writer.write(MessageUtils.getMsg("msg.note.xss", locale));
-            writer.write("<br><br>");
-            writer.write(MessageUtils.getMsg("label.name", locale) + ": ");
-            writer.write("<input type=\"text\" name=\"name\" size=\"50\" maxlength=\"50\">");
-            writer.write("<br><br>");
-            writer.write("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
-            writer.write("<br><br>");
+            StringBuilder bodyHtml = new StringBuilder();
+
+            bodyHtml.append("<form action=\"xss\" method=\"post\">");
+            bodyHtml.append(MessageUtils.getMsg("msg.enter.name", locale));
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getMsg("msg.example.name", locale));
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getMsg("msg.note.xss", locale));
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getMsg("label.name", locale) + ": ");
+            bodyHtml.append("<input type=\"text\" name=\"name\" size=\"50\" maxlength=\"50\">");
+            bodyHtml.append("<br><br>");
+            bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
+            bodyHtml.append("<br><br>");
 
             if (name != null && !name.equals("")) {
                 String reverseName = getReverseName(name);
-                writer.write(MessageUtils.getMsg("label.reversed.name", locale) + " -&gt; " + reverseName);
+                bodyHtml.append(MessageUtils.getMsg("label.reversed.name", locale) + " -&gt; " + reverseName);
             } else {
-                writer.write(MessageUtils.getMsg("msg.enter.name", locale));
+                bodyHtml.append(MessageUtils.getMsg("msg.enter.name", locale));
             }
-            writer.write("</form>");
-            writer.write("</BODY>");
-            writer.write("</HTML>");
+            bodyHtml.append("</form>");
+            
+            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.xss.page", locale), bodyHtml.toString());
+
 
         } catch (Exception e) {
             Logger.error(e);
