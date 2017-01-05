@@ -118,9 +118,9 @@
 	</p>
 	<ul>
 		<li><p>
-				<a href="sofe" target="_blank"><fmt:message
-						key="function.name.sof.error" /></a>:
-				<fmt:message key="function.description.sof.error" />
+				<a href="eie" target="_blank"><fmt:message
+						key="function.name.ei.error" /></a>:
+				<fmt:message key="function.description.ei.error" />
 			</p></li>
 		<li><p>
 				<a href="oome" target="_blank"><fmt:message
@@ -151,6 +151,11 @@
 				<a href="oome6" target="_blank"><fmt:message
 						key="function.name.oome.error6" /></a>:
 				<fmt:message key="function.description.oome.error6" />
+			</p></li>
+		<li><p>
+				<a href="sofe" target="_blank"><fmt:message
+						key="function.name.sof.error" /></a>:
+				<fmt:message key="function.description.sof.error" />
 			</p></li>
 		<li><p>
 				<a href="jnicall" target="_blank"><fmt:message
