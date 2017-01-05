@@ -206,6 +206,11 @@
 				<fmt:message key="function.description.artm.exception" />
 			</p></li>
 		<li><p>
+				<a href="ase" target="_blank"><fmt:message
+						key="function.name.arrstr.exception" /></a>:
+				<fmt:message key="function.description.arrstr.exception" />
+			</p></li>
+		<li><p>
 				<a href="cce" target="_blank"><fmt:message
 						key="function.name.cc.exception" /></a>:
 				<fmt:message key="function.description.cc.exception" />
