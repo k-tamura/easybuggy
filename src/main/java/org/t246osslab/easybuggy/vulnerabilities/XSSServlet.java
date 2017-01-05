@@ -29,9 +29,7 @@ public class XSSServlet extends HttpServlet {
             StringBuilder bodyHtml = new StringBuilder();
 
             bodyHtml.append("<form action=\"xss\" method=\"post\">");
-            bodyHtml.append(MessageUtils.getMsg("msg.enter.name", locale));
-            bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getMsg("msg.example.name", locale));
+            bodyHtml.append(MessageUtils.getMsg("description.reverse.name", locale));
             bodyHtml.append("<br><br>");
             bodyHtml.append(MessageUtils.getMsg("msg.note.xss", locale));
             bodyHtml.append("<br><br>");
