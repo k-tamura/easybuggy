@@ -241,6 +241,11 @@
 				<fmt:message key="function.description.ioob.exception" />
 			</p></li>
 		<li><p>
+				<a href="itse" target="_blank"><fmt:message
+						key="function.name.its.exception" /></a>:
+				<fmt:message key="function.description.its.exception" />
+			</p></li>
+		<li><p>
 				<a href="murle" target="_blank"><fmt:message
 						key="function.name.murl.exception" /></a>:
 				<fmt:message key="function.description.murl.exception" />
