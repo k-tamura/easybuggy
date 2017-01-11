@@ -22,7 +22,7 @@ import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 @WebServlet(urlPatterns = { "/deadlock3" })
 public class DeadlockServlet3 extends HttpServlet {
 
-    private static final int MAX_COUNT = 10000;
+    private static final int MAX_COUNT = 100000;
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
