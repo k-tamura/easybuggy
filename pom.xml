@@ -145,8 +145,8 @@
               <argument>-XX:+HeapDumpOnOutOfMemoryError</argument>
               <argument>-XX:HeapDumpPath=logs/</argument>
               <argument>-XX:ErrorFile=logs/hs_err_pid%p.log</argument>
-              <argument>-XX:+UnlockCommercialFeatures</argument>
-              <argument>-XX:+FlightRecorder</argument>
+              <!-- <argument>-XX:+UnlockCommercialFeatures</argument>
+              <argument>-XX:+FlightRecorder</argument> -->
               <argument>-agentlib:jdwp=transport=dt_socket,server=y,address=9009,suspend=n</argument>
               <argument>-Dderby.stream.error.file=logs/derby.log</argument>
               <argument>-Dderby.infolog.append=true</argument>
