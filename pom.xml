@@ -145,6 +145,7 @@
               <argument>-XX:+HeapDumpOnOutOfMemoryError</argument>
               <argument>-XX:HeapDumpPath=logs/</argument>
               <argument>-XX:ErrorFile=logs/hs_err_pid%p.log</argument>
+              <argument>-XX:NativeMemoryTracking=summary</argument>
               <!-- <argument>-XX:+UnlockCommercialFeatures</argument>
               <argument>-XX:+FlightRecorder</argument> -->
               <argument>-agentlib:jdwp=transport=dt_socket,server=y,address=9009,suspend=n</argument>
