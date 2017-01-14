@@ -7,6 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,34 +19,62 @@ import javax.servlet.http.HttpServletResponse;
 import org.pmw.tinylog.Logger;
 import org.t246osslab.easybuggy.utils.Closer;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
+import org.t246osslab.easybuggy.utils.MessageUtils;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns = { "/deadlock3" })
-public class DeadlockServlet3 extends HttpServlet {
+@WebServlet(urlPatterns = { "/endlesswaiting" })
+public class EndlessWaitingServlet extends HttpServlet {
 
     private static final int MAX_COUNT = 100000;
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
+        PrintWriter writer = null;
         try {
-            /* create a batch file in the temp directory */
-            File batFile = createBatchFile(req);
-            
-            if (batFile == null) {
-                HTTPResponseCreator.createSimpleResponse(res, null, "Can't create a batch file.");
-            } else {
-                /* execte the batch */
-                ProcessBuilder pb = new ProcessBuilder(batFile.getAbsolutePath());
-                Process process = pb.start();
-                process.waitFor();
-                printInputStream(process.getInputStream(), res, batFile);
-                printInputStream(process.getErrorStream(), res, batFile);
+            int count = 0;
+            try {
+                count = Integer.parseInt(req.getParameter("count"));                
+            } catch (Exception e) {
             }
+            Locale locale = req.getLocale();
 
-        } catch (IOException e) {
+            StringBuilder bodyHtml = new StringBuilder();
+            bodyHtml.append("<form action=\"endlesswaiting\" method=\"post\">");
+            bodyHtml.append(MessageUtils.getMsg("description.endless.waiting", locale));
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getMsg("label.character.count", locale) + ": ");
+            bodyHtml.append("<input type=\"text\" name=\"count\" size=\"5\" maxlength=\"5\">");
+            bodyHtml.append("<br><br>");
+            bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getMsg("note.enter.count", locale));
+            bodyHtml.append("<br><br>");
+
+            if (count > 0) {
+                /* create a batch file in the temp directory */
+                File batFile = createBatchFile(req);
+                
+                if (batFile == null) {
+                    bodyHtml.append("Can't create a batch file.");
+                } else {
+                    /* execte the batch */
+                    ProcessBuilder pb = new ProcessBuilder(batFile.getAbsolutePath());
+                    Process process = pb.start();
+                    process.waitFor();
+                    bodyHtml.append("Created and executed the batch: " + batFile.getAbsolutePath() + "<BR><BR>");
+                    bodyHtml.append(printInputStream(process.getInputStream(), res));
+                    bodyHtml.append(printInputStream(process.getErrorStream(), res));
+                }
+                bodyHtml.append("</form>");
+            }else{
+                bodyHtml.append(MessageUtils.getMsg("msg.enter.positive.number", locale));
+            }
+            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.endless.waiting.page", locale), bodyHtml.toString());
+
+        } catch (Exception e) {
             Logger.error(e);
-        } catch (InterruptedException e) {
-            Logger.error(e);
+        } finally {
+            Closer.close(writer);
         }
     }
 
@@ -92,22 +122,21 @@ public class DeadlockServlet3 extends HttpServlet {
         return batFile;
     }
 
-    private static void printInputStream(InputStream is, HttpServletResponse res, File batFile) throws IOException {
+    private static String printInputStream(InputStream is, HttpServletResponse res) throws IOException {
         StringBuilder sb = new StringBuilder();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         try {
-            sb.append("Create and ececute the batch: " + batFile.getAbsolutePath() + "<BR><BR>");
             while (true) {
                 String line = br.readLine();
                 if (line == null) {
                     break;
                 }
-                sb.append(line);
+                sb.append(line + "<BR>");
             }
-            HTTPResponseCreator.createSimpleResponse(res, null, sb.toString());
         } finally {
             Closer.close(br);
             Closer.close(is);
         }
+        return sb.toString();
     }
 }

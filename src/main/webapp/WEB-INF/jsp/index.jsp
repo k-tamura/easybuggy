@@ -46,9 +46,9 @@
 				<fmt:message key="function.description.dead.lock2" />
 			</p></li>
 		<li><p>
-				<a href="deadlock3" target="_blank"><fmt:message
-						key="function.name.dead.lock3" /></a>:
-				<fmt:message key="function.description.dead.lock3" />
+				<a href="endlesswaiting" target="_blank"><fmt:message
+						key="function.name.endless.waiting.process" /></a>:
+				<fmt:message key="function.description.endless.waiting.process" />
 			</p></li>
 		<li><p>
 				<a href="infiniteloop" target="_blank"><fmt:message
