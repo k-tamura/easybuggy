@@ -31,8 +31,8 @@
 				<fmt:message key="function.description.memory.leak2" />
 			</p></li>
 		<li><p>
-				<fmt:message key="function.name.memory.leak3" />
-				:
+				<a href="memoryleak3" target="_blank"><fmt:message
+						key="function.name.memory.leak3" /></a>:
 				<fmt:message key="function.description.memory.leak3" />
 			</p></li>
 		<li><p>
