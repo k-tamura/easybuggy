@@ -80,8 +80,8 @@
 				<fmt:message key="function.description.database.connection.leak" />
 			</p></li>
 		<li><p>
-				<fmt:message key="function.name.file.descriptor.leak" />
-				:
+				<a href="filedescriptorleak " target="_blank"><fmt:message
+						key="function.name.file.descriptor.leak" /></a> :
 				<fmt:message key="function.description.file.descriptor.leak" />
 			</p></li>
 		<li><p>
