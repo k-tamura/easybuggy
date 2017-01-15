@@ -65,11 +65,6 @@
 				<fmt:message key="function.description.jvm.crash.eav" />
 			</p></li>
 		<li><p>
-				<fmt:message key="function.name.native.library.error" />
-				:
-				<fmt:message key="function.description.native.library.error" />
-			</p></li>
-		<li><p>
 				<a href="netsocketleak" target="_blank"><fmt:message
 						key="function.name.network.socket.leak" /></a>:
 				<fmt:message key="function.description.network.socket.leak" />
@@ -84,6 +79,15 @@
 						key="function.name.file.descriptor.leak" /></a> :
 				<fmt:message key="function.description.file.descriptor.leak" />
 			</p></li>
+	</ul>			
+
+	<h1>
+		<fmt:message key="section.performance.issue" />
+	</h1>
+	<p>
+		<fmt:message key="description.performance.issue" />
+	</p>
+	<ul>
 		<li><p>
 				<fmt:message key="function.name.stop.the.world" />
 				:
