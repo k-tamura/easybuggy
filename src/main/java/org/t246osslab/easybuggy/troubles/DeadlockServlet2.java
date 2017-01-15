@@ -70,7 +70,7 @@ public class DeadlockServlet2 extends HttpServlet {
 
 class EmbeddedJavaDb2 {
 
-    static final int MAX_USER_COUNT = 1000;
+    static final int MAX_USER_COUNT = 2;
     static final String dbUrl = ApplicationUtils.getDatabaseURL();
     static final String dbDriver = ApplicationUtils.getDatabaseDriver();
 
