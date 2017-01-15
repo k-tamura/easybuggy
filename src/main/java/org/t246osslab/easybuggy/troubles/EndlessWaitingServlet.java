@@ -33,7 +33,7 @@ public class EndlessWaitingServlet extends HttpServlet {
         try {
             int count = 0;
             try {
-                count = Integer.parseInt(req.getParameter("count"));                
+                count = Integer.parseInt(req.getParameter("count"));
             } catch (Exception e) {
             }
             Locale locale = req.getLocale();
@@ -47,29 +47,30 @@ public class EndlessWaitingServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getMsg("note.enter.count", locale));
+            bodyHtml.append(MessageUtils.getMsg("msg.note.enter.count", locale));
             bodyHtml.append("<br><br>");
 
             if (count > 0) {
                 /* create a batch file in the temp directory */
                 File batFile = createBatchFile(req);
-                
+
                 if (batFile == null) {
-                    bodyHtml.append("Can't create a batch file.");
+                    bodyHtml.append(MessageUtils.getMsg("msg.cant.create.batch", locale));
                 } else {
                     /* execte the batch */
                     ProcessBuilder pb = new ProcessBuilder(batFile.getAbsolutePath());
                     Process process = pb.start();
                     process.waitFor();
-                    bodyHtml.append("Created and executed the batch: " + batFile.getAbsolutePath() + "<BR><BR>");
+                    bodyHtml.append(MessageUtils.getMsg("msg.executed.batch", locale) + batFile.getAbsolutePath() + "<BR><BR>");
                     bodyHtml.append(printInputStream(process.getInputStream(), res));
                     bodyHtml.append(printInputStream(process.getErrorStream(), res));
                 }
                 bodyHtml.append("</form>");
-            }else{
+            } else {
                 bodyHtml.append(MessageUtils.getMsg("msg.enter.positive.number", locale));
             }
-            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.endless.waiting.page", locale), bodyHtml.toString());
+            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.endless.waiting.page", locale),
+                    bodyHtml.toString());
 
         } catch (Exception e) {
             Logger.error(e);
