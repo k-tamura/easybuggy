@@ -215,64 +215,52 @@
 	</p>
 	<ul>
 		<li><p>
-				<a href="ae" target="_blank"><fmt:message
-						key="function.name.artm.exception" /></a>:
-				<fmt:message key="function.description.artm.exception" />
+				<a href="ae" target="_blank">ArithmeticException</a>:
+				<fmt:message key="function.description.exception"><fmt:param value="ArithmeticException"/></fmt:message>
 			</p></li>
 		<li><p>
-				<a href="aioobe" target="_blank"><fmt:message
-						key="function.name.aioob.exception" /></a>:
-				<fmt:message key="function.description.aioob.exception" />
+				<a href="aioobe" target="_blank">ArrayIndexOutOfBoundsException</a>:
+				<fmt:message key="function.description.exception"><fmt:param value="ArrayIndexOutOfBoundsException"/></fmt:message>
 			</p></li>
 		<li><p>
-				<a href="ase" target="_blank"><fmt:message
-						key="function.name.arrstr.exception" /></a>:
-				<fmt:message key="function.description.arrstr.exception" />
+				<a href="ase" target="_blank">ArrayStoreException</a>:
+				<fmt:message key="function.description.exception"><fmt:param value="ArrayStoreException"/></fmt:message>
 			</p></li>
 		<li><p>
-				<a href="cce" target="_blank"><fmt:message
-						key="function.name.cc.exception" /></a>:
-				<fmt:message key="function.description.cc.exception" />
+				<a href="cce" target="_blank">ClassCastException</a>:
+				<fmt:message key="function.description.exception"><fmt:param value="ClassCastException"/></fmt:message>
 			</p></li>
 		<li><p>
-				<a href="cme" target="_blank"><fmt:message
-						key="function.name.cm.exception" /></a>:
-				<fmt:message key="function.description.cm.exception" />
+				<a href="cme" target="_blank">ConcurrentModificationException</a>:
+				<fmt:message key="function.description.exception"><fmt:param value="ConcurrentModificationException"/></fmt:message>
 			</p></li>
 		<li><p>
-				<a href="fnfe" target="_blank"><fmt:message
-						key="function.name.fnf.exception" /></a>:
-				<fmt:message key="function.description.fnf.exception" />
+				<a href="fnfe" target="_blank">FileNotFoundException</a>:
+				<fmt:message key="function.description.exception"><fmt:param value="FileNotFoundException"/></fmt:message>
 			</p></li>
 		<li><p>
-				<a href="ioobe" target="_blank"><fmt:message
-						key="function.name.ioob.exception" /></a>:
-				<fmt:message key="function.description.ioob.exception" />
+				<a href="itse" target="_blank">IllegalThreadStateException</a>:
+				<fmt:message key="function.description.exception"><fmt:param value="IllegalThreadStateException"/></fmt:message>
 			</p></li>
 		<li><p>
-				<a href="itse" target="_blank"><fmt:message
-						key="function.name.its.exception" /></a>:
-				<fmt:message key="function.description.its.exception" />
+				<a href="ioobe" target="_blank">IndexOutOfBoundsException</a>:
+				<fmt:message key="function.description.exception"><fmt:param value="IndexOutOfBoundsException"/></fmt:message>
 			</p></li>
 		<li><p>
-				<a href="murle" target="_blank"><fmt:message
-						key="function.name.murl.exception" /></a>:
-				<fmt:message key="function.description.murl.exception" />
+				<a href="murle" target="_blank">	MalformedURLException</a>:
+				<fmt:message key="function.description.exception"><fmt:param value="	MalformedURLException"/></fmt:message>
 			</p></li>
 		<li><p>
-				<a href="npe" target="_blank"><fmt:message
-						key="function.name.np.exception" /></a>:
-				<fmt:message key="function.description.np.exception" />
+				<a href="npe" target="_blank">NullPointerException</a>:
+				<fmt:message key="function.description.exception"><fmt:param value="NullPointerException"/></fmt:message>
 			</p></li>
 		<li><p>
-				<a href="nfe" target="_blank"><fmt:message
-						key="function.name.nf.exception" /></a>:
-				<fmt:message key="function.description.nf.exception" />
+				<a href="nfe" target="_blank">NumberFormatException</a>:
+				<fmt:message key="function.description.exception"><fmt:param value="NumberFormatException"/></fmt:message>
 			</p></li>
 		<li><p>
-				<a href="uhe" target="_blank"><fmt:message
-						key="function.name.uh.exception" /></a>:
-				<fmt:message key="function.description.uh.exception" />
+				<a href="uhe" target="_blank">UnknownHostException</a>:
+				<fmt:message key="function.description.exception"><fmt:param value="UnknownHostException"/></fmt:message>
 			</p></li>
 	</ul>
 
