@@ -240,6 +240,11 @@
 				<fmt:message key="function.description.cm.exception" />
 			</p></li>
 		<li><p>
+				<a href="fnfe" target="_blank"><fmt:message
+						key="function.name.fnf.exception" /></a>:
+				<fmt:message key="function.description.fnf.exception" />
+			</p></li>
+		<li><p>
 				<a href="ioobe" target="_blank"><fmt:message
 						key="function.name.ioob.exception" /></a>:
 				<fmt:message key="function.description.ioob.exception" />
