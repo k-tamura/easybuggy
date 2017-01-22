@@ -39,6 +39,7 @@ public class IntegerOverflowServlet extends HttpServlet {
                     // ignore
                 }
                 if (days >= 0) {
+                    // days * 24 => hours
                     bodyHtml.append(days + " " + MessageUtils.getMsg("label.days", locale) + " = " + days * 24 + " "
                             + MessageUtils.getMsg("label.hours", locale));
                 } else {
