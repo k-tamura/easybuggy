@@ -78,8 +78,8 @@ class EmbeddedJavaDb {
             String dbDriver = ApplicationUtils.getDatabaseDriver();
             if (dbDriver != null && !dbDriver.equals("")) {
                 try {
-                    Class.forName(ApplicationUtils.getDatabaseDriver());
-                } catch (ClassNotFoundException e) {
+                    Class.forName(dbDriver);
+                } catch (Exception e) {
                     Logger.error(e);
                 }
             }
