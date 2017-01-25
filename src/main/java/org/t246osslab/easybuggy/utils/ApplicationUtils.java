@@ -37,9 +37,7 @@ public class ApplicationUtils {
             Logger.error(e);
         }
         try {
-            if (!databaseURL.startsWith("jdbc:derby:memory")) {
-                databaseDriver = bundle.getString("database.driver");
-            }
+            databaseDriver = bundle.getString("database.driver");
         } catch (Exception e) {
             Logger.error(e);
         }
