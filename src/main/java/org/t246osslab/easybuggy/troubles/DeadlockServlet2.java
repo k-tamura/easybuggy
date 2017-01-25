@@ -80,7 +80,7 @@ class EmbeddedJavaDb2 {
         try {
             if (dbDriver != null && !dbDriver.equals("")) {
                 try {
-                    Class.forName("com.mysql.jdbc.Driver");
+                    Class.forName(ApplicationUtils.getDatabaseDriver());
                 } catch (ClassNotFoundException e) {
                     Logger.error(e);
                 }
@@ -130,7 +130,7 @@ class EmbeddedJavaDb2 {
         try {
             if (dbDriver != null && !dbDriver.equals("")) {
                 try {
-                    Class.forName("com.mysql.jdbc.Driver");
+                    Class.forName(ApplicationUtils.getDatabaseDriver());
                 } catch (ClassNotFoundException e) {
                     Logger.error(e);
                 }

@@ -78,7 +78,7 @@ class EmbeddedJavaDb {
             String dbDriver = ApplicationUtils.getDatabaseDriver();
             if (dbDriver != null && !dbDriver.equals("")) {
                 try {
-                    Class.forName("com.mysql.jdbc.Driver");
+                    Class.forName(ApplicationUtils.getDatabaseDriver());
                 } catch (ClassNotFoundException e) {
                     Logger.error(e);
                 }

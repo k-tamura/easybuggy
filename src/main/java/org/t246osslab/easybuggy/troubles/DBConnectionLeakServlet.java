@@ -39,7 +39,7 @@ public class DBConnectionLeakServlet extends HttpServlet {
 
             if (dbDriver != null && !dbDriver.equals("")) {
                 try {
-                    Class.forName("com.mysql.jdbc.Driver");
+                    Class.forName(ApplicationUtils.getDatabaseDriver());
                 } catch (ClassNotFoundException e) {
                     Logger.error(e);
                 }
