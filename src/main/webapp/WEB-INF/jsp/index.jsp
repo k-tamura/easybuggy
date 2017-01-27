@@ -191,8 +191,8 @@
 			<fmt:message key="function.description.round.off.error" />
 		</p></li>
 		<li><p>
-				<fmt:message
-						key="function.name.truncation.error" />:
+				<a href="te" target="_blank"><fmt:message
+						key="function.name.truncation.error" /></a>:
 			<fmt:message key="function.description.truncation.error" />
 		</p></li>
 		<li><p>
