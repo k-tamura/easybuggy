@@ -13,6 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 public class MainServlet extends HttpServlet {
     
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req, res);
+        req.getRequestDispatcher("/jsp/index.jsp").forward(req, res);
     }
 }
