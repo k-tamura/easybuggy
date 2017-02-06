@@ -12,7 +12,7 @@ Access to:
 
     http://localhost:8989/main
     
-To stop Jetty:
+To stop:
 
   use <kbd>CTRL</kbd>+<kbd>C</kbd>
 
