@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.t246osslab.easybuggy</groupId>
@@ -66,42 +67,42 @@
     </dependency>
   </dependencies>
   <build>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>2.3.2</version>
-          <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-enforcer-plugin</artifactId>
-          <version>1.1.1</version>
-          <executions>
-            <execution>
-              <id>enforce-java</id>
-              <goals>
-                <goal>enforce</goal>
-              </goals>
-              <configuration>
-                <rules>
-                  <requireMavenVersion>
-                    <version>[3.0.0,)</version>
-                  </requireMavenVersion>
-                  <requireJavaVersion>
-                    <version>[1.6,)</version>
-                    <message>[ERROR] OLD JDK [${java.version}] in use.
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>1.1.1</version>
+        <executions>
+          <execution>
+            <id>enforce-java</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>[3.0.0,)</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>[1.6,)</version>
+                  <message>[ERROR] OLD JDK [${java.version}] in use.
                     Jetty ${jetty-version} requires JDK 1.6 or later</message>
-                  </requireJavaVersion>
-                </rules>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-        <!-- <plugin>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
           <executions>
@@ -121,6 +122,95 @@
             </execution>
           </executions>
         </plugin> -->
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <warName>ROOT</warName>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.5.0</version>
+        <dependencies>
+          <dependency>
+            <groupId>fish.payara.extras</groupId>
+            <artifactId>payara-micro</artifactId>
+            <version>4.1.1.162</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>payara-uber-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <configuration>
+              <mainClass>fish.payara.micro.PayaraMicro</mainClass>
+              <arguments>
+                <argument>--deploy</argument>
+                <argument>${basedir}/target/ROOT.war</argument>
+                <argument>--outputUberJar</argument>
+                <argument>${basedir}/target/easybuggy.jar</argument>
+              </arguments>
+              <includeProjectDependencies>false</includeProjectDependencies>
+              <includePluginDependencies>true</includePluginDependencies>
+              <executableDependency>
+                <groupId>fish.payara.extras</groupId>
+                <artifactId>payara-micro</artifactId>
+              </executableDependency>
+            </configuration>
+          </execution>
+          <execution>
+            <id>second-execution</id>
+            <phase>install</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>java</executable>
+              <arguments>
+                <argument>-Xmx256m</argument>
+                <argument>-XX:MaxPermSize=32m</argument>
+                <argument>-XX:MaxDirectMemorySize=90m</argument>
+                <argument>-XX:+UseSerialGC</argument>
+                <argument>-Xloggc:logs/gc.log</argument>
+                <argument>-XX:+PrintHeapAtGC</argument>
+                <argument>-XX:+PrintGCDetails</argument>
+                <argument>-XX:+PrintGCDateStamps</argument>
+                <argument>-XX:+UseGCLogFileRotation</argument>
+                <argument>-XX:NumberOfGCLogFiles=5</argument>
+                <argument>-XX:GCLogFileSize=10M</argument>
+                <argument>-XX:GCTimeLimit=15</argument>
+                <argument>-XX:GCHeapFreeLimit=50</argument>
+                <argument>-XX:+HeapDumpOnOutOfMemoryError</argument>
+                <argument>-XX:HeapDumpPath=logs/</argument>
+                <argument>-XX:ErrorFile=logs/hs_err_pid%p.log</argument>
+                <argument>-XX:NativeMemoryTracking=summary</argument>
+                <argument>-XX:+UnlockCommercialFeatures</argument>
+                <argument>-XX:+FlightRecorder</argument>
+                <argument>-agentlib:jdwp=transport=dt_socket,server=y,address=9009,suspend=n</argument>
+                <argument>-Dderby.stream.error.file=logs/derby.log</argument>
+                <argument>-Dderby.infolog.append=true</argument>
+                <argument>-Dderby.language.logStatementText=true</argument>
+                <argument>-Dderby.locks.deadlockTrace=true</argument>
+                <argument>-Dderby.locks.monitor=true</argument>
+                <argument>-Dderby.storage.rowLocking=true</argument>
+                <argument>-Dcom.sun.management.jmxremote</argument>
+                <argument>-Dcom.sun.management.jmxremote.port=7900</argument>
+                <argument>-Dcom.sun.management.jmxremote.ssl=false</argument>
+                <argument>-Dcom.sun.management.jmxremote.authenticate=false</argument>
+                <argument>-jar</argument>
+                <argument>${basedir}/target/easybuggy.jar</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!--
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
@@ -166,6 +256,8 @@
             </arguments>
           </configuration>
         </plugin>
-      </plugins>
+-->
+    </plugins>
   </build>
 </project>
+
