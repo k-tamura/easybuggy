@@ -137,15 +137,15 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.2</version>
         <!-- Comment out Payara sections to avoid proxy error due to slow downloading. -->
-        <!-- <dependencies>
+        <dependencies>
           <dependency>
             <groupId>fish.payara.extras</groupId>
             <artifactId>payara-micro</artifactId>
             <version>4.1.1.162</version>
           </dependency>
-        </dependencies> -->
+        </dependencies>
         <executions>
-          <!-- <execution>
+          <execution>
             <id>payara-uber-jar</id>
             <phase>package</phase>
             <goals>
@@ -168,7 +168,7 @@
                 <artifactId>payara-micro</artifactId>
               </executableDependency>
             </configuration>
-          </execution> -->
+          </execution>
           <execution>
             <id>startup-embedded-jetty</id>
             <phase>install</phase>
