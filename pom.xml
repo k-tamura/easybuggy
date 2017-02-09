@@ -8,6 +8,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jetty-version>8.2.0.v20160908</jetty-version>
+    <!-- Define double hyphens to avoid parse error if commenting out. -->
     <double-hyphens>--</double-hyphens>
   </properties>
   <dependencies>
@@ -135,6 +136,7 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.2</version>
+        <!-- Comment out Payara sections to avoid proxy error due to slow downloading. -->
         <!-- <dependencies>
           <dependency>
             <groupId>fish.payara.extras</groupId>
@@ -156,6 +158,8 @@
                 <argument>${basedir}/target/ROOT.war</argument>
                 <argument>${double-hyphens}outputUberJar</argument>
                 <argument>${basedir}/target/easybuggy.jar</argument>
+                <argument>${double-hyphens}port</argument>
+                <argument>8989</argument>
               </arguments>
               <includeProjectDependencies>false</includeProjectDependencies>
               <includePluginDependencies>true</includePluginDependencies>
