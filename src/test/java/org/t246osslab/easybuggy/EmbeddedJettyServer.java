@@ -11,12 +11,11 @@ import org.eclipse.jetty.webapp.TagLibConfiguration;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.webapp.WebInfConfiguration;
 import org.eclipse.jetty.webapp.WebXmlConfiguration;
-import org.t246osslab.easybuggy.utils.ApplicationUtils;
 
 public class EmbeddedJettyServer {
     public static void main(String[] args) throws Exception {
 
-        Server server = new Server(ApplicationUtils.getEasyBuggyPort());
+        Server server = new Server(Integer.parseInt(args[0]));
         String wardir = "target/easybuggy-1-SNAPSHOT";
 
         WebAppContext context = new WebAppContext();
