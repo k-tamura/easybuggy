@@ -134,15 +134,15 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.5.0</version>
-        <dependencies>
+        <!-- <dependencies>
           <dependency>
             <groupId>fish.payara.extras</groupId>
             <artifactId>payara-micro</artifactId>
             <version>4.1.1.162</version>
           </dependency>
-        </dependencies>
+        </dependencies> -->
         <executions>
-          <execution>
+          <!-- <execution>
             <id>payara-uber-jar</id>
             <phase>package</phase>
             <goals>
@@ -151,9 +151,9 @@
             <configuration>
               <mainClass>fish.payara.micro.PayaraMicro</mainClass>
               <arguments>
-                <argument>--deploy</argument>
+                <argument>-[Warning! remove me if you create PayaraMicro]-deploy</argument>
                 <argument>${basedir}/target/ROOT.war</argument>
-                <argument>--outputUberJar</argument>
+                <argument>-[Warning! remove me if you create PayaraMicro]-outputUberJar</argument>
                 <argument>${basedir}/target/easybuggy.jar</argument>
               </arguments>
               <includeProjectDependencies>false</includeProjectDependencies>
@@ -163,59 +163,14 @@
                 <artifactId>payara-micro</artifactId>
               </executableDependency>
             </configuration>
-          </execution>
+          </execution> -->
           <execution>
-            <id>second-execution</id>
+            <id>startup-embedded-jetty</id>
             <phase>install</phase>
             <goals>
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>java</executable>
-              <arguments>
-                <argument>-Xmx256m</argument>
-                <argument>-XX:MaxPermSize=32m</argument>
-                <argument>-XX:MaxDirectMemorySize=90m</argument>
-                <argument>-XX:+UseSerialGC</argument>
-                <argument>-Xloggc:logs/gc.log</argument>
-                <argument>-XX:+PrintHeapAtGC</argument>
-                <argument>-XX:+PrintGCDetails</argument>
-                <argument>-XX:+PrintGCDateStamps</argument>
-                <argument>-XX:+UseGCLogFileRotation</argument>
-                <argument>-XX:NumberOfGCLogFiles=5</argument>
-                <argument>-XX:GCLogFileSize=10M</argument>
-                <argument>-XX:GCTimeLimit=15</argument>
-                <argument>-XX:GCHeapFreeLimit=50</argument>
-                <argument>-XX:+HeapDumpOnOutOfMemoryError</argument>
-                <argument>-XX:HeapDumpPath=logs/</argument>
-                <argument>-XX:ErrorFile=logs/hs_err_pid%p.log</argument>
-                <argument>-XX:NativeMemoryTracking=summary</argument>
-                <argument>-XX:+UnlockCommercialFeatures</argument>
-                <argument>-XX:+FlightRecorder</argument>
-                <argument>-agentlib:jdwp=transport=dt_socket,server=y,address=9009,suspend=n</argument>
-                <argument>-Dderby.stream.error.file=logs/derby.log</argument>
-                <argument>-Dderby.infolog.append=true</argument>
-                <argument>-Dderby.language.logStatementText=true</argument>
-                <argument>-Dderby.locks.deadlockTrace=true</argument>
-                <argument>-Dderby.locks.monitor=true</argument>
-                <argument>-Dderby.storage.rowLocking=true</argument>
-                <argument>-Dcom.sun.management.jmxremote</argument>
-                <argument>-Dcom.sun.management.jmxremote.port=7900</argument>
-                <argument>-Dcom.sun.management.jmxremote.ssl=false</argument>
-                <argument>-Dcom.sun.management.jmxremote.authenticate=false</argument>
-                <argument>-jar</argument>
-                <argument>${basedir}/target/easybuggy.jar</argument>
-              </arguments>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <!--
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>exec-maven-plugin</artifactId>
-          <version>1.2</version>
-          <configuration>
             <classpathScope>test</classpathScope>
             <executable>java</executable>
             <arguments>
@@ -253,10 +208,11 @@
               <classpath />
               <argument>org.t246osslab.easybuggy.EmbeddedJettyServer</argument>
               <argument>8989</argument>
-            </arguments>
-          </configuration>
-        </plugin>
--->
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>
