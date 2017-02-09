@@ -8,6 +8,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jetty-version>8.2.0.v20160908</jetty-version>
+    <double-hyphens>--</double-hyphens>
   </properties>
   <dependencies>
     <dependency>
@@ -133,7 +134,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
-        <version>1.5.0</version>
+        <version>1.2</version>
         <!-- <dependencies>
           <dependency>
             <groupId>fish.payara.extras</groupId>
@@ -151,9 +152,9 @@
             <configuration>
               <mainClass>fish.payara.micro.PayaraMicro</mainClass>
               <arguments>
-                <argument>-[Warning! remove me if you create PayaraMicro]-deploy</argument>
+                <argument>${double-hyphens}deploy</argument>
                 <argument>${basedir}/target/ROOT.war</argument>
-                <argument>-[Warning! remove me if you create PayaraMicro]-outputUberJar</argument>
+                <argument>${double-hyphens}outputUberJar</argument>
                 <argument>${basedir}/target/easybuggy.jar</argument>
               </arguments>
               <includeProjectDependencies>false</includeProjectDependencies>
