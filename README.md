@@ -8,7 +8,7 @@ Quick Start
 
     $ mvn clean install exec:exec
 
-( or ``` java -jar easybuggy.jar ``` or deploy ROOT.war on a servlet container. )
+( or ``` java -jar easybuggy.jar ``` or deploy ROOT.war on your servlet container. )
 
 Access to
 
