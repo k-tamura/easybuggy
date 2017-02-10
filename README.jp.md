@@ -23,4 +23,4 @@ EasyBuggyは、メモリリーク、デッドロック、JVMクラッシュ、SQ
 詳細は
 -
    
-[wikiページ](https://github.com/k-tamura/easybuggy/wiki#to-develop-on-eclipse)を参照下さい。
+[wikiページ](https://github.com/k-tamura/easybuggy/wiki)を参照下さい。
