@@ -20,7 +20,7 @@ EasyBuggyは、メモリリーク、デッドロック、JVMクラッシュ、SQ
   <kbd>CTRL</kbd>+<kbd>C</kbd>をクリック
   
 
-開発するには
+詳細は
 -
    
 [wikiページ](https://github.com/k-tamura/easybuggy/wiki#to-develop-on-eclipse)を参照下さい。
