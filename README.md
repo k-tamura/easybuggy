@@ -19,8 +19,8 @@ Access to
   Use <kbd>CTRL</kbd>+<kbd>C</kbd>
 
     
-To develop
+For more detail
 -
    
-See [the wiki page](https://github.com/k-tamura/easybuggy/wiki#to-develop-on-eclipse).
+See [the wiki page](https://github.com/k-tamura/easybuggy/wiki).
 
