@@ -12,7 +12,7 @@ Quick Start
 
 Access to
 
-    http://localhost:8989/main
+    http://localhost:8989
 
 #### To stop:
 
