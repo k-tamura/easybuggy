@@ -195,11 +195,11 @@
 						key="function.name.truncation.error" /></a>:
 			<fmt:message key="function.description.truncation.error" />
 		</p></li>
-		<li><p>
+		<!-- <li><p>
 				<fmt:message
 						key="function.name.cancellation.of.significant.digits" />:
 			<fmt:message key="function.description.cancellation.of.significant.digits" />
-		</p></li>
+		</p></li> -->
 		<li><p>
 			<a href="lotd" target="_blank"><fmt:message
 						key="function.name.loss.of.trailing.digits" /></a>:
