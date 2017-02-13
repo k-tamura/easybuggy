@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.pmw.tinylog.Logger;
-import org.t246osslab.easybuggy.utils.ApplicationUtils;
 import org.t246osslab.easybuggy.utils.Closer;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
@@ -30,7 +29,7 @@ public class NetworkSocketLeakServlet extends HttpServlet {
         InputStreamReader isr = null;
         BufferedReader reader = null;
         try {
-            URL url = new URL("http://localhost:" + ApplicationUtils.getEasyBuggyPort() + "/ping");
+            URL url = new URL(req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/ping");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 

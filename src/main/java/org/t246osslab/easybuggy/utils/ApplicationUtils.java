@@ -10,9 +10,6 @@ import org.pmw.tinylog.Logger;
  */
 public class ApplicationUtils {
 
-    // default port: 8989
-    private static int easyBuggyPort = 8989;
-
     // default database url: derby in-memory
     private static String databaseURL = "jdbc:derby:memory:demo;create=true";
 
@@ -27,11 +24,6 @@ public class ApplicationUtils {
             Logger.error(e);
         }
         try {
-            easyBuggyPort = Integer.parseInt(bundle.getString("easybuggy.port"));
-        } catch (Exception e) {
-            Logger.error(e);
-        }
-        try {
             databaseURL = bundle.getString("database.url");
         } catch (Exception e) {
             Logger.error(e);
@@ -41,15 +33,6 @@ public class ApplicationUtils {
         } catch (Exception e) {
             Logger.error(e);
         }
-    }
-
-    /**
-     * Return a Port number of EasyBuggy.
-     * 
-     * @return Port number of EasyBuggy
-     */
-    public static int getEasyBuggyPort() {
-        return easyBuggyPort;
     }
 
     /**
