@@ -160,6 +160,7 @@
                 <argument>${basedir}/target/easybuggy.jar</argument>
                 <argument>${double-hyphens}port</argument>
                 <argument>${easybuggy-port}</argument>
+                <argument>${double-hyphens}noCluster</argument>
               </arguments>
               <includeProjectDependencies>false</includeProjectDependencies>
               <includePluginDependencies>true</includePluginDependencies>
