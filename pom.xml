@@ -8,8 +8,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jetty-version>8.2.0.v20160908</jetty-version>
-    <!-- Define double hyphens to avoid parse error if commenting out. -->
+    <!-- Define double hyphens to avoid XML parse error if commenting out the Payara micro section. -->
     <double-hyphens>--</double-hyphens>
+    <easybuggy-port>8080</easybuggy-port>
   </properties>
   <dependencies>
     <dependency>
@@ -51,7 +52,6 @@
       <artifactId>tinylog</artifactId>
       <version>1.1</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/javassist/javassist -->
     <dependency>
       <groupId>javassist</groupId>
       <artifactId>javassist</artifactId>
@@ -159,7 +159,7 @@
                 <argument>${double-hyphens}outputUberJar</argument>
                 <argument>${basedir}/target/easybuggy.jar</argument>
                 <argument>${double-hyphens}port</argument>
-                <argument>8989</argument>
+                <argument>${easybuggy-port}</argument>
               </arguments>
               <includeProjectDependencies>false</includeProjectDependencies>
               <includePluginDependencies>true</includePluginDependencies>
@@ -212,7 +212,7 @@
               <argument>-cp</argument>
               <classpath />
               <argument>org.t246osslab.easybuggy.EmbeddedJettyServer</argument>
-              <argument>8989</argument>
+              <argument>${easybuggy-port}</argument>
               </arguments>
             </configuration>
           </execution>

@@ -12,7 +12,7 @@ EasyBuggyは、メモリリーク、デッドロック、JVMクラッシュ、SQ
 
 以下にアクセス:
 
-    http://localhost:8989
+    http://localhost:8080
 
 
 停止するには:
