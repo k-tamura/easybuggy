@@ -10,12 +10,16 @@
 <html>
 <head>
 <title>EasyBuggy</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
-<body>
+<body style="margin:20px;">
 
-	<h1>
+	<h2>
+		<span class="glyphicon glyphicon-knight"></span>&nbsp;
 		<fmt:message key="section.troubles" />
-	</h1>
+	</h2>
 	<p>
 		<fmt:message key="description.troubles" />
 	</p>
@@ -81,9 +85,10 @@
 		</p></li>
 	</ul>			
 
-	<h1>
+	<h2>
+		<span class="glyphicon glyphicon-knight"></span>&nbsp;
 		<fmt:message key="section.performance.issue" />
-	</h1>
+	</h2>
 	<p>
 		<fmt:message key="description.performance.issue" />
 	</p>
@@ -95,9 +100,10 @@
 		</p></li>
 	</ul>
 
-	<h1>
+	<h2>
+		<span class="glyphicon glyphicon-knight"></span>&nbsp;
 		<fmt:message key="section.vulnerabilities" />
-	</h1>
+	</h2>
 	<p>
 		<fmt:message key="description.vulnerabilities" />
 	</p>
@@ -119,9 +125,10 @@
 		</p></li>
 	</ul>
 
-	<h1>
+	<h2>
+		<span class="glyphicon glyphicon-knight"></span>&nbsp;
 		<fmt:message key="section.errors" />
-	</h1>
+	</h2>
 	<p>
 		<fmt:message key="description.errors" />
 	</p>
@@ -173,9 +180,10 @@
 		</p></li>
 	</ul>
 
-	<h1>
+	<h2>
+		<span class="glyphicon glyphicon-knight"></span>&nbsp;
 		<fmt:message key="section.others" />
-	</h1>
+	</h2>
 	<p>
 		<fmt:message key="description.others" />
 	</p>
@@ -207,9 +215,10 @@
 		</p></li>
 	</ul>
 
-	<h1>
+	<h2>
+		<span class="glyphicon glyphicon-knight"></span>&nbsp;
 		<fmt:message key="section.exceptions" />
-	</h1>
+	</h2>
 	<p>
 		<fmt:message key="description.section.exceptions" />
 	</p>
