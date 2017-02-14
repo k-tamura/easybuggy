@@ -87,21 +87,6 @@
 
 	<h2>
 		<span class="glyphicon glyphicon-knight"></span>&nbsp;
-		<fmt:message key="section.performance.issue" />
-	</h2>
-	<p>
-		<fmt:message key="description.performance.issue" />
-	</p>
-	<ul>
-		<li><p>
-			<fmt:message key="function.name.stop.the.world" />
-				:
-			<fmt:message key="function.description.stop.the.world" />
-		</p></li>
-	</ul>
-
-	<h2>
-		<span class="glyphicon glyphicon-knight"></span>&nbsp;
 		<fmt:message key="section.vulnerabilities" />
 	</h2>
 	<p>
@@ -177,6 +162,21 @@
 			<a href="jnicall" target="_blank"><fmt:message
 						key="function.name.ul.error" /></a>:
 			<fmt:message key="function.description.ul.error" />
+		</p></li>
+	</ul>
+
+	<h2>
+		<span class="glyphicon glyphicon-knight"></span>&nbsp;
+		<fmt:message key="section.performance.issue" />
+	</h2>
+	<p>
+		<fmt:message key="description.performance.issue" />
+	</p>
+	<ul>
+		<li><p>
+			<fmt:message key="function.name.stop.the.world" />
+				:
+			<fmt:message key="function.description.stop.the.world" />
 		</p></li>
 	</ul>
 
