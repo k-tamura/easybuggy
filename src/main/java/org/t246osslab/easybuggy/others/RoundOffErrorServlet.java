@@ -22,13 +22,10 @@ public class RoundOffErrorServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         PrintWriter writer = null;
         int number = -1;
+        double result = 0;
         String errorMessage = "";
         try {
             Locale locale = req.getLocale();
-            StringBuilder bodyHtml = new StringBuilder();
-            bodyHtml.append("<form action=\"roe\" method=\"post\">");
-            bodyHtml.append("<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\">");
-            bodyHtml.append(" - 0.9 = ");
             String strNumber = req.getParameter("number");
             if (strNumber != null) {
                 try {
@@ -37,12 +34,25 @@ public class RoundOffErrorServlet extends HttpServlet {
                     // ignore
                 }
                 if (1 <= number && number <= 9) {
-                    bodyHtml.append(String.valueOf(number - 0.9));
+                    result = number - 0.9;
                 } else {
                     errorMessage = "<font color=\"red\">" + MessageUtils.getMsg("msg.enter.positive.number", locale)
                             + "</font>";
                 }
             }
+
+            StringBuilder bodyHtml = new StringBuilder();
+            bodyHtml.append("<form action=\"roe\" method=\"post\">");
+            if (result != 0) {
+                bodyHtml.append("<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\" value=" + strNumber + ">");
+            } else {
+                bodyHtml.append("<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\">");
+            }
+            bodyHtml.append(" - 0.9 = ");
+            if (result != 0) {
+                bodyHtml.append(String.valueOf(result));
+            }
+            bodyHtml.append("<br>");
             bodyHtml.append("<br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
             bodyHtml.append("<br>");

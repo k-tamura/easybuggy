@@ -21,39 +21,48 @@ public class LossOfTrailingDigitsServlet extends HttpServlet {
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         PrintWriter writer = null;
-        double number = -1;
-        String errorMessage = "";
+        double number = Double.NaN;
+        String strNumber = null;
+        String errorMessage = null;
         try {
             Locale locale = req.getLocale();
-            StringBuilder bodyHtml = new StringBuilder();
-
-            bodyHtml.append("<form action=\"lotd\" method=\"post\">");
-            bodyHtml.append("<input type=\"text\" name=\"number\" size=\"18\" maxlength=\"18\">");
-            bodyHtml.append(" + 1 = ");
-            String strNumber = req.getParameter("number");
-            if (strNumber != null) {
-                try {
+            try {
+                strNumber = req.getParameter("number");
+                if(strNumber != null){
                     number = Double.parseDouble(strNumber);
-                } catch (NumberFormatException e) {
-                    // ignore
                 }
-                if (-1 < number && number != 0 && number < 1) {
-                    bodyHtml.append(String.valueOf(number + 1));
-                } else {
-                    errorMessage = "<font color=\"red\">" + MessageUtils.getMsg("msg.enter.too.small.value", locale)
-                            + "</font>";
-                }
+            } catch (NumberFormatException e) {
+                // ignore
             }
+            if (Double.isNaN(number) || number <= -1 || number == 0 || 1 <= number) {
+                errorMessage = MessageUtils.getMsg("msg.enter.decimal.value", locale);
+            }
+            
+            StringBuilder bodyHtml = new StringBuilder();
+            bodyHtml.append("<form action=\"lotd\" method=\"post\">");
+            if (!Double.isNaN(number) && errorMessage == null) {
+                bodyHtml.append("<input type=\"text\" name=\"number\" size=\"18\" maxlength=\"18\" value=" + strNumber
+                        + ">");
+            } else {
+                bodyHtml.append("<input type=\"text\" name=\"number\" size=\"18\" maxlength=\"18\">");
+            }
+            bodyHtml.append(" + 1 = ");
+            if (!Double.isNaN(number) && errorMessage == null) {
+                bodyHtml.append(String.valueOf(number + 1));
+            }
+            bodyHtml.append("<br>");
             bodyHtml.append("<br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
             bodyHtml.append("<br>");
-            bodyHtml.append(errorMessage);
+            if (errorMessage != null && strNumber != null) {
+                bodyHtml.append("<font color=\"red\">" + errorMessage + "</font>");
+            }
             bodyHtml.append("<br>");
-            bodyHtml.append(MessageUtils.getMsg("msg.note.enter.too.small.value", locale));
+            bodyHtml.append(MessageUtils.getMsg("msg.note.enter.decimal.value", locale));
             bodyHtml.append("</form>");
-            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.loss.of.trailing.digits.page", locale),
-                    bodyHtml.toString());
-            
+            HTTPResponseCreator.createSimpleResponse(res,
+                    MessageUtils.getMsg("title.loss.of.trailing.digits.page", locale), bodyHtml.toString());
+
         } catch (Exception e) {
             Logger.error(e);
         } finally {

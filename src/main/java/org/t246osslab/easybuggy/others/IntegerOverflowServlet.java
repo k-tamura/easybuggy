@@ -20,34 +20,44 @@ import org.t246osslab.easybuggy.utils.MessageUtils;
 public class IntegerOverflowServlet extends HttpServlet {
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        int days = -1;
+        int hours = -1;
         PrintWriter writer = null;
+        String errorMessage = "";
         try {
             Locale locale = req.getLocale();
-            StringBuilder bodyHtml = new StringBuilder();
-
-            bodyHtml.append("<form action=\"iof\" method=\"post\">");
-            bodyHtml.append("<input type=\"text\" name=\"days\" size=\"8\" maxlength=\"8\">");
-            bodyHtml.append(MessageUtils.getMsg("label.days", locale));
-            bodyHtml.append("<br>");
-            bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.convert", locale) + "\">");
-            bodyHtml.append("<br>");
-            if (req.getParameter("days") != null) {
-                int days = -1;
+            String strDays = req.getParameter("days");
+            if (strDays != null) {
                 try {
-                    days = Integer.parseInt(req.getParameter("days"));
+                    days = Integer.parseInt(strDays);
                 } catch (NumberFormatException e) {
                     // ignore
                 }
                 if (days >= 0) {
                     // days * 24 => hours
-                    bodyHtml.append(days + " " + MessageUtils.getMsg("label.days", locale) + " = " + days * 24 + " "
-                            + MessageUtils.getMsg("label.hours", locale));
+                    hours = days * 24;
                 } else {
-                    bodyHtml.append("<font color=\"red\">" + MessageUtils.getMsg("msg.enter.positive.number", locale)
-                            + "</font>");
+                    errorMessage = "<font color=\"red\">" + MessageUtils.getMsg("msg.enter.positive.number", locale)
+                            + "</font>";
                 }
             }
+
+            StringBuilder bodyHtml = new StringBuilder();
+            bodyHtml.append("<form action=\"iof\" method=\"post\">");
+            if (days >= 0) {
+                bodyHtml.append("<input type=\"text\" name=\"days\" size=\"8\" maxlength=\"8\" value=" + strDays + ">");
+            } else {
+                bodyHtml.append("<input type=\"text\" name=\"days\" size=\"8\" maxlength=\"8\">");
+            }
+            bodyHtml.append(" * 24 = ");
+            if (days >= 0) {
+                bodyHtml.append(hours + " ");
+            }
             bodyHtml.append("<br>");
+            bodyHtml.append("<br>");
+            bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
+            bodyHtml.append("<br>");
+            bodyHtml.append(errorMessage);
             bodyHtml.append("<br>");
             bodyHtml.append(MessageUtils.getMsg("msg.note.positive.number",
                     new String[] { String.valueOf(Integer.MAX_VALUE / 24) }, locale));

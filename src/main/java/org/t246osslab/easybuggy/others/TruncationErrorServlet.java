@@ -22,15 +22,11 @@ public class TruncationErrorServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         PrintWriter writer = null;
         double number = -1;
+        double result = 0;
         String errorMessage = "";
         try {
             Locale locale = req.getLocale();
-            StringBuilder bodyHtml = new StringBuilder();
-
-            bodyHtml.append("<form action=\"te\" method=\"post\">");
-            bodyHtml.append("10.0 " + MessageUtils.getMsg("label.obelus", locale) + " ");
-            bodyHtml.append("<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\">");
-            bodyHtml.append(" = ");
+            
             String strNumber = req.getParameter("number");
             if (strNumber != null) {
                 try {
@@ -39,12 +35,26 @@ public class TruncationErrorServlet extends HttpServlet {
                     // ignore
                 }
                 if (0 < number &&  number < 10) {
-                    bodyHtml.append(String.valueOf(10.0 / number));
+                    result = 10.0 / number;
                 } else {
                     errorMessage = "<font color=\"red\">" + MessageUtils.getMsg("msg.enter.positive.number", locale)
                             + "</font>";
                 }
             }
+
+            StringBuilder bodyHtml = new StringBuilder();
+            bodyHtml.append("<form action=\"te\" method=\"post\">");
+            bodyHtml.append("10.0 " + MessageUtils.getMsg("label.obelus", locale) + " ");
+            if (result != 0) {
+                bodyHtml.append("<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\" value=" + strNumber + ">");
+            } else {
+                bodyHtml.append("<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\">");
+            }
+            bodyHtml.append(" = ");
+            if (result != 0) {
+                bodyHtml.append(String.valueOf(result));
+            }
+            bodyHtml.append("<br>");
             bodyHtml.append("<br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
             bodyHtml.append("<br>");
