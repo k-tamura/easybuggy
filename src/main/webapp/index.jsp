@@ -104,8 +104,8 @@
 			<fmt:message key="function.description.sql.injection" />
 		</p></li>
 		<li><p>
-			<fmt:message key="function.name.ldap.injection" />
-				:
+			<a href="ldapijc" target="_blank"><fmt:message
+						key="function.name.ldap.injection" /></a>:
 			<fmt:message key="function.description.ldap.injection" />
 		</p></li>
 	</ul>

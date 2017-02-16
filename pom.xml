@@ -77,6 +77,17 @@
         <artifactId>slf4j-log4j12</artifactId>
         <version>1.7.1</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.directory.server</groupId>
+      <artifactId>apacheds-all</artifactId>
+      <version>1.5.5</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.directory.shared</groupId>
+          <artifactId>shared-ldap</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
