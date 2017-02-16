@@ -8,7 +8,7 @@ EasyBuggyは、メモリリーク、デッドロック、JVMクラッシュ、SQ
 
     $ mvn clean install exec:exec
 
-( または[JVMオプション](https://github.com/k-tamura/easybuggy/blob/master/pom.xml#L183)付きで ``` java -jar easybuggy.jar ``` か任意のサーブレットコンテナに ROOT.war をデプロイ。 )
+( または[JVMオプション](https://github.com/k-tamura/easybuggy/blob/master/pom.xml#L204)付きで ``` java -jar easybuggy.jar ``` か任意のサーブレットコンテナに ROOT.war をデプロイ。 )
 
 以下にアクセス:
 
