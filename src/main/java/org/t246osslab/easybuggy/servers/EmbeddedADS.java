@@ -1,15 +1,11 @@
 package org.t246osslab.easybuggy.servers;
 
-import java.util.HashSet;
-
 import org.apache.directory.server.constants.ServerDNConstants;
 import org.apache.directory.server.core.DefaultDirectoryService;
 import org.apache.directory.server.core.DirectoryService;
 import org.apache.directory.server.core.entry.ServerEntry;
 import org.apache.directory.server.core.partition.Partition;
-import org.apache.directory.server.core.partition.impl.btree.jdbm.JdbmIndex;
 import org.apache.directory.server.core.partition.impl.btree.jdbm.JdbmPartition;
-import org.apache.directory.server.xdbm.Index;
 import org.apache.directory.shared.ldap.name.LdapDN;
 
 /**
@@ -32,21 +28,17 @@ public class EmbeddedADS {
         service.getChangeLog().setEnabled(false);
         service.setDenormalizeOpAttrsEnabled(true);
 
-        // then the system partition
-        // this is a MANDATORY partition
+        // Add system partition
         Partition systemPartition = addPartition("system", ServerDNConstants.SYSTEM_DN);
         service.setSystemPartition(systemPartition);
 
-        // Now we can create as many partitions as we need
+        // Add root partition
         Partition t246osslabPartition = addPartition("t246osslab", "dc=t246osslab,dc=org");
-
-        // Index some attributes on the apache partition
-        addIndex(t246osslabPartition, "objectClass", "ou", "uid");
 
         // Start up the service
         service.startup();
 
-        // Inject the foo root entry if it does not already exist
+        // Add the root entry if it does not exist
         try {
             service.getAdminSession().lookup(t246osslabPartition.getSuffixDn());
         } catch (Exception lnnfe) {
@@ -58,20 +50,12 @@ public class EmbeddedADS {
             service.getAdminSession().add(entryBar);
         }
 
-        // add the people and groups entries
+        // add the people entries
         LdapDN peopleDn = new LdapDN("ou=people,dc=t246osslab,dc=org");
         if (!service.getAdminSession().exists(peopleDn)) {
             ServerEntry e = service.newEntry(peopleDn);
             e.add("objectClass", "organizationalUnit");
             e.add("ou", "people");
-            service.getAdminSession().add(e);
-        }
-
-        LdapDN groupsDn = new LdapDN("ou=groups,dc=t246osslab,dc=org");
-        if (!service.getAdminSession().exists(groupsDn)) {
-            ServerEntry e = service.newEntry(groupsDn);
-            e.add("objectClass", "organizationalUnit");
-            e.add("ou", "groups");
             service.getAdminSession().add(e);
         }
 
@@ -83,11 +67,11 @@ public class EmbeddedADS {
     }
     
     /**
-     * Add a new partition to the server
+     * Add a partition to the server
      * 
      * @param partitionId The partition Id
      * @param partitionDn The partition DN
-     * @return The newly added partition
+     * @return The added partition
      * @throws Exception If the partition can't be added
      */
     private Partition addPartition(String partitionId, String partitionDn) throws Exception {
@@ -96,25 +80,7 @@ public class EmbeddedADS {
         partition.setId(partitionId);
         partition.setSuffix(partitionDn);
         service.addPartition(partition);
-
         return partition;
-    }
-
-    /**
-     * Add a new set of index on the given attributes
-     * 
-     * @param partition The partition on which we want to add index
-     * @param attrs The list of attributes to index
-     */
-    private void addIndex(Partition partition, String... attrs) {
-        // Index some attributes on the apache partition
-        HashSet<Index<?, ServerEntry>> indexedAttributes = new HashSet<Index<?, ServerEntry>>();
-
-        for (String attribute : attrs) {
-            indexedAttributes.add(new JdbmIndex<String, ServerEntry>(attribute));
-        }
-
-        ((JdbmPartition) partition).setIndexedAttributes(indexedAttributes);
     }
 
     private void addUser(String username, String passwd, String secretNumber) throws Exception {
@@ -123,14 +89,13 @@ public class EmbeddedADS {
             ServerEntry e = service.newEntry(dn);
             e.add("objectClass", "person", "inetOrgPerson");
             e.add("uid", username);
-            e.add("givenName", username);
-            e.add("sn", username);
-            e.add("cn", username);
             e.add("displayName", username);
             e.add("userPassword", passwd.getBytes());
             e.add("employeeNumber", secretNumber);
+            e.add("sn", "Not use");
+            e.add("cn", "Not use");
+            e.add("givenName", "Not use");
             service.getAdminSession().add(e);
         }
     }
-
 }

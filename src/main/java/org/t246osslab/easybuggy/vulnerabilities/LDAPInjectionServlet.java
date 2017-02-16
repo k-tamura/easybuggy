@@ -61,9 +61,17 @@ public class LDAPInjectionServlet extends HttpServlet {
                         new LdapDN("ou=people,dc=t246osslab,dc=org"), SearchScope.SUBTREE,
                         FilterParser.parse("(&(uid=" + name.trim() + ")(userPassword=" + password.trim() + "))"),
                         AliasDerefMode.NEVER_DEREF_ALIASES, null);
-                bodyHtml.append(MessageUtils.getMsg("user.table.column.names", req.getLocale()) + "<BR>");
+                boolean isExist = false;
                 for (ClonedServerEntry e : cursor) {
-                    bodyHtml.append( e.get("displayName").getString() + ", " + e.get("employeeNumber").getString() + "<BR>");
+                    if (!isExist) {
+                        isExist = true;
+                        bodyHtml.append(MessageUtils.getMsg("user.table.column.names", req.getLocale()) + "<BR>");
+                    }
+                    bodyHtml.append(e.get("displayName").getString() + ", " + e.get("employeeNumber").getString()
+                            + "<BR>");
+                }
+                if (!isExist) {
+                    bodyHtml.append(MessageUtils.getMsg("msg.error.user.not.exist", req.getLocale()));
                 }
                 cursor.close();
             } else {
@@ -81,4 +89,3 @@ public class LDAPInjectionServlet extends HttpServlet {
         }
     }
 }
-
