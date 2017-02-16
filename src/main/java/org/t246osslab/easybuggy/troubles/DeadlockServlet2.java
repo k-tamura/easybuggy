@@ -2,14 +2,7 @@ package org.t246osslab.easybuggy.troubles;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.SQLTransactionRollbackException;
-import java.sql.Statement;
 import java.util.Locale;
-import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.utils.ApplicationUtils;
+import org.t246osslab.easybuggy.servers.EmbeddedJavaDb;
 import org.t246osslab.easybuggy.utils.Closer;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
@@ -50,12 +43,12 @@ public class DeadlockServlet2 extends HttpServlet {
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.update", locale) + "\">");
             bodyHtml.append("<br><br>");
 
-            EmbeddedJavaDb2 app = new EmbeddedJavaDb2();
+            EmbeddedJavaDb app = new EmbeddedJavaDb();
             if ("asc".equals(order)) {
-                String message = app.update(new int[] { 1, EmbeddedJavaDb2.MAX_USER_COUNT }, locale);
+                String message = app.updateUsers2(new int[] { 1, 2 }, locale);
                 bodyHtml.append(message);
             } else if ("desc".equals(order)) {
-                String message = app.update(new int[] { EmbeddedJavaDb2.MAX_USER_COUNT, 1 }, locale);
+                String message = app.updateUsers2(new int[] { 2, 1 }, locale);
                 bodyHtml.append(message);
             } else {
                 bodyHtml.append(MessageUtils.getMsg("msg.warn.enter.asc.or.desc", locale));
@@ -68,145 +61,5 @@ public class DeadlockServlet2 extends HttpServlet {
         } finally {
             Closer.close(writer);
         }
-    }
-}
-
-class EmbeddedJavaDb2 {
-
-    private static Logger log = LoggerFactory.getLogger(EmbeddedJavaDb2.class);
-
-    static final int MAX_USER_COUNT = 2;
-    static final String dbUrl = ApplicationUtils.getDatabaseURL();
-    static final String dbDriver = ApplicationUtils.getDatabaseDriver();
-
-    static {
-        Connection conn = null;
-        Statement stmt = null;
-        try {
-            if (dbDriver != null && !dbDriver.equals("")) {
-                try {
-                    Class.forName(dbDriver);
-                } catch (ClassNotFoundException e) {
-                    log.error("Exception occurs: ", e);
-                }
-            }
-            conn = DriverManager.getConnection(dbUrl);
-            stmt = conn.createStatement();
-
-            try {
-                stmt.executeUpdate("drop table users2");
-            } catch (SQLException e) {
-                // ignore exception if exist the table
-            }
-            // create users table
-            stmt.executeUpdate("create table users2 (id int primary key, name varchar(30), password varchar(100))");
-
-            // insert rows
-            for (int i = 1; i <= MAX_USER_COUNT; i++) {
-                stmt.executeUpdate("insert into users2 values (" + i + ",'user" + i + "','password')");
-            }
-
-        } catch (SQLException e) {
-            log.error("Exception occurs: ", e);
-        } finally {
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    log.error("Exception occurs: ", e);
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    log.error("Exception occurs: ", e);
-                }
-            }
-        }
-    }
-
-    public String update(int[] ids, Locale locale) {
-
-        PreparedStatement stmt = null;
-        Connection conn = null;
-        int executeUpdate = 0;
-        String message = "";
-        try {
-            if (dbDriver != null && !dbDriver.equals("")) {
-                try {
-                    Class.forName(dbDriver);
-                } catch (Exception e) {
-                    log.error("Exception occurs: ", e);
-                }
-            }
-            conn = DriverManager.getConnection(dbUrl);
-            conn.setAutoCommit(false);
-            // conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-
-            stmt = conn.prepareStatement("Update users2 set password = ?  where id = ?");
-            stmt.setString(1, UUID.randomUUID().toString());
-            stmt.setInt(2, ids[0]);
-            executeUpdate = stmt.executeUpdate();
-
-            Thread.sleep(5000);
-
-            stmt.setString(1, UUID.randomUUID().toString());
-            stmt.setInt(2, ids[1]);
-            executeUpdate = executeUpdate + stmt.executeUpdate();
-            conn.commit();
-            message = MessageUtils.getMsg("msg.update.records", new Object[] { executeUpdate }, locale);
-
-        } catch (SQLTransactionRollbackException e) {
-            message = MessageUtils.getMsg("msg.deadlock.occurs", locale);
-            log.error("Exception occurs: ", e);
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException e1) {
-                    log.error("Exception occurs: ", e1);
-                }
-            }
-        } catch (SQLException e) {
-            if ("41000".equals(e.getSQLState())) {
-                message = MessageUtils.getMsg("msg.deadlock.occurs", locale);
-            } else {
-                message = MessageUtils.getMsg("msg.unknown.exception.occur", locale);
-            }
-            log.error("Exception occurs: ", e);
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException e1) {
-                    log.error("Exception occurs: ", e1);
-                }
-            }
-        } catch (Exception e) {
-            message = MessageUtils.getMsg("easybuggy", locale);
-            log.error("Exception occurs: ", e);
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException e1) {
-                    log.error("Exception occurs: ", e1);
-                }
-            }
-        } finally {
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    log.error("Exception occurs: ", e);
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    log.error("Exception occurs: ", e);
-                }
-            }
-        }
-        return message;
     }
 }
