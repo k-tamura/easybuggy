@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.utils.Closer;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
@@ -21,6 +22,8 @@ import org.t246osslab.easybuggy.utils.MessageUtils;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/netsocketleak" })
 public class NetworkSocketLeakServlet extends HttpServlet {
+
+    private static Logger log = LoggerFactory.getLogger(NetworkSocketLeakServlet.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -34,7 +37,7 @@ public class NetworkSocketLeakServlet extends HttpServlet {
             connection.setRequestMethod("GET");
 
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                Logger.error("Unexpected response, HTTP response code: " + connection.getResponseCode());
+                log.error("Unexpected response, HTTP response code: " + connection.getResponseCode());
             } else {
                 // isr = new InputStreamReader(connection.getInputStream());
                 // reader = new BufferedReader(isr);
@@ -45,11 +48,11 @@ public class NetworkSocketLeakServlet extends HttpServlet {
             }
 
         } catch (IOException e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         } finally {
             Closer.close(writer, isr, reader);
             if (connection != null) {
-                //connection.disconnect();
+                // connection.disconnect();
             }
             HTTPResponseCreator.createSimpleResponse(res, null,
                     MessageUtils.getMsg("msg.socket.leak.occur", req.getLocale()));

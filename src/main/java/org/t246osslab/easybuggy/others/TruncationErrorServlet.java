@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.utils.Closer;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
@@ -19,6 +20,8 @@ import org.t246osslab.easybuggy.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/te" })
 public class TruncationErrorServlet extends HttpServlet {
 
+    private static Logger log = LoggerFactory.getLogger(TruncationErrorServlet.class);
+
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         PrintWriter writer = null;
         double number = -1;
@@ -26,7 +29,7 @@ public class TruncationErrorServlet extends HttpServlet {
         String errorMessage = "";
         try {
             Locale locale = req.getLocale();
-            
+
             String strNumber = req.getParameter("number");
             if (strNumber != null) {
                 try {
@@ -34,7 +37,7 @@ public class TruncationErrorServlet extends HttpServlet {
                 } catch (NumberFormatException e) {
                     // ignore
                 }
-                if (0 < number &&  number < 10) {
+                if (0 < number && number < 10) {
                     result = 10.0 / number;
                 } else {
                     errorMessage = "<font color=\"red\">" + MessageUtils.getMsg("msg.enter.positive.number", locale)
@@ -46,7 +49,8 @@ public class TruncationErrorServlet extends HttpServlet {
             bodyHtml.append("<form action=\"te\" method=\"post\">");
             bodyHtml.append("10.0 " + MessageUtils.getMsg("label.obelus", locale) + " ");
             if (result != 0) {
-                bodyHtml.append("<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\" value=" + strNumber + ">");
+                bodyHtml.append("<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\" value=" + strNumber
+                        + ">");
             } else {
                 bodyHtml.append("<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\">");
             }
@@ -62,11 +66,11 @@ public class TruncationErrorServlet extends HttpServlet {
             bodyHtml.append("<br>");
             bodyHtml.append(MessageUtils.getMsg("msg.note.enter.specific.nembers", locale));
             bodyHtml.append("</form>");
-            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.loss.of.trailing.digits.page", locale),
-                    bodyHtml.toString());
-            
+            HTTPResponseCreator.createSimpleResponse(res,
+                    MessageUtils.getMsg("title.loss.of.trailing.digits.page", locale), bodyHtml.toString());
+
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         } finally {
             Closer.close(writer);
         }

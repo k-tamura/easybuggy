@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.utils.Closer;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
@@ -18,6 +19,8 @@ import org.t246osslab.easybuggy.utils.MessageUtils;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/iof" })
 public class IntegerOverflowServlet extends HttpServlet {
+
+    private static Logger log = LoggerFactory.getLogger(IntegerOverflowServlet.class);
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         int days = -1;
@@ -67,7 +70,7 @@ public class IntegerOverflowServlet extends HttpServlet {
                     bodyHtml.toString());
 
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         } finally {
             Closer.close(writer);
         }

@@ -8,17 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/infiniteloop" })
 public class InfiniteLoopServlet extends HttpServlet {
 
+    private static Logger log = LoggerFactory.getLogger(InfiniteLoopServlet.class);
+
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         while (true) {
             String contextPath = req.getContextPath();
             int contentLength = req.getContentLength();
-            Logger.debug(contextPath + contentLength);
+            log.debug(contextPath + contentLength);
         }
     }
 }

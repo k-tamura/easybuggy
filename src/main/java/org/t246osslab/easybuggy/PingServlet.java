@@ -9,12 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.utils.Closer;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/ping" })
 public class PingServlet extends HttpServlet {
+    
+    private static Logger log = LoggerFactory.getLogger(PingServlet.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -24,7 +27,7 @@ public class PingServlet extends HttpServlet {
             writer = res.getWriter();
             writer.write("It works!");
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         } finally {
             Closer.close(writer);
         }

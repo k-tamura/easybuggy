@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.utils.Closer;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
@@ -18,6 +19,8 @@ import org.t246osslab.easybuggy.utils.MessageUtils;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/xss" })
 public class XSSServlet extends HttpServlet {
+
+    private static Logger log = LoggerFactory.getLogger(XSSServlet.class);
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -46,12 +49,12 @@ public class XSSServlet extends HttpServlet {
                 bodyHtml.append(MessageUtils.getMsg("msg.enter.name", locale));
             }
             bodyHtml.append("</form>");
-            
-            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.xss.page", locale), bodyHtml.toString());
 
+            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.xss.page", locale),
+                    bodyHtml.toString());
 
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         } finally {
             Closer.close(writer);
         }

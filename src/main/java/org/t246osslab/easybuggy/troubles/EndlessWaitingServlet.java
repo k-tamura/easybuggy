@@ -16,7 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.utils.Closer;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
@@ -24,6 +25,8 @@ import org.t246osslab.easybuggy.utils.MessageUtils;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/endlesswaiting" })
 public class EndlessWaitingServlet extends HttpServlet {
+
+    private static Logger log = LoggerFactory.getLogger(EndlessWaitingServlet.class);
 
     private static final int MAX_COUNT = 100000;
 
@@ -61,7 +64,8 @@ public class EndlessWaitingServlet extends HttpServlet {
                     ProcessBuilder pb = new ProcessBuilder(batFile.getAbsolutePath());
                     Process process = pb.start();
                     process.waitFor();
-                    bodyHtml.append(MessageUtils.getMsg("msg.executed.batch", locale) + batFile.getAbsolutePath() + "<BR><BR>");
+                    bodyHtml.append(MessageUtils.getMsg("msg.executed.batch", locale) + batFile.getAbsolutePath()
+                            + "<BR><BR>");
                     bodyHtml.append(printInputStream(process.getInputStream(), res));
                     bodyHtml.append(printInputStream(process.getErrorStream(), res));
                 }
@@ -73,7 +77,7 @@ public class EndlessWaitingServlet extends HttpServlet {
                     bodyHtml.toString());
 
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         } finally {
             Closer.close(writer);
         }
@@ -116,7 +120,7 @@ public class EndlessWaitingServlet extends HttpServlet {
             }
             filewriter.close();
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         } finally {
             Closer.close(filewriter);
         }

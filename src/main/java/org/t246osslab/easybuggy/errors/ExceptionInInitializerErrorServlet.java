@@ -9,11 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/eie" })
 public class ExceptionInInitializerErrorServlet extends HttpServlet {
+
+    private static Logger log = LoggerFactory.getLogger(ExceptionInInitializerErrorServlet.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         try {
@@ -21,12 +24,12 @@ public class ExceptionInInitializerErrorServlet extends HttpServlet {
             Constructor<?> cunstructor = cl.getConstructor();
             cunstructor.newInstance(new Object[] { null });
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         }
     }
 }
-class InitializerErrorThrower
-{
+
+class InitializerErrorThrower {
     static {
         int i = 1 / 0;
     }

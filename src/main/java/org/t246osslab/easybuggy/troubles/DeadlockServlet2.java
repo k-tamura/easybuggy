@@ -17,7 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.utils.ApplicationUtils;
 import org.t246osslab.easybuggy.utils.Closer;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
@@ -26,6 +27,8 @@ import org.t246osslab.easybuggy.utils.MessageUtils;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/deadlock2" })
 public class DeadlockServlet2 extends HttpServlet {
+
+    private static Logger log = LoggerFactory.getLogger(DeadlockServlet2.class);
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -61,7 +64,7 @@ public class DeadlockServlet2 extends HttpServlet {
             HTTPResponseCreator.createSimpleResponse(res, null, bodyHtml.toString());
 
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         } finally {
             Closer.close(writer);
         }
@@ -69,6 +72,8 @@ public class DeadlockServlet2 extends HttpServlet {
 }
 
 class EmbeddedJavaDb2 {
+
+    private static Logger log = LoggerFactory.getLogger(EmbeddedJavaDb2.class);
 
     static final int MAX_USER_COUNT = 2;
     static final String dbUrl = ApplicationUtils.getDatabaseURL();
@@ -82,7 +87,7 @@ class EmbeddedJavaDb2 {
                 try {
                     Class.forName(dbDriver);
                 } catch (ClassNotFoundException e) {
-                    Logger.error(e);
+                    log.error("Exception occurs: ", e);
                 }
             }
             conn = DriverManager.getConnection(dbUrl);
@@ -102,20 +107,20 @@ class EmbeddedJavaDb2 {
             }
 
         } catch (SQLException e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         } finally {
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (SQLException e) {
-                    Logger.error(e);
+                    log.error("Exception occurs: ", e);
                 }
             }
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    Logger.error(e);
+                    log.error("Exception occurs: ", e);
                 }
             }
         }
@@ -132,7 +137,7 @@ class EmbeddedJavaDb2 {
                 try {
                     Class.forName(dbDriver);
                 } catch (Exception e) {
-                    Logger.error(e);
+                    log.error("Exception occurs: ", e);
                 }
             }
             conn = DriverManager.getConnection(dbUrl);
@@ -154,12 +159,12 @@ class EmbeddedJavaDb2 {
 
         } catch (SQLTransactionRollbackException e) {
             message = MessageUtils.getMsg("msg.deadlock.occurs", locale);
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
             if (conn != null) {
                 try {
                     conn.rollback();
                 } catch (SQLException e1) {
-                    Logger.error(e1);
+                    log.error("Exception occurs: ", e1);
                 }
             }
         } catch (SQLException e) {
@@ -168,22 +173,22 @@ class EmbeddedJavaDb2 {
             } else {
                 message = MessageUtils.getMsg("msg.unknown.exception.occur", locale);
             }
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
             if (conn != null) {
                 try {
                     conn.rollback();
                 } catch (SQLException e1) {
-                    Logger.error(e1);
+                    log.error("Exception occurs: ", e1);
                 }
             }
         } catch (Exception e) {
             message = MessageUtils.getMsg("easybuggy", locale);
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
             if (conn != null) {
                 try {
                     conn.rollback();
                 } catch (SQLException e1) {
-                    Logger.error(e1);
+                    log.error("Exception occurs: ", e1);
                 }
             }
         } finally {
@@ -191,14 +196,14 @@ class EmbeddedJavaDb2 {
                 try {
                     stmt.close();
                 } catch (SQLException e) {
-                    Logger.error(e);
+                    log.error("Exception occurs: ", e);
                 }
             }
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    Logger.error(e);
+                    log.error("Exception occurs: ", e);
                 }
             }
         }

@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.utils.Closer;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
@@ -18,6 +19,8 @@ import org.t246osslab.easybuggy.utils.MessageUtils;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/deadlock" })
 public class DeadlockServlet extends HttpServlet {
+
+    private static Logger log = LoggerFactory.getLogger(DeadlockServlet.class);
 
     private final Object lock1 = new Object();
     private final Object lock2 = new Object();
@@ -30,7 +33,7 @@ public class DeadlockServlet extends HttpServlet {
         try {
             Locale locale = req.getLocale();
             StringBuilder bodyHtml = new StringBuilder();
-            
+
             if (isFirstLoad) {
                 isFirstLoad = false;
                 bodyHtml.append(MessageUtils.getMsg("msg.dead.lock.occur", locale));
@@ -46,7 +49,7 @@ public class DeadlockServlet extends HttpServlet {
             }
             HTTPResponseCreator.createSimpleResponse(res, null, bodyHtml.toString());
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         } finally {
             Closer.close(writer);
         }
@@ -74,7 +77,7 @@ public class DeadlockServlet extends HttpServlet {
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         }
     }
 }

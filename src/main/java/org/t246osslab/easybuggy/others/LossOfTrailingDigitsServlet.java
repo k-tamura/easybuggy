@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.utils.Closer;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
@@ -18,6 +19,8 @@ import org.t246osslab.easybuggy.utils.MessageUtils;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/lotd" })
 public class LossOfTrailingDigitsServlet extends HttpServlet {
+
+    private static Logger log = LoggerFactory.getLogger(LossOfTrailingDigitsServlet.class);
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         PrintWriter writer = null;
@@ -28,7 +31,7 @@ public class LossOfTrailingDigitsServlet extends HttpServlet {
             Locale locale = req.getLocale();
             try {
                 strNumber = req.getParameter("number");
-                if(strNumber != null){
+                if (strNumber != null) {
                     number = Double.parseDouble(strNumber);
                 }
             } catch (NumberFormatException e) {
@@ -37,7 +40,7 @@ public class LossOfTrailingDigitsServlet extends HttpServlet {
             if (Double.isNaN(number) || number <= -1 || number == 0 || 1 <= number) {
                 errorMessage = MessageUtils.getMsg("msg.enter.decimal.value", locale);
             }
-            
+
             StringBuilder bodyHtml = new StringBuilder();
             bodyHtml.append("<form action=\"lotd\" method=\"post\">");
             if (!Double.isNaN(number) && errorMessage == null) {
@@ -64,7 +67,7 @@ public class LossOfTrailingDigitsServlet extends HttpServlet {
                     MessageUtils.getMsg("title.loss.of.trailing.digits.page", locale), bodyHtml.toString());
 
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         } finally {
             Closer.close(writer);
         }

@@ -10,11 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/oome5" })
 public class OutOfMemoryErrorServlet5 extends HttpServlet {
+
+    private static Logger log = LoggerFactory.getLogger(OutOfMemoryErrorServlet5.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -24,7 +27,7 @@ public class OutOfMemoryErrorServlet5 extends HttpServlet {
                 pool.makeClass("eu.plumbr.demo.Generated" + i).toClass();
             }
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         }
     }
 }

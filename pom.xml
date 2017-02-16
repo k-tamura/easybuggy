@@ -67,6 +67,16 @@
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.17</version>
     </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.1</version>
+    </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>1.7.1</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -222,4 +232,3 @@
     </plugins>
   </build>
 </project>
-

@@ -3,12 +3,15 @@ package org.t246osslab.easybuggy.utils;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class to provide application properties.
  */
 public class ApplicationUtils {
+
+    private static Logger log = LoggerFactory.getLogger(ApplicationUtils.class);
 
     // default database url: derby in-memory
     private static String databaseURL = "jdbc:derby:memory:demo;create=true";
@@ -21,17 +24,17 @@ public class ApplicationUtils {
         try {
             bundle = ResourceBundle.getBundle("application");
         } catch (MissingResourceException e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         }
         try {
             databaseURL = bundle.getString("database.url");
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         }
         try {
             databaseDriver = bundle.getString("database.driver");
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         }
     }
 

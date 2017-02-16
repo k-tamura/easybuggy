@@ -4,12 +4,15 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class to provide message properties.
  */
 public class MessageUtils {
+
+    private static Logger log = LoggerFactory.getLogger(MessageUtils.class);
 
     /**
      * Return a message for a given property key.
@@ -17,7 +20,7 @@ public class MessageUtils {
      * @return A message for a given property key
      */
     public static String getMsg(String propertyKey, Locale locale) {
-        return getMsg(propertyKey, (Object[])null, locale);
+        return getMsg(propertyKey, (Object[]) null, locale);
     }
 
     /**
@@ -33,7 +36,7 @@ public class MessageUtils {
                 propertyValue = MessageFormat.format(propertyValue, placeholders);
             }
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         }
         return propertyValue;
     }

@@ -15,7 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.utils.ApplicationUtils;
 import org.t246osslab.easybuggy.utils.Closer;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
@@ -24,6 +25,8 @@ import org.t246osslab.easybuggy.utils.MessageUtils;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/sqlijc" })
 public class SQLInjectionServlet extends HttpServlet {
+
+    private static Logger log = LoggerFactory.getLogger(SQLInjectionServlet.class);
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -58,11 +61,12 @@ public class SQLInjectionServlet extends HttpServlet {
                 bodyHtml.append(MessageUtils.getMsg("msg.warn.enter.name.and.passwd", locale));
             }
             bodyHtml.append("</form>");
-            
-            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.sql.injection.page", locale), bodyHtml.toString());
+
+            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.sql.injection.page", locale),
+                    bodyHtml.toString());
 
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         } finally {
             Closer.close(writer);
         }
@@ -70,6 +74,9 @@ public class SQLInjectionServlet extends HttpServlet {
 }
 
 class EmbeddedJavaDb {
+
+    private static Logger log = LoggerFactory.getLogger(EmbeddedJavaDb.class);
+
     static Connection conn;
 
     static {
@@ -80,7 +87,7 @@ class EmbeddedJavaDb {
                 try {
                     Class.forName(dbDriver);
                 } catch (Exception e) {
-                    Logger.error(e);
+                    log.error("Exception occurs: ", e);
                 }
             }
             String dbUrl = ApplicationUtils.getDatabaseURL();
@@ -100,13 +107,13 @@ class EmbeddedJavaDb {
             stmt.executeUpdate("insert into users values (2,'Peter','pa33word','54238496555')");
             stmt.executeUpdate("insert into users values (3,'James','pathwood','70414823225')");
         } catch (SQLException e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         } finally {
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (SQLException e) {
-                    Logger.error(e);
+                    log.error("Exception occurs: ", e);
                 }
             }
         }
@@ -131,20 +138,20 @@ class EmbeddedJavaDb {
                 message = MessageUtils.getMsg("user.table.column.names", req.getLocale()) + "<BR>" + sb.toString();
             }
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         } finally {
             if (rs != null) {
                 try {
                     rs.close();
                 } catch (SQLException e) {
-                    Logger.error(e);
+                    log.error("Exception occurs: ", e);
                 }
             }
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (SQLException e) {
-                    Logger.error(e);
+                    log.error("Exception occurs: ", e);
                 }
             }
         }

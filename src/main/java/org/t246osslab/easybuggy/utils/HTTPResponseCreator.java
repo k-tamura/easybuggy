@@ -4,16 +4,19 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class to create a HTTP response.
  */
 public class HTTPResponseCreator {
-    
+
+    private static Logger log = LoggerFactory.getLogger(HTTPResponseCreator.class);
+
     /**
      * Create a simple HTTP response.
-     *
+     * 
      * @param res HTTP servlet response.
      * @param htmlTitle Title of HTML page.
      * @param htmlBody Body of HTML page.
@@ -37,7 +40,7 @@ public class HTTPResponseCreator {
             writer.write("</HTML>");
 
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         } finally {
             Closer.close(writer);
         }

@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import sun.misc.Unsafe;
 
@@ -17,17 +18,19 @@ import sun.misc.Unsafe;
 @WebServlet(urlPatterns = { "/jvmcrasheav" })
 public class JVMCrashByEAVServlet extends HttpServlet {
 
+    private static Logger log = LoggerFactory.getLogger(JVMCrashByEAVServlet.class);
+
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         try {
             getUnsafe().getByte(0);
         } catch (Exception e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
         }
     }
 
-    private static Unsafe getUnsafe()
-            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+    private static Unsafe getUnsafe() throws NoSuchFieldException, SecurityException, IllegalArgumentException,
+            IllegalAccessException {
         Field singleoneInstanceField = Unsafe.class.getDeclaredField("theUnsafe");
         singleoneInstanceField.setAccessible(true);
         return (Unsafe) singleoneInstanceField.get(null);

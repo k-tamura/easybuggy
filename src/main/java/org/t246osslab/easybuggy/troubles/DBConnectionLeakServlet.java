@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.pmw.tinylog.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.utils.ApplicationUtils;
 import org.t246osslab.easybuggy.utils.Closer;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
@@ -23,6 +24,8 @@ import org.t246osslab.easybuggy.utils.MessageUtils;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/dbconnectionleak" })
 public class DBConnectionLeakServlet extends HttpServlet {
+
+    private static Logger log = LoggerFactory.getLogger(DBConnectionLeakServlet.class);
 
     static final String dbUrl = ApplicationUtils.getDatabaseURL();
     static final String dbDriver = ApplicationUtils.getDatabaseDriver();
@@ -41,7 +44,7 @@ public class DBConnectionLeakServlet extends HttpServlet {
                 try {
                     Class.forName(dbDriver);
                 } catch (Exception e) {
-                    Logger.error(e);
+                    log.error("Exception occurs: ", e);
                 }
             }
             conn = DriverManager.getConnection(dbUrl);
@@ -60,7 +63,7 @@ public class DBConnectionLeakServlet extends HttpServlet {
             bodyHtml.append(MessageUtils.getMsg("msg.db.connection.leak.occur", locale));
 
         } catch (SQLException e) {
-            Logger.error(e);
+            log.error("Exception occurs: ", e);
             bodyHtml.append(MessageUtils.getMsg("msg.unknown.exception.occur", locale));
             bodyHtml.append(e.getLocalizedMessage());
         } finally {
