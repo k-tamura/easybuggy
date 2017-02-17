@@ -32,11 +32,12 @@ public class DeadlockServlet2 extends HttpServlet {
 
             StringBuilder bodyHtml = new StringBuilder();
             bodyHtml.append("<form action=\"deadlock2\" method=\"post\">");
-            bodyHtml.append(MessageUtils.getMsg("msg.note.sql.deadlock", locale));
+            bodyHtml.append(MessageUtils.getMsg("msg.select.asc.or.desc", locale));
             bodyHtml.append("<br><br>");
             bodyHtml.append(MessageUtils.getMsg("label.order", locale) + ": ");
             bodyHtml.append("<input type=\"radio\" name=\"order\" value=\"asc\" checked>");
             bodyHtml.append(MessageUtils.getMsg("label.asc", locale));
+            bodyHtml.append("&nbsp; ");
             bodyHtml.append("<input type=\"radio\" name=\"order\" value=\"desc\">");
             bodyHtml.append(MessageUtils.getMsg("label.desc", locale));
             bodyHtml.append("<br><br>");
@@ -50,9 +51,11 @@ public class DeadlockServlet2 extends HttpServlet {
             } else if ("desc".equals(order)) {
                 String message = app.updateUsers2(new int[] { 2, 1 }, locale);
                 bodyHtml.append(message);
-            } else {
-                bodyHtml.append(MessageUtils.getMsg("msg.warn.enter.asc.or.desc", locale));
+            }else{
+                bodyHtml.append(MessageUtils.getMsg("msg.warn.select.asc.or.desc", locale));
             }
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getMsg("msg.note.sql.deadlock", locale));
             bodyHtml.append("</form>");
             HTTPResponseCreator.createSimpleResponse(res, null, bodyHtml.toString());
 

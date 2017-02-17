@@ -52,7 +52,7 @@ public class IntegerOverflowServlet extends HttpServlet {
             } else {
                 bodyHtml.append("<input type=\"text\" name=\"days\" size=\"8\" maxlength=\"8\">");
             }
-            bodyHtml.append(" * 24 = ");
+            bodyHtml.append(" " + MessageUtils.getMsg("label.multiplication.sign", locale) + " 24 = ");
             if (days >= 0) {
                 bodyHtml.append(hours + " ");
             }
