@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.servers.EmbeddedJavaDb;
 import org.t246osslab.easybuggy.utils.Closer;
+import org.t246osslab.easybuggy.utils.DBClient;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
 
@@ -44,12 +44,12 @@ public class DeadlockServlet2 extends HttpServlet {
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.update", locale) + "\">");
             bodyHtml.append("<br><br>");
 
-            EmbeddedJavaDb app = new EmbeddedJavaDb();
+            DBClient dbClient = new DBClient();
             if ("asc".equals(order)) {
-                String message = app.updateUsers2(new int[] { 1, 2 }, locale);
+                String message = dbClient.updateUsers2(new int[] { 1, 2 }, locale);
                 bodyHtml.append(message);
             } else if ("desc".equals(order)) {
-                String message = app.updateUsers2(new int[] { 2, 1 }, locale);
+                String message = dbClient.updateUsers2(new int[] { 2, 1 }, locale);
                 bodyHtml.append(message);
             }else{
                 bodyHtml.append(MessageUtils.getMsg("msg.warn.select.asc.or.desc", locale));

@@ -12,7 +12,11 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.webapp.WebInfConfiguration;
 import org.eclipse.jetty.webapp.WebXmlConfiguration;
 
+/**
+ * Embedded Jetty Server.
+ */
 public class EmbeddedJettyServer {
+    
     public static void main(String[] args) throws Exception {
 
         Server server = new Server(Integer.parseInt(args[0]));

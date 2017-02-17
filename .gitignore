@@ -3,5 +3,6 @@
 .settings
 target/
 logs/
+server-work/
 *.swp
 *.log

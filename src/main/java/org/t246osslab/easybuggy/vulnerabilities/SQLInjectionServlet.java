@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.servers.EmbeddedJavaDb;
 import org.t246osslab.easybuggy.utils.Closer;
+import org.t246osslab.easybuggy.utils.DBClient;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
 
@@ -69,8 +69,8 @@ public class SQLInjectionServlet extends HttpServlet {
     private String selectUsers(String name, String password, HttpServletRequest req) {
 
         String result = "<font color=\"red\">" + MessageUtils.getMsg("msg.error.user.not.exist", req.getLocale())+ "</font><br>";
-        EmbeddedJavaDb app = new EmbeddedJavaDb();
-        ArrayList<String[]> users = app.selectUsers(name, password);
+        DBClient dbClient = new DBClient();
+        ArrayList<String[]> users = dbClient.selectUsers(name, password);
         StringBuilder sb = new StringBuilder();
         for (String[] user : users) {
             sb.append(user[0] + ", " + user[1] + "<BR>");

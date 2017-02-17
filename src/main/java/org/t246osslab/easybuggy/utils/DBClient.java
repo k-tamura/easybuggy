@@ -1,4 +1,4 @@
-package org.t246osslab.easybuggy.servers;
+package org.t246osslab.easybuggy.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,12 +13,10 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.utils.ApplicationUtils;
-import org.t246osslab.easybuggy.utils.MessageUtils;
 
-public class EmbeddedJavaDb {
+public class DBClient {
 
-    private static Logger log = LoggerFactory.getLogger(EmbeddedJavaDb.class);
+    private static Logger log = LoggerFactory.getLogger(DBClient.class);
 
     static Connection conn;
 

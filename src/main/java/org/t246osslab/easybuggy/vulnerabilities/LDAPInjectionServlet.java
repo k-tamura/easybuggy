@@ -20,8 +20,8 @@ import org.apache.directory.shared.ldap.message.AliasDerefMode;
 import org.apache.directory.shared.ldap.name.LdapDN;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.servers.EmbeddedADS;
 import org.t246osslab.easybuggy.utils.Closer;
+import org.t246osslab.easybuggy.utils.EmbeddedADS;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.MessageUtils;
 

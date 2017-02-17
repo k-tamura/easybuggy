@@ -1,4 +1,4 @@
-package org.t246osslab.easybuggy.servers;
+package org.t246osslab.easybuggy.utils;
 
 import org.apache.directory.server.constants.ServerDNConstants;
 import org.apache.directory.server.core.DefaultDirectoryService;
@@ -50,7 +50,7 @@ public class EmbeddedADS {
             service.getAdminSession().add(entryBar);
         }
 
-        // add the people entries
+        // Add the people entries
         LdapDN peopleDn = new LdapDN("ou=people,dc=t246osslab,dc=org");
         if (!service.getAdminSession().exists(peopleDn)) {
             ServerEntry e = service.newEntry(peopleDn);
@@ -59,7 +59,7 @@ public class EmbeddedADS {
             service.getAdminSession().add(e);
         }
 
-        // add sample users
+        // Add sample users
         addUser("Mark", "password", "57249037993");
         addUser("David", "p@s2w0rd", "42368923031");
         addUser("Peter", "pa33word", "54238496555");
@@ -75,7 +75,7 @@ public class EmbeddedADS {
      * @throws Exception If the partition can't be added
      */
     private Partition addPartition(String partitionId, String partitionDn) throws Exception {
-        // Create a new partition named 'foo'.
+        // Create a new partition named
         Partition partition = new JdbmPartition();
         partition.setId(partitionId);
         partition.setSuffix(partitionDn);
