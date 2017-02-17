@@ -7,10 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLTransactionRollbackException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,23 +76,16 @@ public class EmbeddedJavaDb {
         }
     }
 
-    public String selectUsers(String name, String password, HttpServletRequest req) {
+    public ArrayList<String[]> selectUsers(String name, String password) {
 
-        String message = MessageUtils.getMsg("msg.error.user.not.exist", req.getLocale());
         Statement stmt = null;
         ResultSet rs = null;
+        ArrayList<String[]> users = new ArrayList<String[]>();
         try {
             stmt = conn.createStatement();
-
-            // query
             rs = stmt.executeQuery("SELECT * FROM users WHERE name='" + name + "' AND password='" + password + "'");
-
-            StringBuilder sb = new StringBuilder();
             while (rs.next()) {
-                sb.append(rs.getString("name") + ", " + rs.getString("secret") + "<BR>");
-            }
-            if (sb.length() > 0) {
-                message = MessageUtils.getMsg("user.table.column.names", req.getLocale()) + "<BR>" + sb.toString();
+                users.add(new String[]{rs.getString("name"), rs.getString("secret")});
             }
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
@@ -113,7 +105,7 @@ public class EmbeddedJavaDb {
                 }
             }
         }
-        return message;
+        return users;
     }
     
     public String updateUsers2(int[] ids, Locale locale) {
@@ -121,7 +113,7 @@ public class EmbeddedJavaDb {
         PreparedStatement stmt = null;
         Connection conn = null;
         int executeUpdate = 0;
-        String message = "";
+        String resultMessage = "";
         try {
             String dbUrl = ApplicationUtils.getDatabaseURL();
             String dbDriver = ApplicationUtils.getDatabaseDriver();
@@ -147,10 +139,10 @@ public class EmbeddedJavaDb {
             stmt.setInt(2, ids[1]);
             executeUpdate = executeUpdate + stmt.executeUpdate();
             conn.commit();
-            message = MessageUtils.getMsg("msg.update.records", new Object[] { executeUpdate }, locale);
+            resultMessage = MessageUtils.getMsg("msg.update.records", new Object[] { executeUpdate }, locale);
 
         } catch (SQLTransactionRollbackException e) {
-            message = MessageUtils.getMsg("msg.deadlock.occurs", locale);
+            resultMessage = MessageUtils.getMsg("msg.deadlock.occurs", locale);
             log.error("Exception occurs: ", e);
             if (conn != null) {
                 try {
@@ -161,9 +153,9 @@ public class EmbeddedJavaDb {
             }
         } catch (SQLException e) {
             if ("41000".equals(e.getSQLState())) {
-                message = MessageUtils.getMsg("msg.deadlock.occurs", locale);
+                resultMessage = MessageUtils.getMsg("msg.deadlock.occurs", locale);
             } else {
-                message = MessageUtils.getMsg("msg.unknown.exception.occur", locale);
+                resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", locale);
             }
             log.error("Exception occurs: ", e);
             if (conn != null) {
@@ -174,7 +166,7 @@ public class EmbeddedJavaDb {
                 }
             }
         } catch (Exception e) {
-            message = MessageUtils.getMsg("easybuggy", locale);
+            resultMessage = MessageUtils.getMsg("easybuggy", locale);
             log.error("Exception occurs: ", e);
             if (conn != null) {
                 try {
@@ -199,7 +191,7 @@ public class EmbeddedJavaDb {
                 }
             }
         }
-        return message;
+        return resultMessage;
     }
 
 }

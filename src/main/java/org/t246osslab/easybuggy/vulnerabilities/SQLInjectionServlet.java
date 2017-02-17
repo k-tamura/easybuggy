@@ -2,6 +2,7 @@ package org.t246osslab.easybuggy.vulnerabilities;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -47,13 +48,11 @@ public class SQLInjectionServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
 
             if (name != null && password != null && !name.equals("") && !password.equals("")) {
-                EmbeddedJavaDb app = new EmbeddedJavaDb();
-                String message = app.selectUsers(name, password, req);
-                bodyHtml.append(message);
+                bodyHtml.append(selectUsers(name, password, req));
             } else {
-                bodyHtml.append(MessageUtils.getMsg("msg.warn.enter.name.and.passwd", locale));
+                bodyHtml.append(MessageUtils.getMsg("msg.warn.enter.name.and.passwd", locale) + "<br>");
             }
-            bodyHtml.append("<br><br>");
+            bodyHtml.append("<br>");
             bodyHtml.append(MessageUtils.getMsg("msg.note.sql.injection", locale));
             bodyHtml.append("</form>");
 
@@ -65,5 +64,20 @@ public class SQLInjectionServlet extends HttpServlet {
         } finally {
             Closer.close(writer);
         }
+    }
+
+    private String selectUsers(String name, String password, HttpServletRequest req) {
+
+        String result = "<font color=\"red\">" + MessageUtils.getMsg("msg.error.user.not.exist", req.getLocale())+ "</font><br>";
+        EmbeddedJavaDb app = new EmbeddedJavaDb();
+        ArrayList<String[]> users = app.selectUsers(name, password);
+        StringBuilder sb = new StringBuilder();
+        for (String[] user : users) {
+            sb.append(user[0] + ", " + user[1] + "<BR>");
+        }
+        if (sb.length() > 0) {
+            result = MessageUtils.getMsg("user.table.column.names", req.getLocale()) + "<BR>" + sb.toString();
+        }
+        return result;
     }
 }

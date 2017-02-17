@@ -2,6 +2,7 @@ package org.t246osslab.easybuggy.vulnerabilities;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.directory.server.core.entry.ClonedServerEntry;
 import org.apache.directory.server.core.filtering.EntryFilteringCursor;
+import org.apache.directory.shared.ldap.filter.ExprNode;
 import org.apache.directory.shared.ldap.filter.FilterParser;
 import org.apache.directory.shared.ldap.filter.SearchScope;
 import org.apache.directory.shared.ldap.message.AliasDerefMode;
@@ -54,24 +56,29 @@ public class LDAPInjectionServlet extends HttpServlet {
 
             if (name != null && password != null && !name.equals("") && !password.equals("")) {
 
-                EmbeddedADS ads = new EmbeddedADS();
-                EntryFilteringCursor cursor = ads.service.getAdminSession().search(
-                        new LdapDN("ou=people,dc=t246osslab,dc=org"), SearchScope.SUBTREE,
-                        FilterParser.parse("(&(uid=" + name.trim() + ")(userPassword=" + password.trim() + "))"),
-                        AliasDerefMode.NEVER_DEREF_ALIASES, null);
-                boolean isExist = false;
-                for (ClonedServerEntry e : cursor) {
-                    if (!isExist) {
-                        isExist = true;
-                        bodyHtml.append(MessageUtils.getMsg("user.table.column.names", req.getLocale()) + "<BR>");
+                ExprNode filter = null;
+                try {
+                    filter = FilterParser.parse("(&(uid=" + name.trim() + ")(userPassword=" + password.trim() + "))");
+                    EmbeddedADS ads = new EmbeddedADS();
+                    EntryFilteringCursor cursor = ads.service.getAdminSession().search(
+                            new LdapDN("ou=people,dc=t246osslab,dc=org"), SearchScope.SUBTREE, filter,
+                            AliasDerefMode.NEVER_DEREF_ALIASES, null);
+                    boolean isExist = false;
+                    for (ClonedServerEntry e : cursor) {
+                        if (!isExist) {
+                            isExist = true;
+                            bodyHtml.append(MessageUtils.getMsg("user.table.column.names", req.getLocale()) + "<BR>");
+                        }
+                        bodyHtml.append(e.get("displayName").getString() + ", " + e.get("employeeNumber").getString()
+                                + "<BR>");
                     }
-                    bodyHtml.append(e.get("displayName").getString() + ", " + e.get("employeeNumber").getString()
-                            + "<BR>");
+                    if (!isExist) {
+                        bodyHtml.append("<font color=\"red\">" + MessageUtils.getMsg("msg.error.user.not.exist", req.getLocale()) + "</font><BR>");
+                    }
+                    cursor.close();
+                } catch (ParseException e) {
+                    bodyHtml.append("<font color=\"red\">" + MessageUtils.getMsg("msg.error.user.not.exist", req.getLocale()) + "</font><BR>");
                 }
-                if (!isExist) {
-                    bodyHtml.append(MessageUtils.getMsg("msg.error.user.not.exist", req.getLocale()) + "<BR>");
-                }
-                cursor.close();
             } else {
                 bodyHtml.append(MessageUtils.getMsg("msg.warn.enter.name.and.passwd", locale));
                 bodyHtml.append("<br>");
