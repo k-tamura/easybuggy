@@ -47,7 +47,7 @@ public class SQLInjectionServlet extends HttpServlet {
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
 
-            if (name != null && password != null && !name.equals("") && !password.equals("")) {
+            if (name != null && password != null && !name.equals("") && !password.equals("") && password.length() >= 8) {
                 bodyHtml.append(selectUsers(name, password, req));
             } else {
                 bodyHtml.append(MessageUtils.getMsg("msg.warn.enter.name.and.passwd", locale) + "<br>");
