@@ -26,7 +26,6 @@ public class IntegerOverflowServlet extends HttpServlet {
         int days = -1;
         int hours = -1;
         PrintWriter writer = null;
-        String errorMessage = "";
         try {
             Locale locale = req.getLocale();
             String strDays = req.getParameter("days");
@@ -39,14 +38,14 @@ public class IntegerOverflowServlet extends HttpServlet {
                 if (days >= 0) {
                     // days * 24 => hours
                     hours = days * 24;
-                } else {
-                    errorMessage = "<font color=\"red\">" + MessageUtils.getMsg("msg.enter.positive.number", locale)
-                            + "</font>";
                 }
             }
 
             StringBuilder bodyHtml = new StringBuilder();
             bodyHtml.append("<form action=\"iof\" method=\"post\">");
+            bodyHtml.append(MessageUtils.getMsg("msg.enter.positive.number", locale));
+            bodyHtml.append("<br>");
+            bodyHtml.append("<br>");
             if (days >= 0) {
                 bodyHtml.append("<input type=\"text\" name=\"days\" size=\"8\" maxlength=\"8\" value=" + strDays + ">");
             } else {
@@ -60,7 +59,6 @@ public class IntegerOverflowServlet extends HttpServlet {
             bodyHtml.append("<br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
             bodyHtml.append("<br>");
-            bodyHtml.append(errorMessage);
             bodyHtml.append("<br>");
             bodyHtml.append(MessageUtils.getMsg("msg.note.positive.number",
                     new String[] { String.valueOf(Integer.MAX_VALUE / 24) }, locale));

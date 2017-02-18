@@ -26,7 +26,6 @@ public class RoundOffErrorServlet extends HttpServlet {
         PrintWriter writer = null;
         int number = -1;
         double result = 0;
-        String errorMessage = "";
         try {
             Locale locale = req.getLocale();
             String strNumber = req.getParameter("number");
@@ -38,14 +37,14 @@ public class RoundOffErrorServlet extends HttpServlet {
                 }
                 if (1 <= number && number <= 9) {
                     result = number - 0.9;
-                } else {
-                    errorMessage = "<font color=\"red\">" + MessageUtils.getMsg("msg.enter.positive.number", locale)
-                            + "</font>";
                 }
             }
 
             StringBuilder bodyHtml = new StringBuilder();
             bodyHtml.append("<form action=\"roe\" method=\"post\">");
+            bodyHtml.append(MessageUtils.getMsg("msg.enter.positive.number", locale));
+            bodyHtml.append("<br>");
+            bodyHtml.append("<br>");
             if (result != 0) {
                 bodyHtml.append("<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\" value=" + strNumber
                         + ">");
@@ -60,7 +59,6 @@ public class RoundOffErrorServlet extends HttpServlet {
             bodyHtml.append("<br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
             bodyHtml.append("<br>");
-            bodyHtml.append(errorMessage);
             bodyHtml.append("<br>");
             bodyHtml.append(MessageUtils.getMsg("msg.note.enter.one", locale));
             bodyHtml.append("</form>");

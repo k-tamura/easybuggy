@@ -26,7 +26,6 @@ public class TruncationErrorServlet extends HttpServlet {
         PrintWriter writer = null;
         double number = -1;
         double result = 0;
-        String errorMessage = "";
         try {
             Locale locale = req.getLocale();
 
@@ -39,18 +38,18 @@ public class TruncationErrorServlet extends HttpServlet {
                 }
                 if (0 < number && number < 10) {
                     result = 10.0 / number;
-                } else {
-                    errorMessage = "<font color=\"red\">" + MessageUtils.getMsg("msg.enter.positive.number", locale)
-                            + "</font>";
                 }
             }
 
             StringBuilder bodyHtml = new StringBuilder();
             bodyHtml.append("<form action=\"te\" method=\"post\">");
+            bodyHtml.append(MessageUtils.getMsg("msg.enter.positive.number", locale));
+            bodyHtml.append("<br>");
+            bodyHtml.append("<br>");
             bodyHtml.append("10.0 " + MessageUtils.getMsg("label.obelus", locale) + " ");
             if (result != 0) {
-                bodyHtml.append("<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\" value=" + strNumber
-                        + ">");
+                bodyHtml.append(
+                        "<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\" value=" + strNumber + ">");
             } else {
                 bodyHtml.append("<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\">");
             }
@@ -62,7 +61,6 @@ public class TruncationErrorServlet extends HttpServlet {
             bodyHtml.append("<br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
             bodyHtml.append("<br>");
-            bodyHtml.append(errorMessage);
             bodyHtml.append("<br>");
             bodyHtml.append(MessageUtils.getMsg("msg.note.enter.specific.nembers", locale));
             bodyHtml.append("</form>");

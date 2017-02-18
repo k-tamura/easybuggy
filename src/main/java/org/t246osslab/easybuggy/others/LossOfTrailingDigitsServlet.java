@@ -26,7 +26,7 @@ public class LossOfTrailingDigitsServlet extends HttpServlet {
         PrintWriter writer = null;
         double number = Double.NaN;
         String strNumber = null;
-        String errorMessage = null;
+        boolean isValid = true;
         try {
             Locale locale = req.getLocale();
             try {
@@ -38,28 +38,28 @@ public class LossOfTrailingDigitsServlet extends HttpServlet {
                 // ignore
             }
             if (Double.isNaN(number) || number <= -1 || number == 0 || 1 <= number) {
-                errorMessage = MessageUtils.getMsg("msg.enter.decimal.value", locale);
+                isValid = false;
             }
 
             StringBuilder bodyHtml = new StringBuilder();
             bodyHtml.append("<form action=\"lotd\" method=\"post\">");
-            if (!Double.isNaN(number) && errorMessage == null) {
+            bodyHtml.append(MessageUtils.getMsg("msg.enter.decimal.value", locale));
+            bodyHtml.append("<br>");
+            bodyHtml.append("<br>");
+            if (!Double.isNaN(number) && isValid) {
                 bodyHtml.append("<input type=\"text\" name=\"number\" size=\"18\" maxlength=\"18\" value=" + strNumber
                         + ">");
             } else {
                 bodyHtml.append("<input type=\"text\" name=\"number\" size=\"18\" maxlength=\"18\">");
             }
             bodyHtml.append(" + 1 = ");
-            if (!Double.isNaN(number) && errorMessage == null) {
+            if (!Double.isNaN(number) && isValid) {
                 bodyHtml.append(String.valueOf(number + 1));
             }
             bodyHtml.append("<br>");
             bodyHtml.append("<br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
             bodyHtml.append("<br>");
-            if (errorMessage != null && strNumber != null) {
-                bodyHtml.append("<font color=\"red\">" + errorMessage + "</font>");
-            }
             bodyHtml.append("<br>");
             bodyHtml.append(MessageUtils.getMsg("msg.note.enter.decimal.value", locale));
             bodyHtml.append("</form>");

@@ -65,7 +65,8 @@ public class EndlessWaitingServlet extends HttpServlet {
                     Process process = pb.start();
                     process.waitFor();
                     bodyHtml.append(MessageUtils.getMsg("msg.executed.batch", locale) + batFile.getAbsolutePath()
-                            + "<BR><BR>");
+                    + "<BR><BR>");
+                    bodyHtml.append(MessageUtils.getMsg("label.execution.result", locale) + "<BR><BR>");
                     bodyHtml.append(printInputStream(process.getInputStream(), res));
                     bodyHtml.append(printInputStream(process.getErrorStream(), res));
                 }
