@@ -108,6 +108,11 @@
 						key="function.name.ldap.injection" /></a>:
 			<fmt:message key="function.description.ldap.injection" />
 		</p></li>
+		<li><p>
+			<a href="codeijc" target="_blank"><fmt:message
+						key="function.name.code.injection" /></a>:
+			<fmt:message key="function.description.code.injection" />
+		</p></li>
 	</ul>
 
 	<h2>
