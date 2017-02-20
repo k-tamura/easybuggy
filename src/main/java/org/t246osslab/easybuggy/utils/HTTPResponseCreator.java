@@ -24,8 +24,6 @@ public class HTTPResponseCreator {
     public static void createSimpleResponse(HttpServletResponse res, String htmlTitle, String htmlBody) {
         PrintWriter writer = null;
         try {
-            res.setContentType("text/html");
-            res.setCharacterEncoding("UTF-8");
             writer = res.getWriter();
             writer.write("<HTML>");
             writer.write("<HEAD>");
