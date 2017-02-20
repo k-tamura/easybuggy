@@ -64,6 +64,11 @@
 			<fmt:message key="function.description.redirect.loop" />
 		</p></li>
 		<li><p>
+			<a href="forwardloop" target="_blank"><fmt:message
+						key="function.name.forward.loop" /></a>:
+			<fmt:message key="function.description.forward.loop" />
+		</p></li>
+		<li><p>
 			<a href="jvmcrasheav" target="_blank"><fmt:message
 						key="function.name.jvm.crash.eav" /> </a>:
 			<fmt:message key="function.description.jvm.crash.eav" />
