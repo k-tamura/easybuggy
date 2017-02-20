@@ -189,6 +189,11 @@
 	</p>
 	<ul>
 		<li><p>
+			<a href="slowre" target="_blank"><fmt:message
+						key="function.name.slow.regular.expression" /></a>:
+			<fmt:message key="function.description.slow.regular.expression" />
+		</p></li>
+		<li><p>
 			<fmt:message key="function.name.stop.the.world" />
 				:
 			<fmt:message key="function.description.stop.the.world" />
