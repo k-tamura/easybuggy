@@ -88,6 +88,11 @@
 						key="function.name.file.descriptor.leak" /></a> :
 			<fmt:message key="function.description.file.descriptor.leak" />
 		</p></li>
+		<li><p>
+			<a href="threadleak" target="_blank"><fmt:message
+						key="function.name.thread.leak" /></a>:
+			<fmt:message key="function.description.thread.leak" />
+		</p></li>
 	</ul>			
 
 	<h2>
