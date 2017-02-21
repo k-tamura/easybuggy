@@ -16,12 +16,14 @@
 </head>
 <body style="margin:20px;">
 	<header>
-	<img src="images/easybuggyL.png">
+	<table width="720">
+		<tr>
+			<td><img src="images/easybuggy.png"></td>
+			<td><fmt:message key="description.all" /></td>
+		</tr>
+	<table>
 	</header>
 	<hr>
-	<p>
-		<fmt:message key="description.all" />
-	</p>
 	<h2>
 		<span class="glyphicon glyphicon-knight"></span>&nbsp;
 		<fmt:message key="section.troubles" />
@@ -309,7 +311,7 @@
 	</ul>
 	<hr>
 	<footer>
-	<img src="images/easybuggy.png">Copyright © 2016-17 T246 OSS Lab, all rights reserved.
+	<img src="images/easybuggyL.png">Copyright © 2016-17 T246 OSS Lab, all rights reserved.
 	</footer>
 </body>
 </html>
