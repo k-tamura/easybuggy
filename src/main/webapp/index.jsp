@@ -15,7 +15,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body style="margin:20px;">
-
 	<h2>
 		<span class="glyphicon glyphicon-knight"></span>&nbsp;
 		<fmt:message key="section.troubles" />
@@ -281,7 +280,7 @@
 			<fmt:message key="function.description.exception"><fmt:param value="IndexOutOfBoundsException"/></fmt:message>
 		</p></li>
 		<li><p>
-			<a href="murle" target="_blank">	MalformedURLException</a>:
+			<a href="murle" target="_blank">MalformedURLException</a>:
 			<fmt:message key="function.description.exception"><fmt:param value="	MalformedURLException"/></fmt:message>
 		</p></li>
 		<li><p>
@@ -301,6 +300,9 @@
 			<fmt:message key="function.description.exception"><fmt:param value="UnsupportedEncodingException"/></fmt:message>
 		</p></li>
 	</ul>
-
+	<hr>
+	<footer>
+	<img src="images/easybuggy.png">Copyright © 2016-17 T246 OSS Lab, all rights reserved.
+	</footer>
 </body>
 </html>
