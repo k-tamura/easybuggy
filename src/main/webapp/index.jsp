@@ -296,6 +296,10 @@
 			<a href="uhe" target="_blank">UnknownHostException</a>:
 			<fmt:message key="function.description.exception"><fmt:param value="UnknownHostException"/></fmt:message>
 		</p></li>
+		<li><p>
+			<a href="uee" target="_blank">UnsupportedEncodingException</a>:
+			<fmt:message key="function.description.exception"><fmt:param value="UnsupportedEncodingException"/></fmt:message>
+		</p></li>
 	</ul>
 
 </body>
