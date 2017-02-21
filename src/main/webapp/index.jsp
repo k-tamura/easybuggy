@@ -93,6 +93,11 @@
 						key="function.name.thread.leak" /></a>:
 			<fmt:message key="function.description.thread.leak" />
 		</p></li>
+		<li><p>
+			<a href="mojibake" target="_blank"><fmt:message
+						key="function.name.mojibake" /></a>:
+			<fmt:message key="function.description.mojibake" />
+		</p></li>
 	</ul>			
 
 	<h2>

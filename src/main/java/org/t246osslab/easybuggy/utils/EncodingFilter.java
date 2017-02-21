@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Servlet Filter for encoding
@@ -28,8 +29,11 @@ public class EncodingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {
-        req.setCharacterEncoding("UTF-8");
-        res.setContentType("text/html; charset=UTF-8");
+        HttpServletRequest request = (HttpServletRequest) req;
+        if (!"/mojibake".equals(request.getRequestURI())) {
+            req.setCharacterEncoding("UTF-8");
+            res.setContentType("text/html; charset=UTF-8");
+        }
         chain.doFilter(req, res);
     }
 
