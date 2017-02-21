@@ -3,6 +3,9 @@ EasyBuggy
 
 EasyBuggyは、メモリリーク、デッドロック、JVMクラッシュ、SQLインジェクションなど、バグや脆弱性の動作を理解するためにつくられたバグだらけのWebアプリケーションです。
 
+![logo](https://github.com/k-tamura/easybuggy/blob/master/src/main/webapp/images/easybuggy.png)
+
+
 クイックスタート
 -
 
