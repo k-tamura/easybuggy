@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.owasp.esapi.ESAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.utils.Closer;
@@ -54,7 +55,7 @@ public class CodeInjectionServlet extends HttpServlet {
                     bodyHtml.append(MessageUtils.getMsg("msg.valid.json", locale));
                 } catch (ScriptException e) {
                     bodyHtml.append(MessageUtils.getMsg("msg.invalid.json", locale) + " : ");
-                    bodyHtml.append(e.getMessage());
+                    bodyHtml.append(ESAPI.encoder().encodeForHTML(e.getMessage()));
                 }
             } else {
                 bodyHtml.append(MessageUtils.getMsg("msg.enter.json.string", locale));
