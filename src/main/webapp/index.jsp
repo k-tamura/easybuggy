@@ -281,6 +281,10 @@
 			<fmt:message key="function.description.exception"><fmt:param value="FileNotFoundException"/></fmt:message>
 		</p></li>
 		<li><p>
+			<a href="iae" target="_blank">IllegalArgumentException</a>:
+			<fmt:message key="function.description.exception"><fmt:param value="IllegalArgumentException"/></fmt:message>
+		</p></li>
+		<li><p>
 			<a href="itse" target="_blank">IllegalThreadStateException</a>:
 			<fmt:message key="function.description.exception"><fmt:param value="IllegalThreadStateException"/></fmt:message>
 		</p></li>
@@ -290,7 +294,7 @@
 		</p></li>
 		<li><p>
 			<a href="murle" target="_blank">MalformedURLException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="	MalformedURLException"/></fmt:message>
+			<fmt:message key="function.description.exception"><fmt:param value="MalformedURLException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="npe" target="_blank">NullPointerException</a>:
