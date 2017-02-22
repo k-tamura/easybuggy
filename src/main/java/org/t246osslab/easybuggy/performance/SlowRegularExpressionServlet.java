@@ -1,4 +1,4 @@
-package org.t246osslab.easybuggy.vulnerabilities.performance;
+package org.t246osslab.easybuggy.performance;
 
 import java.io.IOException;
 import java.io.PrintWriter;
