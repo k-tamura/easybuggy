@@ -120,6 +120,13 @@ public class EndlessWaitingServlet extends HttpServlet {
                 filewriter.write(String.valueOf(i % 10));
             }
             filewriter.close();
+            if (!osName.toLowerCase().startsWith("windows")) {                
+                try {
+                    Runtime runtime = Runtime.getRuntime();
+                    runtime.exec("chmod 777 " + batFile.getAbsolutePath());
+                } catch (IOException ex) {
+                }
+            }
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         } finally {
