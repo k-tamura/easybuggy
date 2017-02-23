@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.owasp.esapi.ESAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.utils.Closer;
@@ -45,7 +46,8 @@ public class MojibakeServlet extends HttpServlet {
 
             if (name != null && !name.equals("")) {
                 String reverseName = getReverseName(name);
-                bodyHtml.append(MessageUtils.getMsg("label.reversed.name", locale) + " -&gt; " + reverseName);
+                bodyHtml.append(MessageUtils.getMsg("label.reversed.name", locale) + " -&gt; "
+                        + ESAPI.encoder().encodeForHTML(reverseName));
             } else {
                 bodyHtml.append(MessageUtils.getMsg("msg.enter.name", locale));
             }
