@@ -70,7 +70,7 @@ public class SQLInjectionServlet extends HttpServlet {
 
         String result = "<font color=\"red\">" + MessageUtils.getMsg("msg.error.user.not.exist", req.getLocale())+ "</font><br>";
         DBClient dbClient = new DBClient();
-        ArrayList<String[]> users = dbClient.selectUsers(name, password);
+        ArrayList<String[]> users = dbClient.selectUsersTable(name, password);
         StringBuilder sb = new StringBuilder();
         for (String[] user : users) {
             sb.append(user[0] + ", " + user[1] + "<BR>");

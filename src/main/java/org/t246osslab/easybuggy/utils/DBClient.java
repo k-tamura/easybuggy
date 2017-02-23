@@ -34,32 +34,11 @@ public class DBClient {
             String dbUrl = ApplicationUtils.getDatabaseURL();
             conn = DriverManager.getConnection(dbUrl);
             stmt = conn.createStatement();
-            try {
-                stmt.executeUpdate("drop table users");
-            } catch (SQLException e) {
-                // ignore exception if exist the table
-            }
-            // create users table
-            stmt.executeUpdate("create table users (id int primary key, name varchar(30), password varchar(30), secret varchar(30))");
-
-            // insert rows
-            stmt.executeUpdate("insert into users values (0,'Mark','password','57249037993')");
-            stmt.executeUpdate("insert into users values (1,'David','p@s2w0rd','42368923031')");
-            stmt.executeUpdate("insert into users values (2,'Peter','pa33word','54238496555')");
-            stmt.executeUpdate("insert into users values (3,'James','pathwood','70414823225')");
             
-            try {
-                stmt.executeUpdate("drop table users2");
-            } catch (SQLException e) {
-                // ignore exception if exist the table
-            }
-            // create users table
-            stmt.executeUpdate("create table users2 (id int primary key, name varchar(30), password varchar(100))");
-
-            // insert rows
-            for (int i = 1; i <= 2; i++) {
-                stmt.executeUpdate("insert into users2 values (" + i + ",'user" + i + "','password')");
-            }
+            // create a user table for SQL injection
+            createUsersTable(stmt);
+            // create a user table for Dead Lock
+            createUsers2Table(stmt);
 
         } catch (SQLException e) {
             log.error("Exception occurs: ", e);
@@ -74,7 +53,7 @@ public class DBClient {
         }
     }
 
-    public ArrayList<String[]> selectUsers(String name, String password) {
+    public ArrayList<String[]> selectUsersTable(String name, String password) {
 
         Statement stmt = null;
         ResultSet rs = null;
@@ -106,7 +85,7 @@ public class DBClient {
         return users;
     }
     
-    public String updateUsers2(int[] ids, Locale locale) {
+    public String updateUsers2Table(int[] ids, Locale locale) {
 
         PreparedStatement stmt = null;
         Connection conn = null;
@@ -192,4 +171,33 @@ public class DBClient {
         return resultMessage;
     }
 
+    private static void createUsersTable(Statement stmt) throws SQLException {
+        try {
+            stmt.executeUpdate("drop table users");
+        } catch (SQLException e) {
+            // ignore exception if existing the table
+        }
+        // create users table
+        stmt.executeUpdate("create table users (id int primary key, name varchar(30), password varchar(30), secret varchar(30))");
+
+        // insert sample records
+        stmt.executeUpdate("insert into users values (0,'Mark','password','57249037993')");
+        stmt.executeUpdate("insert into users values (1,'David','p@s2w0rd','42368923031')");
+        stmt.executeUpdate("insert into users values (2,'Peter','pa33word','54238496555')");
+        stmt.executeUpdate("insert into users values (3,'James','pathwood','70414823225')");
+    }
+
+    private static void createUsers2Table(Statement stmt) throws SQLException {
+        try {
+            stmt.executeUpdate("drop table users2");
+        } catch (SQLException e) {
+            // ignore exception if existing the table
+        }
+        stmt.executeUpdate("create table users2 (id int primary key, name varchar(30), password varchar(100))");
+
+        // insert sample records
+        for (int i = 1; i <= 2; i++) {
+            stmt.executeUpdate("insert into users2 values (" + i + ",'user" + i + "','password')");
+        }
+    }
 }

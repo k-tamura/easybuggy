@@ -46,10 +46,10 @@ public class DeadlockServlet2 extends HttpServlet {
 
             DBClient dbClient = new DBClient();
             if ("asc".equals(order)) {
-                String message = dbClient.updateUsers2(new int[] { 1, 2 }, locale);
+                String message = dbClient.updateUsers2Table(new int[] { 1, 2 }, locale);
                 bodyHtml.append(message);
             } else if ("desc".equals(order)) {
-                String message = dbClient.updateUsers2(new int[] { 2, 1 }, locale);
+                String message = dbClient.updateUsers2Table(new int[] { 2, 1 }, locale);
                 bodyHtml.append(message);
             }else{
                 bodyHtml.append(MessageUtils.getMsg("msg.warn.select.asc.or.desc", locale));
