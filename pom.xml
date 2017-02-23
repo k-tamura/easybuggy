@@ -84,10 +84,10 @@
       </exclusions>
     </dependency>
     <dependency>
-    <groupId>org.owasp.esapi</groupId>
-    <artifactId>esapi</artifactId>
-    <version>2.1.0.1</version>
-</dependency>
+      <groupId>org.owasp.esapi</groupId>
+      <artifactId>esapi</artifactId>
+      <version>2.1.0.1</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -202,7 +202,9 @@
             <executable>java</executable>
             <arguments>
               <argument>-Xmx256m</argument>
+              <!-- MaxPermSize: For Java 7 or older, MaxMetaspaceSize: For 8 or later -->
               <argument>-XX:MaxPermSize=32m</argument>
+              <!-- <argument>-XX:MaxMetaspaceSize=32m</argument> -->
               <argument>-XX:MaxDirectMemorySize=90m</argument>
               <argument>-XX:+UseSerialGC</argument>
               <argument>-Xloggc:logs/gc.log</argument>
@@ -218,6 +220,9 @@
               <argument>-XX:HeapDumpPath=logs/</argument>
               <argument>-XX:ErrorFile=logs/hs_err_pid%p.log</argument>
               <argument>-XX:NativeMemoryTracking=summary</argument>
+              <!-- OnOutOfMemoryError: For Linux -->
+              <!-- <argument>-XX:OnOutOfMemoryError="kill -9 %p"</argument> -->
+              <!-- UnlockCommercialFeatures/FlightRecorder: For Oracle Java commercial use -->
               <!-- <argument>-XX:+UnlockCommercialFeatures</argument>
               <argument>-XX:+FlightRecorder</argument> -->
               <argument>-agentlib:jdwp=transport=dt_socket,server=y,address=9009,suspend=n</argument>
