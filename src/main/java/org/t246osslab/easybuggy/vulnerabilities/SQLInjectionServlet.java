@@ -42,7 +42,7 @@ public class SQLInjectionServlet extends HttpServlet {
             bodyHtml.append("<input type=\"text\" name=\"name\" size=\"20\" maxlength=\"20\">");
             bodyHtml.append("&nbsp;&nbsp;");
             bodyHtml.append(MessageUtils.getMsg("label.password", locale) + ": ");
-            bodyHtml.append("<input type=\"text\" name=\"password\" size=\"20\" maxlength=\"20\">");
+            bodyHtml.append("<input type=\"password\" name=\"password\" size=\"20\" maxlength=\"20\">");
             bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
