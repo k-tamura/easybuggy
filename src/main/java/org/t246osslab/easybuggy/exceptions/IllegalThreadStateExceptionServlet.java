@@ -15,7 +15,6 @@ public class IllegalThreadStateExceptionServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Runtime rt = Runtime.getRuntime();
         Process proc = rt.exec("javac");
-        int exitVal = proc.exitValue();
-        System.out.println("Process exitValue: " + exitVal);
+        proc.exitValue();
     }
 }

@@ -13,8 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ArrayStoreExceptionServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        String[] strings = new String[1];
-        Object[] objects = strings;
+        Object[] objects = new String[1];
         objects[0] = new Integer(0);
     }
 }
