@@ -39,7 +39,7 @@ public class CodeInjectionServlet extends HttpServlet {
             bodyHtml.append(MessageUtils.getMsg("description.parse.json", locale));
             bodyHtml.append("<br><br>");
             bodyHtml.append(MessageUtils.getMsg("label.json.string", locale) + ": ");
-            bodyHtml.append("<textarea name=\"jsonString\" cols=\"80\" lows=\"10\"></textarea>");
+            bodyHtml.append("<textarea name=\"jsonString\" cols=\"80\" rows=\"15\"></textarea>");
             bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
