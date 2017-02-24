@@ -21,7 +21,7 @@
 			<td><img src="images/easybuggy.png"></td>
 			<td><fmt:message key="description.all" /></td>
 		</tr>
-	<table>
+	</table>
 	</header>
 	<hr>
 	<h2>
