@@ -297,6 +297,10 @@
 			<fmt:message key="function.description.exception"><fmt:param value="MalformedURLException"/></fmt:message>
 		</p></li>
 		<li><p>
+			<a href="mre" target="_blank">MissingResourceException</a>:
+			<fmt:message key="function.description.exception"><fmt:param value="MissingResourceException"/></fmt:message>
+		</p></li>
+		<li><p>
 			<a href="npe" target="_blank">NullPointerException</a>:
 			<fmt:message key="function.description.exception"><fmt:param value="NullPointerException"/></fmt:message>
 		</p></li>
