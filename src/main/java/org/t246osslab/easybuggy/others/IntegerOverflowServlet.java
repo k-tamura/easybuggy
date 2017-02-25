@@ -2,6 +2,7 @@ package org.t246osslab.easybuggy.others;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -23,21 +24,28 @@ public class IntegerOverflowServlet extends HttpServlet {
     private static Logger log = LoggerFactory.getLogger(IntegerOverflowServlet.class);
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        int days = -1;
-        int hours = -1;
+        int times = -1;
+        BigDecimal thickness = null;
+        BigDecimal thicknessM = null;
+        BigDecimal thicknessKm = null;
         PrintWriter writer = null;
         try {
             Locale locale = req.getLocale();
-            String strDays = req.getParameter("days");
-            if (strDays != null) {
+            String strTimes = req.getParameter("times");
+            if (strTimes != null) {
                 try {
-                    days = Integer.parseInt(strDays);
+                    times = Integer.parseInt(strTimes);
                 } catch (NumberFormatException e) {
                     // ignore
                 }
-                if (days >= 0) {
-                    // days * 24 => hours
-                    hours = days * 24;
+                int multipleNumber = 1;
+                if (times >= 0) {
+                    for (int i = 0; i < times; i++) {
+                        multipleNumber = multipleNumber * 2;
+                    }
+                    thickness = new BigDecimal(multipleNumber).divide(new BigDecimal(10)); // mm
+                    thicknessM = thickness.divide(new BigDecimal(1000)); // m
+                    thicknessKm = thicknessM.divide(new BigDecimal(1000)); // km
                 }
             }
 
@@ -46,22 +54,24 @@ public class IntegerOverflowServlet extends HttpServlet {
             bodyHtml.append(MessageUtils.getMsg("msg.enter.positive.number", locale));
             bodyHtml.append("<br>");
             bodyHtml.append("<br>");
-            if (days >= 0) {
-                bodyHtml.append("<input type=\"text\" name=\"days\" size=\"8\" maxlength=\"8\" value=" + strDays + ">");
+            if (times >= 0) {
+                bodyHtml.append(
+                        "<input type=\"text\" name=\"times\" size=\"2\" maxlength=\"2\" value=" + strTimes + ">");
             } else {
-                bodyHtml.append("<input type=\"text\" name=\"days\" size=\"8\" maxlength=\"8\">");
+                bodyHtml.append("<input type=\"text\" name=\"times\" size=\"2\" maxlength=\"2\">");
             }
-            bodyHtml.append(" " + MessageUtils.getMsg("label.multiplication.sign", locale) + " 24 = ");
-            if (days >= 0) {
-                bodyHtml.append(hours + " ");
+            bodyHtml.append(MessageUtils.getMsg("label.times", locale) + " : ");
+            if (times >= 0) {
+                bodyHtml.append(thickness + " mm");
+                bodyHtml.append(thicknessM.intValue() >= 1 && thicknessKm.intValue() < 1 ? " = " + thicknessM + " m" : "");
+                bodyHtml.append(thicknessKm.intValue() >= 1 ? " = " + thicknessKm + " km" : "");
             }
             bodyHtml.append("<br>");
             bodyHtml.append("<br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
             bodyHtml.append("<br>");
             bodyHtml.append("<br>");
-            bodyHtml.append(MessageUtils.getMsg("msg.note.positive.number",
-                    new String[] { String.valueOf(Integer.MAX_VALUE / 24) }, locale));
+            bodyHtml.append(MessageUtils.getMsg("msg.note.positive.number", locale));
             bodyHtml.append("</form>");
 
             HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.integer.overflow.page", locale),
