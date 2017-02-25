@@ -38,7 +38,7 @@ public class IntegerOverflowServlet extends HttpServlet {
                 } catch (NumberFormatException e) {
                     // ignore
                 }
-                int multipleNumber = 1;
+                long multipleNumber = 1;
                 if (times >= 0) {
                     for (int i = 0; i < times; i++) {
                         multipleNumber = multipleNumber * 2;
@@ -65,6 +65,9 @@ public class IntegerOverflowServlet extends HttpServlet {
                 bodyHtml.append(thickness + " mm");
                 bodyHtml.append(thicknessM.intValue() >= 1 && thicknessKm.intValue() < 1 ? " = " + thicknessM + " m" : "");
                 bodyHtml.append(thicknessKm.intValue() >= 1 ? " = " + thicknessKm + " km" : "");
+                if (times == 42) {
+                    bodyHtml.append(" : " + MessageUtils.getMsg("msg.answer.is.correct", locale));
+                }
             }
             bodyHtml.append("<br>");
             bodyHtml.append("<br>");
