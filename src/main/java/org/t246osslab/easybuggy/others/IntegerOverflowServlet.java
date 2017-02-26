@@ -51,7 +51,7 @@ public class IntegerOverflowServlet extends HttpServlet {
 
             StringBuilder bodyHtml = new StringBuilder();
             bodyHtml.append("<form action=\"iof\" method=\"post\">");
-            bodyHtml.append(MessageUtils.getMsg("msg.enter.positive.number", locale));
+            bodyHtml.append(MessageUtils.getMsg("msg.question.reach.the.moon", locale));
             bodyHtml.append("<br>");
             bodyHtml.append("<br>");
             if (times >= 0) {
