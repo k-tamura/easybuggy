@@ -38,11 +38,10 @@ public class DeadlockServlet extends HttpServlet {
                 isFirstLoad = false;
                 bodyHtml.append(MessageUtils.getMsg("msg.dead.lock.occur", locale));
             } else {
+                switchFlag = !switchFlag;
                 if (switchFlag) {
-                    switchFlag = !switchFlag;
                     lock12();
                 } else {
-                    switchFlag = !switchFlag;
                     lock21();
                 }
                 bodyHtml.append(MessageUtils.getMsg("msg.dead.lock.not.occur", locale));
