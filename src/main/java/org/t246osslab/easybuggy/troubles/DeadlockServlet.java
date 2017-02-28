@@ -25,7 +25,7 @@ public class DeadlockServlet extends HttpServlet {
     private final Object lock1 = new Object();
     private final Object lock2 = new Object();
     private boolean switchFlag = true;
-    private static boolean isFirstLoad = true;
+    private boolean isFirstLoad = true;
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
