@@ -222,6 +222,8 @@
               <argument>-XX:HeapDumpPath=logs/</argument>
               <argument>-XX:ErrorFile=logs/hs_err_pid%p.log</argument>
               <argument>-XX:NativeMemoryTracking=summary</argument>
+              <!-- Auto kill JVM when OOME occurs: For post-8u92 JDKs -->
+              <!-- <argument>-XX:+CrashOnOutOfMemoryError</argument> -->
               <!-- Auto kill JVM when OOME occurs: For Linux -->
               <!-- <argument>-XX:OnOutOfMemoryError="kill -9 %p"</argument> -->
               <!-- Auto kill JVM when OOME occurs: For Windows -->
