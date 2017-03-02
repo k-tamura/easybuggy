@@ -75,6 +75,9 @@ public class UnrestrictedUploadServlet extends HttpServlet {
         final Part filePart = req.getPart("file");
         try {
             String fileName = getFileName(filePart);
+            if (fileName == null || fileName.equals("")) {
+                doGet(req, res);
+            }
             out = new FileOutputStream(savePath + File.separator + fileName);
             in = filePart.getInputStream();
             int read = 0;
@@ -106,7 +109,8 @@ public class UnrestrictedUploadServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
             bodyHtml.append("<INPUT type=\"button\" onClick='history.back();' value=\""
                     + MessageUtils.getMsg("label.history.back", locale) + "\">");
-            HTTPResponseCreator.createSimpleResponse(res, "Upload", bodyHtml.toString());
+            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("label.upload", locale),
+                    bodyHtml.toString());
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
