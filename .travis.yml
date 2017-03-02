@@ -5,7 +5,7 @@ jdk:
   - oraclejdk7
   - oraclejdk8
   
-script: mvn clean package
+script: mvn -DskipTests=true clean verify
 
 notifications:
   email:
