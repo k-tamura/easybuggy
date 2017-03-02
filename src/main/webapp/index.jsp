@@ -281,6 +281,10 @@
 			<fmt:message key="function.description.exception"><fmt:param value="FileNotFoundException"/></fmt:message>
 		</p></li>
 		<li><p>
+			<a href="iioe" target="_blank">IIOException</a>:
+			<fmt:message key="function.description.exception"><fmt:param value="IIOException"/></fmt:message>
+		</p></li>
+		<li><p>
 			<a href="iae" target="_blank">IllegalArgumentException</a>:
 			<fmt:message key="function.description.exception"><fmt:param value="IllegalArgumentException"/></fmt:message>
 		</p></li>
