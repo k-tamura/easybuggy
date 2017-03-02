@@ -38,12 +38,22 @@ public class UnrestrictedUploadServlet extends HttpServlet {
     private static final String SAVE_DIR = "uploadFiles";
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
+        Locale locale = req.getLocale();
+
         StringBuilder bodyHtml = new StringBuilder();
         bodyHtml.append("<form method=\"post\" action=\"urupload\" enctype=\"multipart/form-data\">");
-        bodyHtml.append("Select file to upload: <input type=\"file\" name=\"file\" size=\"60\" /><br>");
-        bodyHtml.append("<br><input type=\"submit\" value=\"Upload\" />");
+        bodyHtml.append(MessageUtils.getMsg("msg.reverse.color", locale));
+        bodyHtml.append("<br><br>");
+        bodyHtml.append("<input type=\"file\" name=\"file\" size=\"60\" /><br>");
+        bodyHtml.append(MessageUtils.getMsg("msg.select.upload.file", locale));
+        bodyHtml.append("<br><br>");
+        bodyHtml.append("<input type=\"submit\" value=\"Upload\" />");
+        bodyHtml.append("<br><br>");
+        bodyHtml.append(MessageUtils.getMsg("msg.unrestricted.upload", locale));
         bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(res, "File Upload", bodyHtml.toString());
+        HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.unrestricted.upload", locale),
+                bodyHtml.toString());
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -73,13 +83,26 @@ public class UnrestrictedUploadServlet extends HttpServlet {
                 out.write(bytes, 0, read);
             }
 
-            // Revere color of the upload image
-            revereColor(new File(savePath + File.separator + fileName).getAbsolutePath());
+            boolean isConverted = true;
+            try {
+                // Revere color of the upload image
+                revereColor(new File(savePath + File.separator + fileName).getAbsolutePath());
+            } catch (Exception e) {
+                // Log and ignore the exception
+                log.error("Exception occurs: ", e);
+                isConverted = false;
+            }
 
             StringBuilder bodyHtml = new StringBuilder();
-            bodyHtml.append(MessageUtils.getMsg("msg.reverse.color.complete", locale));
-            bodyHtml.append("<br><br>");
-            bodyHtml.append("<img src=\"" + SAVE_DIR + "/" + fileName + "\">");
+            if (isConverted) {
+                bodyHtml.append(MessageUtils.getMsg("msg.reverse.color.complete", locale));
+            } else {
+                bodyHtml.append(MessageUtils.getMsg("msg.reverse.color.fail", locale));
+            }
+            if (isConverted) {
+                bodyHtml.append("<br><br>");
+                bodyHtml.append("<img src=\"" + SAVE_DIR + "/" + fileName + "\">");
+            }
             bodyHtml.append("<br><br>");
             bodyHtml.append("<INPUT type=\"button\" onClick='history.back();' value=\""
                     + MessageUtils.getMsg("label.history.back", locale) + "\">");
@@ -103,24 +126,19 @@ public class UnrestrictedUploadServlet extends HttpServlet {
 
     // Revere color of the image file
     private void revereColor(String fileName) throws IOException {
-        try {
-            BufferedImage image = ImageIO.read(new File(fileName));
-            WritableRaster raster = image.getRaster();
-            int[] pixelBuffer = new int[raster.getNumDataElements()];
-            for (int y = 0; y < raster.getHeight(); y++) {
-                for (int x = 0; x < raster.getWidth(); x++) {
-                    raster.getPixel(x, y, pixelBuffer);
-                    pixelBuffer[0] = ~pixelBuffer[0];
-                    pixelBuffer[1] = ~pixelBuffer[1];
-                    pixelBuffer[2] = ~pixelBuffer[2];
-                    raster.setPixel(x, y, pixelBuffer);
-                }
+        BufferedImage image = ImageIO.read(new File(fileName));
+        WritableRaster raster = image.getRaster();
+        int[] pixelBuffer = new int[raster.getNumDataElements()];
+        for (int y = 0; y < raster.getHeight(); y++) {
+            for (int x = 0; x < raster.getWidth(); x++) {
+                raster.getPixel(x, y, pixelBuffer);
+                pixelBuffer[0] = ~pixelBuffer[0];
+                pixelBuffer[1] = ~pixelBuffer[1];
+                pixelBuffer[2] = ~pixelBuffer[2];
+                raster.setPixel(x, y, pixelBuffer);
             }
-            // Output the image
-            ImageIO.write(image, "png", new File(fileName));
-        } catch (Exception e) {
-            // Log and ignore the exception
-            log.error("Exception occurs: ", e);
         }
+        // Output the image
+        ImageIO.write(image, "png", new File(fileName));
     }
 }

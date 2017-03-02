@@ -136,6 +136,11 @@
 						key="function.name.code.injection" /></a>:
 			<fmt:message key="function.description.code.injection" />
 		</p></li>
+		<li><p>
+			<a href="urupload" target="_blank"><fmt:message
+						key="function.name.unrestricted.upload" /></a>:
+			<fmt:message key="function.description.unrestricted.upload" />
+		</p></li>
 	</ul>
 
 	<h2>
