@@ -1,0 +1,15 @@
+language: java
+
+jdk:
+  - openjdk6
+  - openjdk7
+  - openjdk8
+  - oraclejdk6
+  - oraclejdk7
+  - oraclejdk8
+  
+script: mvn clean verify
+
+notifications:
+  email:
+    - ktamura.biz.80@gmail.com
