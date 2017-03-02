@@ -4,7 +4,9 @@ jdk:
   - openjdk7
   - oraclejdk7
   
-script: mvn -DskipTests=true -Dmaven.install.skip=true clean verify
+install: true
+
+script: mvn -DskipTests=true clean verify
 
 notifications:
   email:
