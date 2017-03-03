@@ -99,7 +99,7 @@ public class UnrestrictedUploadServlet extends HttpServlet {
                 revereColor(new File(savePath + File.separator + fileName).getAbsolutePath());
             } catch (Exception e) {
                 // Log and ignore the exception
-                log.error("Exception occurs: ", e);
+                log.warn("Exception occurs: ", e);
                 isConverted = false;
             }
 
