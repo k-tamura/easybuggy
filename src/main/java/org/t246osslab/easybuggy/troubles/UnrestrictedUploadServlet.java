@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.util.Locale;
 
 import javax.imageio.ImageIO;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -27,12 +28,12 @@ import org.t246osslab.easybuggy.utils.MessageUtils;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/urupload" })
 // 2MB, 10MB, 50MB
-// @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 10, maxRequestSize = 1024 * 1024 *
-// 50)
+// @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 10,
+// maxRequestSize = 1024 * 1024 * 50)
 @MultipartConfig
 public class UnrestrictedUploadServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(DBConnectionLeakServlet.class);
+    private static Logger log = LoggerFactory.getLogger(UnrestrictedUploadServlet.class);
 
     // Name of the directory where uploaded files is saved
     private static final String SAVE_DIR = "uploadFiles";
@@ -63,13 +64,14 @@ public class UnrestrictedUploadServlet extends HttpServlet {
         // Get absolute path of the web application
         String appPath = req.getServletContext().getRealPath("");
 
-        // Create directory to save uploaded file if it does not exists
+        // Create a directory to save the uploaded file if it does not exists
         String savePath = appPath + File.separator + SAVE_DIR;
         File fileSaveDir = new File(savePath);
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdir();
         }
 
+        // Save the file
         OutputStream out = null;
         InputStream in = null;
         final Part filePart = req.getPart("file");
@@ -88,7 +90,7 @@ public class UnrestrictedUploadServlet extends HttpServlet {
 
             boolean isConverted = true;
             try {
-                // Revere color of the upload image
+                // Reverse the color of the upload image
                 revereColor(new File(savePath + File.separator + fileName).getAbsolutePath());
             } catch (Exception e) {
                 // Log and ignore the exception
@@ -119,6 +121,7 @@ public class UnrestrictedUploadServlet extends HttpServlet {
         }
     }
 
+    // Get file name from content-disposition filename
     private String getFileName(final Part part) {
         for (String content : part.getHeader("content-disposition").split(";")) {
             if (content.trim().startsWith("filename")) {
@@ -128,7 +131,7 @@ public class UnrestrictedUploadServlet extends HttpServlet {
         return null;
     }
 
-    // Revere color of the image file
+    // Reverse the color of the image file
     private void revereColor(String fileName) throws IOException {
         BufferedImage image = ImageIO.read(new File(fileName));
         WritableRaster raster = image.getRaster();
