@@ -60,6 +60,7 @@ public class IntegerOverflowServlet extends HttpServlet {
             } else {
                 bodyHtml.append("<input type=\"text\" name=\"times\" size=\"2\" maxlength=\"2\">");
             }
+            bodyHtml.append("&nbsp; ");
             bodyHtml.append(MessageUtils.getMsg("label.times", locale) + " : ");
             if (times >= 0) {
                 bodyHtml.append(thickness + " mm");
