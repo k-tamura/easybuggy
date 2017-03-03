@@ -3,6 +3,7 @@ package org.t246osslab.easybuggy.troubles;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +11,6 @@ import java.io.OutputStream;
 import java.util.Locale;
 
 import javax.imageio.ImageIO;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -80,12 +80,17 @@ public class UnrestrictedUploadServlet extends HttpServlet {
             if (fileName == null || fileName.equals("")) {
                 doGet(req, res);
             }
-            out = new FileOutputStream(savePath + File.separator + fileName);
-            in = filePart.getInputStream();
-            int read = 0;
-            final byte[] bytes = new byte[1024];
-            while ((read = in.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
+            // TODO Remove this try block that is a workaround of issue #9 (FileNotFoundException on Jetty * Windows)
+            try {
+                out = new FileOutputStream(savePath + File.separator + fileName);
+                in = filePart.getInputStream();
+                int read = 0;
+                final byte[] bytes = new byte[1024];
+                while ((read = in.read(bytes)) != -1) {
+                    out.write(bytes, 0, read);
+                }
+            } catch (FileNotFoundException e) {
+                // Ignore because file already exists
             }
 
             boolean isConverted = true;
