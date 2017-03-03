@@ -81,6 +81,7 @@ public class UnrestrictedUploadServlet extends HttpServlet {
                 doGet(req, res);
             }
             // TODO Remove this try block that is a workaround of issue #9 (FileNotFoundException on Jetty * Windows)
+            boolean isConverted = false;
             try {
                 out = new FileOutputStream(savePath + File.separator + fileName);
                 in = filePart.getInputStream();
@@ -91,16 +92,18 @@ public class UnrestrictedUploadServlet extends HttpServlet {
                 }
             } catch (FileNotFoundException e) {
                 // Ignore because file already exists
+                isConverted = true;
             }
 
-            boolean isConverted = true;
             try {
                 // Reverse the color of the upload image
-                revereColor(new File(savePath + File.separator + fileName).getAbsolutePath());
+                if(!isConverted){
+                    revereColor(new File(savePath + File.separator + fileName).getAbsolutePath());
+                    isConverted = true;
+                }
             } catch (Exception e) {
                 // Log and ignore the exception
                 log.warn("Exception occurs: ", e);
-                isConverted = false;
             }
 
             StringBuilder bodyHtml = new StringBuilder();
