@@ -28,12 +28,17 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
 
         String user = request.getParameter("userid");
         String pass = request.getParameter("password");
+        String loginQueryString = request.getParameter("loginquerystring");
+        if (loginQueryString == null) {
+            loginQueryString = "";
+        } else {
+            loginQueryString = "?" + loginQueryString;
+        }
 
         HttpSession session = request.getSession(true);
 
-        boolean check = authUser(user, pass);
-        if (check) {
-            session.setAttribute("authenticated", "true");
+        if (authUser(user, pass)) {
+            session.setAttribute("authNResult", "authenticated");
             session.setAttribute("userid", user);
 
             String gotoUrl = request.getParameter("goto");
@@ -54,9 +59,12 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
                     response.sendRedirect(target);
                 }
             }
+        } else if (isAccountLocked(user)) {
+            session.setAttribute("authNResult", "accountLocked");
+            response.sendRedirect("/openredirect/login" + loginQueryString);
         } else {
-            session.setAttribute("authNFail", "true");
-            response.sendRedirect("/openredirect/login");
+            session.setAttribute("authNResult", "authNFailed");
+            response.sendRedirect("/openredirect/login" + loginQueryString);
         }
     }
 }

@@ -40,11 +40,17 @@ public class AuthenticationFilter implements Filter {
             if (queryString == null) {
                 queryString = "";
             } else {
-                queryString = "?" + queryString;
+                /* Remove "logintype" parameter from query string */
+                queryString = queryString.replace("logintype=" + loginType + "&", "");
+                queryString = queryString.replace("&logintype=" + loginType, "");
+                queryString = queryString.replace("logintype=" + loginType, "");
+                if (queryString.length() > 0) {
+                    queryString = "?" + queryString;
+                }
             }
             HttpSession session = request.getSession(false);
-            if (session == null || session.getAttribute("authenticated") == null
-                    || !"true".equals(session.getAttribute("authenticated"))) {
+            if (session == null || session.getAttribute("authNResult") == null
+                    || !"authenticated".equals(session.getAttribute("authNResult"))) {
                 /* Not authenticated yet */
                 session = request.getSession(true);
                 session.setAttribute("target", target);

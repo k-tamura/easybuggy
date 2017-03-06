@@ -3,6 +3,7 @@ package org.t246osslab.easybuggy;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Locale;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,6 +29,8 @@ import org.t246osslab.easybuggy.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/login" })
 public class DefaultLoginServlet extends HttpServlet {
 
+    protected ConcurrentHashMap<String, Integer> inMemoryAccountLockMap = new ConcurrentHashMap<String, Integer>();
+    
     private static Logger log = LoggerFactory.getLogger(DefaultLoginServlet.class);
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
@@ -59,6 +62,8 @@ public class DefaultLoginServlet extends HttpServlet {
         if (req.getAttribute("login.page.note") != null) {
             bodyHtml.append("<br><p>" + MessageUtils.getMsg((String) req.getAttribute("login.page.note"), locale) + "<p>");
         }
+        String queryString = req.getQueryString();
+        bodyHtml.append("<input type=\"hidden\" name=\"loginquerystring\" value=\"" + queryString + "\">");
         Enumeration<?> paramNames = req.getParameterNames();
         while (paramNames.hasMoreElements()) {
             String paramName = (String) paramNames.nextElement();
@@ -71,9 +76,9 @@ public class DefaultLoginServlet extends HttpServlet {
 
         HttpSession session = req.getSession(true);
 
-        if (session.getAttribute("authNFail") != null) {
+        if ("authNFailed".equals(session.getAttribute("authNResult"))) {
             bodyHtml.append("<p>" + MessageUtils.getMsg("msg.authentication.fail", locale) + "</p>");
-            session.setAttribute("authNFail", null);
+            session.setAttribute("authNResult", null);
         }
         HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.login.page", locale),
                 bodyHtml.toString());
@@ -85,10 +90,9 @@ public class DefaultLoginServlet extends HttpServlet {
         String pass = request.getParameter("password");
 
         HttpSession session = request.getSession(true);
-
-        boolean check = authUser(user, pass);
-        if (check) {
-            session.setAttribute("authenticated", "true");
+        
+        if (authUser(user, pass)) {
+            session.setAttribute("authNResult", "authenticated");
             session.setAttribute("userid", user);
 
             String target = (String) session.getAttribute("target");
@@ -98,10 +102,17 @@ public class DefaultLoginServlet extends HttpServlet {
                 session.removeAttribute("target");
                 response.sendRedirect(target);
             }
+        } else if (isAccountLocked(user)) {
+            session.setAttribute("authNResult", "accountLocked");
+            response.sendRedirect("/login");
         } else {
-            session.setAttribute("authNFail", "true");
+            session.setAttribute("authNResult", "authNFailed");
             response.sendRedirect("/login");
         }
+    }
+
+    protected boolean isAccountLocked(String userid) {
+        return false;
     }
 
     protected boolean authUser(String username, String password) {
