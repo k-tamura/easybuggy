@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  */
 public class EmbeddedADS {
 
-    private static Logger log = LoggerFactory.getLogger(DBClient.class);
+    private static Logger log = LoggerFactory.getLogger(EmbeddedADS.class);
 
     /** The directory service */
     public static DirectoryService service;
