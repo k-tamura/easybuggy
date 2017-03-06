@@ -29,13 +29,19 @@ public class AuthenticationFilter implements Filter {
      * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
      */
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
-            throws IOException, ServletException {
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException,
+            ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-        if (request.getRequestURI().startsWith("/members")) {
-            String target = request.getRequestURI();
+        String target = request.getRequestURI();
+        if (target.startsWith("/admins")) {
             String loginType = request.getParameter("logintype");
+            String queryString = request.getQueryString();
+            if (queryString == null) {
+                queryString = "";
+            } else {
+                queryString = "?" + queryString;
+            }
             HttpSession session = request.getSession(false);
             if (session == null || session.getAttribute("authenticated") == null
                     || !"true".equals(session.getAttribute("authenticated"))) {
@@ -43,9 +49,9 @@ public class AuthenticationFilter implements Filter {
                 session = request.getSession(true);
                 session.setAttribute("target", target);
                 if (loginType == null) {
-                    response.sendRedirect("/login");
+                    response.sendRedirect("/login" + queryString);
                 } else {
-                    response.sendRedirect("/" + loginType + "/login");
+                    response.sendRedirect("/" + loginType + "/login" + queryString);
                 }
             }
         }

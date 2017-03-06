@@ -59,8 +59,7 @@ public class LDAPInjectionServlet extends HttpServlet {
                 ExprNode filter = null;
                 try {
                     filter = FilterParser.parse("(&(uid=" + name.trim() + ")(userPassword=" + password.trim() + "))");
-                    EmbeddedADS ads = new EmbeddedADS();
-                    EntryFilteringCursor cursor = ads.service.getAdminSession().search(
+                    EntryFilteringCursor cursor = EmbeddedADS.service.getAdminSession().search(
                             new LdapDN("ou=people,dc=t246osslab,dc=org"), SearchScope.SUBTREE, filter,
                             AliasDerefMode.NEVER_DEREF_ALIASES, null);
                     boolean isExist = false;

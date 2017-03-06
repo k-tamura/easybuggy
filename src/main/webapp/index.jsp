@@ -141,6 +141,11 @@
 						key="function.name.unrestricted.upload" /></a>:
 			<fmt:message key="function.description.unrestricted.upload" />
 		</p></li>
+		<li><p>
+			<a href="admins/main?logintype=openredirect" target="_blank"><fmt:message
+						key="function.name.open.redirect" /></a>:
+			<fmt:message key="function.description.open.redirect" />
+		</p></li>
 	</ul>
 
 	<h2>
