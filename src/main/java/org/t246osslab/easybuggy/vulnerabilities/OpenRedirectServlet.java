@@ -2,6 +2,7 @@ package org.t246osslab.easybuggy.vulnerabilities;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.DefaultLoginServlet;
+import org.t246osslab.easybuggy.utils.Administrator;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/openredirect/login" })
@@ -26,21 +28,33 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        String user = request.getParameter("userid");
-        String pass = request.getParameter("password");
+        String userid = request.getParameter("userid");
+        String password = request.getParameter("password");
         String loginQueryString = request.getParameter("loginquerystring");
         if (loginQueryString == null) {
             loginQueryString = "";
         } else {
             loginQueryString = "?" + loginQueryString;
         }
-
+        
         HttpSession session = request.getSession(true);
+        if (isAccountLocked(userid)) {
+            session.setAttribute("authNResult", "accountLocked");
+            response.sendRedirect("/login");
+        } else if (authUser(userid, password)) {
+            /* Reset account lock */
+            Administrator admin = userLoginHistory.get(userid);
+            if (admin == null) {
+                admin = new Administrator();
+                admin.setUserId(userid);
+                userLoginHistory.put(userid, admin);
+            }
+            admin.setLoginFailedCount(0);
+            admin.setLastLoginFailedTime(null);
 
-        if (authUser(user, pass)) {
             session.setAttribute("authNResult", "authenticated");
-            session.setAttribute("userid", user);
-
+            session.setAttribute("userid", userid);
+            
             String gotoUrl = request.getParameter("goto");
             try {
                 URL u = new URL(gotoUrl);
@@ -59,12 +73,19 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
                     response.sendRedirect(target);
                 }
             }
-        } else if (isAccountLocked(user)) {
-            session.setAttribute("authNResult", "accountLocked");
-            response.sendRedirect("/openredirect/login" + loginQueryString);
         } else {
+            /* account lock count +1 */
+            Administrator admin = userLoginHistory.get(userid);
+            if (admin == null) {
+                admin = new Administrator();
+                admin.setUserId(userid);
+                userLoginHistory.put(userid, admin);
+            }
+            admin.setLoginFailedCount(admin.getLoginFailedCount() + 1);
+            admin.setLastLoginFailedTime(new Date());
+            
             session.setAttribute("authNResult", "authNFailed");
-            response.sendRedirect("/openredirect/login" + loginQueryString);
+            response.sendRedirect("/login");
         }
     }
 }

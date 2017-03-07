@@ -1,6 +1,7 @@
 package org.t246osslab.easybuggy;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,6 +21,7 @@ import org.apache.directory.shared.ldap.message.AliasDerefMode;
 import org.apache.directory.shared.ldap.name.LdapDN;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.t246osslab.easybuggy.utils.Administrator;
 import org.t246osslab.easybuggy.utils.EmbeddedADS;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.LDAPUtils;
@@ -28,8 +30,9 @@ import org.t246osslab.easybuggy.utils.MessageUtils;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/login" })
 public class DefaultLoginServlet extends HttpServlet {
-
-    protected ConcurrentHashMap<String, Integer> inMemoryAccountLockMap = new ConcurrentHashMap<String, Integer>();
+    
+    // User's login history using in-memory account locking
+    protected ConcurrentHashMap<String, Administrator> userLoginHistory = new ConcurrentHashMap<String, Administrator>();
     
     private static Logger log = LoggerFactory.getLogger(DefaultLoginServlet.class);
 
@@ -79,6 +82,9 @@ public class DefaultLoginServlet extends HttpServlet {
         if ("authNFailed".equals(session.getAttribute("authNResult"))) {
             bodyHtml.append("<p>" + MessageUtils.getMsg("msg.authentication.fail", locale) + "</p>");
             session.setAttribute("authNResult", null);
+        }else if ("accountLocked".equals(session.getAttribute("authNResult"))) {
+            bodyHtml.append("<p>" + MessageUtils.getMsg("msg.account.locked", locale) + "</p>");
+            session.setAttribute("authNResult", null);
         }
         HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.login.page", locale),
                 bodyHtml.toString());
@@ -86,15 +92,27 @@ public class DefaultLoginServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        String user = request.getParameter("userid");
-        String pass = request.getParameter("password");
+        String userid = request.getParameter("userid");
+        String password = request.getParameter("password");
 
         HttpSession session = request.getSession(true);
-        
-        if (authUser(user, pass)) {
-            session.setAttribute("authNResult", "authenticated");
-            session.setAttribute("userid", user);
+        if (isAccountLocked(userid)) {
+            session.setAttribute("authNResult", "accountLocked");
+            response.sendRedirect("/login");
+        } else if (authUser(userid, password)) {
+            /* Reset account lock */
+            Administrator admin = userLoginHistory.get(userid);
+            if (admin == null) {
+                admin = new Administrator();
+                admin.setUserId(userid);
+                userLoginHistory.put(userid, admin);
+            }
+            admin.setLoginFailedCount(0);
+            admin.setLastLoginFailedTime(null);
 
+            session.setAttribute("authNResult", "authenticated");
+            session.setAttribute("userid", userid);
+            
             String target = (String) session.getAttribute("target");
             if (target == null) {
                 response.sendRedirect("/admins/main");
@@ -102,16 +120,28 @@ public class DefaultLoginServlet extends HttpServlet {
                 session.removeAttribute("target");
                 response.sendRedirect(target);
             }
-        } else if (isAccountLocked(user)) {
-            session.setAttribute("authNResult", "accountLocked");
-            response.sendRedirect("/login");
         } else {
+            /* account lock count +1 */
+            Administrator admin = userLoginHistory.get(userid);
+            if (admin == null) {
+                admin = new Administrator();
+                admin.setUserId(userid);
+                userLoginHistory.put(userid, admin);
+            }
+            admin.setLoginFailedCount(admin.getLoginFailedCount() + 1);
+            admin.setLastLoginFailedTime(new Date());
+            
             session.setAttribute("authNResult", "authNFailed");
             response.sendRedirect("/login");
         }
     }
 
     protected boolean isAccountLocked(String userid) {
+        Administrator admin = userLoginHistory.get(userid);
+        if (admin != null && admin.getLoginFailedCount() == 10
+                && (new Date().getTime() - admin.getLastLoginFailedTime().getTime() < 1000 * 60 * 60)) {
+            return true;
+        }
         return false;
     }
 
