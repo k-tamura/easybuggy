@@ -146,6 +146,11 @@
 						key="function.name.open.redirect" /></a>:
 			<fmt:message key="function.description.open.redirect" />
 		</p></li>
+		<li><p>
+			<a href="admins/main?logintype=bruteforce" target="_blank"><fmt:message
+						key="function.name.brute.force" /></a>:
+			<fmt:message key="function.description.brute.force" />
+		</p></li>
 	</ul>
 
 	<h2>

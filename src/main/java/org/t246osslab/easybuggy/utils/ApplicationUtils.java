@@ -18,6 +18,12 @@ public class ApplicationUtils {
 
     // default database url: null
     private static String databaseDriver = null;
+    
+    // default account lock time: 3600000 (1 hour)
+    private static long accountLockTime = 3600000;
+    
+    // default account lock limit count: 10
+    private static int accountLockCount = 10;
 
     static {
         ResourceBundle bundle = null;
@@ -33,6 +39,16 @@ public class ApplicationUtils {
         }
         try {
             databaseDriver = bundle.getString("database.driver");
+        } catch (Exception e) {
+            log.error("Exception occurs: ", e);
+        }
+        try {
+            accountLockTime = Long.parseLong(bundle.getString("account.lock.time"));
+        } catch (Exception e) {
+            log.error("Exception occurs: ", e);
+        }
+        try {
+            accountLockCount = Integer.parseInt(bundle.getString("account.lock.count"));
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         }
@@ -54,5 +70,23 @@ public class ApplicationUtils {
      */
     public static String getDatabaseDriver() {
         return databaseDriver;
+    }
+    
+    /**
+     * Return the account lock time.
+     * 
+     * @return Account lock time
+     */
+    public static long getAccountLockTime() {
+        return accountLockTime;
+    }
+
+     /**
+      * Return the account lock count.
+      * 
+      * @return Account lock count
+      */
+     public static int getAccountLockCount() {
+        return accountLockCount;
     }
 }

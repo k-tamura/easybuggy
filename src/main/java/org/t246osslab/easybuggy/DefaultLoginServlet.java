@@ -22,6 +22,7 @@ import org.apache.directory.shared.ldap.name.LdapDN;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.utils.Administrator;
+import org.t246osslab.easybuggy.utils.ApplicationUtils;
 import org.t246osslab.easybuggy.utils.EmbeddedADS;
 import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.utils.LDAPUtils;
@@ -66,7 +67,9 @@ public class DefaultLoginServlet extends HttpServlet {
             bodyHtml.append("<br><p>" + MessageUtils.getMsg((String) req.getAttribute("login.page.note"), locale) + "<p>");
         }
         String queryString = req.getQueryString();
-        bodyHtml.append("<input type=\"hidden\" name=\"loginquerystring\" value=\"" + queryString + "\">");
+        if (queryString != null) {
+            bodyHtml.append("<input type=\"hidden\" name=\"loginquerystring\" value=\"" + queryString + "\">");
+        }
         Enumeration<?> paramNames = req.getParameterNames();
         while (paramNames.hasMoreElements()) {
             String paramName = (String) paramNames.nextElement();
@@ -138,8 +141,10 @@ public class DefaultLoginServlet extends HttpServlet {
 
     protected boolean isAccountLocked(String userid) {
         Administrator admin = userLoginHistory.get(userid);
-        if (admin != null && admin.getLoginFailedCount() == 10
-                && (new Date().getTime() - admin.getLastLoginFailedTime().getTime() < 1000 * 60 * 60)) {
+        if (admin != null
+                && admin.getLoginFailedCount() == ApplicationUtils.getAccountLockCount()
+                && (new Date().getTime() - admin.getLastLoginFailedTime().getTime() < ApplicationUtils
+                        .getAccountLockTime())) {
             return true;
         }
         return false;

@@ -40,7 +40,7 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
         HttpSession session = request.getSession(true);
         if (isAccountLocked(userid)) {
             session.setAttribute("authNResult", "accountLocked");
-            response.sendRedirect("/login");
+            response.sendRedirect("/openredirect/login" + loginQueryString);
         } else if (authUser(userid, password)) {
             /* Reset account lock */
             Administrator admin = userLoginHistory.get(userid);
@@ -85,7 +85,7 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
             admin.setLastLoginFailedTime(new Date());
             
             session.setAttribute("authNResult", "authNFailed");
-            response.sendRedirect("/login");
+            response.sendRedirect("/openredirect/login" + loginQueryString);
         }
     }
 }
