@@ -137,6 +137,11 @@
 			<fmt:message key="function.description.code.injection" />
 		</p></li>
 		<li><p>
+			<a href="ognleijc" target="_blank"><fmt:message
+						key="function.name.os.command.injection" /></a>:
+			<fmt:message key="function.description.os.command.injection" />
+		</p></li>
+		<li><p>
 			<a href="urupload" target="_blank"><fmt:message
 						key="function.name.unrestricted.upload" /></a>:
 			<fmt:message key="function.description.unrestricted.upload" />
