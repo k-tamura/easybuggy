@@ -45,7 +45,7 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
                     value = Ognl.getValue(expr, ctx);
                 } catch (OgnlException e) {
                     isValid = false;
-                    log.error("Exception occurs: ", e);
+                    log.debug("Exception occurs: ", e);
                 }
             }
 
