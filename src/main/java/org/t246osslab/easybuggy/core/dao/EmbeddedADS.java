@@ -1,5 +1,6 @@
-package org.t246osslab.easybuggy.utils;
+package org.t246osslab.easybuggy.core.dao;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.directory.server.constants.ServerDNConstants;
 import org.apache.directory.server.core.DefaultDirectoryService;
 import org.apache.directory.server.core.DirectoryService;
@@ -66,10 +67,10 @@ public class EmbeddedADS {
             }
 
             // Add sample users
-            addUser("Mark", "password", "57249037993");
-            addUser("David", "p@s2w0rd", "42368923031");
-            addUser("Peter", "pa33word", "54238496555");
-            addUser("James", "pathwood", "70414823225");
+            addUser("Mark", "password", RandomStringUtils.randomNumeric(10));
+            addUser("David", "p@s2w0rd", RandomStringUtils.randomNumeric(10));
+            addUser("Peter", "pa33word", RandomStringUtils.randomNumeric(10));
+            addUser("James", "pathwood", RandomStringUtils.randomNumeric(10));
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         }

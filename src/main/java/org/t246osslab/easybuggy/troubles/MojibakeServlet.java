@@ -1,7 +1,6 @@
 package org.t246osslab.easybuggy.troubles;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -13,9 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.owasp.esapi.ESAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.utils.Closer;
-import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.utils.MessageUtils;
+import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
+import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
 // EncodingFilter excludes /mojibake. 
 @SuppressWarnings("serial")
@@ -26,7 +24,6 @@ public class MojibakeServlet extends HttpServlet {
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        PrintWriter writer = null;
         req.setCharacterEncoding("Shift_JIS");
         res.setContentType("text/html; charset=UTF-8");
         try {
@@ -60,8 +57,6 @@ public class MojibakeServlet extends HttpServlet {
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
-        } finally {
-            Closer.close(writer);
         }
     }
 

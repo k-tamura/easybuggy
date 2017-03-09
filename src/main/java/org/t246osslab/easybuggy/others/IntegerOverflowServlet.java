@@ -1,7 +1,6 @@
 package org.t246osslab.easybuggy.others;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Locale;
 
@@ -13,9 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.utils.Closer;
-import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.utils.MessageUtils;
+import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
+import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/iof" })
@@ -28,7 +26,6 @@ public class IntegerOverflowServlet extends HttpServlet {
         BigDecimal thickness = null;
         BigDecimal thicknessM = null;
         BigDecimal thicknessKm = null;
-        PrintWriter writer = null;
         try {
             Locale locale = req.getLocale();
             String strTimes = req.getParameter("times");
@@ -83,8 +80,6 @@ public class IntegerOverflowServlet extends HttpServlet {
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
-        } finally {
-            Closer.close(writer);
         }
     }
 }

@@ -1,4 +1,4 @@
-package org.t246osslab.easybuggy;
+package org.t246osslab.easybuggy.core.servlets;
 
 import java.io.IOException;
 import java.util.Date;
@@ -19,21 +19,21 @@ import org.apache.directory.shared.ldap.filter.FilterParser;
 import org.apache.directory.shared.ldap.filter.SearchScope;
 import org.apache.directory.shared.ldap.message.AliasDerefMode;
 import org.apache.directory.shared.ldap.name.LdapDN;
+import org.owasp.esapi.ESAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.utils.Administrator;
-import org.t246osslab.easybuggy.utils.ApplicationUtils;
-import org.t246osslab.easybuggy.utils.EmbeddedADS;
-import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.utils.LDAPUtils;
-import org.t246osslab.easybuggy.utils.MessageUtils;
+import org.t246osslab.easybuggy.core.dao.EmbeddedADS;
+import org.t246osslab.easybuggy.core.model.User;
+import org.t246osslab.easybuggy.core.utils.ApplicationUtils;
+import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
+import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/login" })
 public class DefaultLoginServlet extends HttpServlet {
     
     // User's login history using in-memory account locking
-    protected ConcurrentHashMap<String, Administrator> userLoginHistory = new ConcurrentHashMap<String, Administrator>();
+    protected ConcurrentHashMap<String, User> userLoginHistory = new ConcurrentHashMap<String, User>();
     
     private static Logger log = LoggerFactory.getLogger(DefaultLoginServlet.class);
 
@@ -104,9 +104,9 @@ public class DefaultLoginServlet extends HttpServlet {
             response.sendRedirect("/login");
         } else if (authUser(userid, password)) {
             /* Reset account lock */
-            Administrator admin = userLoginHistory.get(userid);
+            User admin = userLoginHistory.get(userid);
             if (admin == null) {
-                admin = new Administrator();
+                admin = new User();
                 admin.setUserId(userid);
                 userLoginHistory.put(userid, admin);
             }
@@ -125,9 +125,9 @@ public class DefaultLoginServlet extends HttpServlet {
             }
         } else {
             /* account lock count +1 */
-            Administrator admin = userLoginHistory.get(userid);
+            User admin = userLoginHistory.get(userid);
             if (admin == null) {
-                admin = new Administrator();
+                admin = new User();
                 admin.setUserId(userid);
                 userLoginHistory.put(userid, admin);
             }
@@ -140,7 +140,7 @@ public class DefaultLoginServlet extends HttpServlet {
     }
 
     protected boolean isAccountLocked(String userid) {
-        Administrator admin = userLoginHistory.get(userid);
+        User admin = userLoginHistory.get(userid);
         if (admin != null
                 && admin.getLoginFailedCount() == ApplicationUtils.getAccountLockCount()
                 && (new Date().getTime() - admin.getLastLoginFailedTime().getTime() < ApplicationUtils
@@ -155,8 +155,8 @@ public class DefaultLoginServlet extends HttpServlet {
         ExprNode filter = null;
         EntryFilteringCursor cursor = null;
         try {
-            filter = FilterParser.parse("(&(uid=" + LDAPUtils.escapeLDAPSearchFilter(username.trim())
-                    + ")(userPassword=" + LDAPUtils.escapeLDAPSearchFilter(password.trim()) + "))");
+            filter = FilterParser.parse("(&(uid=" + ESAPI.encoder().encodeForLDAP(username.trim())
+                    + ")(userPassword=" + ESAPI.encoder().encodeForLDAP(password.trim()) + "))");
             cursor = EmbeddedADS.service.getAdminSession().search(new LdapDN("ou=people,dc=t246osslab,dc=org"),
                     SearchScope.SUBTREE, filter, AliasDerefMode.NEVER_DEREF_ALIASES, null);
             if (cursor.available()) {

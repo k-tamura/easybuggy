@@ -12,8 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.DefaultLoginServlet;
-import org.t246osslab.easybuggy.utils.Administrator;
+import org.t246osslab.easybuggy.core.model.User;
+import org.t246osslab.easybuggy.core.servlets.DefaultLoginServlet;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/openredirect/login" })
@@ -43,9 +43,9 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
             response.sendRedirect("/openredirect/login" + loginQueryString);
         } else if (authUser(userid, password)) {
             /* Reset account lock */
-            Administrator admin = userLoginHistory.get(userid);
+            User admin = userLoginHistory.get(userid);
             if (admin == null) {
-                admin = new Administrator();
+                admin = new User();
                 admin.setUserId(userid);
                 userLoginHistory.put(userid, admin);
             }
@@ -75,9 +75,9 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
             }
         } else {
             /* account lock count +1 */
-            Administrator admin = userLoginHistory.get(userid);
+            User admin = userLoginHistory.get(userid);
             if (admin == null) {
-                admin = new Administrator();
+                admin = new User();
                 admin.setUserId(userid);
                 userLoginHistory.put(userid, admin);
             }

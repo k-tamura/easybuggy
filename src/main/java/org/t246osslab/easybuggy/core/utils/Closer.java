@@ -1,4 +1,4 @@
-package org.t246osslab.easybuggy.utils;
+package org.t246osslab.easybuggy.core.utils;
 
 import java.io.Closeable;
 import java.io.IOException;

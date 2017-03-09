@@ -1,4 +1,4 @@
-package org.t246osslab.easybuggy;
+package org.t246osslab.easybuggy.core.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.utils.Closer;
+import org.t246osslab.easybuggy.core.utils.Closer;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/ping" })

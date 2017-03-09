@@ -3,7 +3,6 @@ package org.t246osslab.easybuggy.troubles;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -15,9 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.utils.Closer;
-import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.utils.MessageUtils;
+import org.t246osslab.easybuggy.core.utils.Closer;
+import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
+import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/netsocketleak" })
@@ -27,7 +26,6 @@ public class NetworkSocketLeakServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        PrintWriter writer = null;
         HttpURLConnection connection = null;
         InputStreamReader isr = null;
         BufferedReader reader = null;
@@ -50,7 +48,7 @@ public class NetworkSocketLeakServlet extends HttpServlet {
         } catch (IOException e) {
             log.error("Exception occurs: ", e);
         } finally {
-            Closer.close(writer, isr, reader);
+            Closer.close(isr, reader);
             if (connection != null) {
                 // connection.disconnect();
             }

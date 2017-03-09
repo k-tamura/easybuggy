@@ -1,7 +1,6 @@
 package org.t246osslab.easybuggy.troubles;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,10 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.utils.ApplicationUtils;
-import org.t246osslab.easybuggy.utils.Closer;
-import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.utils.MessageUtils;
+import org.t246osslab.easybuggy.core.utils.ApplicationUtils;
+import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
+import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/dbconnectionleak" })
@@ -33,7 +31,6 @@ public class DBConnectionLeakServlet extends HttpServlet {
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        PrintWriter writer = null;
         Connection conn = null;
         Statement stmt = null;
         Locale locale = req.getLocale();
@@ -67,7 +64,6 @@ public class DBConnectionLeakServlet extends HttpServlet {
             bodyHtml.append(MessageUtils.getMsg("msg.unknown.exception.occur", locale));
             bodyHtml.append(e.getLocalizedMessage());
         } finally {
-            Closer.close(writer);
             HTTPResponseCreator.createSimpleResponse(res, null, bodyHtml.toString());
             /* A DB connection leaks because the following lines are commented out.
             if (stmt != null) {

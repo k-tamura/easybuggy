@@ -1,7 +1,6 @@
 package org.t246osslab.easybuggy.vulnerabilities;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -10,17 +9,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ognl.Ognl;
+import ognl.OgnlContext;
+import ognl.OgnlException;
+
 import org.apache.commons.lang.math.NumberUtils;
 import org.owasp.esapi.ESAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.utils.Closer;
-import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.utils.MessageUtils;
-
-import ognl.Ognl;
-import ognl.OgnlContext;
-import ognl.OgnlException;
+import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
+import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/ognleijc" })
@@ -30,11 +28,9 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        PrintWriter writer = null;
         try {
             Object value = null;
             boolean isValid = true;
-            Locale locale = req.getLocale();
             OgnlContext ctx = new OgnlContext();
             String expression = req.getParameter("expression");
             if (expression == null || expression.equals("")) {
@@ -49,6 +45,7 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
                 }
             }
 
+            Locale locale = req.getLocale();
             StringBuilder bodyHtml = new StringBuilder();
             bodyHtml.append("<form action=\"ognleijc\" method=\"post\">");
             bodyHtml.append(MessageUtils.getMsg("msg.enter.math.expression", locale));
@@ -76,8 +73,6 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
-        } finally {
-            Closer.close(writer);
         }
     }
 }

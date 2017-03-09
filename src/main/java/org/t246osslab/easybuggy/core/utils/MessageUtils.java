@@ -1,4 +1,4 @@
-package org.t246osslab.easybuggy.utils;
+package org.t246osslab.easybuggy.core.utils;
 
 import java.text.MessageFormat;
 import java.util.Locale;

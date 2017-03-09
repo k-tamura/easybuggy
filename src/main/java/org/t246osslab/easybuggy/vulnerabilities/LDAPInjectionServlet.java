@@ -1,7 +1,6 @@
 package org.t246osslab.easybuggy.vulnerabilities;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.Locale;
 
@@ -20,10 +19,9 @@ import org.apache.directory.shared.ldap.message.AliasDerefMode;
 import org.apache.directory.shared.ldap.name.LdapDN;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.utils.Closer;
-import org.t246osslab.easybuggy.utils.EmbeddedADS;
-import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.utils.MessageUtils;
+import org.t246osslab.easybuggy.core.dao.EmbeddedADS;
+import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
+import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/ldapijc" })
@@ -33,7 +31,6 @@ public class LDAPInjectionServlet extends HttpServlet {
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        PrintWriter writer = null;
         try {
             String name = req.getParameter("name");
             String password = req.getParameter("password");
@@ -91,8 +88,6 @@ public class LDAPInjectionServlet extends HttpServlet {
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
-        } finally {
-            Closer.close(writer);
         }
     }
 }

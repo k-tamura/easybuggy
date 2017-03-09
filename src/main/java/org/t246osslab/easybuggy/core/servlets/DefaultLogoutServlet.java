@@ -1,4 +1,4 @@
-package org.t246osslab.easybuggy;
+package org.t246osslab.easybuggy.core.servlets;
 
 import java.io.IOException;
 
@@ -7,15 +7,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
+import javax.servlet.http.HttpSession;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns = { "/test" })
-public class TestServlet extends HttpServlet {
-
+@WebServlet(urlPatterns = { "/logout" })
+public class DefaultLogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        HTTPResponseCreator.createSimpleResponse(res, "Test", "Test!!");
+        HttpSession session = req.getSession(true);
+        session.invalidate();
+        //res.sendRedirect("/admins/main");
+        res.sendRedirect("/");
     }
 }

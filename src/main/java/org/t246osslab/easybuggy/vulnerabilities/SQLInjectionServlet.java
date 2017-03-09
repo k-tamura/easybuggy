@@ -1,8 +1,10 @@
 package org.t246osslab.easybuggy.vulnerabilities;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -13,10 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.utils.Closer;
-import org.t246osslab.easybuggy.utils.DBClient;
-import org.t246osslab.easybuggy.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.utils.MessageUtils;
+import org.t246osslab.easybuggy.core.dao.DBClient;
+import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
+import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/sqlijc" })
@@ -26,7 +27,6 @@ public class SQLInjectionServlet extends HttpServlet {
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        PrintWriter writer = null;
         try {
             String name = req.getParameter("name");
             String password = req.getParameter("password");
@@ -61,22 +61,51 @@ public class SQLInjectionServlet extends HttpServlet {
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
-        } finally {
-            Closer.close(writer);
         }
     }
 
     private String selectUsers(String name, String password, HttpServletRequest req) {
-
-        String result = "<font color=\"red\">" + MessageUtils.getMsg("msg.error.user.not.exist", req.getLocale())+ "</font><br>";
-        DBClient dbClient = new DBClient();
-        ArrayList<String[]> users = dbClient.selectUsersTable(name, password);
-        StringBuilder sb = new StringBuilder();
-        for (String[] user : users) {
-            sb.append(user[0] + ", " + user[1] + "<BR>");
-        }
-        if (sb.length() > 0) {
-            result = MessageUtils.getMsg("user.table.column.names", req.getLocale()) + "<BR>" + sb.toString();
+        
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        String result = "<font color=\"red\">" + MessageUtils.getMsg("msg.error.user.not.exist", req.getLocale())
+                + "</font><br>";
+        try {
+            conn = new DBClient().getConnection();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM users WHERE name='" + name + "' AND password='" + password + "'");
+            StringBuilder sb = new StringBuilder();
+            while (rs.next()) {
+                sb.append(rs.getString("name") + ", " + rs.getString("secret") + "<BR>");
+            }
+            if (sb.length() > 0) {
+                result = MessageUtils.getMsg("user.table.column.names", req.getLocale()) + "<BR>" + sb.toString();
+            }
+        } catch (Exception e) {
+            log.error("Exception occurs: ", e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    log.error("Exception occurs: ", e);
+                }
+            }
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    log.error("Exception occurs: ", e);
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    log.error("Exception occurs: ", e);
+                }
+            }
         }
         return result;
     }

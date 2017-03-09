@@ -1,4 +1,4 @@
-package org.t246osslab.easybuggy.utils;
+package org.t246osslab.easybuggy.core.filters;
 
 import java.io.IOException;
 
