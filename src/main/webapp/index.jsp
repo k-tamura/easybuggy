@@ -10,9 +10,7 @@
 <html>
 <head>
 <title>EasyBuggy</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<c:import url="/html/style_bootstrap.html" /> 
 </head>
 <body style="margin:20px;">
 	<header>
@@ -137,11 +135,6 @@
 			<fmt:message key="function.description.code.injection" />
 		</p></li>
 		<li><p>
-			<a href="ognleijc" target="_blank"><fmt:message
-						key="function.name.os.command.injection" /></a>:
-			<fmt:message key="function.description.os.command.injection" />
-		</p></li>
-		<li><p>
 			<a href="urupload" target="_blank"><fmt:message
 						key="function.name.unrestricted.upload" /></a>:
 			<fmt:message key="function.description.unrestricted.upload" />
@@ -155,6 +148,11 @@
 			<a href="admins/main?logintype=bruteforce" target="_blank"><fmt:message
 						key="function.name.brute.force" /></a>:
 			<fmt:message key="function.description.brute.force" />
+		</p></li>
+		<li><p>
+			<a href="/jsp/includable.jsp" target="_blank"><fmt:message
+						key="function.name.dangerous.file.inclusion" /></a>:
+			<fmt:message key="function.description.dangerous.file.inclusion" />
 		</p></li>
 	</ul>
 
