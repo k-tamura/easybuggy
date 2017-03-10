@@ -32,7 +32,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/login" })
 public class DefaultLoginServlet extends HttpServlet {
     
-    // User's login history using in-memory account locking
+    /* User's login history using in-memory account locking */
     protected ConcurrentHashMap<String, User> userLoginHistory = new ConcurrentHashMap<String, User>();
     
     private static Logger log = LoggerFactory.getLogger(DefaultLoginServlet.class);

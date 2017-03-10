@@ -47,10 +47,10 @@ public class DeadlockServlet2 extends HttpServlet {
             bodyHtml.append("<br><br>");
 
             if ("asc".equals(order)) {
-                String message = updateUsersTable(new int[] { 1, 2 }, locale);
+                String message = updateUsersTable(new String[] {"1", "2"}, locale);
                 bodyHtml.append(message);
             } else if ("desc".equals(order)) {
-                String message = updateUsersTable(new int[] { 2, 1 }, locale);
+                String message = updateUsersTable(new String[] { "2", "1" }, locale);
                 bodyHtml.append(message);
             }else{
                 bodyHtml.append(MessageUtils.getMsg("msg.warn.select.asc.or.desc", locale));
@@ -65,7 +65,7 @@ public class DeadlockServlet2 extends HttpServlet {
         }
     }
 
-    public String updateUsersTable(int[] ids, Locale locale) {
+    public String updateUsersTable(String[] ids, Locale locale) {
 
         PreparedStatement stmt = null;
         Connection conn = null;
@@ -79,13 +79,13 @@ public class DeadlockServlet2 extends HttpServlet {
 
             stmt = conn.prepareStatement("Update users set secret = ? where id = ?");
             stmt.setString(1, RandomStringUtils.randomNumeric(10));
-            stmt.setString(2, String.valueOf(ids[0]));
+            stmt.setString(2, ids[0]);
             executeUpdate = stmt.executeUpdate();
 
             Thread.sleep(5000);
 
             stmt.setString(1, RandomStringUtils.randomNumeric(10));
-            stmt.setString(2, String.valueOf(ids[1]));
+            stmt.setString(2, ids[1]);
             executeUpdate = executeUpdate + stmt.executeUpdate();
             conn.commit();
             resultMessage = MessageUtils.getMsg("msg.update.records", new Object[] { executeUpdate }, locale);

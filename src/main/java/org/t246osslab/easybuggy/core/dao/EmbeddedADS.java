@@ -23,8 +23,6 @@ public class EmbeddedADS {
 
     /**
      * Create an instance of EmbeddedADS and initialize it.
-     * 
-     * @throws Exception If something went wrong
      */
     static {
         try {
@@ -76,14 +74,7 @@ public class EmbeddedADS {
         }
     }
 
-    /**
-     * Add a partition to the server
-     * 
-     * @param partitionId The partition Id
-     * @param partitionDn The partition DN
-     * @return The added partition
-     * @throws Exception If the partition can't be added
-     */
+    // Add a partition to the server
     private static Partition addPartition(String partitionId, String partitionDn) throws Exception {
         // Create a new partition named
         Partition partition = new JdbmPartition();
@@ -93,6 +84,7 @@ public class EmbeddedADS {
         return partition;
     }
 
+    // Add a user to the server
     private static void addUser(String username, String passwd, String secretNumber) throws Exception {
         LdapDN dn = new LdapDN("uid=" + username + ",ou=people,dc=t246osslab,dc=org");
         if (!service.getAdminSession().exists(dn)) {

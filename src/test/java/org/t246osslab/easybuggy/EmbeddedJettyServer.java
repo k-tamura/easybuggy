@@ -17,6 +17,10 @@ import org.eclipse.jetty.webapp.WebXmlConfiguration;
  */
 public class EmbeddedJettyServer {
     
+    /**
+     * Main method to start up the embedded Jetty server.
+     * This method is usually called from 'mvn install exex:exec'.
+     */
     public static void main(String[] args) throws Exception {
 
         Server server = new Server(Integer.parseInt(args[0]));

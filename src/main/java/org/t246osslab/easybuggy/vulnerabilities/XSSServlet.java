@@ -38,6 +38,7 @@ public class XSSServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
 
             if (name != null && !name.equals("")) {
+                // Reverse name
                 String reverseName = getReverseName(name);
                 bodyHtml.append(MessageUtils.getMsg("label.reversed.name", locale) + " -&gt; " + reverseName);
             } else {
@@ -55,6 +56,7 @@ public class XSSServlet extends HttpServlet {
         }
     }
 
+    /* Return the reversed name for a given name */
     private String getReverseName(String name) {
         StringBuffer sb = new StringBuffer(name);
         name = sb.reverse().toString();

@@ -16,7 +16,6 @@ public class DefaultLogoutServlet extends HttpServlet {
 
         HttpSession session = req.getSession(true);
         session.invalidate();
-        //res.sendRedirect("/admins/main");
         res.sendRedirect("/");
     }
 }

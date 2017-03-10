@@ -26,21 +26,28 @@ public class AuthenticationFilter implements Filter {
     }
 
     /**
+     * Call {@link #doFilter(HttpServletRequest, HttpServletResponse, FilterChain)}.
+     * 
      * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
      */
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException,
             ServletException {
+        
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         String target = request.getRequestURI();
+        
         if (target.startsWith("/admins")) {
+            /* Login (authentication) is needed to access admin pages (under /admins). */
+            
             String loginType = request.getParameter("logintype");
             String queryString = request.getQueryString();
             if (queryString == null) {
                 queryString = "";
             } else {
-                /* Remove "logintype" parameter from query string */
+                /* Remove "logintype" parameter from query string.
+                    (* "logintype" specifies a login servlet) */
                 queryString = queryString.replace("logintype=" + loginType + "&", "");
                 queryString = queryString.replace("&logintype=" + loginType, "");
                 queryString = queryString.replace("logintype=" + loginType, "");
