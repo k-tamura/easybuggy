@@ -43,13 +43,13 @@ public class SlowRegularExpressionServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
 
             if (word != null && !word.equals("")) {
-                Date startDdate = new Date();
-                log.info("Start Ddate: " + startDdate.toString());
+                Date startDate = new Date();
+                log.info("Start Date: " + startDate.toString());
                 Pattern compile = Pattern.compile("^([a-z0-9]+[-]{0,1}){1,100}$");
                 Matcher matcher = compile.matcher(word);
                 boolean matches = matcher.matches();
-                Date endDdate = new Date();
-                log.info("End Ddate: " + endDdate.toString());
+                Date endDate = new Date();
+                log.info("End Date: " + endDate.toString());
                 if (matches) {
                     bodyHtml.append(MessageUtils.getMsg("msg.match.regular.expression", locale));
                 } else {
