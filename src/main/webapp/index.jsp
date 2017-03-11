@@ -155,7 +155,7 @@
 			<fmt:message key="function.description.brute.force" />
 		</p></li>
 		<li><p>
-			<a href="/jsp/includable.jsp" target="_blank"><fmt:message
+			<a href="/jsp/includable.jsp?template=../html/style_bootstrap.html" target="_blank"><fmt:message
 						key="function.name.dangerous.file.inclusion" /></a>:
 			<fmt:message key="function.description.dangerous.file.inclusion" />
 		</p></li>
