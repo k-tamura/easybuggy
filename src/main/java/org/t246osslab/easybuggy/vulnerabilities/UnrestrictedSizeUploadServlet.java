@@ -26,14 +26,11 @@ import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns = { "/urupload" })
-// 2MB, 10MB, 50MB
-// @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 10,
-// maxRequestSize = 1024 * 1024 * 50)
+@WebServlet(urlPatterns = { "/ursupload" })
 @MultipartConfig
-public class UnrestrictedUploadServlet extends HttpServlet {
+public class UnrestrictedSizeUploadServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(UnrestrictedUploadServlet.class);
+    private static Logger log = LoggerFactory.getLogger(UnrestrictedSizeUploadServlet.class);
 
     // Name of the directory where uploaded files is saved
     private static final String SAVE_DIR = "uploadFiles";
@@ -43,7 +40,7 @@ public class UnrestrictedUploadServlet extends HttpServlet {
         Locale locale = req.getLocale();
 
         StringBuilder bodyHtml = new StringBuilder();
-        bodyHtml.append("<form method=\"post\" action=\"urupload\" enctype=\"multipart/form-data\">");
+        bodyHtml.append("<form method=\"post\" action=\"ursupload\" enctype=\"multipart/form-data\">");
         bodyHtml.append(MessageUtils.getMsg("msg.reverse.color", locale));
         bodyHtml.append("<br><br>");
         bodyHtml.append("<input type=\"file\" name=\"file\" size=\"60\" /><br>");
@@ -51,7 +48,11 @@ public class UnrestrictedUploadServlet extends HttpServlet {
         bodyHtml.append("<br><br>");
         bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.upload", locale) + "\" />");
         bodyHtml.append("<br><br>");
-        bodyHtml.append(MessageUtils.getMsg("msg.unrestricted.upload", locale));
+        if (req.getAttribute("ursErrorMessage") != null) {
+            bodyHtml.append(req.getAttribute("ursErrorMessage"));
+            bodyHtml.append("<br><br>");
+        }
+        bodyHtml.append(MessageUtils.getMsg("msg.note.unrestricted.size.upload", locale));
         bodyHtml.append("</form>");
         HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.unrestricted.upload", locale),
                 bodyHtml.toString());
@@ -79,6 +80,11 @@ public class UnrestrictedUploadServlet extends HttpServlet {
             String fileName = getFileName(filePart);
             if (fileName == null || fileName.equals("")) {
                 doGet(req, res);
+                return;
+            } else if (!isImageFile(fileName)) {
+                req.setAttribute("ursErrorMessage", MessageUtils.getMsg("msg.not.image.file", locale));
+                doGet(req, res);
+                return;
             }
             // TODO Remove this try block that is a workaround of issue #9 (FileNotFoundException on Jetty * Windows)
             boolean isConverted = false;
@@ -127,6 +133,12 @@ public class UnrestrictedUploadServlet extends HttpServlet {
         } finally {
             Closer.close(out, in);
         }
+    }
+
+    private boolean isImageFile(String fileName) {
+        return fileName.endsWith(".png") || fileName.endsWith(".gif") || fileName.endsWith(".jpg")
+                || fileName.endsWith(".jpeg") || fileName.endsWith(".tif") || fileName.endsWith(".tiff")
+                || fileName.endsWith(".bmp");
     }
 
     // Get file name from content-disposition filename

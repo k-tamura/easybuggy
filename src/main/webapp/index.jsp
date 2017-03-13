@@ -140,9 +140,14 @@
 			<fmt:message key="function.description.os.command.injection" />
 		</p></li>
 		<li><p>
-			<a href="urupload" target="_blank"><fmt:message
-						key="function.name.unrestricted.upload" /></a>:
-			<fmt:message key="function.description.unrestricted.upload" />
+			<a href="ursupload" target="_blank"><fmt:message
+						key="function.name.unrestricted.size.upload" /></a>:
+			<fmt:message key="function.description.unrestricted.size.upload" />
+		</p></li>
+		<li><p>
+			<a href="ureupload" target="_blank"><fmt:message
+						key="function.name.unrestricted.ext.upload" /></a>:
+			<fmt:message key="function.description.unrestricted.ext.upload" />
 		</p></li>
 		<li><p>
 			<a href="admins/main?logintype=openredirect" target="_blank"><fmt:message
