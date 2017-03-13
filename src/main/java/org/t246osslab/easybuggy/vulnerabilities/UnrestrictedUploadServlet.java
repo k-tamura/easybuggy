@@ -1,4 +1,4 @@
-package org.t246osslab.easybuggy.troubles;
+package org.t246osslab.easybuggy.vulnerabilities;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
