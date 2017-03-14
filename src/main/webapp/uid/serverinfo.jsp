@@ -11,11 +11,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>EasyBuggy</title>
+<title><fmt:message key="section.server.info" /></title>
 <c:import url="/dfi/style_bootstrap.html" /> 
 </head>
 <body style="margin:20px;">
- <a href="/logout"><fmt:message key="label.logout" /></a><hr/>
+	<h2>
+		<span class="glyphicon glyphicon-knight"></span>&nbsp;
+		<fmt:message key="section.server.info" />
+	</h2>
+    <a href="/logout"><fmt:message key="label.logout" /></a><hr/>
 <% request.setAttribute("systemProperties", java.lang.System.getProperties()); %>
  <table width="760">
   <tr>

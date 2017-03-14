@@ -26,6 +26,8 @@ public class AdminsMainServlet extends HttpServlet {
         bodyHtml.append("<br><br>");
         bodyHtml.append(MessageUtils.getMsg("label.login.user.id", locale) + ": " + userid);
         bodyHtml.append("<br><br>");
+        bodyHtml.append("<a href=\"/uid/serverinfo.jsp\">" + MessageUtils.getMsg("section.server.info", locale) + "</a>");
+        bodyHtml.append("<br><br>");
         bodyHtml.append("<a href=\"/logout\">" + MessageUtils.getMsg("label.logout", locale) + "</a>");
         HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.admins.main.page", locale),
                 bodyHtml.toString());

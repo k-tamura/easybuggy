@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import sun.util.logging.resources.logging;
-
 /**
  * Servlet Filter for authentication
  */
@@ -40,7 +38,7 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         String target = request.getRequestURI();
         
-        if (target.startsWith("/admins") || target.equals("/udc/serverinfo.jsp")) {
+        if (target.startsWith("/admins") || target.equals("/uid/serverinfo.jsp")) {
             /* Login (authentication) is needed to access admin pages (under /admins). */
             
             String loginType = request.getParameter("logintype");

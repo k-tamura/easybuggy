@@ -164,6 +164,11 @@
 						key="function.name.dangerous.file.inclusion" /></a>:
 			<fmt:message key="function.description.dangerous.file.inclusion" />
 		</p></li>
+		<li><p>
+			<a href="/uid/clientinfo.jsp" target="_blank"><fmt:message
+						key="function.name.unintended.file.disclosure" /></a>:
+			<fmt:message key="function.description.unintended.file.disclosure" />
+		</p></li>
 	</ul>
 
 	<h2>
