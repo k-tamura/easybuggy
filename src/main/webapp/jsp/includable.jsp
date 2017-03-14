@@ -20,7 +20,7 @@
 	<header>
 	<table width="720">
 		<tr>
-			<td><img src="../images/easybuggy.png"></td>
+			<td><img src="/images/easybuggy.png"></td>
 			<td><fmt:message key="description.design.page" /></td>
 		</tr>
 	</table>
@@ -39,17 +39,17 @@
 			<fmt:message key="style.description.nonstyle" />
 		</p></li>
 		<li><p>
-			<a href=includable.jsp?template=../html/style_bootstrap.html><fmt:message
+			<a href=includable.jsp?template=/html/style_bootstrap.html><fmt:message
 						key="style.name.bootstrap" /></a>:
 			<fmt:message key="style.description.bootstrap" />
 		</p></li>
 		<li><p>
-			<a href=includable.jsp?template=../html/style_google_mdl.html><fmt:message
+			<a href=includable.jsp?template=/html/style_google_mdl.html><fmt:message
 						key="style.name.google.mdl" /></a>:
 			<fmt:message key="style.description.google.mdl" />
 		</p></li>
 		<li><p>
-			<a href=includable.jsp?template=../html/style_materialize.html><fmt:message
+			<a href=includable.jsp?template=/html/style_materialize.html><fmt:message
 						key="style.name.materialize" /></a>:
 			<fmt:message key="style.description.materialize" />
 		</p></li>
