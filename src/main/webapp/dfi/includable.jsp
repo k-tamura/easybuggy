@@ -1,6 +1,7 @@
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="language"
 	value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
 	scope="session" />
@@ -11,7 +12,7 @@
 <head>
 <title>EasyBuggy</title>
 <c:catch var="ex">
-	<c:if test="${param.template != null}">
+	<c:if test="${param.template != null && !fn:contains(param.template,'../')}">
 		<c:import url="<%= request.getParameter(\"template\")%>" /> 
 	</c:if>
 </c:catch>
@@ -39,17 +40,17 @@
 			<fmt:message key="style.description.nonstyle" />
 		</p></li>
 		<li><p>
-			<a href=includable.jsp?template=/html/style_bootstrap.html><fmt:message
+			<a href=includable.jsp?template=style_bootstrap.html><fmt:message
 						key="style.name.bootstrap" /></a>:
 			<fmt:message key="style.description.bootstrap" />
 		</p></li>
 		<li><p>
-			<a href=includable.jsp?template=/html/style_google_mdl.html><fmt:message
+			<a href=includable.jsp?template=style_google_mdl.html><fmt:message
 						key="style.name.google.mdl" /></a>:
 			<fmt:message key="style.description.google.mdl" />
 		</p></li>
 		<li><p>
-			<a href=includable.jsp?template=/html/style_materialize.html><fmt:message
+			<a href=includable.jsp?template=style_materialize.html><fmt:message
 						key="style.name.materialize" /></a>:
 			<fmt:message key="style.description.materialize" />
 		</p></li>

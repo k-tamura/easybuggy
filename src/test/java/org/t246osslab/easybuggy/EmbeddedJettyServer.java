@@ -32,9 +32,9 @@ public class EmbeddedJettyServer {
         context.setConfigurations(new Configuration[] { new AnnotationConfiguration(), new WebXmlConfiguration(),
                 new WebInfConfiguration(), new TagLibConfiguration(), new PlusConfiguration(),
                 new MetaInfConfiguration(), new FragmentConfiguration(), new EnvConfiguration() });
-
         context.setContextPath("/");
         context.setParentLoaderPriority(true);
+        //context.setInitParameter("org.eclipse.jetty.servlet.Default.dirAllowed", "false");
         server.setHandler(context);
         server.start();
         server.dump(System.err);

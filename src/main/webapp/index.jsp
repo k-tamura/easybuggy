@@ -10,7 +10,7 @@
 <html>
 <head>
 <title>EasyBuggy</title>
-<c:import url="/html/style_bootstrap.html" /> 
+<c:import url="/dfi/style_bootstrap.html" /> 
 </head>
 <body style="margin:20px;">
 	<header>
@@ -160,7 +160,7 @@
 			<fmt:message key="function.description.brute.force" />
 		</p></li>
 		<li><p>
-			<a href="/jsp/includable.jsp?template=/html/style_bootstrap.html" target="_blank"><fmt:message
+			<a href="/dfi/includable.jsp?template=style_bootstrap.html" target="_blank"><fmt:message
 						key="function.name.dangerous.file.inclusion" /></a>:
 			<fmt:message key="function.description.dangerous.file.inclusion" />
 		</p></li>
