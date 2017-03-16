@@ -190,44 +190,36 @@
 			<fmt:message key="function.description.ei.error" />
 		</p></li>
 		<li><p>
-			<a href="oome" target="_blank"><fmt:message
-						key="function.name.oome.error" /> </a>:
-			<fmt:message key="function.description.oome.error" />
+			<a href="oome" target="_blank">OutOfMemoryError (Java heap space)</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="OutOfMemoryError"/></fmt:message>
 		</p></li>
 		<li><p>
-			<a href="oome2" target="_blank"><fmt:message
-						key="function.name.oome.error2" /></a>:
-			<fmt:message key="function.description.oome.error2" />
+			<a href="oome2" target="_blank">OutOfMemoryError (Requested array size exceeds VM limit)</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="OutOfMemoryError"/></fmt:message>
 		</p></li>
 		<li><p>
-			<a href="oome3" target="_blank"><fmt:message
-						key="function.name.oome.error3" /></a>:
-			<fmt:message key="function.description.oome.error3" />
+			<a href="oome3" target="_blank">OutOfMemoryError (unable to create new native thread)</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="OutOfMemoryError"/></fmt:message>
 		</p></li>
 		<li><p>
-			<a href="oome4" target="_blank"><fmt:message
-						key="function.name.oome.error4" /></a>:
-			<fmt:message key="function.description.oome.error4" />
+			<a href="oome4" target="_blank">OutOfMemoryError (GC overhead limit exceeded)</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="OutOfMemoryError"/></fmt:message>
 		</p></li>
 		<li><p>
-			<a href="oome5" target="_blank"><fmt:message
-						key="function.name.oome.error5" /></a>:
-			<fmt:message key="function.description.oome.error5" />
+			<a href="oome5" target="_blank">OutOfMemoryError (PermGen space)</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="OutOfMemoryError"/></fmt:message>
 		</p></li>
 		<li><p>
-			<a href="oome6" target="_blank"><fmt:message
-						key="function.name.oome.error6" /></a>:
-			<fmt:message key="function.description.oome.error6" />
+			<a href="oome6" target="_blank">OutOfMemoryError (Direct buffer memory)</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="OutOfMemoryError"/></fmt:message>
 		</p></li>
 		<li><p>
-			<a href="sofe" target="_blank"><fmt:message
-						key="function.name.sof.error" /></a>:
-			<fmt:message key="function.description.sof.error" />
+			<a href="sofe" target="_blank">StackOverflowError</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="StackOverflowError"/></fmt:message>
 		</p></li>
 		<li><p>
-			<a href="jnicall" target="_blank"><fmt:message
-						key="function.name.ul.error" /></a>:
-			<fmt:message key="function.description.ul.error" />
+			<a href="jnicall" target="_blank">UnsatisfiedLinkError</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="UnsatisfiedLinkError"/></fmt:message>
 		</p></li>
 	</ul>
 
@@ -296,67 +288,67 @@
 	<ul>
 		<li><p>
 			<a href="ae" target="_blank">ArithmeticException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="ArithmeticException"/></fmt:message>
+			<fmt:message key="function.description.throwable"><fmt:param value="ArithmeticException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="aioobe" target="_blank">ArrayIndexOutOfBoundsException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="ArrayIndexOutOfBoundsException"/></fmt:message>
+			<fmt:message key="function.description.throwable"><fmt:param value="ArrayIndexOutOfBoundsException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="ase" target="_blank">ArrayStoreException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="ArrayStoreException"/></fmt:message>
+			<fmt:message key="function.description.throwable"><fmt:param value="ArrayStoreException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="cce" target="_blank">ClassCastException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="ClassCastException"/></fmt:message>
+			<fmt:message key="function.description.throwable"><fmt:param value="ClassCastException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="cme" target="_blank">ConcurrentModificationException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="ConcurrentModificationException"/></fmt:message>
+			<fmt:message key="function.description.throwable"><fmt:param value="ConcurrentModificationException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="fnfe" target="_blank">FileNotFoundException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="FileNotFoundException"/></fmt:message>
+			<fmt:message key="function.description.throwable"><fmt:param value="FileNotFoundException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="iioe" target="_blank">IIOException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="IIOException"/></fmt:message>
+			<fmt:message key="function.description.throwable"><fmt:param value="IIOException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="iae" target="_blank">IllegalArgumentException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="IllegalArgumentException"/></fmt:message>
+			<fmt:message key="function.description.throwable"><fmt:param value="IllegalArgumentException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="itse" target="_blank">IllegalThreadStateException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="IllegalThreadStateException"/></fmt:message>
+			<fmt:message key="function.description.throwable"><fmt:param value="IllegalThreadStateException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="ioobe" target="_blank">IndexOutOfBoundsException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="IndexOutOfBoundsException"/></fmt:message>
+			<fmt:message key="function.description.throwable"><fmt:param value="IndexOutOfBoundsException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="murle" target="_blank">MalformedURLException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="MalformedURLException"/></fmt:message>
+			<fmt:message key="function.description.throwable"><fmt:param value="MalformedURLException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="mre" target="_blank">MissingResourceException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="MissingResourceException"/></fmt:message>
+			<fmt:message key="function.description.throwable"><fmt:param value="MissingResourceException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="npe" target="_blank">NullPointerException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="NullPointerException"/></fmt:message>
+			<fmt:message key="function.description.throwable"><fmt:param value="NullPointerException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="nfe" target="_blank">NumberFormatException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="NumberFormatException"/></fmt:message>
+			<fmt:message key="function.description.throwable"><fmt:param value="NumberFormatException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="uhe" target="_blank">UnknownHostException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="UnknownHostException"/></fmt:message>
+			<fmt:message key="function.description.throwable"><fmt:param value="UnknownHostException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="uee" target="_blank">UnsupportedEncodingException</a>:
-			<fmt:message key="function.description.exception"><fmt:param value="UnsupportedEncodingException"/></fmt:message>
+			<fmt:message key="function.description.throwable"><fmt:param value="UnsupportedEncodingException"/></fmt:message>
 		</p></li>
 	</ul>
 	<hr>
