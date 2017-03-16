@@ -39,7 +39,7 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
         
         HttpSession session = request.getSession(true);
         if (isAccountLocked(userid)) {
-            session.setAttribute("authNResult", "accountLocked");
+            session.setAttribute("authNMsg", "msg.account.locked");
             response.sendRedirect("/openredirect/login" + loginQueryString);
         } else if (authUser(userid, password)) {
             /* Reset account lock */
@@ -52,7 +52,7 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
             admin.setLoginFailedCount(0);
             admin.setLastLoginFailedTime(null);
 
-            session.setAttribute("authNResult", "authenticated");
+            session.setAttribute("authNMsg", "authenticated");
             session.setAttribute("userid", userid);
             
             String gotoUrl = request.getParameter("goto");
@@ -84,7 +84,7 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
             admin.setLoginFailedCount(admin.getLoginFailedCount() + 1);
             admin.setLastLoginFailedTime(new Date());
             
-            session.setAttribute("authNResult", "authNFailed");
+            session.setAttribute("authNMsg", "msg.authentication.fail");
             response.sendRedirect("/openredirect/login" + loginQueryString);
         }
     }

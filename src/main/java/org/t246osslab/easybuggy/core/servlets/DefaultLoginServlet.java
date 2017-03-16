@@ -81,12 +81,9 @@ public class DefaultLoginServlet extends HttpServlet {
 
         HttpSession session = req.getSession(true);
 
-        if ("authNFailed".equals(session.getAttribute("authNResult"))) {
-            bodyHtml.append("<p>" + MessageUtils.getMsg("msg.authentication.fail", locale) + "</p>");
-            session.setAttribute("authNResult", null);
-        }else if ("accountLocked".equals(session.getAttribute("authNResult"))) {
-            bodyHtml.append("<p>" + MessageUtils.getMsg("msg.account.locked", locale) + "</p>");
-            session.setAttribute("authNResult", null);
+        if (session.getAttribute("authNMsg") != null && !"authenticated".equals(session.getAttribute("authNMsg"))) {
+            bodyHtml.append("<p>" + MessageUtils.getMsg((String)session.getAttribute("authNMsg"), locale) + "</p>");
+            session.setAttribute("authNMsg", null);
         }
         bodyHtml.append("</form>");
         HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.login.page", locale),
@@ -100,7 +97,7 @@ public class DefaultLoginServlet extends HttpServlet {
 
         HttpSession session = request.getSession(true);
         if (isAccountLocked(userid)) {
-            session.setAttribute("authNResult", "accountLocked");
+            session.setAttribute("authNMsg", "msg.account.locked");
             response.sendRedirect("/login");
         } else if (authUser(userid, password)) {
             /* Reset account lock */
@@ -113,7 +110,7 @@ public class DefaultLoginServlet extends HttpServlet {
             admin.setLoginFailedCount(0);
             admin.setLastLoginFailedTime(null);
 
-            session.setAttribute("authNResult", "authenticated");
+            session.setAttribute("authNMsg", "authenticated");
             session.setAttribute("userid", userid);
             
             String target = (String) session.getAttribute("target");
@@ -134,7 +131,7 @@ public class DefaultLoginServlet extends HttpServlet {
             admin.setLoginFailedCount(admin.getLoginFailedCount() + 1);
             admin.setLastLoginFailedTime(new Date());
             
-            session.setAttribute("authNResult", "authNFailed");
+            session.setAttribute("authNMsg", "msg.authentication.fail");
             response.sendRedirect("/login");
         }
     }

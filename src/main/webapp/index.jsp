@@ -174,6 +174,11 @@
 						key="function.name.csrf" /></a>:
 			<fmt:message key="function.description.csrf" />
 		</p></li>
+		<li><p>
+			<a href="/verbosemsg/login" target="_blank"><fmt:message
+						key="function.name.verbose.error.message" /></a>:
+			<fmt:message key="function.description.verbose.error.message" />
+		</p></li>
 	</ul>
 
 	<h2>

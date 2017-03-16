@@ -81,7 +81,7 @@ public class DBClient {
 
         // insert sample records
         stmt.executeUpdate("insert into users values ('0','Mark','password','" + RandomStringUtils.randomNumeric(10) + "')");
-        stmt.executeUpdate("insert into users values ('1','David','p@s2w0rd','" + RandomStringUtils.randomNumeric(10) + "')");
+        stmt.executeUpdate("insert into users values ('1','David','pas2w0rd','" + RandomStringUtils.randomNumeric(10) + "')");
         stmt.executeUpdate("insert into users values ('2','Peter','pa33word','" + RandomStringUtils.randomNumeric(10) + "')");
         stmt.executeUpdate("insert into users values ('3','James','pathwood','" + RandomStringUtils.randomNumeric(10) + "')");
     }

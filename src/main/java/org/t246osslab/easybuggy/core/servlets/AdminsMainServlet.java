@@ -38,6 +38,8 @@ public class AdminsMainServlet extends HttpServlet {
         bodyHtml.append(MessageUtils.getMsg("msg.admin.page.top", locale));
         bodyHtml.append("<br><br>");
         bodyHtml.append("<a href=\"/uid/serverinfo.jsp\">" + MessageUtils.getMsg("section.server.info", locale) + "</a>");
+        bodyHtml.append("<br><br>");
+        bodyHtml.append("<a href=\"/admins/csrf\">" + MessageUtils.getMsg("section.change.password", locale) + "</a>");
         HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.admins.main.page", locale),
                 bodyHtml.toString());
     }

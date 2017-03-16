@@ -66,7 +66,7 @@ public class EmbeddedADS {
 
             // Add sample users
             addUser("Mark", "password", RandomStringUtils.randomNumeric(10));
-            addUser("David", "p@s2w0rd", RandomStringUtils.randomNumeric(10));
+            addUser("David", "pas2w0rd", RandomStringUtils.randomNumeric(10));
             addUser("Peter", "pa33word", RandomStringUtils.randomNumeric(10));
             addUser("James", "pathwood", RandomStringUtils.randomNumeric(10));
         } catch (Exception e) {

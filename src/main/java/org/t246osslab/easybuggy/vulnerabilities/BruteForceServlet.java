@@ -26,7 +26,7 @@ public class BruteForceServlet extends DefaultLoginServlet {
 
         HttpSession session = request.getSession(true);
         if (authUser(userid, password)) {
-            session.setAttribute("authNResult", "authenticated");
+            session.setAttribute("authNMsg", "authenticated");
             session.setAttribute("userid", userid);
 
             String target = (String) session.getAttribute("target");
@@ -37,7 +37,7 @@ public class BruteForceServlet extends DefaultLoginServlet {
                 response.sendRedirect(target);
             }
         } else {
-            session.setAttribute("authNResult", "authNFailed");
+            session.setAttribute("authNMsg", "msg.authentication.fail");
             response.sendRedirect("/bruteforce/login");
         }
     }
