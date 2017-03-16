@@ -169,6 +169,11 @@
 						key="function.name.unintended.file.disclosure" /></a>:
 			<fmt:message key="function.description.unintended.file.disclosure" />
 		</p></li>
+		<li><p>
+			<a href="/admins/csrf" target="_blank"><fmt:message
+						key="function.name.csrf" /></a>:
+			<fmt:message key="function.description.csrf" />
+		</p></li>
 	</ul>
 
 	<h2>

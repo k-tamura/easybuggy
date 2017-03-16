@@ -22,13 +22,22 @@ public class AdminsMainServlet extends HttpServlet {
         Object userid = session.getAttribute("userid");
         Locale locale = req.getLocale();
         StringBuilder bodyHtml = new StringBuilder();
+        bodyHtml.append("<table width=\"760px\">");
+        bodyHtml.append("<tr><td>");
+        bodyHtml.append("<h2>");
+        bodyHtml.append("<span class=\"glyphicon glyphicon-knight\"></span>&nbsp;");
+        bodyHtml.append(MessageUtils.getMsg("title.admins.main.page", locale));
+        bodyHtml.append("</h2>");
+        bodyHtml.append("</td><td align=\"right\">");
+        bodyHtml.append(MessageUtils.getMsg("label.login.user.id", locale) + ": " + userid);
+        bodyHtml.append("<br>");
+        bodyHtml.append("<a href=\"/logout\">" + MessageUtils.getMsg("label.logout", locale) + "</a>");
+        bodyHtml.append("</td></tr>");
+        bodyHtml.append("</table>");
+        bodyHtml.append("<hr/>");
         bodyHtml.append(MessageUtils.getMsg("msg.admin.page.top", locale));
         bodyHtml.append("<br><br>");
-        bodyHtml.append(MessageUtils.getMsg("label.login.user.id", locale) + ": " + userid);
-        bodyHtml.append("<br><br>");
         bodyHtml.append("<a href=\"/uid/serverinfo.jsp\">" + MessageUtils.getMsg("section.server.info", locale) + "</a>");
-        bodyHtml.append("<br><br>");
-        bodyHtml.append("<a href=\"/logout\">" + MessageUtils.getMsg("label.logout", locale) + "</a>");
         HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.admins.main.page", locale),
                 bodyHtml.toString());
     }

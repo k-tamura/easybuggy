@@ -15,11 +15,18 @@
 <c:import url="/dfi/style_bootstrap.html" /> 
 </head>
 <body style="margin:20px;">
-	<h2>
-		<span class="glyphicon glyphicon-knight"></span>&nbsp;
-		<fmt:message key="section.server.info" />
-	</h2>
-    <a href="/logout"><fmt:message key="label.logout" /></a><hr/>
+<table width="760px">
+<tr><td>
+<h2>
+<span class="glyphicon glyphicon-knight"></span>&nbsp;<fmt:message key="section.server.info" />
+</h2>
+</td><td align="right">
+<fmt:message key="label.login.user.id" />: <%=session.getAttribute("userid")%>
+<br>
+<a href="/logout"><fmt:message key="label.logout" /></a>
+</td></tr>
+</table>
+<hr/>
 <% request.setAttribute("systemProperties", java.lang.System.getProperties()); %>
  <table width="760">
   <tr>

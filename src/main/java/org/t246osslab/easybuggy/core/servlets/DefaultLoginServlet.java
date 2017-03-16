@@ -78,7 +78,6 @@ public class DefaultLoginServlet extends HttpServlet {
                 bodyHtml.append("<input type=\"hidden\" name=\"" + paramName + "\" value=\"" + paramValues[i] + "\">");
             }
         }
-        bodyHtml.append("</form>");
 
         HttpSession session = req.getSession(true);
 
@@ -89,6 +88,7 @@ public class DefaultLoginServlet extends HttpServlet {
             bodyHtml.append("<p>" + MessageUtils.getMsg("msg.account.locked", locale) + "</p>");
             session.setAttribute("authNResult", null);
         }
+        bodyHtml.append("</form>");
         HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.login.page", locale),
                 bodyHtml.toString());
     }
