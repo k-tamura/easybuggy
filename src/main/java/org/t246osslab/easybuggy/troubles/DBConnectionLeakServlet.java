@@ -25,8 +25,6 @@ public class DBConnectionLeakServlet extends HttpServlet {
 
     private static Logger log = LoggerFactory.getLogger(DBConnectionLeakServlet.class);
 
-    static final String dbUrl = ApplicationUtils.getDatabaseURL();
-    static final String dbDriver = ApplicationUtils.getDatabaseDriver();
     boolean isLoad = false;
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -36,8 +34,10 @@ public class DBConnectionLeakServlet extends HttpServlet {
         Locale locale = req.getLocale();
         StringBuilder bodyHtml = new StringBuilder();
         try {
+            final String dbUrl = ApplicationUtils.getDatabaseURL();
+            final String dbDriver = ApplicationUtils.getDatabaseDriver();
 
-            if (dbDriver != null && !dbDriver.equals("")) {
+            if (dbDriver != null && !"".equals(dbDriver)) {
                 try {
                     Class.forName(dbDriver);
                 } catch (Exception e) {

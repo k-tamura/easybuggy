@@ -73,7 +73,7 @@ public class CSRFServlet extends HttpServlet {
         }
         String userid = (String) session.getAttribute("userid");
         String password = req.getParameter("password");
-        if (userid != null && password != null && !userid.equals("") && !password.equals("") && password.length() >= 8) {
+        if (userid != null && password != null && !"".equals(userid) && !"".equals(password) && password.length() >= 8) {
             try {
                 DefaultClientAttribute entryAttribute = new DefaultClientAttribute("userPassword", ESAPI.encoder()
                         .encodeForLDAP(password.trim()));
@@ -113,7 +113,7 @@ public class CSRFServlet extends HttpServlet {
                 doGet(req, res);
             }
         } else {
-            if (password == null || password.equals("") || password.length() < 8) {
+            if (password == null || "".equals(password) || password.length() < 8) {
                 req.setAttribute("errorMessage", MessageUtils.getMsg("msg.passwd.is.too.short", locale));
             } else {
                 req.setAttribute("errorMessage", MessageUtils.getMsg("msg.unknown.exception.occur", locale));

@@ -42,7 +42,7 @@ public class SlowRegularExpressionServlet extends HttpServlet {
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
 
-            if (word != null && !word.equals("")) {
+            if (word != null && !"".equals(word)) {
                 Date startDate = new Date();
                 log.info("Start Date: " + startDate.toString());
                 Pattern compile = Pattern.compile("^([a-z0-9]+[-]{0,1}){1,100}$");

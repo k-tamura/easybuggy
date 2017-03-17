@@ -20,7 +20,7 @@ public class DBClient {
         Connection conn= null;
         try {
             String dbDriver = ApplicationUtils.getDatabaseDriver();
-            if (dbDriver != null && !dbDriver.equals("")) {
+            if (dbDriver != null && !"".equals(dbDriver)) {
                 try {
                     Class.forName(dbDriver);
                 } catch (Exception e) {
@@ -56,9 +56,8 @@ public class DBClient {
     }
     
     public Connection getConnection() throws SQLException {
-        Connection conn = null;
         String dbDriver = ApplicationUtils.getDatabaseDriver();
-        if (dbDriver != null && !dbDriver.equals("")) {
+        if (dbDriver != null && !"".equals(dbDriver)) {
             try {
                 Class.forName(dbDriver);
             } catch (Exception e) {
@@ -66,8 +65,7 @@ public class DBClient {
             }
         }
         String dbUrl = ApplicationUtils.getDatabaseURL();
-        conn = DriverManager.getConnection(dbUrl);
-        return conn;
+        return DriverManager.getConnection(dbUrl);
     }
     
     private static void createUsersTable(Statement stmt) throws SQLException {

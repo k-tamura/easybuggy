@@ -50,8 +50,8 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
         bodyHtml.append("<br><br>");
         bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.upload", locale) + "\" />");
         bodyHtml.append("<br><br>");
-        if (req.getAttribute("ureErrorMessage") != null) {
-            bodyHtml.append(req.getAttribute("ureErrorMessage"));
+        if (req.getAttribute("errorMessage") != null) {
+            bodyHtml.append(req.getAttribute("errorMessage"));
             bodyHtml.append("<br><br>");
         }
         bodyHtml.append(MessageUtils.getMsg("msg.note.unrestricted.ext.upload", locale));
@@ -82,7 +82,7 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
         try {
             filePart = req.getPart("file");
         } catch (Exception e) {
-            req.setAttribute("ureErrorMessage", MessageUtils.getMsg("msg.max.file.size.exceed", locale));
+            req.setAttribute("errorMessage", MessageUtils.getMsg("msg.max.file.size.exceed", locale));
             doGet(req, res);
             return;
         }

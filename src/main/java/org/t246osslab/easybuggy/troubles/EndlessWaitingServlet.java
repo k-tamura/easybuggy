@@ -65,8 +65,8 @@ public class EndlessWaitingServlet extends HttpServlet {
                     bodyHtml.append(MessageUtils.getMsg("msg.executed.batch", locale) + batFile.getAbsolutePath()
                     + "<BR><BR>");
                     bodyHtml.append(MessageUtils.getMsg("label.execution.result", locale) + "<BR><BR>");
-                    bodyHtml.append(printInputStream(process.getInputStream(), res));
-                    bodyHtml.append(printInputStream(process.getErrorStream(), res));
+                    bodyHtml.append(printInputStream(process.getInputStream()));
+                    bodyHtml.append(printInputStream(process.getErrorStream()));
                 }
                 bodyHtml.append("</form>");
             } else {
@@ -131,7 +131,7 @@ public class EndlessWaitingServlet extends HttpServlet {
         return batFile;
     }
 
-    private static String printInputStream(InputStream is, HttpServletResponse res) throws IOException {
+    private static String printInputStream(InputStream is) throws IOException {
         StringBuilder sb = new StringBuilder();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         try {

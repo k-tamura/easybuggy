@@ -14,6 +14,11 @@ public class MessageUtils {
 
     private static Logger log = LoggerFactory.getLogger(MessageUtils.class);
 
+    // squid:S1118: Utility classes should not have public constructors
+    private MessageUtils() {
+        throw new IllegalAccessError("Utility class");
+    }
+    
     /**
      * Return a message for a given property key.
      * 

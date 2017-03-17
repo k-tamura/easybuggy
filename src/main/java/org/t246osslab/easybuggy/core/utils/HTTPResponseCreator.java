@@ -14,6 +14,11 @@ public class HTTPResponseCreator {
 
     private static Logger log = LoggerFactory.getLogger(HTTPResponseCreator.class);
 
+    // squid:S1118: Utility classes should not have public constructors
+    private HTTPResponseCreator() {
+        throw new IllegalAccessError("Utility class");
+    }
+
     /**
      * Create a simple HTTP response.
      * 

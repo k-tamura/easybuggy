@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * Utility class to provide application properties.
  */
 public class ApplicationUtils {
-
+    
     private static Logger log = LoggerFactory.getLogger(ApplicationUtils.class);
 
     // default database url: derby in-memory
@@ -54,6 +54,11 @@ public class ApplicationUtils {
         }
     }
 
+    // squid:S1118: Utility classes should not have public constructors
+    private ApplicationUtils() {
+        throw new IllegalAccessError("Utility class");
+    }
+    
     /**
      * Return a Database URL of EasyBuggy.
      * 

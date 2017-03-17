@@ -8,6 +8,11 @@ import java.io.IOException;
  */
 public class Closer {
 
+    // squid:S1118: Utility classes should not have public constructors
+    private Closer() {
+        throw new IllegalAccessError("Utility class");
+    }
+
     /**
      * Close all Closeable objects.
      *
