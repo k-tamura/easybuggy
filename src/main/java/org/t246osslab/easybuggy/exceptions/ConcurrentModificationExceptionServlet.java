@@ -22,8 +22,8 @@ public class ConcurrentModificationExceptionServlet extends HttpServlet {
 
         Iterator<String> iter = list.iterator();
         while (iter.hasNext()) {
-            String s = (String) iter.next();
-            if (s.equals("2")) {
+            String s = iter.next();
+            if ("2".equals(s)) {
                 list.remove(s);
             }
         }

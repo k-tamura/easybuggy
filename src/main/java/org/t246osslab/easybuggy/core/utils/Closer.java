@@ -3,10 +3,15 @@ package org.t246osslab.easybuggy.core.utils;
 import java.io.Closeable;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Utility class to safely close all Closeable objects.
  */
 public class Closer {
+
+    private static Logger log = LoggerFactory.getLogger(MessageUtils.class);
 
     // squid:S1118: Utility classes should not have public constructors
     private Closer() {
@@ -26,7 +31,7 @@ public class Closer {
                         closeable.close();
                     }
                 } catch (IOException e) {
-                    // Ignore
+                    log.error("IOException occurs: ", e);
                 }
             }
         }

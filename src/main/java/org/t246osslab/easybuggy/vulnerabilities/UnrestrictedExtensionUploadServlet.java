@@ -88,7 +88,7 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
         }
         try {
             String fileName = getFileName(filePart);
-            if (fileName == null || fileName.equals("")) {
+            if (fileName == null || "".equals(fileName)) {
                 doGet(req, res);
                 return;
             }

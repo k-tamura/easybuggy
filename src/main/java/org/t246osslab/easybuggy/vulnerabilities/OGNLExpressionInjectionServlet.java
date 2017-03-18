@@ -33,7 +33,7 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
             boolean isValid = true;
             OgnlContext ctx = new OgnlContext();
             String expression = req.getParameter("expression");
-            if (expression == null || expression.equals("")) {
+            if (expression == null || "".equals(expression)) {
                 isValid = false;
             } else {
                 try {

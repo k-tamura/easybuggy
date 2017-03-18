@@ -61,8 +61,7 @@ public class MojibakeServlet extends HttpServlet {
     }
 
     public String getReverseName(String name) {
-        StringBuffer sb = new StringBuffer(name);
-        name = sb.reverse().toString();
-        return name;
+        StringBuilder sb = new StringBuilder(name);
+        return sb.reverse().toString();
     }
 }

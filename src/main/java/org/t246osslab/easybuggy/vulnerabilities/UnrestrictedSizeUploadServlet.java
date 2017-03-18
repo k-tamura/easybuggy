@@ -78,7 +78,7 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
         final Part filePart = req.getPart("file");
         try {
             String fileName = getFileName(filePart);
-            if (fileName == null || fileName.equals("")) {
+            if (fileName == null || "".equals(fileName)) {
                 doGet(req, res);
                 return;
             } else if (!isImageFile(fileName)) {

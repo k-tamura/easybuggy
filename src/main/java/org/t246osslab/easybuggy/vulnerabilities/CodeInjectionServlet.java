@@ -41,7 +41,7 @@ public class CodeInjectionServlet extends HttpServlet {
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
 
-            if (jsonString != null && !jsonString.equals("")) {
+            if (jsonString != null && !"".equals(jsonString)) {
                 jsonString = jsonString.replaceAll(" ", "");
                 jsonString = jsonString.replaceAll("\r\n", "");
                 jsonString = jsonString.replaceAll("\n", "");

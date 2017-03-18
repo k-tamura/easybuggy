@@ -58,8 +58,7 @@ public class XSSServlet extends HttpServlet {
 
     /* Return the reversed name for a given name */
     private String getReverseName(String name) {
-        StringBuffer sb = new StringBuffer(name);
-        name = sb.reverse().toString();
-        return name;
+        StringBuilder sb = new StringBuilder(name);
+        return sb.reverse().toString();
     }
 }

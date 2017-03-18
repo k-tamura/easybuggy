@@ -25,6 +25,7 @@ public class ThreadLeakServlet extends HttpServlet {
 }
 
 class SubThread extends Thread {
+    @Override
     public void run() {
         while (true) {
             try {

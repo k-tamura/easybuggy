@@ -35,7 +35,7 @@ public class EndlessWaitingServlet extends HttpServlet {
             int count = 0;
             try {
                 count = Integer.parseInt(req.getParameter("count"));
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
             }
             Locale locale = req.getLocale();
 
@@ -53,7 +53,7 @@ public class EndlessWaitingServlet extends HttpServlet {
 
             if (count > 0) {
                 /* create a batch file in the temp directory */
-                File batFile = createBatchFile(req);
+                File batFile = createBatchFile(count);
 
                 if (batFile == null) {
                     bodyHtml.append(MessageUtils.getMsg("msg.cant.create.batch", locale));
@@ -80,8 +80,9 @@ public class EndlessWaitingServlet extends HttpServlet {
         }
     }
 
-    private File createBatchFile(HttpServletRequest req) throws IOException {
-        BufferedWriter filewriter = null;
+    private File createBatchFile(int count) throws IOException {
+        BufferedWriter buffwriter = null;
+        FileWriter fileWriter = null;
         File batFile = null;
         try {
             String osName = System.getProperty("os.name").toLowerCase();
@@ -96,26 +97,23 @@ public class EndlessWaitingServlet extends HttpServlet {
             }
 
             batFile = new File(System.getProperty("java.io.tmpdir"), batFileName);
-            batFile.setExecutable(true);
-            filewriter = new BufferedWriter(new FileWriter(batFile));
-            filewriter.write(firstLine);
-            filewriter.newLine();
-            int count = MAX_COUNT;
-            try {
-                count = Integer.valueOf(req.getParameter("count"));
-            } catch (Exception e) {
+            if (!batFile.setExecutable(true)) {
+                log.debug("batFile.setExecutable(true) returns false.");
             }
-            if (count > MAX_COUNT) {
-                count = MAX_COUNT;
-            }
-            for (int i = 0; i < count; i++) {
+            fileWriter = new FileWriter(batFile);
+            buffwriter = new BufferedWriter(fileWriter);
+            buffwriter.write(firstLine);
+            buffwriter.newLine();
+
+            for (int i = 0; i < count && i < MAX_COUNT; i++) {
                 if (i % 100 == 0) {
-                    filewriter.newLine();
-                    filewriter.write("echo ");
+                    buffwriter.newLine();
+                    buffwriter.write("echo ");
                 }
-                filewriter.write(String.valueOf(i % 10));
+                buffwriter.write(String.valueOf(i % 10));
             }
-            filewriter.close();
+            buffwriter.close();
+            fileWriter.close();
             if (!osName.toLowerCase().startsWith("windows")) {
                 try {
                     Runtime runtime = Runtime.getRuntime();
@@ -126,12 +124,12 @@ public class EndlessWaitingServlet extends HttpServlet {
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         } finally {
-            Closer.close(filewriter);
+            Closer.close(fileWriter, buffwriter);
         }
         return batFile;
     }
 
-    private static String printInputStream(InputStream is) throws IOException {
+    private String printInputStream(InputStream is) throws IOException {
         StringBuilder sb = new StringBuilder();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         try {

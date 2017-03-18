@@ -47,7 +47,7 @@ public class SQLInjectionServlet extends HttpServlet {
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
 
-            if (name != null && password != null && !name.equals("") && !password.equals("") && password.length() >= 8) {
+            if (name != null && password != null && !"".equals(name) && !"".equals(password) && password.length() >= 8) {
                 bodyHtml.append(selectUsers(name, password, req));
             } else {
                 bodyHtml.append(MessageUtils.getMsg("msg.warn.enter.name.and.passwd", locale) + "<br>");
@@ -72,7 +72,7 @@ public class SQLInjectionServlet extends HttpServlet {
         String result = "<font color=\"red\">" + MessageUtils.getMsg("msg.error.user.not.exist", req.getLocale())
                 + "</font><br>";
         try {
-            conn = new DBClient().getConnection();
+            conn = DBClient.getConnection();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT * FROM users WHERE name='" + name + "' AND password='" + password + "'");
             StringBuilder sb = new StringBuilder();

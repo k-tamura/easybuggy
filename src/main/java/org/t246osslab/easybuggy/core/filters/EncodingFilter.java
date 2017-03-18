@@ -22,6 +22,7 @@ public class EncodingFilter implements Filter {
      * Default constructor.
      */
     public EncodingFilter() {
+        // Do nothing
     }
 
     /**
@@ -43,9 +44,11 @@ public class EncodingFilter implements Filter {
 
     @Override
     public void destroy() {
+        // Do nothing
     }
 
     @Override
     public void init(FilterConfig arg0) throws ServletException {
+        // Do nothing
     }
 }

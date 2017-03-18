@@ -91,7 +91,7 @@ public class VerboseErrorMessageServlet extends DefaultLoginServlet {
         EntryFilteringCursor cursor = null;
         try {
             filter = FilterParser.parse("(uid=" + ESAPI.encoder().encodeForLDAP(username.trim()) + ")");
-            cursor = EmbeddedADS.service.getAdminSession().search(new LdapDN("ou=people,dc=t246osslab,dc=org"),
+            cursor = EmbeddedADS.getAdminSession().search(new LdapDN("ou=people,dc=t246osslab,dc=org"),
                     SearchScope.SUBTREE, filter, AliasDerefMode.NEVER_DEREF_ALIASES, null);
             if (cursor.available()) {
                 return true;

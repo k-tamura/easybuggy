@@ -2,6 +2,7 @@ package org.t246osslab.easybuggy.core.dao;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.directory.server.constants.ServerDNConstants;
+import org.apache.directory.server.core.CoreSession;
 import org.apache.directory.server.core.DefaultDirectoryService;
 import org.apache.directory.server.core.DirectoryService;
 import org.apache.directory.server.core.entry.ServerEntry;
@@ -16,10 +17,16 @@ import org.slf4j.LoggerFactory;
  */
 public class EmbeddedADS {
 
+    private static final String ROOT_PARTITION_NAME = "t246osslab";
+
+    private static final String ROOT_DN = "dc=t246osslab,dc=org";
+
+    private static final String PEOPLE_CONTAINER_DN = "ou=people," + ROOT_DN;
+
     private static Logger log = LoggerFactory.getLogger(EmbeddedADS.class);
 
     /** The directory service */
-    public static DirectoryService service;
+    private static DirectoryService service;
 
     /**
      * Create an instance of EmbeddedADS and initialize it.
@@ -38,7 +45,7 @@ public class EmbeddedADS {
             service.setSystemPartition(systemPartition);
 
             // Add root partition
-            Partition t246osslabPartition = addPartition("t246osslab", "dc=t246osslab,dc=org");
+            Partition t246osslabPartition = addPartition(ROOT_PARTITION_NAME, ROOT_DN);
 
             // Start up the service
             service.startup();
@@ -46,17 +53,18 @@ public class EmbeddedADS {
             // Add the root entry if it does not exist
             try {
                 service.getAdminSession().lookup(t246osslabPartition.getSuffixDn());
-            } catch (Exception lnnfe) {
-                LdapDN dnBar = new LdapDN("dc=t246osslab,dc=org");
+            } catch (Exception e) {
+                log.debug("Exception occurs: ", e);
+                LdapDN dnBar = new LdapDN(ROOT_DN);
                 ServerEntry entryBar = service.newEntry(dnBar);
                 entryBar.add("objectClass", "dcObject", "organization");
-                entryBar.add("o", "t246osslab");
-                entryBar.add("dc", "t246osslab");
+                entryBar.add("o", ROOT_PARTITION_NAME);
+                entryBar.add("dc", ROOT_PARTITION_NAME);
                 service.getAdminSession().add(entryBar);
             }
 
             // Add the people entries
-            LdapDN peopleDn = new LdapDN("ou=people,dc=t246osslab,dc=org");
+            LdapDN peopleDn = new LdapDN(PEOPLE_CONTAINER_DN);
             if (!service.getAdminSession().exists(peopleDn)) {
                 ServerEntry e = service.newEntry(peopleDn);
                 e.add("objectClass", "organizationalUnit");
@@ -73,6 +81,15 @@ public class EmbeddedADS {
             log.error("Exception occurs: ", e);
         }
     }
+ 
+    // squid:S1118: Utility classes should not have public constructors
+    private EmbeddedADS() {
+        throw new IllegalAccessError("This class should not be instantiated.");
+    }
+
+    public static CoreSession getAdminSession() throws Exception{
+        return service.getAdminSession();
+    }
 
     // Add a partition to the server
     private static Partition addPartition(String partitionId, String partitionDn) throws Exception {
@@ -86,7 +103,7 @@ public class EmbeddedADS {
 
     // Add a user to the server
     private static void addUser(String username, String passwd, String secretNumber) throws Exception {
-        LdapDN dn = new LdapDN("uid=" + username + ",ou=people,dc=t246osslab,dc=org");
+        LdapDN dn = new LdapDN("uid=" + username + "," + PEOPLE_CONTAINER_DN);
         if (!service.getAdminSession().exists(dn)) {
             ServerEntry e = service.newEntry(dn);
             e.add("objectClass", "person", "inetOrgPerson");

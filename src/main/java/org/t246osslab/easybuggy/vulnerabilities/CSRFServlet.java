@@ -84,7 +84,7 @@ public class CSRFServlet extends HttpServlet {
                 modifyRequest.setName(new LdapDN("uid=" + ESAPI.encoder().encodeForLDAP(userid.trim())
                         + ",ou=people,dc=t246osslab,dc=org"));
                 modifyRequest.addModification(clientModification);
-                EmbeddedADS.service.getAdminSession().modify(modifyRequest);
+                EmbeddedADS.getAdminSession().modify(modifyRequest);
 
                 StringBuilder bodyHtml = new StringBuilder();
                 bodyHtml.append("<form>");

@@ -154,7 +154,7 @@ public class DefaultLoginServlet extends HttpServlet {
         try {
             filter = FilterParser.parse("(&(uid=" + ESAPI.encoder().encodeForLDAP(username.trim())
                     + ")(userPassword=" + ESAPI.encoder().encodeForLDAP(password.trim()) + "))");
-            cursor = EmbeddedADS.service.getAdminSession().search(new LdapDN("ou=people,dc=t246osslab,dc=org"),
+            cursor = EmbeddedADS.getAdminSession().search(new LdapDN("ou=people,dc=t246osslab,dc=org"),
                     SearchScope.SUBTREE, filter, AliasDerefMode.NEVER_DEREF_ALIASES, null);
             if (cursor.available()) {
                 return true;

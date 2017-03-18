@@ -10,7 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.utils.ApplicationUtils;
 
-// TODO this class should be replaced another class
+/**
+ * Database client to provide database connections.
+ */
 public class DBClient {
 
     private static Logger log = LoggerFactory.getLogger(DBClient.class);
@@ -19,16 +21,7 @@ public class DBClient {
         Statement stmt = null;
         Connection conn= null;
         try {
-            String dbDriver = ApplicationUtils.getDatabaseDriver();
-            if (dbDriver != null && !"".equals(dbDriver)) {
-                try {
-                    Class.forName(dbDriver);
-                } catch (Exception e) {
-                    log.error("Exception occurs: ", e);
-                }
-            }
-            String dbUrl = ApplicationUtils.getDatabaseURL();
-            conn = DriverManager.getConnection(dbUrl);
+            conn = getConnection();
             stmt = conn.createStatement();
 
             // create a sample user table
@@ -36,26 +29,19 @@ public class DBClient {
             conn.setAutoCommit(false);
 
         } catch (SQLException e) {
-            log.error("Exception occurs: ", e);
+            log.error("SQLException occurs: ", e);
         } finally {
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    log.error("Exception occurs: ", e);
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    log.error("Exception occurs: ", e);
-                }
-            }
+            close(stmt);
+            close(conn);
         }
     }
+
+    // squid:S1118: Utility classes should not have public constructors
+    private DBClient() {
+        throw new IllegalAccessError("This class should not be instantiated.");
+    }
     
-    public Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         String dbDriver = ApplicationUtils.getDatabaseDriver();
         if (dbDriver != null && !"".equals(dbDriver)) {
             try {
@@ -73,6 +59,7 @@ public class DBClient {
             stmt.executeUpdate("drop table users");
         } catch (SQLException e) {
             // ignore exception if existing the table
+            log.debug("SQLException occurs: ", e);
         }
         // create users table
         stmt.executeUpdate("create table users (id varchar(10) primary key, name varchar(30), password varchar(30), secret varchar(100))");
@@ -83,4 +70,16 @@ public class DBClient {
         stmt.executeUpdate("insert into users values ('2','Peter','pa33word','" + RandomStringUtils.randomNumeric(10) + "')");
         stmt.executeUpdate("insert into users values ('3','James','pathwood','" + RandomStringUtils.randomNumeric(10) + "')");
     }
+    
+    private static void close(AutoCloseable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (SQLException e) {
+                log.error("SQLException occurs: ", e);
+            } catch (Exception e) {
+                log.error("Exception occurs: ", e);
+            }
+        }
+    }    
 }

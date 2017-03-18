@@ -73,7 +73,7 @@ public class DeadlockServlet2 extends HttpServlet {
         String resultMessage = "";
         try {
             
-            conn = new DBClient().getConnection();
+            conn = DBClient.getConnection();
             conn.setAutoCommit(false);
             // conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
