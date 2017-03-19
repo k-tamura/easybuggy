@@ -21,7 +21,7 @@ public class MemoryLeakServlet2 extends HttpServlet {
 
     private static Logger log = LoggerFactory.getLogger(MemoryLeakServlet2.class);
 
-    private static int i = 0;
+    private int i = 0;
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 

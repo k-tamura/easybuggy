@@ -113,7 +113,7 @@ public class EmbeddedADS {
             e.add("employeeNumber", secretNumber);
             e.add("sn", "Not use");
             e.add("cn", "Not use");
-            e.add("givenName", "Not use");
+            e.add("givenName", username);
             service.getAdminSession().add(e);
         }
     }

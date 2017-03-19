@@ -26,7 +26,6 @@ public class MemoryLeakServlet3 extends HttpServlet {
             String inputString = "inputString";
             byte[] input = inputString.getBytes();
             byte[] output = new byte[100];
-            // for (int i = 0; i < 100000; i++) {
             for (int i = 0; i < 1000; i++) {
                 Deflater compresser = new Deflater();
                 compresser.setInput(input);
@@ -35,8 +34,6 @@ public class MemoryLeakServlet3 extends HttpServlet {
             HTTPResponseCreator.createSimpleResponse(res, null,
                     MessageUtils.getMsg("msg.c.heap.space.leak.occur", req.getLocale()));
         } catch (Exception e) {
-            log.error("Exception occurs: ", e);
-        } catch (Error e) {
             log.error("Exception occurs: ", e);
         }
     }

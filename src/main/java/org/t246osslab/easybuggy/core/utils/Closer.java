@@ -1,6 +1,5 @@
 package org.t246osslab.easybuggy.core.utils;
 
-import java.io.Closeable;
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -23,15 +22,17 @@ public class Closer {
      *
      * @param closeables Closeable objects.
      */
-    public static void close(Closeable... closeables) {
+    public static void close(AutoCloseable... closeables) {
         if (closeables != null) {
-            for (Closeable closeable : closeables) {
+            for (AutoCloseable closeable : closeables) {
                 try {
                     if(closeable != null){
                         closeable.close();
                     }
                 } catch (IOException e) {
                     log.error("IOException occurs: ", e);
+                } catch (Exception e) {
+                    log.error("Exception occurs: ", e);
                 }
             }
         }

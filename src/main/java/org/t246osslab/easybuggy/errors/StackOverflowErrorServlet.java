@@ -17,6 +17,7 @@ public class StackOverflowErrorServlet extends HttpServlet {
     }
 
     public class S {
+        @Override
         public String toString() {
             return "" + this;
         }

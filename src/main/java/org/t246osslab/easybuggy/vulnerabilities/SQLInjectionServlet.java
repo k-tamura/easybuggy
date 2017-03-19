@@ -3,7 +3,6 @@ package org.t246osslab.easybuggy.vulnerabilities;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Locale;
 
@@ -16,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.dao.DBClient;
+import org.t246osslab.easybuggy.core.utils.Closer;
 import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
@@ -85,27 +85,9 @@ public class SQLInjectionServlet extends HttpServlet {
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    log.error("Exception occurs: ", e);
-                }
-            }
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    log.error("Exception occurs: ", e);
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    log.error("Exception occurs: ", e);
-                }
-            }
+            Closer.close(rs);
+            Closer.close(stmt);
+            Closer.close(conn);
         }
         return result;
     }

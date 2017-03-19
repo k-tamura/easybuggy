@@ -29,8 +29,7 @@ public class JVMCrashByEAVServlet extends HttpServlet {
         }
     }
 
-    private static Unsafe getUnsafe() throws NoSuchFieldException, SecurityException, IllegalArgumentException,
-            IllegalAccessException {
+    private static Unsafe getUnsafe() throws NoSuchFieldException, IllegalAccessException {
         Field singleoneInstanceField = Unsafe.class.getDeclaredField("theUnsafe");
         singleoneInstanceField.setAccessible(true);
         return (Unsafe) singleoneInstanceField.get(null);

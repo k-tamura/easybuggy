@@ -17,6 +17,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.dao.DBClient;
+import org.t246osslab.easybuggy.core.utils.Closer;
 import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
@@ -92,54 +93,34 @@ public class DeadlockServlet2 extends HttpServlet {
 
         } catch (SQLTransactionRollbackException e) {
             resultMessage = MessageUtils.getMsg("msg.deadlock.occurs", locale);
-            log.error("Exception occurs: ", e);
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException e1) {
-                    log.error("Exception occurs: ", e1);
-                }
-            }
+            log.error("SQLTransactionRollbackException occurs: ", e);
+            rollbak(conn);
         } catch (SQLException e) {
             if ("41000".equals(e.getSQLState())) {
                 resultMessage = MessageUtils.getMsg("msg.deadlock.occurs", locale);
             } else {
                 resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", locale);
             }
-            log.error("Exception occurs: ", e);
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException e1) {
-                    log.error("Exception occurs: ", e1);
-                }
-            }
+            log.error("SQLException occurs: ", e);
+            rollbak(conn);
         } catch (Exception e) {
             resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", locale);
             log.error("Exception occurs: ", e);
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException e1) {
-                    log.error("Exception occurs: ", e1);
-                }
-            }
+            rollbak(conn);
         } finally {
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    log.error("Exception occurs: ", e);
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    log.error("Exception occurs: ", e);
-                }
-            }
+            Closer.close(stmt);
+            Closer.close(conn);
         }
         return resultMessage;
+    }
+
+    private void rollbak(Connection conn) {
+        if (conn != null) {
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                log.error("SQLException occurs: ", e1);
+            }
+        }
     }
 }

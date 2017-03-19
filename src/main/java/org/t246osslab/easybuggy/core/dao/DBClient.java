@@ -9,6 +9,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.utils.ApplicationUtils;
+import org.t246osslab.easybuggy.core.utils.Closer;
 
 /**
  * Database client to provide database connections.
@@ -31,8 +32,8 @@ public class DBClient {
         } catch (SQLException e) {
             log.error("SQLException occurs: ", e);
         } finally {
-            close(stmt);
-            close(conn);
+            Closer.close(stmt);
+            Closer.close(conn);
         }
     }
 
@@ -70,16 +71,4 @@ public class DBClient {
         stmt.executeUpdate("insert into users values ('2','Peter','pa33word','" + RandomStringUtils.randomNumeric(10) + "')");
         stmt.executeUpdate("insert into users values ('3','James','pathwood','" + RandomStringUtils.randomNumeric(10) + "')");
     }
-    
-    private static void close(AutoCloseable closeable) {
-        if (closeable != null) {
-            try {
-                closeable.close();
-            } catch (SQLException e) {
-                log.error("SQLException occurs: ", e);
-            } catch (Exception e) {
-                log.error("Exception occurs: ", e);
-            }
-        }
-    }    
 }

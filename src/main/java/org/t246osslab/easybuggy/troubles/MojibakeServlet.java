@@ -41,7 +41,7 @@ public class MojibakeServlet extends HttpServlet {
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
 
-            if (name != null && !name.equals("")) {
+            if (name != null && !"".equals(name)) {
                 String reverseName = getReverseName(name);
                 bodyHtml.append(MessageUtils.getMsg("label.reversed.name", locale) + " -&gt; "
                         + ESAPI.encoder().encodeForHTML(reverseName));
