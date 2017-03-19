@@ -25,7 +25,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/endlesswaiting" })
 public class EndlessWaitingServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(EndlessWaitingServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(EndlessWaitingServlet.class);
 
     private static final int MAX_COUNT = 100000;
 

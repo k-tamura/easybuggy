@@ -18,7 +18,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/te" })
 public class TruncationErrorServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(TruncationErrorServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(TruncationErrorServlet.class);
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         double number = -1;

@@ -18,7 +18,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/xss" })
 public class XSSServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(XSSServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(XSSServlet.class);
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 

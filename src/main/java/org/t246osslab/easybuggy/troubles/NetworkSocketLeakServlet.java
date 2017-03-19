@@ -22,7 +22,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/netsocketleak" })
 public class NetworkSocketLeakServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(NetworkSocketLeakServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(NetworkSocketLeakServlet.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -35,7 +35,7 @@ public class NetworkSocketLeakServlet extends HttpServlet {
             connection.setRequestMethod("GET");
 
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                log.error("Unexpected response, HTTP response code: " + connection.getResponseCode());
+                log.error("Unexpected response, HTTP response code: {}", connection.getResponseCode());
             } else {
                 // isr = new InputStreamReader(connection.getInputStream());
                 // reader = new BufferedReader(isr);

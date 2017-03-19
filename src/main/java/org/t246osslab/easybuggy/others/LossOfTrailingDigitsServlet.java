@@ -18,7 +18,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/lotd" })
 public class LossOfTrailingDigitsServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(LossOfTrailingDigitsServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(LossOfTrailingDigitsServlet.class);
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         double number = Double.NaN;

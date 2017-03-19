@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Utility class to create a HTTP response.
  */
-public class HTTPResponseCreator {
+public final class HTTPResponseCreator {
 
-    private static Logger log = LoggerFactory.getLogger(HTTPResponseCreator.class);
+    private static final Logger log = LoggerFactory.getLogger(HTTPResponseCreator.class);
 
     // squid:S1118: Utility classes should not have public constructors
     private HTTPResponseCreator() {

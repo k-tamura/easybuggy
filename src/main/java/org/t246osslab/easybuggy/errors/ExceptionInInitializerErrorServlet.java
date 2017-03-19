@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 @WebServlet(urlPatterns = { "/eie" })
 public class ExceptionInInitializerErrorServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(ExceptionInInitializerErrorServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(ExceptionInInitializerErrorServlet.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         try {

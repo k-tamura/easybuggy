@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 @WebServlet(urlPatterns = { "/oome3" })
 public class OutOfMemoryErrorServlet3 extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(OutOfMemoryErrorServlet3.class);
+    private static final Logger log = LoggerFactory.getLogger(OutOfMemoryErrorServlet3.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 

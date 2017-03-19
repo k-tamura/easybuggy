@@ -23,7 +23,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/sqlijc" })
 public class SQLInjectionServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(SQLInjectionServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(SQLInjectionServlet.class);
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 

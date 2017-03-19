@@ -19,7 +19,7 @@ import org.t246osslab.easybuggy.core.servlets.DefaultLoginServlet;
 @WebServlet(urlPatterns = { "/openredirect/login" })
 public class OpenRedirectServlet extends DefaultLoginServlet {
 
-    private static Logger log = LoggerFactory.getLogger(OpenRedirectServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(OpenRedirectServlet.class);
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         req.setAttribute("login.page.note", "msg.note.open.redirect");
@@ -60,7 +60,7 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
                 URL u = new URL(gotoUrl);
                 gotoUrl = u.toURI().toString();
             } catch (Exception e) {
-                log.warn("Invalid goto Url: " + gotoUrl);
+                log.warn("Invalid goto Url: {}", gotoUrl);
             }
             if (gotoUrl != null) {
                 response.sendRedirect(gotoUrl);

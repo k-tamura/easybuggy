@@ -21,7 +21,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/slowre" })
 public class SlowRegularExpressionServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(SlowRegularExpressionServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(SlowRegularExpressionServlet.class);
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -44,12 +44,12 @@ public class SlowRegularExpressionServlet extends HttpServlet {
 
             if (word != null && !"".equals(word)) {
                 Date startDate = new Date();
-                log.info("Start Date: " + startDate.toString());
+                log.info("Start Date: {}", startDate.toString());
                 Pattern compile = Pattern.compile("^([a-z0-9]+[-]{0,1}){1,100}$");
                 Matcher matcher = compile.matcher(word);
                 boolean matches = matcher.matches();
                 Date endDate = new Date();
-                log.info("End Date: " + endDate.toString());
+                log.info("End Date: {}", endDate.toString());
                 if (matches) {
                     bodyHtml.append(MessageUtils.getMsg("msg.match.regular.expression", locale));
                 } else {

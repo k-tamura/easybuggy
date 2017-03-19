@@ -26,7 +26,7 @@ import org.t246osslab.easybuggy.core.servlets.DefaultLoginServlet;
 @WebServlet(urlPatterns = { "/verbosemsg/login" })
 public class VerboseErrorMessageServlet extends DefaultLoginServlet {
     
-    private static Logger log = LoggerFactory.getLogger(VerboseErrorMessageServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(VerboseErrorMessageServlet.class);
     
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         req.setAttribute("login.page.note", "msg.note.verbose.errror.message");

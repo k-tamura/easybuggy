@@ -24,7 +24,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/ognleijc" })
 public class OGNLExpressionInjectionServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(OGNLExpressionInjectionServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(OGNLExpressionInjectionServlet.class);
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 

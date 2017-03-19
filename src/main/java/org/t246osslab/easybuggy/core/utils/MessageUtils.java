@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Utility class to provide message properties.
  */
-public class MessageUtils {
+public final class MessageUtils {
 
-    private static Logger log = LoggerFactory.getLogger(MessageUtils.class);
+    private static final Logger log = LoggerFactory.getLogger(MessageUtils.class);
 
     // squid:S1118: Utility classes should not have public constructors
     private MessageUtils() {

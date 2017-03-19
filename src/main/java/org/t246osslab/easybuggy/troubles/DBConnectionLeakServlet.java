@@ -23,7 +23,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/dbconnectionleak" })
 public class DBConnectionLeakServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(DBConnectionLeakServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(DBConnectionLeakServlet.class);
 
     boolean isLoad = false;
 

@@ -27,7 +27,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/ldapijc" })
 public class LDAPInjectionServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(LDAPInjectionServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(LDAPInjectionServlet.class);
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 

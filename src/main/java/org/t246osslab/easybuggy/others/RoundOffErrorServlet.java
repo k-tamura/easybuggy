@@ -18,7 +18,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/roe" })
 public class RoundOffErrorServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(RoundOffErrorServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(RoundOffErrorServlet.class);
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         int number = -1;

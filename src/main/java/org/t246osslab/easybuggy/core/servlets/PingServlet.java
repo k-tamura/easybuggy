@@ -17,7 +17,7 @@ import org.t246osslab.easybuggy.core.utils.Closer;
 @WebServlet(urlPatterns = { "/ping" })
 public class PingServlet extends HttpServlet {
     
-    private static Logger log = LoggerFactory.getLogger(PingServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(PingServlet.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 

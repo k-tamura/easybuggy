@@ -19,7 +19,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/iof" })
 public class IntegerOverflowServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(IntegerOverflowServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(IntegerOverflowServlet.class);
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         int times = -1;

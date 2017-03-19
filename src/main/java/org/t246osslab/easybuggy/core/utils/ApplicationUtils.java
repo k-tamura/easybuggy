@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Utility class to provide application properties.
  */
-public class ApplicationUtils {
+public final class ApplicationUtils {
     
-    private static Logger log = LoggerFactory.getLogger(ApplicationUtils.class);
+    private static final Logger log = LoggerFactory.getLogger(ApplicationUtils.class);
 
     // default database url: derby in-memory
     private static String databaseURL = "jdbc:derby:memory:demo;create=true";

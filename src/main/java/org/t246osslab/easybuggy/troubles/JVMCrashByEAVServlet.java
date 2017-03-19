@@ -18,7 +18,7 @@ import sun.misc.Unsafe;
 @WebServlet(urlPatterns = { "/jvmcrasheav" })
 public class JVMCrashByEAVServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(JVMCrashByEAVServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(JVMCrashByEAVServlet.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 

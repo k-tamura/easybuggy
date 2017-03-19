@@ -35,7 +35,7 @@ public class DefaultLoginServlet extends HttpServlet {
     /* User's login history using in-memory account locking */
     protected ConcurrentHashMap<String, User> userLoginHistory = new ConcurrentHashMap<String, User>();
     
-    private static Logger log = LoggerFactory.getLogger(DefaultLoginServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(DefaultLoginServlet.class);
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 

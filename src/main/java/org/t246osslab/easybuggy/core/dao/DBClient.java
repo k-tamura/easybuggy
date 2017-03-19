@@ -14,9 +14,9 @@ import org.t246osslab.easybuggy.core.utils.Closer;
 /**
  * Database client to provide database connections.
  */
-public class DBClient {
+public final class DBClient {
 
-    private static Logger log = LoggerFactory.getLogger(DBClient.class);
+    private static final Logger log = LoggerFactory.getLogger(DBClient.class);
 
     static {
         Statement stmt = null;

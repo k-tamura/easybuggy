@@ -18,7 +18,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/deadlock" })
 public class DeadlockServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(DeadlockServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(DeadlockServlet.class);
 
     private final Object lock1 = new Object();
     private final Object lock2 = new Object();

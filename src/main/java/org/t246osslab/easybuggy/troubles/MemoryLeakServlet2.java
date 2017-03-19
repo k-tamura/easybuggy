@@ -19,7 +19,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/memoryleak2" })
 public class MemoryLeakServlet2 extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(MemoryLeakServlet2.class);
+    private static final Logger log = LoggerFactory.getLogger(MemoryLeakServlet2.class);
 
     private int i = 0;
 

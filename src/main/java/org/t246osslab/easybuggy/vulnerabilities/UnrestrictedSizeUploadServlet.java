@@ -30,7 +30,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @MultipartConfig
 public class UnrestrictedSizeUploadServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(UnrestrictedSizeUploadServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(UnrestrictedSizeUploadServlet.class);
 
     // Name of the directory where uploaded files is saved
     private static final String SAVE_DIR = "uploadFiles";

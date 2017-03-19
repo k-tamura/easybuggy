@@ -26,7 +26,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/admins/csrf" })
 public class CSRFServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(CSRFServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(CSRFServlet.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         HttpSession session = req.getSession();

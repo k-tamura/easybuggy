@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Embedded Apache Directory Server.
  */
-public class EmbeddedADS {
+public final class EmbeddedADS {
 
     private static final String ROOT_PARTITION_NAME = "t246osslab";
 
@@ -23,7 +23,7 @@ public class EmbeddedADS {
 
     private static final String PEOPLE_CONTAINER_DN = "ou=people," + ROOT_DN;
 
-    private static Logger log = LoggerFactory.getLogger(EmbeddedADS.class);
+    private static final Logger log = LoggerFactory.getLogger(EmbeddedADS.class);
 
     /** The directory service */
     private static DirectoryService service;

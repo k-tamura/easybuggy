@@ -19,7 +19,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/filedescriptorleak" })
 public class FileDescriptorLeakServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(FileDescriptorLeakServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(FileDescriptorLeakServlet.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 

@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Utility class to safely close all Closeable objects.
  */
-public class Closer {
+public final class Closer {
 
-    private static Logger log = LoggerFactory.getLogger(MessageUtils.class);
+    private static final Logger log = LoggerFactory.getLogger(MessageUtils.class);
 
     // squid:S1118: Utility classes should not have public constructors
     private Closer() {

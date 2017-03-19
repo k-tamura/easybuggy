@@ -15,13 +15,13 @@ import org.slf4j.LoggerFactory;
 @WebServlet(urlPatterns = { "/infiniteloop" })
 public class InfiniteLoopServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(InfiniteLoopServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(InfiniteLoopServlet.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         while (true) {
             String contextPath = req.getContextPath();
             int contentLength = req.getContentLength();
-            log.debug(contextPath + contentLength);
+            log.debug("contextPath: {}, contentLength: {}", contextPath, contentLength);
         }
     }
 }
