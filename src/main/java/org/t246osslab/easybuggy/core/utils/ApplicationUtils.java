@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * Utility class to provide application properties.
  */
 public final class ApplicationUtils {
-    
+
     private static final Logger log = LoggerFactory.getLogger(ApplicationUtils.class);
 
     // default database url: derby in-memory
@@ -18,10 +18,10 @@ public final class ApplicationUtils {
 
     // default database url: null
     private static String databaseDriver = null;
-    
+
     // default account lock time: 3600000 (1 hour)
     private static long accountLockTime = 3600000;
-    
+
     // default account lock limit count: 10
     private static int accountLockCount = 10;
 
@@ -32,25 +32,27 @@ public final class ApplicationUtils {
         } catch (MissingResourceException e) {
             log.error("Exception occurs: ", e);
         }
-        try {
-            databaseURL = bundle.getString("database.url");
-        } catch (Exception e) {
-            log.error("Exception occurs: ", e);
-        }
-        try {
-            databaseDriver = bundle.getString("database.driver");
-        } catch (Exception e) {
-            log.error("Exception occurs: ", e);
-        }
-        try {
-            accountLockTime = Long.parseLong(bundle.getString("account.lock.time"));
-        } catch (Exception e) {
-            log.error("Exception occurs: ", e);
-        }
-        try {
-            accountLockCount = Integer.parseInt(bundle.getString("account.lock.count"));
-        } catch (Exception e) {
-            log.error("Exception occurs: ", e);
+        if (bundle != null) {
+            try {
+                databaseURL = bundle.getString("database.url");
+            } catch (Exception e) {
+                log.error("Exception occurs: ", e);
+            }
+            try {
+                databaseDriver = bundle.getString("database.driver");
+            } catch (Exception e) {
+                log.error("Exception occurs: ", e);
+            }
+            try {
+                accountLockTime = Long.parseLong(bundle.getString("account.lock.time"));
+            } catch (Exception e) {
+                log.error("Exception occurs: ", e);
+            }
+            try {
+                accountLockCount = Integer.parseInt(bundle.getString("account.lock.count"));
+            } catch (Exception e) {
+                log.error("Exception occurs: ", e);
+            }
         }
     }
 
@@ -58,7 +60,7 @@ public final class ApplicationUtils {
     private ApplicationUtils() {
         throw new IllegalAccessError("Utility class");
     }
-    
+
     /**
      * Return a Database URL of EasyBuggy.
      * 
@@ -76,7 +78,7 @@ public final class ApplicationUtils {
     public static String getDatabaseDriver() {
         return databaseDriver;
     }
-    
+
     /**
      * Return the account lock time.
      * 
@@ -86,12 +88,12 @@ public final class ApplicationUtils {
         return accountLockTime;
     }
 
-     /**
-      * Return the account lock count.
-      * 
-      * @return Account lock count
-      */
-     public static int getAccountLockCount() {
+    /**
+     * Return the account lock count.
+     * 
+     * @return Account lock count
+     */
+    public static int getAccountLockCount() {
         return accountLockCount;
     }
 }

@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 public class FileNotFoundExceptionServlet extends HttpServlet {
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        File file = new File("/file/does/not/exist");
-        FileInputStream in = new FileInputStream(file);
+        FileInputStream in = new FileInputStream(new File("/file/does/not/exist"));
     }
 }

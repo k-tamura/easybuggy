@@ -25,9 +25,8 @@ public final class DBClient {
             conn = getConnection();
             stmt = conn.createStatement();
 
-            // create a sample user table
+            // create a user table and insert sample users
             createUsersTable(stmt);
-            conn.setAutoCommit(false);
 
         } catch (SQLException e) {
             log.error("SQLException occurs: ", e);
@@ -42,16 +41,21 @@ public final class DBClient {
         throw new IllegalAccessError("This class should not be instantiated.");
     }
     
+    /**
+     * Returns a database connection to connect a database.
+     * 
+     * @return A database connection
+     */
     public static Connection getConnection() throws SQLException {
-        String dbDriver = ApplicationUtils.getDatabaseDriver();
+        final String dbDriver = ApplicationUtils.getDatabaseDriver();
+        final String dbUrl = ApplicationUtils.getDatabaseURL();
         if (dbDriver != null && !"".equals(dbDriver)) {
             try {
                 Class.forName(dbDriver);
-            } catch (Exception e) {
-                log.error("Exception occurs: ", e);
+            } catch (ClassNotFoundException e) {
+                log.error("ClassNotFoundException occurs: ", e);
             }
         }
-        String dbUrl = ApplicationUtils.getDatabaseURL();
         return DriverManager.getConnection(dbUrl);
     }
     

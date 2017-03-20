@@ -45,9 +45,12 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
             /* Reset account lock */
             User admin = userLoginHistory.get(userid);
             if (admin == null) {
-                admin = new User();
-                admin.setUserId(userid);
-                userLoginHistory.put(userid, admin);
+                User newAdmin = new User();
+                newAdmin.setUserId(userid);
+                admin = userLoginHistory.putIfAbsent(userid, newAdmin);
+                if (admin == null) {
+                    admin = newAdmin;
+                }
             }
             admin.setLoginFailedCount(0);
             admin.setLastLoginFailedTime(null);
@@ -77,9 +80,12 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
             /* account lock count +1 */
             User admin = userLoginHistory.get(userid);
             if (admin == null) {
-                admin = new User();
-                admin.setUserId(userid);
-                userLoginHistory.put(userid, admin);
+                User newAdmin = new User();
+                newAdmin.setUserId(userid);
+                admin = userLoginHistory.putIfAbsent(userid, newAdmin);
+                if (admin == null) {
+                    admin = newAdmin;
+                }
             }
             admin.setLoginFailedCount(admin.getLoginFailedCount() + 1);
             admin.setLastLoginFailedTime(new Date());

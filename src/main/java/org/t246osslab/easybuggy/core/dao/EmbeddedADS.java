@@ -86,7 +86,12 @@ public final class EmbeddedADS {
     private EmbeddedADS() {
         throw new IllegalAccessError("This class should not be instantiated.");
     }
-
+    
+    /**
+     * Returns the admin session to connect Embedded Apache Directory Server.
+     * 
+     * @return The admin session
+     */
     public static CoreSession getAdminSession() throws Exception{
         return service.getAdminSession();
     }
