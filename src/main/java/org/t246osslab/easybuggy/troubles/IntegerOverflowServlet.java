@@ -1,4 +1,4 @@
-package org.t246osslab.easybuggy.others;
+package org.t246osslab.easybuggy.troubles;
 
 import java.io.IOException;
 import java.math.BigDecimal;

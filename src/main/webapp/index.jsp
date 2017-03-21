@@ -104,7 +104,27 @@
 						key="function.name.mojibake" /></a>:
 			<fmt:message key="function.description.mojibake" />
 		</p></li>
-	</ul>			
+		<li><p>
+			<a href="iof" target="_blank"><fmt:message
+						key="function.name.int.overflow" /></a>:
+			<fmt:message key="function.description.int.overflow" />
+		</p></li>
+		<li><p>
+			<a href="roe" target="_blank"><fmt:message
+						key="function.name.round.off.error" /></a>:
+			<fmt:message key="function.description.round.off.error" />
+		</p></li>
+		<li><p>
+				<a href="te" target="_blank"><fmt:message
+						key="function.name.truncation.error" /></a>:
+			<fmt:message key="function.description.truncation.error" />
+		</p></li>
+		<li><p>
+			<a href="lotd" target="_blank"><fmt:message
+						key="function.name.loss.of.trailing.digits" /></a>:
+			<fmt:message key="function.description.loss.of.trailing.digits" />
+		</p></li>
+	</ul>
 
 	<h2>
 		<span class="glyphicon glyphicon-knight"></span>&nbsp;
@@ -183,6 +203,26 @@
 
 	<h2>
 		<span class="glyphicon glyphicon-knight"></span>&nbsp;
+		<fmt:message key="section.performance.issue" />
+	</h2>
+	<p>
+		<fmt:message key="description.performance.issue" />
+	</p>
+	<ul>
+		<li><p>
+			<a href="slowre" target="_blank"><fmt:message
+						key="function.name.slow.regular.expression" /></a>:
+			<fmt:message key="function.description.slow.regular.expression" />
+		</p></li>
+		<!-- <li><p>
+			<fmt:message key="function.name.stop.the.world" />
+				:
+			<fmt:message key="function.description.stop.the.world" />
+		</p></li> -->
+	</ul>
+
+	<h2>
+		<span class="glyphicon glyphicon-knight"></span>&nbsp;
 		<fmt:message key="section.errors" />
 	</h2>
 	<p>
@@ -234,61 +274,6 @@
 
 	<h2>
 		<span class="glyphicon glyphicon-knight"></span>&nbsp;
-		<fmt:message key="section.performance.issue" />
-	</h2>
-	<p>
-		<fmt:message key="description.performance.issue" />
-	</p>
-	<ul>
-		<li><p>
-			<a href="slowre" target="_blank"><fmt:message
-						key="function.name.slow.regular.expression" /></a>:
-			<fmt:message key="function.description.slow.regular.expression" />
-		</p></li>
-		<!-- <li><p>
-			<fmt:message key="function.name.stop.the.world" />
-				:
-			<fmt:message key="function.description.stop.the.world" />
-		</p></li> -->
-	</ul>
-
-	<h2>
-		<span class="glyphicon glyphicon-knight"></span>&nbsp;
-		<fmt:message key="section.others" />
-	</h2>
-	<p>
-		<fmt:message key="description.others" />
-	</p>
-	<ul>
-		<li><p>
-			<a href="iof" target="_blank"><fmt:message
-						key="function.name.int.overflow" /></a>:
-			<fmt:message key="function.description.int.overflow" />
-		</p></li>
-		<li><p>
-			<a href="roe" target="_blank"><fmt:message
-						key="function.name.round.off.error" /></a>:
-			<fmt:message key="function.description.round.off.error" />
-		</p></li>
-		<li><p>
-				<a href="te" target="_blank"><fmt:message
-						key="function.name.truncation.error" /></a>:
-			<fmt:message key="function.description.truncation.error" />
-		</p></li>
-		<!-- <li><p>
-				<fmt:message
-						key="function.name.cancellation.of.significant.digits" />:
-			<fmt:message key="function.description.cancellation.of.significant.digits" />
-		</p></li> -->
-		<li><p>
-			<a href="lotd" target="_blank"><fmt:message
-						key="function.name.loss.of.trailing.digits" /></a>:
-			<fmt:message key="function.description.loss.of.trailing.digits" />
-		</p></li>
-	</ul>
-
-	<h2>
-		<span class="glyphicon glyphicon-knight"></span>&nbsp;
 		<fmt:message key="section.exceptions" />
 	</h2>
 	<p>
@@ -308,6 +293,22 @@
 			<fmt:message key="function.description.throwable"><fmt:param value="ArrayStoreException"/></fmt:message>
 		</p></li>
 		<li><p>
+			<a href="boe" target="_blank">BufferOverflowException</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="BufferOverflowException"/></fmt:message>
+		</p></li>
+		<li><p>
+			<a href="bue" target="_blank">BufferUnderflowException</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="BufferUnderflowException"/></fmt:message>
+		</p></li>
+		<li><p>
+			<a href="cre" target="_blank">CannotRedoException</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="CannotRedoException"/></fmt:message>
+		</p></li>
+		<li><p>
+			<a href="cue" target="_blank">CannotUndoException</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="CannotUndoException"/></fmt:message>
+		</p></li>
+		<li><p>
 			<a href="cce" target="_blank">ClassCastException</a>:
 			<fmt:message key="function.description.throwable"><fmt:param value="ClassCastException"/></fmt:message>
 		</p></li>
@@ -316,32 +317,52 @@
 			<fmt:message key="function.description.throwable"><fmt:param value="ConcurrentModificationException"/></fmt:message>
 		</p></li>
 		<li><p>
-			<a href="fnfe" target="_blank">FileNotFoundException</a>:
-			<fmt:message key="function.description.throwable"><fmt:param value="FileNotFoundException"/></fmt:message>
-		</p></li>
-		<li><p>
-			<a href="iioe" target="_blank">IIOException</a>:
-			<fmt:message key="function.description.throwable"><fmt:param value="IIOException"/></fmt:message>
+			<a href="ese" target="_blank">EmptyStackException</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="EmptyStackException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="iae" target="_blank">IllegalArgumentException</a>:
 			<fmt:message key="function.description.throwable"><fmt:param value="IllegalArgumentException"/></fmt:message>
 		</p></li>
 		<li><p>
+			<a href="imse" target="_blank">IllegalMonitorStateException</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="IllegalMonitorStateException"/></fmt:message>
+		</p></li>
+		<li><p>
+			<a href="ipse" target="_blank">IllegalPathStateException</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="IllegalPathStateException"/></fmt:message>
+		</p></li>
+		<li><p>
+			<a href="iase" target="_blank">IllegalStateException</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="IllegalStateException"/></fmt:message>
+		</p></li>
+		<li><p>
 			<a href="itse" target="_blank">IllegalThreadStateException</a>:
 			<fmt:message key="function.description.throwable"><fmt:param value="IllegalThreadStateException"/></fmt:message>
+		</p></li>
+		<li><p>
+			<a href="imoe" target="_blank">ImagingOpException</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="ImagingOpException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="ioobe" target="_blank">IndexOutOfBoundsException</a>:
 			<fmt:message key="function.description.throwable"><fmt:param value="IndexOutOfBoundsException"/></fmt:message>
 		</p></li>
 		<li><p>
-			<a href="murle" target="_blank">MalformedURLException</a>:
-			<fmt:message key="function.description.throwable"><fmt:param value="MalformedURLException"/></fmt:message>
+			<a href="ime" target="_blank">InputMismatchException</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="InputMismatchException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="mre" target="_blank">MissingResourceException</a>:
 			<fmt:message key="function.description.throwable"><fmt:param value="MissingResourceException"/></fmt:message>
+		</p></li>
+		<li><p>
+			<a href="nase" target="_blank">NegativeArraySizeException</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="NegativeArraySizeException"/></fmt:message>
+		</p></li>
+		<li><p>
+			<a href="nsee" target="_blank">NoSuchElementException</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="NoSuchElementException"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="npe" target="_blank">NullPointerException</a>:
@@ -352,14 +373,11 @@
 			<fmt:message key="function.description.throwable"><fmt:param value="NumberFormatException"/></fmt:message>
 		</p></li>
 		<li><p>
-			<a href="uhe" target="_blank">UnknownHostException</a>:
-			<fmt:message key="function.description.throwable"><fmt:param value="UnknownHostException"/></fmt:message>
-		</p></li>
-		<li><p>
-			<a href="uee" target="_blank">UnsupportedEncodingException</a>:
-			<fmt:message key="function.description.throwable"><fmt:param value="UnsupportedEncodingException"/></fmt:message>
+			<a href="uoe" target="_blank">UnsupportedOperationException</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="UnsupportedOperationException"/></fmt:message>
 		</p></li>
 	</ul>
+
 	<hr>
 	<footer>
 	<img src="images/easybuggyL.png">Copyright © 2016-17 T246 OSS Lab, all rights reserved.

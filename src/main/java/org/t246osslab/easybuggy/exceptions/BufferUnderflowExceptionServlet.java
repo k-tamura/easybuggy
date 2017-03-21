@@ -1,9 +1,8 @@
 package org.t246osslab.easybuggy.exceptions;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
-import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,10 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns = { "/iioe" })
-public class IIOExceptionServlet extends HttpServlet {
+@WebServlet(urlPatterns = { "/bue" })
+public class BufferUnderflowExceptionServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        ImageIO.read(new File("not-exist-file-names"));
+        ByteBuffer.wrap(new byte[]{1}).getDouble();
     }
 }
