@@ -57,7 +57,7 @@ public class ClickJackingServlet extends HttpServlet {
         bodyHtml.append("<br><br>");
         bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
         bodyHtml.append("<br><br>");
-        bodyHtml.append(MessageUtils.getMsg("msg.note.csrf", locale));
+        bodyHtml.append(MessageUtils.getMsg("msg.note.clickjacking", locale));
         String errorMessage = (String) req.getAttribute("errorMessage");
         if (errorMessage != null) {
             bodyHtml.append("<br><br>" + errorMessage);
@@ -75,7 +75,7 @@ public class ClickJackingServlet extends HttpServlet {
         }
         String userid = (String) session.getAttribute("userid");
         String mail = req.getParameter("mail");
-        if (userid != null && mail != null && !"".equals(userid) && !"".equals(mail) && mail.length() >= 8) {
+        if (mail != null && !"".equals(mail) && isValidEmailAddress(mail)) {
             try {
                 DefaultClientAttribute entryAttribute = new DefaultClientAttribute("mail", ESAPI.encoder()
                         .encodeForLDAP(mail.trim()));
@@ -115,9 +115,7 @@ public class ClickJackingServlet extends HttpServlet {
                 doGet(req, res);
             }
         } else {
-            if (!isValidEmailAddress(mail)) {
-                req.setAttribute("errorMessage", MessageUtils.getMsg("msg.mail.format.is.invalid", locale));
-            }
+            req.setAttribute("errorMessage", MessageUtils.getMsg("msg.mail.format.is.invalid", locale));
             doGet(req, res);
         }
     }

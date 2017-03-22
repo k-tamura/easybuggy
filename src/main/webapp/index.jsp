@@ -180,6 +180,11 @@
 			<fmt:message key="function.description.brute.force" />
 		</p></li>
 		<li><p>
+			<a href="/verbosemsg/login" target="_blank"><fmt:message
+						key="function.name.verbose.error.message" /></a>:
+			<fmt:message key="function.description.verbose.error.message" />
+		</p></li>
+		<li><p>
 			<a href="/dfi/includable.jsp?template=style_bootstrap.html" target="_blank"><fmt:message
 						key="function.name.dangerous.file.inclusion" /></a>:
 			<fmt:message key="function.description.dangerous.file.inclusion" />
@@ -195,9 +200,9 @@
 			<fmt:message key="function.description.csrf" />
 		</p></li>
 		<li><p>
-			<a href="/verbosemsg/login" target="_blank"><fmt:message
-						key="function.name.verbose.error.message" /></a>:
-			<fmt:message key="function.description.verbose.error.message" />
+			<a href="/admins/clickjacking" target="_blank"><fmt:message
+						key="function.name.clickjacking" /></a>:
+			<fmt:message key="function.description.clickjacking" />
 		</p></li>
 	</ul>
 
