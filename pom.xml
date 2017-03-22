@@ -93,6 +93,11 @@
 		<artifactId>ognl</artifactId>
 		<version>3.0.17</version>
 	</dependency>
+	<dependency>
+		<groupId>javax.mail</groupId>
+		<artifactId>javax.mail-api</artifactId>
+		<version>1.5.1</version>
+	</dependency>
   </dependencies>
   <build>
     <plugins>
