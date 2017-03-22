@@ -376,6 +376,10 @@
 			<a href="uoe" target="_blank">UnsupportedOperationException</a>:
 			<fmt:message key="function.description.throwable"><fmt:param value="UnsupportedOperationException"/></fmt:message>
 		</p></li>
+		<li><p>
+			<a href="se" target="_blank">SecurityException</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="SecurityException"/></fmt:message>
+		</p></li>
 	</ul>
 
 	<hr>
