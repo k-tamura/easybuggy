@@ -56,7 +56,7 @@ public class DefaultLoginServlet extends HttpServlet {
         bodyHtml.append("</tr>");
         bodyHtml.append("<tr>");
         bodyHtml.append("<td>" + MessageUtils.getMsg("label.password", locale) + " :&nbsp;</td>");
-        bodyHtml.append("<td><input type=\"password\" name=\"password\" size=\"20\"></td>");
+        bodyHtml.append("<td><input type=\"password\" name=\"password\" size=\"20\" autocomplete=\"off\"></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("<tr>");
         bodyHtml.append("<td></td>");

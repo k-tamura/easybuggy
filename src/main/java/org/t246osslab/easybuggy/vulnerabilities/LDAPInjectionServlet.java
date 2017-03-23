@@ -46,7 +46,7 @@ public class LDAPInjectionServlet extends HttpServlet {
             bodyHtml.append("<input type=\"text\" name=\"name\" size=\"30\" maxlength=\"30\">");
             bodyHtml.append("&nbsp;&nbsp;");
             bodyHtml.append(MessageUtils.getMsg("label.password", locale) + ": ");
-            bodyHtml.append("<input type=\"password\" name=\"password\" size=\"30\" maxlength=\"30\">");
+            bodyHtml.append("<input type=\"password\" name=\"password\" size=\"30\" maxlength=\"30\" autocomplete=\"off\">");
             bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");

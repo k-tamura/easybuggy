@@ -51,7 +51,7 @@ public class CSRFServlet extends HttpServlet {
         bodyHtml.append(MessageUtils.getMsg("msg.enter.passwd", locale));
         bodyHtml.append("<br><br>");
         bodyHtml.append(MessageUtils.getMsg("label.password", locale) + ": ");
-        bodyHtml.append("<input type=\"password\" name=\"password\" size=\"30\" maxlength=\"30\">");
+        bodyHtml.append("<input type=\"password\" name=\"password\" size=\"30\" maxlength=\"30\" autocomplete=\"off\">");
         bodyHtml.append("<br><br>");
         bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
         bodyHtml.append("<br><br>");
