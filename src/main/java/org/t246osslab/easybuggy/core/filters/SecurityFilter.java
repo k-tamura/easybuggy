@@ -37,9 +37,16 @@ public class SecurityFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         String target = request.getRequestURI();
 
-        /* Prevent clickjacking if target is not /admins/clickjacking/... */
+        /* Prevent clickjacking if target is not /admins/clickjacking ... */
         if (!target.startsWith("/admins/clickjacking")) {
             response.addHeader("X-FRAME-OPTIONS", "DENY");
+        }
+        /* Prevent Content-Type sniffing */
+        response.addHeader("X-Content-Type-Options", "nosniff");
+        
+        /* Prevent XSS if target is not /xss ... */
+        if (!target.startsWith("/xss")) {
+            response.addHeader("X-XSS-Protection", "1; mode=block");
         }
         chain.doFilter(req, res);
     }
