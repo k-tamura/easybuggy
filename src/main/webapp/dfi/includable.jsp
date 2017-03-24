@@ -35,22 +35,22 @@
 	</p>
 	<ul>
 		<li><p>
-			<a href=includable.jsp><fmt:message
+			<a href="includable.jsp"><fmt:message
 						key="style.name.nonstyle" /></a>:
 			<fmt:message key="style.description.nonstyle" />
 		</p></li>
 		<li><p>
-			<a href=includable.jsp?template=style_bootstrap.html><fmt:message
+			<a href="includable.jsp?template=style_bootstrap.html"><fmt:message
 						key="style.name.bootstrap" /></a>:
 			<fmt:message key="style.description.bootstrap" />
 		</p></li>
 		<li><p>
-			<a href=includable.jsp?template=style_google_mdl.html><fmt:message
+			<a href="includable.jsp?template=style_google_mdl.html"><fmt:message
 						key="style.name.google.mdl" /></a>:
 			<fmt:message key="style.description.google.mdl" />
 		</p></li>
 		<li><p>
-			<a href=includable.jsp?template=style_materialize.html><fmt:message
+			<a href="includable.jsp?template=style_materialize.html"><fmt:message
 						key="style.name.materialize" /></a>:
 			<fmt:message key="style.description.materialize" />
 		</p></li>
@@ -60,7 +60,7 @@
 	</p>
 	<hr>
 	<footer>
-	<img src="../images/easybuggyL.png">Copyright © 2016-17 T246 OSS Lab, all rights reserved.
+	<img src="/images/easybuggyL.png">Copyright © 2016-17 T246 OSS Lab, all rights reserved.
 	</footer>
 </body>
 </html>

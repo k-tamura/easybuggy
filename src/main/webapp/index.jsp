@@ -190,6 +190,11 @@
 			<fmt:message key="function.description.dangerous.file.inclusion" />
 		</p></li>
 		<li><p>
+			<a href="/dt/includable.jsp?template=basic" target="_blank"><fmt:message
+						key="function.name.directory.traversal" /></a>:
+			<fmt:message key="function.description.directory.traversal" />
+		</p></li>
+		<li><p>
 			<a href="/uid/clientinfo.jsp" target="_blank"><fmt:message
 						key="function.name.unintended.file.disclosure" /></a>:
 			<fmt:message key="function.description.unintended.file.disclosure" />
