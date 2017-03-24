@@ -68,14 +68,16 @@ public class DefaultLoginServlet extends HttpServlet {
         }
         String queryString = req.getQueryString();
         if (queryString != null) {
-            bodyHtml.append("<input type=\"hidden\" name=\"loginquerystring\" value=\"" + queryString + "\">");
+            bodyHtml.append("<input type=\"hidden\" name=\"loginquerystring\" value=\""
+                    + ESAPI.encoder().encodeForHTML(queryString) + "\">");
         }
         Enumeration<?> paramNames = req.getParameterNames();
         while (paramNames.hasMoreElements()) {
             String paramName = (String) paramNames.nextElement();
             String[] paramValues = req.getParameterValues(paramName);
             for (int i = 0; i < paramValues.length; i++) {
-                bodyHtml.append("<input type=\"hidden\" name=\"" + paramName + "\" value=\"" + paramValues[i] + "\">");
+                bodyHtml.append("<input type=\"hidden\" name=\"" + ESAPI.encoder().encodeForHTML(paramName)
+                        + "\" value=\"" + ESAPI.encoder().encodeForHTML(paramValues[i]) + "\">");
             }
         }
 
