@@ -224,6 +224,11 @@
 						key="function.name.slow.regular.expression" /></a>:
 			<fmt:message key="function.description.slow.regular.expression" />
 		</p></li>
+		<li><p>
+			<a href="strplusopr" target="_blank"><fmt:message
+						key="function.name.slow.string.plus.operation" /></a>:
+			<fmt:message key="function.description.slow.string.plus.operation" />
+		</p></li>
 		<!-- <li><p>
 			<fmt:message key="function.name.stop.the.world" />
 				:
