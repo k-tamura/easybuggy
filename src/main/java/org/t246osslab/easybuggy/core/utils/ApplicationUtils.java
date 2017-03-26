@@ -16,14 +16,26 @@ public final class ApplicationUtils {
     // default database url: derby in-memory
     private static String databaseURL = "jdbc:derby:memory:demo;create=true";
 
-    // default database url: null
-    private static String databaseDriver = null;
+    // default database url: org.apache.derby.jdbc.EmbeddedDriver
+    private static String databaseDriver = "org.apache.derby.jdbc.EmbeddedDriver";
 
     // default account lock time: 3600000 (1 hour)
     private static long accountLockTime = 3600000;
 
     // default account lock limit count: 10
     private static int accountLockCount = 10;
+
+    // default SMTP host: null
+    private static String smtpHost = null;
+
+    // default SMTP port: null
+    private static String smtpPort = null;
+
+    // default SMTP user: null
+    private static String smtpUser = null;
+
+    // default SMTP password: null
+    private static String smtpPass = null;
 
     static {
         ResourceBundle bundle = null;
@@ -50,6 +62,26 @@ public final class ApplicationUtils {
             }
             try {
                 accountLockCount = Integer.parseInt(bundle.getString("account.lock.count"));
+            } catch (Exception e) {
+                log.error("Exception occurs: ", e);
+            }
+            try {
+                smtpHost = bundle.getString("smtp.host");
+            } catch (Exception e) {
+                log.error("Exception occurs: ", e);
+            }
+            try {
+                smtpPort = bundle.getString("smtp.port");
+            } catch (Exception e) {
+                log.error("Exception occurs: ", e);
+            }
+            try {
+                smtpUser = bundle.getString("smtp.user");
+            } catch (Exception e) {
+                log.error("Exception occurs: ", e);
+            }
+            try {
+                smtpPass = bundle.getString("smtp.pass");
             } catch (Exception e) {
                 log.error("Exception occurs: ", e);
             }
@@ -95,5 +127,41 @@ public final class ApplicationUtils {
      */
     public static int getAccountLockCount() {
         return accountLockCount;
+    }
+
+    /**
+     * Return the SMTP host.
+     * 
+     * @return SMTP host
+     */
+    public static String getSmtpHost() {
+        return smtpHost;
+    }
+
+    /**
+     * Return the SMTP port.
+     * 
+     * @return SMTP port
+     */
+    public static String getSmtpPort() {
+        return smtpPort;
+    }
+
+    /**
+     * Return the SMTP user.
+     * 
+     * @return SMTP user
+     */
+    public static String getSmtpUser() {
+        return smtpUser;
+    }
+
+    /**
+     * Return the SMTP password.
+     * 
+     * @return SMTP password
+     */
+    public static String getSmtpPass() {
+        return smtpPass;
     }
 }
