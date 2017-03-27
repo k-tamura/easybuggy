@@ -36,6 +36,10 @@ public class DBConnectionLeakServlet extends HttpServlet {
         try {
             final String dbUrl = ApplicationUtils.getDatabaseURL();
             final String dbDriver = ApplicationUtils.getDatabaseDriver();
+            if(dbUrl == null || "".equals(dbUrl) || dbUrl.startsWith("jdbc:derby:memory:")){
+                HTTPResponseCreator.createSimpleResponse(res, null, MessageUtils.getMsg("msg.note.not.use.ext.db", locale));
+                return;
+            }
 
             if (dbDriver != null && !"".equals(dbDriver)) {
                 try {

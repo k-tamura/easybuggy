@@ -65,11 +65,14 @@ public class MailHeaderInjectionServlet extends HttpServlet {
                 + MessageUtils.getMsg("label.submit", locale) + "\"/></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("</table>");
-        bodyHtml.append("</form>");
+        bodyHtml.append("<br>");
+        bodyHtml.append("<br>");
+        bodyHtml.append(MessageUtils.getMsg("msg.note.mail.header.injection", locale));
         if (req.getAttribute("message") != null) {
             bodyHtml.append(req.getAttribute("message"));
             req.setAttribute("message", null);
         }
+        bodyHtml.append("</form>");
         HTTPResponseCreator.createSimpleResponse(res,
                 MessageUtils.getMsg("title.mail.header.injection.page", locale), bodyHtml.toString());
     }

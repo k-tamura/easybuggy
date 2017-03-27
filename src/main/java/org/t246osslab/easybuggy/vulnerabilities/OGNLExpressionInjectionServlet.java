@@ -49,8 +49,7 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
             StringBuilder bodyHtml = new StringBuilder();
             bodyHtml.append("<form action=\"ognleijc\" method=\"post\">");
             bodyHtml.append(MessageUtils.getMsg("msg.enter.math.expression", locale));
-            bodyHtml.append("<br>");
-            bodyHtml.append("<br>");
+            bodyHtml.append("<br><br>");
             if (isValid) {
                 bodyHtml.append("<input type=\"text\" name=\"expression\" size=\"80\" maxlength=\"300\" value=\""
                         + ESAPI.encoder().encodeForHTML(expression) + "\">");
@@ -61,11 +60,9 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
             if (isValid && value != null && NumberUtils.isNumber(value.toString())) {
                 bodyHtml.append(value);
             }
-            bodyHtml.append("<br>");
-            bodyHtml.append("<br>");
+            bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
-            bodyHtml.append("<br>");
-            bodyHtml.append("<br>");
+            bodyHtml.append("<br><br>");
             bodyHtml.append(MessageUtils.getMsg("msg.note.enter.runtime.exec", locale));
             bodyHtml.append("</form>");
             HTTPResponseCreator.createSimpleResponse(res,
