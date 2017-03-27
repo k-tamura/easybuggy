@@ -24,8 +24,8 @@ import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
 /**
- * A servlet that takes message details from user and send it as a new mail through an SMTP
- * server. The mail may contain a attachment which is the file uploaded from client.
+ * A servlet that takes message details from user and send it as a new mail through an SMTP server.
+ * The mail may contain a attachment which is the file uploaded from client.
  */
 @SuppressWarnings("serial")
 @WebServlet("/mailheaderijct")
@@ -38,9 +38,10 @@ public class MailHeaderInjectionServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Locale locale = req.getLocale();
-        if(!EmailUtils.isReadyToSendEmail()){
+        if (!EmailUtils.isReadyToSendEmail()) {
             HTTPResponseCreator.createSimpleResponse(res,
-                    MessageUtils.getMsg("title.mail.header.injection.page", locale), MessageUtils.getMsg("msg.smtp.server.not.setup", locale));
+                    MessageUtils.getMsg("title.mail.header.injection.page", locale),
+                    MessageUtils.getMsg("msg.smtp.server.not.setup", locale));
             return;
         }
         StringBuilder bodyHtml = new StringBuilder();
@@ -48,6 +49,14 @@ public class MailHeaderInjectionServlet extends HttpServlet {
         bodyHtml.append("<br><br>");
         bodyHtml.append("<form action=\"mailheaderijct\" method=\"post\" enctype=\"multipart/form-data\">");
         bodyHtml.append("<table>");
+        bodyHtml.append("<tr>");
+        bodyHtml.append("<td>" + MessageUtils.getMsg("label.name", locale) + ":&nbsp;<br><br></td>");
+        bodyHtml.append("<td><input type=\"text\" name=\"name\" size=\"50\"/><br><br></td>");
+        bodyHtml.append("</tr>");
+        bodyHtml.append("<tr>");
+        bodyHtml.append("<td>" + MessageUtils.getMsg("label.mail", locale) + ":&nbsp;<br><br></td>");
+        bodyHtml.append("<td><input type=\"text\" name=\"mail\" size=\"50\"/><br><br></td>");
+        bodyHtml.append("</tr>");
         bodyHtml.append("<tr>");
         bodyHtml.append("<td>" + MessageUtils.getMsg("label.subject", locale) + ":&nbsp;<br><br></td>");
         bodyHtml.append("<td><input type=\"text\" name=\"subject\" size=\"50\"/><br><br></td>");
@@ -73,8 +82,8 @@ public class MailHeaderInjectionServlet extends HttpServlet {
             req.setAttribute("message", null);
         }
         bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(res,
-                MessageUtils.getMsg("title.mail.header.injection.page", locale), bodyHtml.toString());
+        HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.mail.header.injection.page", locale),
+                bodyHtml.toString());
     }
 
     /**
@@ -82,17 +91,24 @@ public class MailHeaderInjectionServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
+        String resultMessage = "";
         Locale locale = req.getLocale();
-       List<File> uploadedFiles = saveUploadedFiles(req);
+        List<File> uploadedFiles = saveUploadedFiles(req);
 
+        String name = req.getParameter("name");
+        String mail = req.getParameter("mail");
         String subject = req.getParameter("subject");
         String content = req.getParameter("content");
-
-        String resultMessage = "";
-
+        if (subject == null || "".equals(subject.trim()) || content == null || "".equals(content.trim())) {
+            resultMessage = MessageUtils.getMsg("msg.mail.is.empty", locale);
+            return;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(MessageUtils.getMsg("label.name", locale)).append(": ").append(name).append("<BR>");
+        sb.append(MessageUtils.getMsg("label.mail", locale)).append(": ").append(mail).append("<BR>").append("<BR>");
+        sb.append(MessageUtils.getMsg("label.content", locale)).append(": ").append(content).append("<BR>");
         try {
-            EmailUtils.sendEmailWithAttachment(subject, content, uploadedFiles);
-
+            EmailUtils.sendEmailWithAttachment(subject, sb.toString(), uploadedFiles);
             resultMessage = MessageUtils.getMsg("msg.sent.mail", locale);
         } catch (Exception e) {
             log.error("Exception occurs: ", e);

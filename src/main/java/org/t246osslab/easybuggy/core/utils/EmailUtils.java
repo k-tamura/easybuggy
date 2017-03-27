@@ -73,12 +73,13 @@ public class EmailUtils {
         msg.setFrom(new InternetAddress(ApplicationUtils.getSmtpUser()));
         InternetAddress[] toAddresses = { new InternetAddress(ApplicationUtils.getAdminAddress()) };
         msg.setRecipients(Message.RecipientType.TO, toAddresses);
-        msg.setSubject(subject);
+        ((MimeMessage)msg).setSubject(subject,"UTF-8");
         msg.setSentDate(new Date());
+        msg.setHeader("Content-Transfer-Encoding", "7bit"); 
  
         // creates message part
         MimeBodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setContent(message, "text/html");
+        messageBodyPart.setContent(message, "text/html;charset=UTF-8");
  
         // creates multi-part
         Multipart multipart = new MimeMultipart();
