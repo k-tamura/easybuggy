@@ -65,6 +65,7 @@ public class MailHeaderInjectionServlet extends HttpServlet {
                 + MessageUtils.getMsg("label.submit", locale) + "\"/></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("</table>");
+        bodyHtml.append("<br>");
         bodyHtml.append(MessageUtils.getMsg("msg.note.mail.header.injection", locale));
         if (req.getAttribute("message") != null) {
             bodyHtml.append("<br><br>");

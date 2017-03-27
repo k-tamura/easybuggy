@@ -30,6 +30,11 @@ public class EmailUtils {
     
     private static final Logger log = LoggerFactory.getLogger(EmailUtils.class);
 
+    // squid:S1118: Utility classes should not have public constructors
+    private EmailUtils() {
+        throw new IllegalAccessError("Utility class");
+    }
+    
     public static boolean isReadyToSendEmail() {
         if (ApplicationUtils.getSmtpHost() == null || "".equals(ApplicationUtils.getSmtpHost())
                 || ApplicationUtils.getSmtpPort() == null || "".equals(ApplicationUtils.getSmtpPort())
