@@ -31,11 +31,20 @@ public final class ApplicationUtils {
     // default SMTP port: null
     private static String smtpPort = null;
 
+    // default SMTP auth: false
+    private static String smtpAuth = "false";
+
+    // default SMTP starttls enable: false
+    private static String smtpStarttlsEnable = "false";
+
     // default SMTP user: null
     private static String smtpUser = null;
 
     // default SMTP password: null
     private static String smtpPass = null;
+
+    // default administrator's mail address: null
+    private static String adminAddress = null;
 
     static {
         ResourceBundle bundle = null;
@@ -66,22 +75,38 @@ public final class ApplicationUtils {
                 log.error("Exception occurs: ", e);
             }
             try {
-                smtpHost = bundle.getString("smtp.host");
+                smtpHost = bundle.getString("mail.smtp.host");
             } catch (Exception e) {
                 log.error("Exception occurs: ", e);
             }
             try {
-                smtpPort = bundle.getString("smtp.port");
+                smtpPort = bundle.getString("mail.smtp.port");
             } catch (Exception e) {
                 log.error("Exception occurs: ", e);
             }
             try {
-                smtpUser = bundle.getString("smtp.user");
+                smtpAuth = bundle.getString("mail.smtp.auth");
             } catch (Exception e) {
                 log.error("Exception occurs: ", e);
             }
             try {
-                smtpPass = bundle.getString("smtp.pass");
+                smtpStarttlsEnable = bundle.getString("mail.smtp.starttls.enable");
+            } catch (Exception e) {
+                log.error("Exception occurs: ", e);
+            }
+            try {
+                smtpUser = bundle.getString("mail.user");
+            } catch (Exception e) {
+                log.error("Exception occurs: ", e);
+            }
+            try {
+                smtpPass = bundle.getString("mail.password");
+            } catch (Exception e) {
+                log.error("Exception occurs: ", e);
+            }
+            
+            try {
+                adminAddress = bundle.getString("mail.admin.address");
             } catch (Exception e) {
                 log.error("Exception occurs: ", e);
             }
@@ -148,6 +173,24 @@ public final class ApplicationUtils {
     }
 
     /**
+     * Return the SMTP auth.
+     * 
+     * @return SMTP auth
+     */
+    public static String getSmtpAuth() {
+        return smtpAuth;
+    }
+
+    /**
+     * Return the SMTP start TLS enable.
+     * 
+     * @return SMTP start TLS enable
+     */
+    public static String getSmtpStarttlsEnable() {
+        return smtpStarttlsEnable;
+    }
+
+    /**
      * Return the SMTP user.
      * 
      * @return SMTP user
@@ -163,5 +206,14 @@ public final class ApplicationUtils {
      */
     public static String getSmtpPass() {
         return smtpPass;
+    }
+
+    /**
+     * Return the Administrator's mail address
+     * 
+     * @return Administrator's mail address
+     */
+    public static String getAdminAddress() {
+        return adminAddress;
     }
 }

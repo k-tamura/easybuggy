@@ -159,6 +159,11 @@
 						key="function.name.os.command.injection" /></a>:
 			<fmt:message key="function.description.os.command.injection" />
 		</p></li>
+ 		<li><p>
+			<a href="mailheaderijct" target="_blank"><fmt:message
+						key="function.name.mail.header.injection" /></a>:
+			<fmt:message key="function.description.mail.header.injection" />
+		</p></li>
 		<li><p>
 			<a href="ursupload" target="_blank"><fmt:message
 						key="function.name.unrestricted.size.upload" /></a>:

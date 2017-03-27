@@ -17,45 +17,52 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import org.t246osslab.easybuggy.core.utils.EmailUtility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.t246osslab.easybuggy.core.utils.EmailUtils;
 import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
 /**
- * A servlet that takes message details from user and send it as a new e-mail through an SMTP
- * server. The e-mail message may contain attachments which are the files uploaded from client.
+ * A servlet that takes message details from user and send it as a new mail through an SMTP
+ * server. The mail may contain a attachment which is the file uploaded from client.
  */
 @SuppressWarnings("serial")
-@WebServlet("/SendMailAttachServlet")
+@WebServlet("/mailheaderijct")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10, // 10MB
         maxRequestSize = 1024 * 1024 * 50) // 50MB
-public class SendMailAttachServlet extends HttpServlet {
+public class MailHeaderInjectionServlet extends HttpServlet {
+
+    private static final Logger log = LoggerFactory.getLogger(MailHeaderInjectionServlet.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Locale locale = req.getLocale();
+        if(!EmailUtils.isReadyToSendEmail()){
+            HTTPResponseCreator.createSimpleResponse(res,
+                    MessageUtils.getMsg("title.mail.header.injection.page", locale), MessageUtils.getMsg("msg.smtp.server.not.setup", locale));
+            return;
+        }
         StringBuilder bodyHtml = new StringBuilder();
-        bodyHtml.append("<form action=\"SendMailAttachServlet\" method=\"post\" enctype=\"multipart/form-data\">");
+        bodyHtml.append(MessageUtils.getMsg("description.send.mail", locale));
+        bodyHtml.append("<br><br>");
+        bodyHtml.append("<form action=\"mailheaderijct\" method=\"post\" enctype=\"multipart/form-data\">");
         bodyHtml.append("<table>");
-        bodyHtml.append("<caption><h2>Send New E-mail</h2></caption>");
         bodyHtml.append("<tr>");
-        bodyHtml.append("<td>Recipient address </td>");
-        bodyHtml.append("<td><input type=\"text\" name=\"recipient\" size=\"50\"/></td>");
+        bodyHtml.append("<td>" + MessageUtils.getMsg("label.subject", locale) + ":&nbsp;<br><br></td>");
+        bodyHtml.append("<td><input type=\"text\" name=\"subject\" size=\"50\"/><br><br></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("<tr>");
-        bodyHtml.append("<td>Subject </td>");
-        bodyHtml.append("<td><textarea rows=\"10\" cols=\"39\" name=\"subject\"></textarea> </td>");
+        bodyHtml.append("<td>" + MessageUtils.getMsg("label.content", locale) + ":&nbsp;<br><br></td>");
+        bodyHtml.append("<td><textarea rows=\"10\" cols=\"39\" name=\"content\"></textarea> <br><br></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("<tr>");
-        bodyHtml.append("<td>Content </td>");
-        bodyHtml.append("<td><textarea rows=\"10\" cols=\"39\" name=\"content\"></textarea> </td>");
+        bodyHtml.append("<td>" + MessageUtils.getMsg("label.attach.file", locale) + ":&nbsp;<br><br></td>");
+        bodyHtml.append("<td><input type=\"file\" name=\"file\" size=\"50\" /><br></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("<tr>");
-        bodyHtml.append("<td>Attach file </td>");
-        bodyHtml.append("<td><input type=\"file\" name=\"file\" size=\"50\" /></td>");
-        bodyHtml.append("</tr>");
-        bodyHtml.append("<tr>");
-        bodyHtml.append("<td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"Send\"/></td>");
+        bodyHtml.append("<td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\""
+                + MessageUtils.getMsg("label.submit", locale) + "\"/></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("</table>");
         bodyHtml.append("</form>");
@@ -64,7 +71,7 @@ public class SendMailAttachServlet extends HttpServlet {
             req.setAttribute("message", null);
         }
         HTTPResponseCreator.createSimpleResponse(res,
-                MessageUtils.getMsg("title.ognl.expression.injection.page", locale), bodyHtml.toString());
+                MessageUtils.getMsg("title.mail.header.injection.page", locale), bodyHtml.toString());
     }
 
     /**
@@ -72,32 +79,31 @@ public class SendMailAttachServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        List<File> uploadedFiles = saveUploadedFiles(req);
+        Locale locale = req.getLocale();
+       List<File> uploadedFiles = saveUploadedFiles(req);
 
-        String recipient = req.getParameter("recipient");
         String subject = req.getParameter("subject");
         String content = req.getParameter("content");
 
         String resultMessage = "";
 
         try {
-            EmailUtility.sendEmailWithAttachment(recipient, subject, content, uploadedFiles);
+            EmailUtils.sendEmailWithAttachment(subject, content, uploadedFiles);
 
-            resultMessage = "The e-mail was sent successfully";
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            resultMessage = "There were an error: " + ex.getMessage();
+            resultMessage = MessageUtils.getMsg("msg.sent.mail", locale);
+        } catch (Exception e) {
+            log.error("Exception occurs: ", e);
+            resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", locale) + e.getMessage();
         } finally {
             deleteUploadFiles(uploadedFiles);
             req.setAttribute("message", resultMessage);
             doGet(req, res);
-            // getServletContext().getRequestDispatcher("/Result.jsp").forward(request, response);
         }
     }
 
     /**
      * Saves files uploaded from the client and return a list of these files which will be attached
-     * to the e-mail message.
+     * to the mail message.
      */
     private List<File> saveUploadedFiles(HttpServletRequest request)
             throws IllegalStateException, IOException, ServletException {
@@ -115,7 +121,7 @@ public class SendMailAttachServlet extends HttpServlet {
                 }
 
                 File saveFile = new File(fileName);
-                System.out.println("saveFile: " + saveFile.getAbsolutePath());
+                log.debug("Uploaded file is saved on: " + saveFile.getAbsolutePath());
                 FileOutputStream outputStream = new FileOutputStream(saveFile);
 
                 // saves uploaded file
