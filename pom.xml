@@ -253,6 +253,7 @@
               <argument>-Dcom.sun.management.jmxremote.port=7900</argument>
               <argument>-Dcom.sun.management.jmxremote.ssl=false</argument>
               <argument>-Dcom.sun.management.jmxremote.authenticate=false</argument>
+              <argument>-ea</argument>
               <argument>-cp</argument>
               <classpath />
               <argument>org.t246osslab.easybuggy.EmbeddedJettyServer</argument>
