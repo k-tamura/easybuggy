@@ -263,6 +263,10 @@
 			<fmt:message key="function.description.throwable"><fmt:param value="FactoryConfigurationError"/></fmt:message>
 		</p></li>
 		<li><p>
+			<a href="gsfe" target="_blank">GenericSignatureFormatError</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="GenericSignatureFormatError"/></fmt:message>
+		</p></li>
+		<li><p>
 			<a href="ncdfe" target="_blank">NoClassDefFoundError</a>:
 			<fmt:message key="function.description.throwable"><fmt:param value="NoClassDefFoundError"/></fmt:message>
 		</p></li>
