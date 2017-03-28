@@ -299,6 +299,10 @@
 			<fmt:message key="function.description.throwable"><fmt:param value="StackOverflowError"/></fmt:message>
 		</p></li>
 		<li><p>
+			<a href="tfce" target="_blank">TransformerFactoryConfigurationError</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="TransformerFactoryConfigurationError"/></fmt:message>
+		</p></li>
+		<li><p>
 			<a href="jnicall" target="_blank">UnsatisfiedLinkError</a>:
 			<fmt:message key="function.description.throwable"><fmt:param value="UnsatisfiedLinkError"/></fmt:message>
 		</p></li>
