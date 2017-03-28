@@ -373,6 +373,10 @@
 			<fmt:message key="function.description.throwable"><fmt:param value="InputMismatchException"/></fmt:message>
 		</p></li>
 		<li><p>
+			<a href="mpte" target="_blank">MalformedParameterizedTypeException</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="MalformedParameterizedTypeException"/></fmt:message>
+		</p></li>
+		<li><p>
 			<a href="mre" target="_blank">MissingResourceException</a>:
 			<fmt:message key="function.description.throwable"><fmt:param value="MissingResourceException"/></fmt:message>
 		</p></li>
