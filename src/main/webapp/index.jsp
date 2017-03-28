@@ -250,13 +250,17 @@
 	</p>
 	<ul>
 		<li><p>
+			<a href="eie" target="_blank"><fmt:message
+						key="function.name.ei.error" /></a>:
+			<fmt:message key="function.description.ei.error" />
+		</p></li>
+		<li><p>
 			<a href="fce" target="_blank">FactoryConfigurationError</a>:
 			<fmt:message key="function.description.throwable"><fmt:param value="FactoryConfigurationError"/></fmt:message>
 		</p></li>
 		<li><p>
-			<a href="eie" target="_blank"><fmt:message
-						key="function.name.ei.error" /></a>:
-			<fmt:message key="function.description.ei.error" />
+			<a href="ncdfe" target="_blank">NoClassDefFoundError</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="NoClassDefFoundError"/></fmt:message>
 		</p></li>
 		<li><p>
 			<a href="oome" target="_blank">OutOfMemoryError (Java heap space)</a>:
