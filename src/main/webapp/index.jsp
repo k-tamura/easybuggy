@@ -417,6 +417,10 @@
 			<fmt:message key="function.description.throwable"><fmt:param value="SecurityException"/></fmt:message>
 		</p></li>
 		<li><p>
+			<a href="uce" target="_blank">UnsupportedCharsetException</a>:
+			<fmt:message key="function.description.throwable"><fmt:param value="UnsupportedCharsetException"/></fmt:message>
+		</p></li>
+		<li><p>
 			<a href="uoe" target="_blank">UnsupportedOperationException</a>:
 			<fmt:message key="function.description.throwable"><fmt:param value="UnsupportedOperationException"/></fmt:message>
 		</p></li>
