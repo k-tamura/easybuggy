@@ -164,6 +164,11 @@
 						key="function.name.mail.header.injection" /></a>:
 			<fmt:message key="function.description.mail.header.injection" />
 		</p></li>
+ 		<li><p>
+			<a href="nullbyteijct" target="_blank"><fmt:message
+						key="function.name.null.byte.injection" /></a>:
+			<fmt:message key="function.description.null.byte.injection" />
+		</p></li>
 		<li><p>
 			<a href="ursupload" target="_blank"><fmt:message
 						key="function.name.unrestricted.size.upload" /></a>:
