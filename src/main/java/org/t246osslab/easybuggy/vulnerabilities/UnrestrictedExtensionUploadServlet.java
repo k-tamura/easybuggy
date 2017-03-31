@@ -110,7 +110,7 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
             try {
                 // Reverse the color of the upload image
                 if(!isConverted){
-                    revereColor(new File(savePath + File.separator + fileName).getAbsolutePath());
+                    reverseColor(new File(savePath + File.separator + fileName).getAbsolutePath());
                     isConverted = true;
                 }
             } catch (Exception e) {
@@ -152,7 +152,7 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
     }
 
     // Reverse the color of the image file
-    private void revereColor(String fileName) throws IOException {
+    private void reverseColor(String fileName) throws IOException {
         BufferedImage image = ImageIO.read(new File(fileName));
         WritableRaster raster = image.getRaster();
         int[] pixelBuffer = new int[raster.getNumDataElements()];
