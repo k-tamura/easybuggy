@@ -50,7 +50,6 @@ public class NullByteInjectionServlet extends HttpServlet {
 
             File file = new File(appPath + File.separator + "pdf" + File.separator + fileName);
             if (!file.exists()) {
-                bodyHtml.append("<p>" + MessageUtils.getMsg("msg.file.not.exist", locale) + "</p>");
                 HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.guide.download", locale),
                         bodyHtml.toString());
                 return;
