@@ -48,6 +48,12 @@ public class XXEServlet extends HttpServlet {
         bodyHtml.append("<form method=\"post\" action=\"xxe\" enctype=\"multipart/form-data\">");
         bodyHtml.append(MessageUtils.getMsg("msg.reverse.color", locale));
         bodyHtml.append("<br><br>");
+        bodyHtml.append(ESAPI.encoder().encodeForHTML("<?xml version=\"1.0\"?>") + "<br>");
+        bodyHtml.append(ESAPI.encoder().encodeForHTML("<users ou=\"ou=people,dc=t246osslab,dc=org\" >") + "<br>");
+        bodyHtml.append("&nbsp;&nbsp;&nbsp;&nbsp;"+ESAPI.encoder().encodeForHTML("<user uid=\"user01\" phone=\"090-3344-5566\" mail=\"user01@example.com\"></user>") + "<br>");
+        bodyHtml.append("&nbsp;&nbsp;&nbsp;&nbsp;"+ESAPI.encoder().encodeForHTML("<user uid=\"user02\" phone=\"090-2244-5566\" mail=\"user02@example.com\"></user>") + "<br>");
+        bodyHtml.append(ESAPI.encoder().encodeForHTML("</users>"));
+        bodyHtml.append("<br><br>");
         bodyHtml.append("<input type=\"file\" name=\"file\" size=\"60\" /><br>");
         bodyHtml.append(MessageUtils.getMsg("msg.select.upload.file", locale));
         bodyHtml.append("<br><br>");
@@ -58,6 +64,16 @@ public class XXEServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
         }
         bodyHtml.append(MessageUtils.getMsg("msg.note.unrestricted.ext.upload", locale));
+        bodyHtml.append("<br><br>");
+        bodyHtml.append(ESAPI.encoder().encodeForHTML("<!ENTITY % p1 SYSTEM \"file:///c:/windows/win.ini\">") + "<br>");
+        bodyHtml.append(ESAPI.encoder().encodeForHTML("<!ENTITY % p2 \"<!ATTLIST users ou CDATA '%p1;'>\">") + "<br>");
+        bodyHtml.append(ESAPI.encoder().encodeForHTML("%p2;"));
+        bodyHtml.append("<br><br>");
+        bodyHtml.append(MessageUtils.getMsg("msg.note.unrestricted.ext.upload", locale));
+        bodyHtml.append("<br><br>");
+        bodyHtml.append(ESAPI.encoder().encodeForHTML("<?xml version=\"1.0\"?>") + "<br>");
+        bodyHtml.append(ESAPI.encoder().encodeForHTML("<!DOCTYPE users SYSTEM \"http://localhost:8080/uploadFiles/test1.dtd\" >") + "<br>");
+        bodyHtml.append(ESAPI.encoder().encodeForHTML("</users>"));
         bodyHtml.append("</form>");
         HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.unrestricted.upload", locale),
                 bodyHtml.toString());
