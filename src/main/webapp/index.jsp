@@ -215,14 +215,19 @@
 			<fmt:message key="function.description.csrf" />
 		</p></li>
 		<li><p>
-			<a href="xxe" target="_blank"><fmt:message
-						key="function.name.xxe" /></a>:
-			<fmt:message key="function.description.xxe" />
-		</p></li>
-		<li><p>
 			<a href="/admins/clickjacking" target="_blank"><fmt:message
 						key="function.name.clickjacking" /></a>:
 			<fmt:message key="function.description.clickjacking" />
+		</p></li>
+		<li><p>
+			<a href="xee" target="_blank"><fmt:message
+						key="function.name.xee" /></a>:
+			<fmt:message key="function.description.xee" />
+		</p></li>
+		<li><p>
+			<a href="xxe" target="_blank"><fmt:message
+						key="function.name.xxe" /></a>:
+			<fmt:message key="function.description.xxe" />
 		</p></li>
 	</ul>
 
