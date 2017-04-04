@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -138,7 +139,9 @@ public class XXEServlet extends HttpServlet {
             SAXParser parser;
             CustomHandler customHandler = new CustomHandler();
             try {
-                parser = SAXParserFactory.newInstance().newSAXParser();
+                SAXParserFactory spf = SAXParserFactory.newInstance();
+                spf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+                parser = spf.newSAXParser();
                 parser.parse(new File(savePath + File.separator + fileName), customHandler);
                 
                 // TODO Implement registration
