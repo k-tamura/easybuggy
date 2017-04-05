@@ -50,11 +50,11 @@ public class MailHeaderInjectionServlet extends HttpServlet {
         bodyHtml.append("<form action=\"mailheaderijct\" method=\"post\" enctype=\"multipart/form-data\">");
         bodyHtml.append("<table>");
         bodyHtml.append("<tr>");
-        bodyHtml.append("<td>" + MessageUtils.getMsg("label.name", locale) + ":&nbsp;<br><br></td>");
+        bodyHtml.append("<td>" + MessageUtils.getMsg("label.your.name", locale) + ":&nbsp;<br><br></td>");
         bodyHtml.append("<td><input type=\"text\" name=\"name\" size=\"50\"/><br><br></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("<tr>");
-        bodyHtml.append("<td>" + MessageUtils.getMsg("label.mail", locale) + ":&nbsp;<br><br></td>");
+        bodyHtml.append("<td>" + MessageUtils.getMsg("label.your.mail", locale) + ":&nbsp;<br><br></td>");
         bodyHtml.append("<td><input type=\"text\" name=\"mail\" size=\"50\"/><br><br></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("<tr>");
@@ -74,13 +74,13 @@ public class MailHeaderInjectionServlet extends HttpServlet {
                 + MessageUtils.getMsg("label.submit", locale) + "\"/></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("</table>");
-        bodyHtml.append("<br>");
-        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.mail.header.injection", locale));
         if (req.getAttribute("message") != null) {
-            bodyHtml.append("<br><br>");
+            bodyHtml.append("<br>");
             bodyHtml.append(req.getAttribute("message"));
             req.setAttribute("message", null);
         }
+        bodyHtml.append("<br><br>");
+        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.mail.header.injection", locale));
         bodyHtml.append("</form>");
         HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.mail.header.injection.page", locale),
                 bodyHtml.toString());
