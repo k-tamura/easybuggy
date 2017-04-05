@@ -55,11 +55,12 @@ public class CSRFServlet extends HttpServlet {
         bodyHtml.append("<br><br>");
         bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
         bodyHtml.append("<br><br>");
-        bodyHtml.append(MessageUtils.getMsg("msg.note.csrf", locale));
         String errorMessage = (String) req.getAttribute("errorMessage");
         if (errorMessage != null) {
-            bodyHtml.append("<br><br>" + errorMessage);
+            bodyHtml.append(errorMessage);
         }
+        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.csrf", locale));
+        bodyHtml.append("</form>");
         HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.admins.main.page", locale),
                 bodyHtml.toString());
     }
@@ -105,18 +106,19 @@ public class CSRFServlet extends HttpServlet {
                 bodyHtml.append("<br><br>");
                 bodyHtml.append("<a href=\"/admins/main\">" + MessageUtils.getMsg("label.goto.admin.page", locale)
                         + "</a>");
+                bodyHtml.append("</form>");
                 HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.admins.main.page", locale),
                         bodyHtml.toString());
             } catch (Exception e) {
                 log.error("Exception occurs: ", e);
-                req.setAttribute("errorMessage", MessageUtils.getMsg("msg.passwd.change.failed", locale));
+                req.setAttribute("errorMessage", MessageUtils.getErrMsg("msg.passwd.change.failed", locale));
                 doGet(req, res);
             }
         } else {
             if (password == null || "".equals(password) || password.length() < 8) {
-                req.setAttribute("errorMessage", MessageUtils.getMsg("msg.passwd.is.too.short", locale));
+                req.setAttribute("errorMessage", MessageUtils.getErrMsg("msg.passwd.is.too.short", locale));
             } else {
-                req.setAttribute("errorMessage", MessageUtils.getMsg("msg.unknown.exception.occur", locale));
+                req.setAttribute("errorMessage", MessageUtils.getErrMsg("msg.unknown.exception.occur", locale));
             }
             doGet(req, res);
         }

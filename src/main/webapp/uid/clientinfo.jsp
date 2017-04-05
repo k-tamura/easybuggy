@@ -24,6 +24,9 @@
 		<li><p>Accept-Language: <%=request.getHeader("Accept-Language")%></p></li>
 	</ul>
 	<hr/>
-	<p><fmt:message key="msg.note.unintended.file.disclosure" /></p>
+	<div class="alert alert-info" role="alert">
+		<span class="glyphicon glyphicon-info-sign"></span>&nbsp; 
+		<fmt:message key="msg.note.unintended.file.disclosure" />
+	</div>
 </body>
 </html>

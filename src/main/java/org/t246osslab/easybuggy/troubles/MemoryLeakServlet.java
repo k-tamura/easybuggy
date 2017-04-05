@@ -26,6 +26,8 @@ public class MemoryLeakServlet extends HttpServlet {
         hm.put(String.valueOf(cnt++), sb.toString());
         StringBuilder bodyHtml = new StringBuilder();
         bodyHtml.append(MessageUtils.getMsg("msg.java.heap.space.leak.occur", req.getLocale()));
+        bodyHtml.append("<br><br>");
+        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.oome.finally.thrown", req.getLocale()));
         
         HTTPResponseCreator.createSimpleResponse(res, null, bodyHtml.toString());
     }

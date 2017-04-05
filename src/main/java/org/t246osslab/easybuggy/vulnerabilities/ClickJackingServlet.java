@@ -57,11 +57,12 @@ public class ClickJackingServlet extends HttpServlet {
         bodyHtml.append("<br><br>");
         bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
         bodyHtml.append("<br><br>");
-        bodyHtml.append(MessageUtils.getMsg("msg.note.clickjacking", locale));
         String errorMessage = (String) req.getAttribute("errorMessage");
         if (errorMessage != null) {
-            bodyHtml.append("<br><br>" + errorMessage);
+            bodyHtml.append(errorMessage);
         }
+        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.clickjacking", locale));
+        bodyHtml.append("</form>");
         HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.admins.main.page", locale),
                 bodyHtml.toString());
     }
@@ -107,15 +108,16 @@ public class ClickJackingServlet extends HttpServlet {
                 bodyHtml.append("<br><br>");
                 bodyHtml.append("<a href=\"/admins/main\">" + MessageUtils.getMsg("label.goto.admin.page", locale)
                         + "</a>");
+                bodyHtml.append("</form>");
                 HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.admins.main.page", locale),
                         bodyHtml.toString());
             } catch (Exception e) {
                 log.error("Exception occurs: ", e);
-                req.setAttribute("errorMessage", MessageUtils.getMsg("msg.mail.change.failed", locale));
+                req.setAttribute("errorMessage", MessageUtils.getErrMsg("msg.mail.change.failed", locale));
                 doGet(req, res);
             }
         } else {
-            req.setAttribute("errorMessage", MessageUtils.getMsg("msg.mail.format.is.invalid", locale));
+            req.setAttribute("errorMessage", MessageUtils.getErrMsg("msg.mail.format.is.invalid", locale));
             doGet(req, res);
         }
     }

@@ -59,7 +59,7 @@ public class CodeInjectionServlet extends HttpServlet {
                 bodyHtml.append(MessageUtils.getMsg("msg.enter.json.string", locale));
                 bodyHtml.append("<br><br>");
             }
-            bodyHtml.append(MessageUtils.getMsg("msg.note.code.injection", locale));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.code.injection", locale));
             bodyHtml.append("</form>");
 
             HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.parse.json", locale),

@@ -48,8 +48,6 @@ public class EndlessWaitingServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getMsg("msg.note.enter.count", locale));
-            bodyHtml.append("<br><br>");
 
             if (count > 0) {
                 /* create a batch file in the temp directory */
@@ -62,16 +60,18 @@ public class EndlessWaitingServlet extends HttpServlet {
                     ProcessBuilder pb = new ProcessBuilder(batFile.getAbsolutePath());
                     Process process = pb.start();
                     process.waitFor();
-                    bodyHtml.append(MessageUtils.getMsg("msg.executed.batch", locale) + batFile.getAbsolutePath()
-                    + "<BR><BR>");
+                    bodyHtml.append(
+                            MessageUtils.getMsg("msg.executed.batch", locale) + batFile.getAbsolutePath() + "<BR><BR>");
                     bodyHtml.append(MessageUtils.getMsg("label.execution.result", locale) + "<BR><BR>");
                     bodyHtml.append(printInputStream(process.getInputStream()));
                     bodyHtml.append(printInputStream(process.getErrorStream()));
                 }
-                bodyHtml.append("</form>");
             } else {
                 bodyHtml.append(MessageUtils.getMsg("msg.enter.positive.number", locale));
             }
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.enter.count", locale));
+            bodyHtml.append("</form>");
             HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.endless.waiting.page", locale),
                     bodyHtml.toString());
 

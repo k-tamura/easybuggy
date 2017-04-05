@@ -74,8 +74,7 @@ public class XEEandXXEServlet extends HttpServlet {
             bodyHtml.append(req.getAttribute("errorMessage"));
         }
         if ("/xee".equals(req.getServletPath())) {
-            bodyHtml.append(MessageUtils.getMsg("msg.note.xee", locale));
-            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.xee", locale));
             bodyHtml.append("<pre id=\"code\" class=\"prettyprint lang-xml\">");
             bodyHtml.append(ESAPI.encoder().encodeForHTML("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>") + "<br>");
             bodyHtml.append(ESAPI.encoder().encodeForHTML("<!DOCTYPE s[") + "<br>");
@@ -99,8 +98,7 @@ public class XEEandXXEServlet extends HttpServlet {
             bodyHtml.append(ESAPI.encoder().encodeForHTML("</soapenv:Envelope>") + "<br>");
             bodyHtml.append("</pre>");
         } else {
-            bodyHtml.append(MessageUtils.getMsg("msg.note.xxe.step1", locale));
-            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.xxe.step1", locale));
             bodyHtml.append("<pre id=\"code\" class=\"prettyprint lang-xml\">");
             bodyHtml.append(ESAPI.encoder().encodeForHTML("<!ENTITY % p1 SYSTEM \"file:///etc/passwd\">") + "<br>");
             bodyHtml.append(
@@ -108,8 +106,7 @@ public class XEEandXXEServlet extends HttpServlet {
             bodyHtml.append(ESAPI.encoder().encodeForHTML("%p2;"));
             bodyHtml.append("</pre>");
             bodyHtml.append("<br>");
-            bodyHtml.append(MessageUtils.getMsg("msg.note.xxe.step2", locale));
-            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.xxe.step2", locale));
             bodyHtml.append("<pre id=\"code\" class=\"prettyprint lang-xml\">");
             bodyHtml.append(ESAPI.encoder().encodeForHTML("<?xml version=\"1.0\"?>") + "<br>");
             bodyHtml.append(
@@ -200,10 +197,10 @@ public class XEEandXXEServlet extends HttpServlet {
             StringBuilder bodyHtml = new StringBuilder();
             if (isRegistered && customHandler.isRegistered()) {
                 bodyHtml.append(MessageUtils.getMsg("msg.batch.registration.complete", locale));
+                bodyHtml.append("<br><br>");
             } else {
-                bodyHtml.append(MessageUtils.getMsg("msg.batch.registration.fail", locale));
+                bodyHtml.append(MessageUtils.getErrMsg("msg.batch.registration.fail", locale));
             }
-            bodyHtml.append("<br><br>");
             bodyHtml.append(customHandler.getResult());
             bodyHtml.append("<br><br>");
             bodyHtml.append("<INPUT type=\"button\" onClick='history.back();' value=\""

@@ -3,7 +3,6 @@ package org.t246osslab.easybuggy.performance;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -66,8 +65,6 @@ public class StringPlusOperationServlet extends HttpServlet {
 
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getMsg("msg.note.slow.string.plus.operation", locale));
-            bodyHtml.append("<br><br>");
 
             if (length > 0) {
                 // StringBuilder builder = new StringBuilder();
@@ -87,6 +84,8 @@ public class StringPlusOperationServlet extends HttpServlet {
             } else {
                 bodyHtml.append(MessageUtils.getMsg("msg.enter.positive.number", locale));
             }
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.slow.string.plus.operation", locale));
             bodyHtml.append("</form>");
             HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.random.string.generator", locale),
                     bodyHtml.toString());

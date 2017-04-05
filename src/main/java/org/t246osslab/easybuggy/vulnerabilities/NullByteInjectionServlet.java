@@ -34,7 +34,7 @@ public class NullByteInjectionServlet extends HttpServlet {
         bodyHtml.append("<p>" + MessageUtils.getMsg("msg.download.file", locale) + "</p>");
         bodyHtml.append("<ul><li><a href=\"nullbyteijct?fileName=AdminGuide\">Admin Guide</a></li>");
         bodyHtml.append("<li><a href=\"nullbyteijct?fileName=DeveloperGuide\">Developer Guide</a></li></ul>");
-        bodyHtml.append("<p>" + MessageUtils.getMsg("msg.note.null.byte.injection", locale) + "</p>");
+        bodyHtml.append("<p>" + MessageUtils.getInfoMsg("msg.note.null.byte.injection", locale) + "</p>");
         try {
             String fileName = req.getParameter("fileName");
             if (fileName == null || "".equals(fileName)) {

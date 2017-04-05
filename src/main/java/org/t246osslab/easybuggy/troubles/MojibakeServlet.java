@@ -49,7 +49,7 @@ public class MojibakeServlet extends HttpServlet {
                 bodyHtml.append(MessageUtils.getMsg("msg.enter.name", locale));
             }
             bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getMsg("msg.note.mojibake", locale));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.mojibake", locale));
             bodyHtml.append("</form>");
 
             HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.xss.page", locale),

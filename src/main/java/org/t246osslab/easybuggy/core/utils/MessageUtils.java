@@ -18,7 +18,7 @@ public final class MessageUtils {
     private MessageUtils() {
         throw new IllegalAccessError("Utility class");
     }
-    
+
     /**
      * Return a message for a given property key.
      * 
@@ -26,6 +26,15 @@ public final class MessageUtils {
      */
     public static String getMsg(String propertyKey, Locale locale) {
         return getMsg(propertyKey, (Object[]) null, locale);
+    }
+
+    /**
+     * Return an information message for a given property key.
+     * 
+     * @return An information message for a given property key
+     */
+    public static String getInfoMsg(String propertyKey, Locale locale) {
+        return getInfoMsg(propertyKey, (Object[]) null, locale);
     }
 
     /**
@@ -49,14 +58,20 @@ public final class MessageUtils {
             if (placeholders != null) {
                 propertyValue = MessageFormat.format(propertyValue, placeholders);
             }
-            if (propertyValue.indexOf("(i) ") >= 0) {
-                propertyValue = propertyValue.replace("(i) ",
-                        "<span class=\"glyphicon glyphicon-info-sign\"></span>&nbsp; ");
-            }
-        } catch (Exception e) {
+         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         }
         return propertyValue;
+    }
+
+    /**
+     * Return an information message for a given property key, replaced with placeholders.
+     * 
+     * @return An information message for a given property key, replaced with placeholders
+     */
+    public static String getInfoMsg(String propertyKey, Object[] placeholders, Locale locale) {
+        return "<div class=\"alert alert-info\" role=\"alert\"><span class=\"glyphicon glyphicon-info-sign\"></span>&nbsp; "
+                + getMsg(propertyKey, placeholders, locale) + "</div>";
     }
 
     /**
@@ -65,7 +80,7 @@ public final class MessageUtils {
      * @return An error message for a given property key, replaced with placeholders
      */
     public static String getErrMsg(String propertyKey, Object[] placeholders, Locale locale) {
-        return "<div class=\"alert alert-danger\" role=\"alert\">" + getMsg(propertyKey, placeholders, locale)
-                + "</div>";
+        return "<div class=\"alert alert-danger\" role=\"alert\"><span class=\"glyphicon glyphicon-warning-sign\"></span>&nbsp; "
+                + getMsg(propertyKey, placeholders, locale) + "</div>";
     }
 }

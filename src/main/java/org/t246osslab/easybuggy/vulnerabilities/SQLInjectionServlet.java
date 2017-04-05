@@ -53,7 +53,7 @@ public class SQLInjectionServlet extends HttpServlet {
                 bodyHtml.append(MessageUtils.getMsg("msg.warn.enter.name.and.passwd", locale));
                 bodyHtml.append("<br><br>");
             }
-            bodyHtml.append(MessageUtils.getMsg("msg.note.sql.injection", locale));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.sql.injection", locale));
             bodyHtml.append("</form>");
 
             HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.sql.injection.page", locale),

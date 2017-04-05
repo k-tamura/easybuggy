@@ -57,7 +57,7 @@ public class DeadlockServlet2 extends HttpServlet {
                 bodyHtml.append(MessageUtils.getMsg("msg.warn.select.asc.or.desc", locale));
             }
             bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getMsg("msg.note.sql.deadlock", locale));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.sql.deadlock", locale));
             bodyHtml.append("</form>");
             HTTPResponseCreator.createSimpleResponse(res, null, bodyHtml.toString());
 

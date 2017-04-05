@@ -51,7 +51,7 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
         if (req.getAttribute("errorMessage") != null) {
             bodyHtml.append(req.getAttribute("errorMessage"));
         }
-        bodyHtml.append(MessageUtils.getMsg("msg.note.unrestricted.size.upload", locale));
+        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.unrestricted.size.upload", locale));
         bodyHtml.append("</form>");
         HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.unrestricted.upload", locale),
                 bodyHtml.toString());

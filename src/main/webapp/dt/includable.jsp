@@ -13,11 +13,13 @@
 <title>EasyBuggy</title>
 <c:import url="/dfi/style_bootstrap.html" /> 
 </head>
-<body style="margin:20px;">
+<body style="margin: 20px;">
 	<!-- header section start -->
 	<c:catch var="ex">
-		<c:if test="${param.template != null && !fn:startsWith(param.template,'http')}">
-			<c:import url="<%= request.getParameter(\"template\") + \"_header.html\" %>" /> 
+		<c:if
+			test="${param.template != null && !fn:startsWith(param.template,'http')}">
+			<c:import
+				url="<%= request.getParameter(\"template\") + \"_header.html\" %>" />
 		</c:if>
 	</c:catch>
 	<!-- header section end -->
@@ -30,29 +32,31 @@
 	</p>
 	<ul>
 		<li><p>
-			<a href=includable.jsp><fmt:message
-						key="style.name.noframe" /></a>:
-			<fmt:message key="style.description.noframe" />
-		</p></li>
+				<a href=includable.jsp><fmt:message key="style.name.noframe" /></a>:
+				<fmt:message key="style.description.noframe" />
+			</p></li>
 		<li><p>
-			<a href="includable.jsp?template=basic"><fmt:message
+				<a href="includable.jsp?template=basic"><fmt:message
 						key="style.name.basic" /></a>:
-			<fmt:message key="style.description.basic" />
-		</p></li>
+				<fmt:message key="style.description.basic" />
+			</p></li>
 		<li><p>
-			<a href="includable.jsp?template=monochro"><fmt:message
+				<a href="includable.jsp?template=monochro"><fmt:message
 						key="style.name.monochro" /></a>:
-			<fmt:message key="style.description.monochro" />
-		</p></li>
+				<fmt:message key="style.description.monochro" />
+			</p></li>
 	</ul>
-	<p>
+	<div class="alert alert-info" role="alert">
+		<span class="glyphicon glyphicon-info-sign"></span>&nbsp;
 		<fmt:message key="msg.note.directory.traversal" />
-	</p>
+	</div>
 	<hr>
 	<!-- footer section start -->
 	<c:catch var="ex">
-		<c:if test="${param.template != null && !fn:startsWith(param.template,'http')}">
-			<c:import url="<%= request.getParameter(\"template\") + \"_footer.html\" %>" /> 
+		<c:if
+			test="${param.template != null && !fn:startsWith(param.template,'http')}">
+			<c:import
+				url="<%= request.getParameter(\"template\") + \"_footer.html\" %>" /> 
 		</c:if>
 	</c:catch>
 	<!-- footer section end -->

@@ -63,9 +63,6 @@ public class DefaultLoginServlet extends HttpServlet {
         bodyHtml.append("<td><input type=\"submit\" value=\"" + MessageUtils.getMsg("label.login", locale) + "\"></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("</table>");
-        if (req.getAttribute("login.page.note") != null) {
-            bodyHtml.append("<br><p>" + MessageUtils.getMsg((String) req.getAttribute("login.page.note"), locale) + "<p>");
-        }
         String queryString = req.getQueryString();
         if (queryString != null) {
             bodyHtml.append("<input type=\"hidden\" name=\"loginquerystring\" value=\""
@@ -82,10 +79,12 @@ public class DefaultLoginServlet extends HttpServlet {
         }
 
         HttpSession session = req.getSession(true);
-
         if (session.getAttribute("authNMsg") != null && !"authenticated".equals(session.getAttribute("authNMsg"))) {
-            bodyHtml.append("<p>" + MessageUtils.getMsg((String)session.getAttribute("authNMsg"), locale) + "</p>");
+            bodyHtml.append(MessageUtils.getErrMsg((String)session.getAttribute("authNMsg"), locale));
             session.setAttribute("authNMsg", null);
+        }
+        if (req.getAttribute("login.page.note") != null) {
+            bodyHtml.append(MessageUtils.getInfoMsg((String) req.getAttribute("login.page.note"), locale));
         }
         bodyHtml.append("</form>");
         HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.login.page", locale),

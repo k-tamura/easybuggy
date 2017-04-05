@@ -31,8 +31,11 @@ public class MemoryLeakServlet3 extends HttpServlet {
                 compresser.setInput(input);
                 compresser.deflate(output);
             }
-            HTTPResponseCreator.createSimpleResponse(res, null,
-                    MessageUtils.getMsg("msg.c.heap.space.leak.occur", req.getLocale()));
+            StringBuilder bodyHtml = new StringBuilder();
+            bodyHtml.append(MessageUtils.getMsg("msg.c.heap.space.leak.occur", req.getLocale()));
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.oome.finally.thrown", req.getLocale()));
+            HTTPResponseCreator.createSimpleResponse(res, null, bodyHtml.toString());
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         }

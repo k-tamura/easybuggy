@@ -63,7 +63,7 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
             bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getMsg("msg.note.enter.runtime.exec", locale));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.enter.runtime.exec", locale));
             bodyHtml.append("</form>");
             HTTPResponseCreator.createSimpleResponse(res,
                     MessageUtils.getMsg("title.ognl.expression.injection.page", locale), bodyHtml.toString());

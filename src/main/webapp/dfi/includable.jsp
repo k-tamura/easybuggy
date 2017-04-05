@@ -55,9 +55,10 @@
 			<fmt:message key="style.description.materialize" />
 		</p></li>
 	</ul>
-	<p>
+	<div class="alert alert-info" role="alert">
+		<span class="glyphicon glyphicon-info-sign"></span>&nbsp;
 		<fmt:message key="msg.note.dangerous.file.inclusion" />
-	</p>
+	</div>
 	<hr>
 	<footer>
 	<img src="/images/easybuggyL.png">Copyright &copy; 2016-17 T246 OSS Lab, all rights reserved.

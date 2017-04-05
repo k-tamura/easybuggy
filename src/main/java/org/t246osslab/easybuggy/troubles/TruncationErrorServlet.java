@@ -59,7 +59,7 @@ public class TruncationErrorServlet extends HttpServlet {
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
             bodyHtml.append("<br>");
             bodyHtml.append("<br>");
-            bodyHtml.append(MessageUtils.getMsg("msg.note.enter.specific.nembers", locale));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.enter.specific.nembers", locale));
             bodyHtml.append("</form>");
             HTTPResponseCreator.createSimpleResponse(res,
                     MessageUtils.getMsg("title.loss.of.trailing.digits.page", locale), bodyHtml.toString());

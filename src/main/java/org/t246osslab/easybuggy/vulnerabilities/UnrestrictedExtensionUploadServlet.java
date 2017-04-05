@@ -53,7 +53,7 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
         if (req.getAttribute("errorMessage") != null) {
             bodyHtml.append(req.getAttribute("errorMessage"));
         }
-        bodyHtml.append(MessageUtils.getMsg("msg.note.unrestricted.ext.upload", locale));
+        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.unrestricted.ext.upload", locale));
         bodyHtml.append("</form>");
         HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.unrestricted.upload", locale),
                 bodyHtml.toString());

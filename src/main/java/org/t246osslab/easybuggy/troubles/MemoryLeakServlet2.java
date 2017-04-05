@@ -31,8 +31,11 @@ public class MemoryLeakServlet2 extends HttpServlet {
                 ClassPool pool = ClassPool.getDefault();
                 pool.makeClass("eu.plumbr.demo.Generated" + i).toClass();
             }
-            HTTPResponseCreator.createSimpleResponse(res, null,
-                    MessageUtils.getMsg("msg.permgen.space.leak.occur", req.getLocale()));
+            StringBuilder bodyHtml = new StringBuilder();
+            bodyHtml.append(MessageUtils.getMsg("msg.permgen.space.leak.occur", req.getLocale()));
+            bodyHtml.append("<br><br>");
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.oome.finally.thrown", req.getLocale()));
+            HTTPResponseCreator.createSimpleResponse(res, null, bodyHtml.toString());
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         } catch (Error e) {
