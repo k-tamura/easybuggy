@@ -29,6 +29,15 @@ public final class MessageUtils {
     }
 
     /**
+     * Return an error message for a given property key.
+     * 
+     * @return An error message for a given property key
+     */
+    public static String getErrMsg(String propertyKey, Locale locale) {
+        return getErrMsg(propertyKey, (Object[]) null, locale);
+    }
+
+    /**
      * Return a message for a given property key, replaced with placeholders.
      * 
      * @return A message for a given property key, replaced with placeholders
@@ -40,9 +49,23 @@ public final class MessageUtils {
             if (placeholders != null) {
                 propertyValue = MessageFormat.format(propertyValue, placeholders);
             }
+            if (propertyValue.indexOf("(i) ") >= 0) {
+                propertyValue = propertyValue.replace("(i) ",
+                        "<span class=\"glyphicon glyphicon-info-sign\"></span>&nbsp; ");
+            }
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         }
         return propertyValue;
+    }
+
+    /**
+     * Return an error message for a given property key, replaced with placeholders.
+     * 
+     * @return An error message for a given property key, replaced with placeholders
+     */
+    public static String getErrMsg(String propertyKey, Object[] placeholders, Locale locale) {
+        return "<div class=\"alert alert-danger\" role=\"alert\">" + getMsg(propertyKey, placeholders, locale)
+                + "</div>";
     }
 }

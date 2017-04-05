@@ -50,9 +50,9 @@ public class SQLInjectionServlet extends HttpServlet {
             if (name != null && password != null && !"".equals(name) && !"".equals(password) && password.length() >= 8) {
                 bodyHtml.append(selectUsers(name, password, req));
             } else {
-                bodyHtml.append(MessageUtils.getMsg("msg.warn.enter.name.and.passwd", locale) + "<br>");
+                bodyHtml.append(MessageUtils.getMsg("msg.warn.enter.name.and.passwd", locale));
+                bodyHtml.append("<br><br>");
             }
-            bodyHtml.append("<br>");
             bodyHtml.append(MessageUtils.getMsg("msg.note.sql.injection", locale));
             bodyHtml.append("</form>");
 
@@ -69,8 +69,7 @@ public class SQLInjectionServlet extends HttpServlet {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
-        String result = "<font color=\"red\">" + MessageUtils.getMsg("msg.error.user.not.exist", req.getLocale())
-                + "</font><br>";
+        String result = MessageUtils.getErrMsg("msg.error.user.not.exist", req.getLocale());
         try {
             conn = DBClient.getConnection();
             stmt = conn.createStatement();
@@ -80,7 +79,7 @@ public class SQLInjectionServlet extends HttpServlet {
                 sb.append(rs.getString("name") + ", " + rs.getString("secret") + "<BR>");
             }
             if (sb.length() > 0) {
-                result = MessageUtils.getMsg("user.table.column.names", req.getLocale()) + "<BR>" + sb.toString();
+                result = MessageUtils.getMsg("user.table.column.names", req.getLocale()) + "<BR>" + sb.toString() + "<BR>";
             }
         } catch (Exception e) {
             log.error("Exception occurs: ", e);

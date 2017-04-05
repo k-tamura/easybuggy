@@ -72,7 +72,6 @@ public class XEEandXXEServlet extends HttpServlet {
         bodyHtml.append("<br><br>");
         if (req.getAttribute("errorMessage") != null) {
             bodyHtml.append(req.getAttribute("errorMessage"));
-            bodyHtml.append("<br><br>");
         }
         if ("/xee".equals(req.getServletPath())) {
             bodyHtml.append(MessageUtils.getMsg("msg.note.xee", locale));
@@ -154,7 +153,7 @@ public class XEEandXXEServlet extends HttpServlet {
                 doGet(req, res);
                 return;
             } else if (!fileName.endsWith(".xml")) {
-                req.setAttribute("errorMessage", MessageUtils.getMsg("msg.not.xml.file", locale));
+                req.setAttribute("errorMessage", MessageUtils.getErrMsg("msg.not.xml.file", locale));
                 doGet(req, res);
                 return;
             }

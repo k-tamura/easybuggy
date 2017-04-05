@@ -69,17 +69,18 @@ public class LDAPInjectionServlet extends HttpServlet {
                                 + "<BR>");
                     }
                     if (!isExist) {
-                        bodyHtml.append("<font color=\"red\">" + MessageUtils.getMsg("msg.error.user.not.exist", req.getLocale()) + "</font><BR>");
+                        bodyHtml.append(MessageUtils.getErrMsg("msg.error.user.not.exist", req.getLocale()));
+                    }else{
+                        bodyHtml.append("<br>");
                     }
                     cursor.close();
                 } catch (ParseException e) {
-                    bodyHtml.append("<font color=\"red\">" + MessageUtils.getMsg("msg.error.user.not.exist", req.getLocale()) + "</font><BR>");
+                    bodyHtml.append(MessageUtils.getErrMsg("msg.error.user.not.exist", req.getLocale()));
                 }
             } else {
                 bodyHtml.append(MessageUtils.getMsg("msg.warn.enter.name.and.passwd", locale));
-                bodyHtml.append("<br>");
+                bodyHtml.append("<br><br>");
             }
-            bodyHtml.append("<br>");
             bodyHtml.append(MessageUtils.getMsg("msg.note.ldap.injection", locale));
             bodyHtml.append("</form>");
 

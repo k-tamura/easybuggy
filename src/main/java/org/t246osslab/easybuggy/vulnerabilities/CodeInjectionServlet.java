@@ -50,14 +50,15 @@ public class CodeInjectionServlet extends HttpServlet {
                     ScriptEngine scriptEngine = manager.getEngineByName("JavaScript");
                     scriptEngine.eval("JSON.parse('" + jsonString + "')");
                     bodyHtml.append(MessageUtils.getMsg("msg.valid.json", locale));
+                    bodyHtml.append("<br><br>");
                 } catch (ScriptException e) {
-                    bodyHtml.append(MessageUtils.getMsg("msg.invalid.json", locale) + " : ");
-                    bodyHtml.append(ESAPI.encoder().encodeForHTML(e.getMessage()));
+                    bodyHtml.append(MessageUtils.getErrMsg("msg.invalid.json", new String[] { ESAPI.encoder()
+                            .encodeForHTML(e.getMessage()) }, locale));
                 }
             } else {
                 bodyHtml.append(MessageUtils.getMsg("msg.enter.json.string", locale));
+                bodyHtml.append("<br><br>");
             }
-            bodyHtml.append("<br><br>");
             bodyHtml.append(MessageUtils.getMsg("msg.note.code.injection", locale));
             bodyHtml.append("</form>");
 

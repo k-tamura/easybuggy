@@ -50,7 +50,6 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
         bodyHtml.append("<br><br>");
         if (req.getAttribute("errorMessage") != null) {
             bodyHtml.append(req.getAttribute("errorMessage"));
-            bodyHtml.append("<br><br>");
         }
         bodyHtml.append(MessageUtils.getMsg("msg.note.unrestricted.size.upload", locale));
         bodyHtml.append("</form>");
@@ -82,7 +81,7 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
                 doGet(req, res);
                 return;
             } else if (!isImageFile(fileName)) {
-                req.setAttribute("errorMessage", MessageUtils.getMsg("msg.not.image.file", locale));
+                req.setAttribute("errorMessage", MessageUtils.getErrMsg("msg.not.image.file", locale));
                 doGet(req, res);
                 return;
             }
