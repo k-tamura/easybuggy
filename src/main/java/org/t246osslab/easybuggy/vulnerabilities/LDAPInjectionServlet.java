@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Locale;
 
+import javax.naming.InvalidNameException;
+import javax.naming.directory.InvalidAttributeValueException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,40 +45,17 @@ public class LDAPInjectionServlet extends HttpServlet {
             bodyHtml.append(MessageUtils.getMsg("msg.example.name.and.passwd", locale));
             bodyHtml.append("<br><br>");
             bodyHtml.append(MessageUtils.getMsg("label.name", locale) + ": ");
-            bodyHtml.append("<input type=\"text\" name=\"name\" size=\"30\" maxlength=\"30\">");
+            bodyHtml.append("<input type=\"text\" name=\"name\" size=\"20\" maxlength=\"20\">");
             bodyHtml.append("&nbsp;&nbsp;");
             bodyHtml.append(MessageUtils.getMsg("label.password", locale) + ": ");
-            bodyHtml.append("<input type=\"password\" name=\"password\" size=\"30\" maxlength=\"30\" autocomplete=\"off\">");
+            bodyHtml.append("<input type=\"password\" name=\"password\" size=\"20\" maxlength=\"20\" autocomplete=\"off\">");
             bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
 
             if (name != null && password != null && !"".equals(name) && !"".equals(password) && password.length() >= 8) {
 
-                ExprNode filter = null;
-                try {
-                    filter = FilterParser.parse("(&(uid=" + name.trim() + ")(userPassword=" + password.trim() + "))");
-                    EntryFilteringCursor cursor = EmbeddedADS.getAdminSession().search(
-                            new LdapDN("ou=people,dc=t246osslab,dc=org"), SearchScope.SUBTREE, filter,
-                            AliasDerefMode.NEVER_DEREF_ALIASES, null);
-                    boolean isExist = false;
-                    for (ClonedServerEntry e : cursor) {
-                        if (!isExist) {
-                            isExist = true;
-                            bodyHtml.append(MessageUtils.getMsg("user.table.column.names", req.getLocale()) + "<BR>");
-                        }
-                        bodyHtml.append(e.get("displayName").getString() + ", " + e.get("employeeNumber").getString()
-                                + "<BR>");
-                    }
-                    if (!isExist) {
-                        bodyHtml.append(MessageUtils.getErrMsg("msg.error.user.not.exist", req.getLocale()));
-                    }else{
-                        bodyHtml.append("<br>");
-                    }
-                    cursor.close();
-                } catch (ParseException e) {
-                    bodyHtml.append(MessageUtils.getErrMsg("msg.error.user.not.exist", req.getLocale()));
-                }
+                bodyHtml.append(selectUsers(name, password, req));
             } else {
                 bodyHtml.append(MessageUtils.getMsg("msg.warn.enter.name.and.passwd", locale));
                 bodyHtml.append("<br><br>");
@@ -84,11 +63,37 @@ public class LDAPInjectionServlet extends HttpServlet {
             bodyHtml.append(MessageUtils.getInfoMsg("msg.note.ldap.injection", locale));
             bodyHtml.append("</form>");
 
-            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.sql.injection.page", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.sql.injection.page", locale),
                     bodyHtml.toString());
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         }
+    }
+
+    private String selectUsers(String name, String password, HttpServletRequest req) 
+            throws Exception, InvalidNameException, InvalidAttributeValueException {
+        ExprNode filter = null;
+        String result = MessageUtils.getErrMsg("msg.error.user.not.exist", req.getLocale());
+        try {
+            filter = FilterParser.parse("(&(uid=" + name.trim() + ")(userPassword=" + password.trim() + "))");
+            EntryFilteringCursor cursor = EmbeddedADS.getAdminSession().search(
+                    new LdapDN("ou=people,dc=t246osslab,dc=org"), SearchScope.SUBTREE, filter,
+                    AliasDerefMode.NEVER_DEREF_ALIASES, null);
+            StringBuilder sb = new StringBuilder();
+            for (ClonedServerEntry e : cursor) {
+                sb.append("<tr><td>" + e.get("displayName").getString() + "</td><td>" + e.get("employeeNumber").getString() + "</td></tr>");
+            }
+            if (sb.length() > 0) {
+                result = "<div  class=\"container\"><table class=\"table table-striped table-bordered table-hover\"><th>"
+                        + MessageUtils.getMsg("label.name", req.getLocale())
+                        + "</th><th>"
+                        + MessageUtils.getMsg("label.secret", req.getLocale()) + "</th>" + sb.toString() + "</table></div>";
+            }
+            cursor.close();
+        } catch (ParseException e) {
+            log.error("ParseException occurs: ", e);
+        }
+        return result;
     }
 }

@@ -38,7 +38,7 @@ public class NullByteInjectionServlet extends HttpServlet {
         try {
             String fileName = req.getParameter("fileName");
             if (fileName == null || "".equals(fileName)) {
-                HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.guide.download", locale),
+                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.guide.download", locale),
                         bodyHtml.toString());
                 return;
             } else {
@@ -50,7 +50,7 @@ public class NullByteInjectionServlet extends HttpServlet {
 
             File file = new File(appPath + File.separator + "pdf" + File.separator + fileName);
             if (!file.exists()) {
-                HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.guide.download", locale),
+                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.guide.download", locale),
                         bodyHtml.toString());
                 return;
             }

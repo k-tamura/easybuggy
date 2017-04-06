@@ -87,7 +87,7 @@ public class StringPlusOperationServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
             bodyHtml.append(MessageUtils.getInfoMsg("msg.note.slow.string.plus.operation", locale));
             bodyHtml.append("</form>");
-            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.random.string.generator", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.random.string.generator", locale),
                     bodyHtml.toString());
 
         } catch (Exception e) {

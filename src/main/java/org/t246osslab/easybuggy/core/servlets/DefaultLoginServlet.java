@@ -42,9 +42,6 @@ public class DefaultLoginServlet extends HttpServlet {
         Locale locale = req.getLocale();
         StringBuilder bodyHtml = new StringBuilder();
 
-        bodyHtml.append("<div id=\"legend\">");
-        bodyHtml.append("<legend class=\"\">" + MessageUtils.getMsg("label.login", locale) + "</legend>");
-        bodyHtml.append("</div>");
         bodyHtml.append("<p>" + MessageUtils.getMsg("msg.need.admin.privilege", locale));
         bodyHtml.append(MessageUtils.getMsg("msg.enter.id.and.password", locale) + "</p>");
         bodyHtml.append(MessageUtils.getMsg("msg.example.name.and.passwd", locale) + "</p>");
@@ -87,7 +84,7 @@ public class DefaultLoginServlet extends HttpServlet {
             bodyHtml.append(MessageUtils.getInfoMsg((String) req.getAttribute("login.page.note"), locale));
         }
         bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.login.page", locale),
+        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.login.page", locale),
                 bodyHtml.toString());
     }
 

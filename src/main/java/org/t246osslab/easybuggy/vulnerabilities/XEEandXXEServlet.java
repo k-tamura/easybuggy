@@ -116,7 +116,7 @@ public class XEEandXXEServlet extends HttpServlet {
             bodyHtml.append("</pre>");
         }
         bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.xxe", locale), bodyHtml.toString());
+        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xxe", locale), bodyHtml.toString());
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -205,7 +205,7 @@ public class XEEandXXEServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
             bodyHtml.append("<INPUT type=\"button\" onClick='history.back();' value=\""
                     + MessageUtils.getMsg("label.history.back", locale) + "\">");
-            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.xxe", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xxe", locale),
                     bodyHtml.toString());
 
         } catch (Exception e) {

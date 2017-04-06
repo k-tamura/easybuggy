@@ -60,7 +60,7 @@ public class LossOfTrailingDigitsServlet extends HttpServlet {
             bodyHtml.append("<br>");
             bodyHtml.append(MessageUtils.getInfoMsg("msg.note.enter.decimal.value", locale));
             bodyHtml.append("</form>");
-            HTTPResponseCreator.createSimpleResponse(res,
+            HTTPResponseCreator.createSimpleResponse(req, res,
                     MessageUtils.getMsg("title.loss.of.trailing.digits.page", locale), bodyHtml.toString());
 
         } catch (Exception e) {

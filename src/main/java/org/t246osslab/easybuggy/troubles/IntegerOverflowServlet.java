@@ -75,7 +75,7 @@ public class IntegerOverflowServlet extends HttpServlet {
             bodyHtml.append(MessageUtils.getInfoMsg("msg.note.positive.number", locale));
             bodyHtml.append("</form>");
 
-            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.integer.overflow.page", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.integer.overflow.page", locale),
                     bodyHtml.toString());
 
         } catch (Exception e) {

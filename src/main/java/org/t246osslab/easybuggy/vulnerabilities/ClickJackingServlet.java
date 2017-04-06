@@ -31,25 +31,10 @@ public class ClickJackingServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(ClickJackingServlet.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        String userid = (String) session.getAttribute("userid");
         Locale locale = req.getLocale();
 
         StringBuilder bodyHtml = new StringBuilder();
         bodyHtml.append("<form action=\"/admins/clickjacking\" method=\"post\">");
-        bodyHtml.append("<table width=\"760px\">");
-        bodyHtml.append("<tr><td>");
-        bodyHtml.append("<h2>");
-        bodyHtml.append("<span class=\"glyphicon glyphicon-knight\"></span>&nbsp;");
-        bodyHtml.append(MessageUtils.getMsg("section.change.mail", locale));
-        bodyHtml.append("</h2>");
-        bodyHtml.append("</td><td align=\"right\">");
-        bodyHtml.append(MessageUtils.getMsg("label.login.user.id", locale) + ": " + userid);
-        bodyHtml.append("<br>");
-        bodyHtml.append("<a href=\"/logout\">" + MessageUtils.getMsg("label.logout", locale) + "</a>");
-        bodyHtml.append("</td></tr>");
-        bodyHtml.append("</table>");
-        bodyHtml.append("<hr/>");
         bodyHtml.append(MessageUtils.getMsg("msg.enter.mail", locale));
         bodyHtml.append("<br><br>");
         bodyHtml.append(MessageUtils.getMsg("label.mail", locale) + ": ");
@@ -63,7 +48,7 @@ public class ClickJackingServlet extends HttpServlet {
         }
         bodyHtml.append(MessageUtils.getInfoMsg("msg.note.clickjacking", locale));
         bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.admins.main.page", locale),
+        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("section.change.mail", locale),
                 bodyHtml.toString());
     }
 
@@ -91,25 +76,12 @@ public class ClickJackingServlet extends HttpServlet {
 
                 StringBuilder bodyHtml = new StringBuilder();
                 bodyHtml.append("<form>");
-                bodyHtml.append("<table width=\"760px\">");
-                bodyHtml.append("<tr><td>");
-                bodyHtml.append("<h2>");
-                bodyHtml.append("<span class=\"glyphicon glyphicon-knight\"></span>&nbsp;");
-                bodyHtml.append(MessageUtils.getMsg("section.change.mail", locale));
-                bodyHtml.append("</h2>");
-                bodyHtml.append("</td><td align=\"right\">");
-                bodyHtml.append(MessageUtils.getMsg("label.login.user.id", locale) + ": " + userid);
-                bodyHtml.append("<br>");
-                bodyHtml.append("<a href=\"/logout\">" + MessageUtils.getMsg("label.logout", locale) + "</a>");
-                bodyHtml.append("</td></tr>");
-                bodyHtml.append("</table>");
-                bodyHtml.append("<hr/>");
                 bodyHtml.append(MessageUtils.getMsg("msg.mail.changed", locale));
                 bodyHtml.append("<br><br>");
                 bodyHtml.append("<a href=\"/admins/main\">" + MessageUtils.getMsg("label.goto.admin.page", locale)
                         + "</a>");
                 bodyHtml.append("</form>");
-                HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.admins.main.page", locale),
+                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("section.change.mail", locale),
                         bodyHtml.toString());
             } catch (Exception e) {
                 log.error("Exception occurs: ", e);

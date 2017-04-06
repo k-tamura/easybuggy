@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -34,10 +35,14 @@ public class DBConnectionLeakServlet extends HttpServlet {
         Locale locale = req.getLocale();
         StringBuilder bodyHtml = new StringBuilder();
         try {
+            bodyHtml.append(MessageUtils.getMsg("label.current.time", locale) + ": ");
+            bodyHtml.append(new Date());
+            bodyHtml.append("<br><br>");
+
             final String dbUrl = ApplicationUtils.getDatabaseURL();
             final String dbDriver = ApplicationUtils.getDatabaseDriver();
             if(dbUrl == null || "".equals(dbUrl) || dbUrl.startsWith("jdbc:derby:memory:")){
-                HTTPResponseCreator.createSimpleResponse(res, null, MessageUtils.getInfoMsg("msg.note.not.use.ext.db", locale));
+                bodyHtml.append(MessageUtils.getInfoMsg("msg.note.not.use.ext.db", locale));
                 return;
             }
 
@@ -61,14 +66,14 @@ public class DBConnectionLeakServlet extends HttpServlet {
                 stmt.executeUpdate("create table users3 (id int primary key, name varchar(30), password varchar(100))");
             }
             stmt.executeUpdate("insert into users3 select count(*)+1, 'name', 'password' from users3");
-            bodyHtml.append(MessageUtils.getMsg("msg.db.connection.leak.occur", locale));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.db.connection.leak.occur", locale));
 
         } catch (SQLException e) {
             log.error("Exception occurs: ", e);
-            bodyHtml.append(MessageUtils.getMsg("msg.unknown.exception.occur", locale));
+            bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale));
             bodyHtml.append(e.getLocalizedMessage());
         } finally {
-            HTTPResponseCreator.createSimpleResponse(res, null, bodyHtml.toString());
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.current.time", locale), bodyHtml.toString());
             /* A DB connection leaks because the following lines are commented out.
             if (stmt != null) {
                 try {

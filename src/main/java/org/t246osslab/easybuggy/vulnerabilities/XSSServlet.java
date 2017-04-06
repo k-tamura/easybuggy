@@ -48,7 +48,7 @@ public class XSSServlet extends HttpServlet {
             bodyHtml.append(MessageUtils.getInfoMsg("msg.note.xss", locale));
             bodyHtml.append("</form>");
 
-            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.xss.page", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xss.page", locale),
                     bodyHtml.toString());
 
         } catch (Exception e) {

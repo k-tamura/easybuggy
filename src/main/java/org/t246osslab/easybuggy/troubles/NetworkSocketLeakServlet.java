@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,6 +31,11 @@ public class NetworkSocketLeakServlet extends HttpServlet {
         HttpURLConnection connection = null;
         InputStreamReader isr = null;
         BufferedReader reader = null;
+        StringBuilder bodyHtml = new StringBuilder();
+        Locale locale = req.getLocale();
+        bodyHtml.append(MessageUtils.getMsg("label.current.time", locale) + ": ");
+        bodyHtml.append(new Date());
+        bodyHtml.append("<br><br>");
         try {
             URL url = new URL(req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/ping");
             connection = (HttpURLConnection) url.openConnection();
@@ -44,16 +51,18 @@ public class NetworkSocketLeakServlet extends HttpServlet {
                 // sb.append(line);
                 // }
             }
-
-        } catch (IOException e) {
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.socket.leak.occur", req.getLocale()));
+        } catch (Exception e) {
             log.error("Exception occurs: ", e);
+            bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
+                    locale));
         } finally {
             Closer.close(isr, reader);
             if (connection != null) {
                 // connection.disconnect();
             }
-            HTTPResponseCreator.createSimpleResponse(res, null,
-                    MessageUtils.getMsg("msg.socket.leak.occur", req.getLocale()));
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.current.time", locale),
+                    bodyHtml.toString());
         }
     }
 }

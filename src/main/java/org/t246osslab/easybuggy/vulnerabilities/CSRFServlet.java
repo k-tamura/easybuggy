@@ -29,25 +29,10 @@ public class CSRFServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(CSRFServlet.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        String userid = (String) session.getAttribute("userid");
         Locale locale = req.getLocale();
 
         StringBuilder bodyHtml = new StringBuilder();
         bodyHtml.append("<form action=\"/admins/csrf\" method=\"post\">");
-        bodyHtml.append("<table width=\"760px\">");
-        bodyHtml.append("<tr><td>");
-        bodyHtml.append("<h2>");
-        bodyHtml.append("<span class=\"glyphicon glyphicon-knight\"></span>&nbsp;");
-        bodyHtml.append(MessageUtils.getMsg("section.change.password", locale));
-        bodyHtml.append("</h2>");
-        bodyHtml.append("</td><td align=\"right\">");
-        bodyHtml.append(MessageUtils.getMsg("label.login.user.id", locale) + ": " + userid);
-        bodyHtml.append("<br>");
-        bodyHtml.append("<a href=\"/logout\">" + MessageUtils.getMsg("label.logout", locale) + "</a>");
-        bodyHtml.append("</td></tr>");
-        bodyHtml.append("</table>");
-        bodyHtml.append("<hr/>");
         bodyHtml.append(MessageUtils.getMsg("msg.enter.passwd", locale));
         bodyHtml.append("<br><br>");
         bodyHtml.append(MessageUtils.getMsg("label.password", locale) + ": ");
@@ -61,7 +46,7 @@ public class CSRFServlet extends HttpServlet {
         }
         bodyHtml.append(MessageUtils.getInfoMsg("msg.note.csrf", locale));
         bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.admins.main.page", locale),
+        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("section.change.password", locale),
                 bodyHtml.toString());
     }
 
@@ -89,25 +74,12 @@ public class CSRFServlet extends HttpServlet {
 
                 StringBuilder bodyHtml = new StringBuilder();
                 bodyHtml.append("<form>");
-                bodyHtml.append("<table width=\"760px\">");
-                bodyHtml.append("<tr><td>");
-                bodyHtml.append("<h2>");
-                bodyHtml.append("<span class=\"glyphicon glyphicon-knight\"></span>&nbsp;");
-                bodyHtml.append(MessageUtils.getMsg("section.change.password", locale));
-                bodyHtml.append("</h2>");
-                bodyHtml.append("</td><td align=\"right\">");
-                bodyHtml.append(MessageUtils.getMsg("label.login.user.id", locale) + ": " + userid);
-                bodyHtml.append("<br>");
-                bodyHtml.append("<a href=\"/logout\">" + MessageUtils.getMsg("label.logout", locale) + "</a>");
-                bodyHtml.append("</td></tr>");
-                bodyHtml.append("</table>");
-                bodyHtml.append("<hr/>");
                 bodyHtml.append(MessageUtils.getMsg("msg.passwd.changed", locale));
                 bodyHtml.append("<br><br>");
                 bodyHtml.append("<a href=\"/admins/main\">" + MessageUtils.getMsg("label.goto.admin.page", locale)
                         + "</a>");
                 bodyHtml.append("</form>");
-                HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.admins.main.page", locale),
+                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("section.change.password", locale),
                         bodyHtml.toString());
             } catch (Exception e) {
                 log.error("Exception occurs: ", e);
@@ -118,7 +90,8 @@ public class CSRFServlet extends HttpServlet {
             if (password == null || "".equals(password) || password.length() < 8) {
                 req.setAttribute("errorMessage", MessageUtils.getErrMsg("msg.passwd.is.too.short", locale));
             } else {
-                req.setAttribute("errorMessage", MessageUtils.getErrMsg("msg.unknown.exception.occur", locale));
+                req.setAttribute("errorMessage", MessageUtils.getErrMsg("msg.unknown.exception.occur",
+                        new String[] { "userid: " + userid }, locale));
             }
             doGet(req, res);
         }

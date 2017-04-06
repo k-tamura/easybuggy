@@ -39,7 +39,7 @@ public class MailHeaderInjectionServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Locale locale = req.getLocale();
         if (!EmailUtils.isReadyToSendEmail()) {
-            HTTPResponseCreator.createSimpleResponse(res,
+            HTTPResponseCreator.createSimpleResponse(req, res,
                     MessageUtils.getMsg("title.mail.header.injection.page", locale),
                     MessageUtils.getMsg("msg.smtp.server.not.setup", locale));
             return;
@@ -74,15 +74,14 @@ public class MailHeaderInjectionServlet extends HttpServlet {
                 + MessageUtils.getMsg("label.submit", locale) + "\"/></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("</table>");
+        bodyHtml.append("<br>");
         if (req.getAttribute("message") != null) {
-            bodyHtml.append("<br>");
             bodyHtml.append(req.getAttribute("message"));
             req.setAttribute("message", null);
         }
-        bodyHtml.append("<br><br>");
         bodyHtml.append(MessageUtils.getInfoMsg("msg.note.mail.header.injection", locale));
         bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.mail.header.injection.page", locale),
+        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.mail.header.injection.page", locale),
                 bodyHtml.toString());
     }
 
@@ -101,6 +100,7 @@ public class MailHeaderInjectionServlet extends HttpServlet {
         String content = req.getParameter("content");
         if (subject == null || "".equals(subject.trim()) || content == null || "".equals(content.trim())) {
             resultMessage = MessageUtils.getMsg("msg.mail.is.empty", locale);
+            doGet(req, res);
             return;
         }
         StringBuilder sb = new StringBuilder();
@@ -112,7 +112,7 @@ public class MailHeaderInjectionServlet extends HttpServlet {
             resultMessage = MessageUtils.getMsg("msg.sent.mail", locale);
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
-            resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", locale) + e.getMessage();
+            resultMessage = MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale);
         } finally {
             deleteUploadFiles(uploadedFiles);
             req.setAttribute("message", resultMessage);

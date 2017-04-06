@@ -56,7 +56,7 @@ public class SQLInjectionServlet extends HttpServlet {
             bodyHtml.append(MessageUtils.getInfoMsg("msg.note.sql.injection", locale));
             bodyHtml.append("</form>");
 
-            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.sql.injection.page", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.sql.injection.page", locale),
                     bodyHtml.toString());
 
         } catch (Exception e) {
@@ -76,10 +76,13 @@ public class SQLInjectionServlet extends HttpServlet {
             rs = stmt.executeQuery("SELECT * FROM users WHERE name='" + name + "' AND password='" + password + "'");
             StringBuilder sb = new StringBuilder();
             while (rs.next()) {
-                sb.append(rs.getString("name") + ", " + rs.getString("secret") + "<BR>");
+                sb.append("<tr><td>" + rs.getString("name") + "</td><td>" + rs.getString("secret") + "</td></tr>");
             }
             if (sb.length() > 0) {
-                result = MessageUtils.getMsg("user.table.column.names", req.getLocale()) + "<BR>" + sb.toString() + "<BR>";
+                result = "<div  class=\"container\"><table class=\"table table-striped table-bordered table-hover\"><th>"
+                        + MessageUtils.getMsg("label.name", req.getLocale())
+                        + "</th><th>"
+                        + MessageUtils.getMsg("label.secret", req.getLocale()) + "</th>" + sb.toString() + "</table></div>";
             }
         } catch (Exception e) {
             log.error("Exception occurs: ", e);

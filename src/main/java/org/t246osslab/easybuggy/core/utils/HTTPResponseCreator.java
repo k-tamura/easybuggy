@@ -1,8 +1,11 @@
 package org.t246osslab.easybuggy.core.utils;
 
 import java.io.PrintWriter;
+import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +25,16 @@ public final class HTTPResponseCreator {
     /**
      * Create a simple HTTP response.
      * 
+     * @param req HTTP servlet request.
      * @param res HTTP servlet response.
      * @param htmlTitle Title of HTML page.
      * @param htmlBody Body of HTML page.
      */
-    public static void createSimpleResponse(HttpServletResponse res, String htmlTitle, String htmlBody) {
+    public static void createSimpleResponse(HttpServletRequest req, HttpServletResponse res, String htmlTitle, String htmlBody) {
         PrintWriter writer = null;
+        HttpSession session = req.getSession();
+        Object userid = session.getAttribute("userid");
+        Locale locale = req.getLocale();
         try {
             writer = res.getWriter();
             writer.write("<HTML>");
@@ -40,7 +47,28 @@ public final class HTTPResponseCreator {
             writer.write("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\" integrity=\"sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa\" crossorigin=\"anonymous\"></script>");
             writer.write("<script type=\"text/javascript\" src=\"https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js\"></script>");
             writer.write("</HEAD>");
-            writer.write("<BODY STYLE=\"margin:20px;\">" + htmlBody + "</BODY>");
+            writer.write("<BODY STYLE=\"margin:20px;\">");
+            writer.write("<table width=\"760px\">");
+            writer.write("<tr><td>");
+            writer.write("<h2>");
+            writer.write("<span class=\"glyphicon glyphicon-knight\"></span>&nbsp;");
+            if (htmlTitle != null) {
+                writer.write(htmlTitle);
+            }
+            writer.write("</h2>");
+            writer.write("</td>");
+            if (userid != null) {
+                writer.write("<td align=\"right\">");
+                writer.write(MessageUtils.getMsg("label.login.user.id", locale) + ": " + userid);
+                writer.write("<br>");
+                writer.write("<a href=\"/logout\">" + MessageUtils.getMsg("label.logout", locale) + "</a>");
+                writer.write("</td>");
+            }
+            writer.write("</tr>");
+            writer.write("</table>");
+            writer.write("<hr/>");
+            writer.write(htmlBody);
+            writer.write("</BODY>");
             writer.write("</HTML>");
 
         } catch (Exception e) {

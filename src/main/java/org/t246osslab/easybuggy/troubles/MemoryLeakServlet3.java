@@ -1,6 +1,8 @@
 package org.t246osslab.easybuggy.troubles;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.Locale;
 import java.util.zip.Deflater;
 
 import javax.servlet.ServletException;
@@ -21,7 +23,11 @@ public class MemoryLeakServlet3 extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(MemoryLeakServlet3.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
+        StringBuilder bodyHtml = new StringBuilder();
+        Locale locale = req.getLocale();
+        bodyHtml.append(MessageUtils.getMsg("label.current.time", locale) + ": ");
+        bodyHtml.append(new Date());
+        bodyHtml.append("<br><br>");
         try {
             String inputString = "inputString";
             byte[] input = inputString.getBytes();
@@ -31,13 +37,15 @@ public class MemoryLeakServlet3 extends HttpServlet {
                 compresser.setInput(input);
                 compresser.deflate(output);
             }
-            StringBuilder bodyHtml = new StringBuilder();
-            bodyHtml.append(MessageUtils.getMsg("msg.c.heap.space.leak.occur", req.getLocale()));
-            bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.oome.finally.thrown", req.getLocale()));
-            HTTPResponseCreator.createSimpleResponse(res, null, bodyHtml.toString());
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.c.heap.space.leak.occur", req.getLocale()));
+
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
+            bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
+                    locale));
+        } finally {
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.current.time", locale),
+                    bodyHtml.toString());
         }
     }
 }

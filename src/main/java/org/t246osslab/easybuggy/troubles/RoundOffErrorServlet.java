@@ -59,7 +59,7 @@ public class RoundOffErrorServlet extends HttpServlet {
             bodyHtml.append("<br>");
             bodyHtml.append(MessageUtils.getInfoMsg("msg.note.enter.one", locale));
             bodyHtml.append("</form>");
-            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.round.off.error.page", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.round.off.error.page", locale),
                     bodyHtml.toString());
 
         } catch (Exception e) {

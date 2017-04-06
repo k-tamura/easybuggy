@@ -62,7 +62,7 @@ public class SlowRegularExpressionServlet extends HttpServlet {
             bodyHtml.append(MessageUtils.getInfoMsg("msg.note.slow.regular.expression", locale));
             bodyHtml.append("</form>");
 
-            HTTPResponseCreator.createSimpleResponse(res, MessageUtils.getMsg("title.slow.regular.expression.page", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.slow.regular.expression.page", locale),
                     bodyHtml.toString());
 
         } catch (Exception e) {

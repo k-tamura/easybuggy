@@ -16,6 +16,6 @@ public class TestServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        HTTPResponseCreator.createSimpleResponse(res, "Test", "Test!!");
+        HTTPResponseCreator.createSimpleResponse(req, res, "Test", "Test!!");
     }
 }

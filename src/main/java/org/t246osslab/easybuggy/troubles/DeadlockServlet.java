@@ -1,6 +1,7 @@
 package org.t246osslab.easybuggy.troubles;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -27,13 +28,15 @@ public class DeadlockServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
+        StringBuilder bodyHtml = new StringBuilder();
+        Locale locale = req.getLocale();
+        bodyHtml.append(MessageUtils.getMsg("label.current.time", locale) + ": ");
+        bodyHtml.append(new Date());
+        bodyHtml.append("<br><br>");
         try {
-            Locale locale = req.getLocale();
-            StringBuilder bodyHtml = new StringBuilder();
-
             if (isFirstLoad) {
                 isFirstLoad = false;
-                bodyHtml.append(MessageUtils.getMsg("msg.dead.lock.occur", locale));
+                bodyHtml.append(MessageUtils.getInfoMsg("msg.dead.lock.occur", locale));
             } else {
                 switchFlag = !switchFlag;
                 if (switchFlag) {
@@ -43,9 +46,11 @@ public class DeadlockServlet extends HttpServlet {
                 }
                 bodyHtml.append(MessageUtils.getMsg("msg.dead.lock.not.occur", locale));
             }
-            HTTPResponseCreator.createSimpleResponse(res, null, bodyHtml.toString());
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
+            bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale));
+        } finally {
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.current.time", locale), bodyHtml.toString());
         }
     }
 
