@@ -15,7 +15,7 @@
 </head>
 <body style="margin:20px;">
 	<h2>
-		<span class="glyphicon glyphicon-knight"></span>&nbsp;
+		<span class="glyphicon glyphicon-globe"></span>&nbsp;
 		<fmt:message key="section.client.info" />
 	</h2>
     <hr/>

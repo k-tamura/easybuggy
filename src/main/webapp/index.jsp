@@ -190,7 +190,7 @@
 			<fmt:message key="function.description.brute.force" />
 		</p></li>
 		<li><p>
-			<a href="/verbosemsg/login" target="_blank"><fmt:message
+			<a href="admins/main?logintype=verbosemsg" target="_blank"><fmt:message
 						key="function.name.verbose.error.message" /></a>:
 			<fmt:message key="function.description.verbose.error.message" />
 		</p></li>

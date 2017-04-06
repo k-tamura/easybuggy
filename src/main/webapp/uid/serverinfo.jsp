@@ -15,10 +15,10 @@
 <c:import url="/dfi/style_bootstrap.html" /> 
 </head>
 <body style="margin:20px;">
-<table width="760px">
+<table style="width:760px;">
 <tr><td>
 <h2>
-<span class="glyphicon glyphicon-knight"></span>&nbsp;<fmt:message key="section.server.info" />
+<span class="glyphicon glyphicon-globe"></span>&nbsp;<fmt:message key="section.server.info" />
 </h2>
 </td><td align="right">
 <fmt:message key="label.login.user.id" />: <%=session.getAttribute("userid")%>

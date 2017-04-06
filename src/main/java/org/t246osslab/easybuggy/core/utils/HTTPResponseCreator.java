@@ -47,17 +47,17 @@ public final class HTTPResponseCreator {
             writer.write("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\" integrity=\"sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa\" crossorigin=\"anonymous\"></script>");
             writer.write("<script type=\"text/javascript\" src=\"https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js\"></script>");
             writer.write("</HEAD>");
-            writer.write("<BODY STYLE=\"margin:20px;\">");
-            writer.write("<table width=\"760px\">");
+            writer.write("<BODY STYLE=\"margin-left:20px;margin-right:20px;\">");
+            writer.write("<table style=\"width:760px;\">");
             writer.write("<tr><td>");
             writer.write("<h2>");
-            writer.write("<span class=\"glyphicon glyphicon-knight\"></span>&nbsp;");
+            writer.write("<span class=\"glyphicon glyphicon-globe\"></span>&nbsp;");
             if (htmlTitle != null) {
                 writer.write(htmlTitle);
             }
             writer.write("</h2>");
             writer.write("</td>");
-            if (userid != null) {
+            if (userid != null && req.getServletPath().startsWith("/admins")) {
                 writer.write("<td align=\"right\">");
                 writer.write(MessageUtils.getMsg("label.login.user.id", locale) + ": " + userid);
                 writer.write("<br>");
@@ -66,7 +66,7 @@ public final class HTTPResponseCreator {
             }
             writer.write("</tr>");
             writer.write("</table>");
-            writer.write("<hr/>");
+            writer.write("<hr style=\"margin-top:0px\">");
             writer.write(htmlBody);
             writer.write("</BODY>");
             writer.write("</HTML>");
