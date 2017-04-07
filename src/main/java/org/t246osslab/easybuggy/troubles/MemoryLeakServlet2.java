@@ -1,8 +1,10 @@
 package org.t246osslab.easybuggy.troubles;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javassist.ClassPool;
 
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.owasp.esapi.ESAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
@@ -28,8 +31,8 @@ public class MemoryLeakServlet2 extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         StringBuilder bodyHtml = new StringBuilder();
         Locale locale = req.getLocale();
-        bodyHtml.append(MessageUtils.getMsg("label.current.time", locale) + ": ");
-        bodyHtml.append(new Date());
+        bodyHtml.append(MessageUtils.getMsg("label.current.date", locale) + ": ");
+        bodyHtml.append(DateFormat.getDateInstance().format(new Date()));
         bodyHtml.append("<br><br>");
         try {
             int j = i + 1000;
@@ -44,7 +47,7 @@ public class MemoryLeakServlet2 extends HttpServlet {
             bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
                     locale));
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.current.time", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.current.date", locale),
                     bodyHtml.toString());
         }
     }

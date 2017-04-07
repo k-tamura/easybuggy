@@ -28,7 +28,7 @@
 </table>
 <hr style="margin-top:0px"/>
 <% request.setAttribute("systemProperties", java.lang.System.getProperties()); %>
-<table style="width:720px;" class="table table-striped table-bordered table-hover">
+<table style="width:720px;" class="table table-striped table-bordered table-hover" style="font-size:small;">
   <tr>
    <th>Key</th>
    <th>Value</th>

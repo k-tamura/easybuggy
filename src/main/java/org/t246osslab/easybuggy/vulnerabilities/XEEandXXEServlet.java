@@ -172,6 +172,7 @@ public class XEEandXXEServlet extends HttpServlet {
 
             SAXParser parser;
             CustomHandler customHandler = new CustomHandler();
+            customHandler.setLocale(locale);
             try {
                 File file = new File(savePath + File.separator + fileName);
                 SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -229,6 +230,7 @@ public class XEEandXXEServlet extends HttpServlet {
         private StringBuilder result = new StringBuilder();
         private boolean isRegistered = false;
         private boolean isOuExist = false;
+        private Locale locale = null;
 
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes)
@@ -241,11 +243,11 @@ public class XEEandXXEServlet extends HttpServlet {
                 isOuExist = true;
                 result.append("<p>ou: " + ESAPI.encoder().encodeForHTML(ou) + "</p>");
                 result.append("<hr/>");
-                result.append("<table class=\"table table-striped table-bordered table-hover\">");
+                result.append("<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\">");
                 result.append("<tr>");
-                result.append("<th>uid</th>");
-                result.append("<th>phone</th>");
-                result.append("<th>mail</th>");
+                result.append("<th>" + MessageUtils.getMsg("label.user.id", locale) + "</th>");
+                result.append("<th>" + MessageUtils.getMsg("label.phone", locale) + "</th>");
+                result.append("<th>" + MessageUtils.getMsg("label.mail", locale) + "</th>");
                 result.append("</tr>");
             } else if (isOuExist && "user".equals(qName)) {
                 result.append("<tr>");
@@ -264,6 +266,10 @@ public class XEEandXXEServlet extends HttpServlet {
             }
         }
 
+        void setLocale(Locale locale) {
+            this.locale  = locale;
+        }
+        
         String getResult() {
             return result.toString();
         }

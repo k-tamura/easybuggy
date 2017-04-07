@@ -1,6 +1,7 @@
 package org.t246osslab.easybuggy.troubles;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -27,7 +28,7 @@ public class MemoryLeakServlet extends HttpServlet {
         StringBuilder bodyHtml = new StringBuilder();
         Locale locale = req.getLocale();
         bodyHtml.append(MessageUtils.getMsg("label.current.time", locale) + ": ");
-        bodyHtml.append(new Date());
+        bodyHtml.append(DateFormat.getTimeInstance().format(new Date()));
         bodyHtml.append("<br><br>");
         try {
             StringBuilder sb = new StringBuilder();

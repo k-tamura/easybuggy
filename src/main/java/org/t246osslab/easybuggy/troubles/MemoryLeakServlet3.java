@@ -1,8 +1,10 @@
 package org.t246osslab.easybuggy.troubles;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.zip.Deflater;
 
 import javax.servlet.ServletException;
@@ -25,9 +27,15 @@ public class MemoryLeakServlet3 extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         StringBuilder bodyHtml = new StringBuilder();
         Locale locale = req.getLocale();
-        bodyHtml.append(MessageUtils.getMsg("label.current.time", locale) + ": ");
-        bodyHtml.append(new Date());
-        bodyHtml.append("<br><br>");
+        TimeZone tz = TimeZone.getDefault();
+        bodyHtml.append("<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\">");
+        bodyHtml.append("<tr><td>" + MessageUtils.getMsg("label.timezone.id", req.getLocale()) + "</td>");
+        bodyHtml.append("<td>" + tz.getID() + "</td></tr>");
+        bodyHtml.append("<tr><td>" + MessageUtils.getMsg("label.timezone.name", req.getLocale()) + "</td>");
+        bodyHtml.append("<td>" + tz.getDisplayName() + "</td></tr>");
+        bodyHtml.append("<tr><td>" + MessageUtils.getMsg("label.timezone.offset", req.getLocale()) + "</td>");
+        bodyHtml.append("<td>" + tz.getRawOffset() + "</td></tr>");
+        bodyHtml.append("</table>");
         try {
             String inputString = "inputString";
             byte[] input = inputString.getBytes();
@@ -44,7 +52,7 @@ public class MemoryLeakServlet3 extends HttpServlet {
             bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
                     locale));
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.current.time", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.timezone", locale),
                     bodyHtml.toString());
         }
     }
