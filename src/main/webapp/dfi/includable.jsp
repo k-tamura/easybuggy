@@ -17,16 +17,16 @@
 	</c:if>
 </c:catch>
 </head>
-<body style="margin:20px;">
+<body style="margin: 20px;">
 	<header>
-	<table width="720">
+	<table style="width:720px;">
 		<tr>
 			<td><img src="/images/easybuggy.png"></td>
 			<td><fmt:message key="description.design.page" /></td>
 		</tr>
 	</table>
 	</header>
-	<hr>
+	<hr style="margin-top:10px"/>
 	<h2>
 		<fmt:message key="section.design.test" />
 	</h2>

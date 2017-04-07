@@ -85,10 +85,10 @@ public class LDAPInjectionServlet extends HttpServlet {
                 sb.append("<tr><td>" + e.get("displayName").getString() + "</td><td>" + e.get("employeeNumber").getString() + "</td></tr>");
             }
             if (sb.length() > 0) {
-                result = "<div  class=\"container\"><table class=\"table table-striped table-bordered table-hover\"><th>"
+                result = "<table class=\"table table-striped table-bordered table-hover\"><th>"
                         + MessageUtils.getMsg("label.name", req.getLocale())
                         + "</th><th>"
-                        + MessageUtils.getMsg("label.secret", req.getLocale()) + "</th>" + sb.toString() + "</table></div>";
+                        + MessageUtils.getMsg("label.secret", req.getLocale()) + "</th>" + sb.toString() + "</table>";
             }
             cursor.close();
         } catch (ParseException e) {

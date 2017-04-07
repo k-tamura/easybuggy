@@ -23,7 +23,7 @@
 		</c:if>
 	</c:catch>
 	<!-- header section end -->
-	<hr>
+	<hr style="margin-top:10px"/>
 	<h2>
 		<fmt:message key="section.design.test" />
 	</h2>

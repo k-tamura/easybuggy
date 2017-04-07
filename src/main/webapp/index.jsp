@@ -12,9 +12,9 @@
 <title>EasyBuggy</title>
 <c:import url="/dfi/style_bootstrap.html" /> 
 </head>
-<body style="margin:20px;">
+<body style="margin-top:20px;margin-left:20px;margin-right:20px;">
 	<header>
-	<table width="720">
+	<table style="width:720px;">
 		<tr>
 			<td><img src="images/easybuggy.png"></td>
 			<td><fmt:message key="description.all" /></td>
@@ -31,32 +31,32 @@
 	</p>
 	<ul>
 		<li><p>
-			<a href="memoryleak" target="_blank"><fmt:message
+			<a href="memoryleak"><fmt:message
 						key="function.name.memory.leak" /></a>:
 			<fmt:message key="function.description.memory.leak" />
 		</p></li>
 		<li><p>
-			<a href="memoryleak2" target="_blank"><fmt:message
+			<a href="memoryleak2"><fmt:message
 						key="function.name.memory.leak2" /></a>:
 			<fmt:message key="function.description.memory.leak2" />
 		</p></li>
 		<li><p>
-			<a href="memoryleak3" target="_blank"><fmt:message
+			<a href="memoryleak3"><fmt:message
 						key="function.name.memory.leak3" /></a>:
 			<fmt:message key="function.description.memory.leak3" />
 		</p></li>
 		<li><p>
-			<a href="deadlock" target="_blank"><fmt:message
+			<a href="deadlock"><fmt:message
 						key="function.name.dead.lock" /></a>:
 			<fmt:message key="function.description.dead.lock" />
 		</p></li>
 		<li><p>
-			<a href="deadlock2" target="_blank"><fmt:message
+			<a href="deadlock2"><fmt:message
 						key="function.name.dead.lock2" /></a>:
 			<fmt:message key="function.description.dead.lock2" />
 		</p></li>
 		<li><p>
-			<a href="endlesswaiting" target="_blank"><fmt:message
+			<a href="endlesswaiting"><fmt:message
 						key="function.name.endless.waiting.process" /></a>:
 			<fmt:message key="function.description.endless.waiting.process" />
 		</p></li>
@@ -80,47 +80,47 @@
 			<fmt:message key="function.description.jvm.crash.eav" />
 		</p></li>
 		<li><p>
-			<a href="netsocketleak" target="_blank"><fmt:message
+			<a href="netsocketleak"><fmt:message
 						key="function.name.network.socket.leak" /></a>:
 			<fmt:message key="function.description.network.socket.leak" />
 		</p></li>
 		<li><p>
-			<a href="dbconnectionleak " target="_blank"><fmt:message
+			<a href="dbconnectionleak "><fmt:message
 						key="function.name.database.connection.leak" /></a> :
 			<fmt:message key="function.description.database.connection.leak" />
 		</p></li>
 		<li><p>
-			<a href="filedescriptorleak " target="_blank"><fmt:message
+			<a href="filedescriptorleak "><fmt:message
 						key="function.name.file.descriptor.leak" /></a> :
 			<fmt:message key="function.description.file.descriptor.leak" />
 		</p></li>
 		<li><p>
-			<a href="threadleak" target="_blank"><fmt:message
+			<a href="threadleak"><fmt:message
 						key="function.name.thread.leak" /></a>:
 			<fmt:message key="function.description.thread.leak" />
 		</p></li>
 		<li><p>
-			<a href="mojibake" target="_blank"><fmt:message
+			<a href="mojibake"><fmt:message
 						key="function.name.mojibake" /></a>:
 			<fmt:message key="function.description.mojibake" />
 		</p></li>
 		<li><p>
-			<a href="iof" target="_blank"><fmt:message
+			<a href="iof"><fmt:message
 						key="function.name.int.overflow" /></a>:
 			<fmt:message key="function.description.int.overflow" />
 		</p></li>
 		<li><p>
-			<a href="roe" target="_blank"><fmt:message
+			<a href="roe"><fmt:message
 						key="function.name.round.off.error" /></a>:
 			<fmt:message key="function.description.round.off.error" />
 		</p></li>
 		<li><p>
-				<a href="te" target="_blank"><fmt:message
+				<a href="te"><fmt:message
 						key="function.name.truncation.error" /></a>:
 			<fmt:message key="function.description.truncation.error" />
 		</p></li>
 		<li><p>
-			<a href="lotd" target="_blank"><fmt:message
+			<a href="lotd"><fmt:message
 						key="function.name.loss.of.trailing.digits" /></a>:
 			<fmt:message key="function.description.loss.of.trailing.digits" />
 		</p></li>
@@ -135,97 +135,97 @@
 	</p>
 	<ul>
 		<li><p>
-			<a href="xss" target="_blank"><fmt:message
+			<a href="xss"><fmt:message
 						key="function.name.xss" /></a>:
 			<fmt:message key="function.description.xss" />
 		</p></li>
 		<li><p>
-			<a href="sqlijc" target="_blank"><fmt:message
+			<a href="sqlijc"><fmt:message
 						key="function.name.sql.injection" /></a>:
 			<fmt:message key="function.description.sql.injection" />
 		</p></li>
 		<li><p>
-			<a href="ldapijc" target="_blank"><fmt:message
+			<a href="ldapijc"><fmt:message
 						key="function.name.ldap.injection" /></a>:
 			<fmt:message key="function.description.ldap.injection" />
 		</p></li>
 		<li><p>
-			<a href="codeijc" target="_blank"><fmt:message
+			<a href="codeijc"><fmt:message
 						key="function.name.code.injection" /></a>:
 			<fmt:message key="function.description.code.injection" />
 		</p></li>
  		<li><p>
-			<a href="ognleijc" target="_blank"><fmt:message
+			<a href="ognleijc"><fmt:message
 						key="function.name.os.command.injection" /></a>:
 			<fmt:message key="function.description.os.command.injection" />
 		</p></li>
  		<li><p>
-			<a href="mailheaderijct" target="_blank"><fmt:message
+			<a href="mailheaderijct"><fmt:message
 						key="function.name.mail.header.injection" /></a>:
 			<fmt:message key="function.description.mail.header.injection" />
 		</p></li>
  		<li><p>
-			<a href="nullbyteijct" target="_blank"><fmt:message
+			<a href="nullbyteijct"><fmt:message
 						key="function.name.null.byte.injection" /></a>:
 			<fmt:message key="function.description.null.byte.injection" />
 		</p></li>
 		<li><p>
-			<a href="ursupload" target="_blank"><fmt:message
+			<a href="ursupload"><fmt:message
 						key="function.name.unrestricted.size.upload" /></a>:
 			<fmt:message key="function.description.unrestricted.size.upload" />
 		</p></li>
 		<li><p>
-			<a href="ureupload" target="_blank"><fmt:message
+			<a href="ureupload"><fmt:message
 						key="function.name.unrestricted.ext.upload" /></a>:
 			<fmt:message key="function.description.unrestricted.ext.upload" />
 		</p></li>
 		<li><p>
-			<a href="admins/main?logintype=openredirect" target="_blank"><fmt:message
+			<a href="admins/main?logintype=openredirect"><fmt:message
 						key="function.name.open.redirect" /></a>:
 			<fmt:message key="function.description.open.redirect" />
 		</p></li>
 		<li><p>
-			<a href="admins/main?logintype=bruteforce" target="_blank"><fmt:message
+			<a href="admins/main?logintype=bruteforce"><fmt:message
 						key="function.name.brute.force" /></a>:
 			<fmt:message key="function.description.brute.force" />
 		</p></li>
 		<li><p>
-			<a href="admins/main?logintype=verbosemsg" target="_blank"><fmt:message
+			<a href="admins/main?logintype=verbosemsg"><fmt:message
 						key="function.name.verbose.error.message" /></a>:
 			<fmt:message key="function.description.verbose.error.message" />
 		</p></li>
 		<li><p>
-			<a href="/dfi/includable.jsp?template=style_bootstrap.html" target="_blank"><fmt:message
+			<a href="/dfi/includable.jsp?template=style_bootstrap.html"><fmt:message
 						key="function.name.dangerous.file.inclusion" /></a>:
 			<fmt:message key="function.description.dangerous.file.inclusion" />
 		</p></li>
 		<li><p>
-			<a href="/dt/includable.jsp?template=basic" target="_blank"><fmt:message
+			<a href="/dt/includable.jsp?template=basic"><fmt:message
 						key="function.name.directory.traversal" /></a>:
 			<fmt:message key="function.description.directory.traversal" />
 		</p></li>
 		<li><p>
-			<a href="/uid/clientinfo.jsp" target="_blank"><fmt:message
+			<a href="/uid/clientinfo.jsp"><fmt:message
 						key="function.name.unintended.file.disclosure" /></a>:
 			<fmt:message key="function.description.unintended.file.disclosure" />
 		</p></li>
 		<li><p>
-			<a href="/admins/csrf" target="_blank"><fmt:message
+			<a href="/admins/csrf"><fmt:message
 						key="function.name.csrf" /></a>:
 			<fmt:message key="function.description.csrf" />
 		</p></li>
 		<li><p>
-			<a href="/admins/clickjacking" target="_blank"><fmt:message
+			<a href="/admins/clickjacking"><fmt:message
 						key="function.name.clickjacking" /></a>:
 			<fmt:message key="function.description.clickjacking" />
 		</p></li>
 		<li><p>
-			<a href="xee" target="_blank"><fmt:message
+			<a href="xee"><fmt:message
 						key="function.name.xee" /></a>:
 			<fmt:message key="function.description.xee" />
 		</p></li>
 		<li><p>
-			<a href="xxe" target="_blank"><fmt:message
+			<a href="xxe"><fmt:message
 						key="function.name.xxe" /></a>:
 			<fmt:message key="function.description.xxe" />
 		</p></li>
@@ -240,12 +240,12 @@
 	</p>
 	<ul>
 		<li><p>
-			<a href="slowre" target="_blank"><fmt:message
+			<a href="slowre"><fmt:message
 						key="function.name.slow.regular.expression" /></a>:
 			<fmt:message key="function.description.slow.regular.expression" />
 		</p></li>
 		<li><p>
-			<a href="strplusopr" target="_blank"><fmt:message
+			<a href="strplusopr"><fmt:message
 						key="function.name.slow.string.plus.operation" /></a>:
 			<fmt:message key="function.description.slow.string.plus.operation" />
 		</p></li>

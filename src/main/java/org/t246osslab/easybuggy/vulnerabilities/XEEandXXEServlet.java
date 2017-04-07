@@ -203,7 +203,7 @@ public class XEEandXXEServlet extends HttpServlet {
             }
             bodyHtml.append(customHandler.getResult());
             bodyHtml.append("<br><br>");
-            bodyHtml.append("<INPUT type=\"button\" onClick='history.back();' value=\""
+            bodyHtml.append("<input type=\"button\" onClick='history.back();' value=\""
                     + MessageUtils.getMsg("label.history.back", locale) + "\">");
             HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xxe", locale),
                     bodyHtml.toString());
@@ -241,7 +241,6 @@ public class XEEandXXEServlet extends HttpServlet {
                 isOuExist = true;
                 result.append("<p>ou: " + ESAPI.encoder().encodeForHTML(ou) + "</p>");
                 result.append("<hr/>");
-                result.append("<div  class=\"container\">");
                 result.append("<table class=\"table table-striped table-bordered table-hover\">");
                 result.append("<tr>");
                 result.append("<th>uid</th>");
@@ -262,7 +261,6 @@ public class XEEandXXEServlet extends HttpServlet {
         public void endElement(String uri, String localName, String qName) throws SAXException {
             if ("users".equals(qName)) {
                 result.append("</table>");
-                result.append("</div>");
             }
         }
 

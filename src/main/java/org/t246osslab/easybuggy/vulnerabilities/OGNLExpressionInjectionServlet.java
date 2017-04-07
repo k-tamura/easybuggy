@@ -28,6 +28,8 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
+        Locale locale = req.getLocale();
+        StringBuilder bodyHtml = new StringBuilder();
         try {
             Object value = null;
             boolean isValid = true;
@@ -37,7 +39,7 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
                 isValid = false;
             } else {
                 try {
-                    Object expr = Ognl.parseExpression(expression.replaceAll("Math.", "@Math@"));
+                    Object expr = Ognl.parseExpression(expression.replaceAll("Math\\.", "@Math@"));
                     value = Ognl.getValue(expr, ctx);
                 } catch (OgnlException e) {
                     isValid = false;
@@ -45,8 +47,6 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
                 }
             }
 
-            Locale locale = req.getLocale();
-            StringBuilder bodyHtml = new StringBuilder();
             bodyHtml.append("<form action=\"ognleijc\" method=\"post\">");
             bodyHtml.append(MessageUtils.getMsg("msg.enter.math.expression", locale));
             bodyHtml.append("<br><br>");
@@ -65,11 +65,12 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
             bodyHtml.append(MessageUtils.getInfoMsg("msg.note.enter.runtime.exec", locale));
             bodyHtml.append("</form>");
-            HTTPResponseCreator.createSimpleResponse(req, res,
-                    MessageUtils.getMsg("title.ognl.expression.injection.page", locale), bodyHtml.toString());
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
+        } finally {
+            HTTPResponseCreator.createSimpleResponse(req, res,
+                    MessageUtils.getMsg("title.ognl.expression.injection.page", locale), bodyHtml.toString());
         }
     }
 }

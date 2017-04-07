@@ -13,12 +13,12 @@
 <title><fmt:message key="section.client.info" /></title>
 <c:import url="/dfi/style_bootstrap.html" /> 
 </head>
-<body style="margin:20px;">
+<body style="margin-left:20px;margin-right:20px;">
 	<h2>
 		<span class="glyphicon glyphicon-globe"></span>&nbsp;
 		<fmt:message key="section.client.info" />
 	</h2>
-    <hr/>
+    <hr style="margin-top:0px"/>
 	<ul>
 		<li><p>User-Agent: <%=request.getHeader("user-agent")%></p></li>
 		<li><p>Accept-Language: <%=request.getHeader("Accept-Language")%></p></li>

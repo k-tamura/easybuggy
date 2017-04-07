@@ -63,6 +63,10 @@ public final class HTTPResponseCreator {
                 writer.write("<br>");
                 writer.write("<a href=\"/logout\">" + MessageUtils.getMsg("label.logout", locale) + "</a>");
                 writer.write("</td>");
+            } else {
+                writer.write("<td align=\"right\">");
+                writer.write("<a href=\"/\">" + MessageUtils.getMsg("label.go.to.main", locale) + "</a>");
+                writer.write("</td>");
             }
             writer.write("</tr>");
             writer.write("</table>");

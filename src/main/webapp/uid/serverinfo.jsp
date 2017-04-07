@@ -14,8 +14,8 @@
 <title><fmt:message key="section.server.info" /></title>
 <c:import url="/dfi/style_bootstrap.html" /> 
 </head>
-<body style="margin:20px;">
-<table style="width:760px;">
+<body style="margin-left:20px;margin-right:20px;">
+<table style="width:720px;">
 <tr><td>
 <h2>
 <span class="glyphicon glyphicon-globe"></span>&nbsp;<fmt:message key="section.server.info" />
@@ -26,9 +26,9 @@
 <a href="/logout"><fmt:message key="label.logout" /></a>
 </td></tr>
 </table>
-<hr/>
+<hr style="margin-top:0px"/>
 <% request.setAttribute("systemProperties", java.lang.System.getProperties()); %>
- <table width="760">
+<table style="width:720px;" class="table table-striped table-bordered table-hover">
   <tr>
    <th>Key</th>
    <th>Value</th>
