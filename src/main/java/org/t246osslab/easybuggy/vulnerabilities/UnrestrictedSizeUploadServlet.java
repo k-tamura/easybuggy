@@ -53,7 +53,7 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
         }
         bodyHtml.append(MessageUtils.getInfoMsg("msg.note.unrestricted.size.upload", locale));
         bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.unrestricted.upload", locale),
+        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.unrestricted.size.upload", locale),
                 bodyHtml.toString());
     }
 
@@ -124,7 +124,7 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
             bodyHtml.append("<INPUT type=\"button\" onClick='history.back();' value=\""
                     + MessageUtils.getMsg("label.history.back", locale) + "\">");
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.unrestricted.upload", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.unrestricted.size.upload", locale),
                     bodyHtml.toString());
 
         } catch (Exception e) {

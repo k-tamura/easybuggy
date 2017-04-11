@@ -1,7 +1,6 @@
 package org.t246osslab.easybuggy.vulnerabilities;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -27,9 +26,8 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/ureupload" })
-//2MB, 10MB, 50MB
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 10,
-maxRequestSize = 1024 * 1024 * 50)
+// 2MB, 10MB, 50MB
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 10, maxRequestSize = 1024 * 1024 * 50)
 public class UnrestrictedExtensionUploadServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(UnrestrictedSizeUploadServlet.class);
@@ -43,7 +41,7 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
 
         StringBuilder bodyHtml = new StringBuilder();
         bodyHtml.append("<form method=\"post\" action=\"ureupload\" enctype=\"multipart/form-data\">");
-        bodyHtml.append(MessageUtils.getMsg("msg.reverse.color", locale));
+        bodyHtml.append(MessageUtils.getMsg("msg.convert.grayscale", locale));
         bodyHtml.append("<br><br>");
         bodyHtml.append("<input type=\"file\" name=\"file\" size=\"60\" /><br>");
         bodyHtml.append(MessageUtils.getMsg("msg.select.upload.file", locale));
@@ -55,10 +53,9 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
         }
         bodyHtml.append(MessageUtils.getInfoMsg("msg.note.unrestricted.ext.upload", locale));
         bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.unrestricted.upload", locale),
+        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.unrestricted.extension.upload", locale),
                 bodyHtml.toString());
     }
-
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -91,7 +88,8 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
                 doGet(req, res);
                 return;
             }
-            // TODO Remove this try block that is a workaround of issue #9 (FileNotFoundException on Jetty * Windows)
+            // TODO Remove this try block that is a workaround of issue #9 (FileNotFoundException on
+            // Jetty * Windows)
             boolean isConverted = false;
             try {
                 out = new FileOutputStream(savePath + File.separator + fileName);
@@ -107,9 +105,9 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
             }
 
             try {
-                // Reverse the color of the upload image
-                if(!isConverted){
-                    reverseColor(new File(savePath + File.separator + fileName).getAbsolutePath());
+                // Convert the file into gray scale image.
+                if (!isConverted) {
+                    convert2GrayScale(new File(savePath + File.separator + fileName).getAbsolutePath());
                     isConverted = true;
                 }
             } catch (Exception e) {
@@ -119,9 +117,9 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
 
             StringBuilder bodyHtml = new StringBuilder();
             if (isConverted) {
-                bodyHtml.append(MessageUtils.getMsg("msg.reverse.color.complete", locale));
+                bodyHtml.append(MessageUtils.getMsg("msg.convert.grayscale.complete", locale));
             } else {
-                bodyHtml.append(MessageUtils.getMsg("msg.reverse.color.fail", locale));
+                bodyHtml.append(MessageUtils.getMsg("msg.convert.grayscale.fail", locale));
             }
             if (isConverted) {
                 bodyHtml.append("<br><br>");
@@ -130,7 +128,7 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
             bodyHtml.append("<INPUT type=\"button\" onClick='history.back();' value=\""
                     + MessageUtils.getMsg("label.history.back", locale) + "\">");
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.unrestricted.upload", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.unrestricted.extension.upload", locale),
                     bodyHtml.toString());
 
         } catch (Exception e) {
@@ -150,18 +148,26 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
         return null;
     }
 
-    // Reverse the color of the image file
-    private void reverseColor(String fileName) throws IOException {
+    // Convert color image into gray scale image.
+    private void convert2GrayScale(String fileName) throws IOException {
         BufferedImage image = ImageIO.read(new File(fileName));
-        WritableRaster raster = image.getRaster();
-        int[] pixelBuffer = new int[raster.getNumDataElements()];
-        for (int y = 0; y < raster.getHeight(); y++) {
-            for (int x = 0; x < raster.getWidth(); x++) {
-                raster.getPixel(x, y, pixelBuffer);
-                pixelBuffer[0] = ~pixelBuffer[0];
-                pixelBuffer[1] = ~pixelBuffer[1];
-                pixelBuffer[2] = ~pixelBuffer[2];
-                raster.setPixel(x, y, pixelBuffer);
+
+        // convert to gray scale
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < image.getWidth(); x++) {
+                int p = image.getRGB(x, y);
+                int a = (p >> 24) & 0xff;
+                int r = (p >> 16) & 0xff;
+                int g = (p >> 8) & 0xff;
+                int b = p & 0xff;
+
+                // calculate average
+                int avg = (r + g + b) / 3;
+
+                // replace RGB value with avg
+                p = (a << 24) | (avg << 16) | (avg << 8) | avg;
+
+                image.setRGB(x, y, p);
             }
         }
         // Output the image
