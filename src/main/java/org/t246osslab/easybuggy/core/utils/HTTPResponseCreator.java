@@ -48,7 +48,7 @@ public final class HTTPResponseCreator {
             writer.write("<script type=\"text/javascript\" src=\"https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js\"></script>");
             writer.write("</HEAD>");
             writer.write("<BODY STYLE=\"margin-left:20px;margin-right:20px;\">");
-            writer.write("<table style=\"width:760px;\">");
+            writer.write("<table style=\"width:100%;\">");
             writer.write("<tr><td>");
             writer.write("<h2>");
             writer.write("<span class=\"glyphicon glyphicon-globe\"></span>&nbsp;");
