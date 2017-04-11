@@ -41,7 +41,7 @@ public class MailHeaderInjectionServlet extends HttpServlet {
         if (!EmailUtils.isReadyToSendEmail()) {
             HTTPResponseCreator.createSimpleResponse(req, res,
                     MessageUtils.getMsg("title.mail.header.injection.page", locale),
-                    MessageUtils.getMsg("msg.smtp.server.not.setup", locale));
+                    MessageUtils.getInfoMsg("msg.smtp.server.not.setup", locale));
             return;
         }
         StringBuilder bodyHtml = new StringBuilder();
