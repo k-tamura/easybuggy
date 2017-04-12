@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.WordUtils;
 import org.owasp.esapi.ESAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,41 +28,36 @@ public class MojibakeServlet extends HttpServlet {
         req.setCharacterEncoding("Shift_JIS");
         res.setContentType("text/html; charset=UTF-8");
         try {
-            String name = req.getParameter("name");
+            String string = req.getParameter("string");
             Locale locale = req.getLocale();
 
             StringBuilder bodyHtml = new StringBuilder();
 
             bodyHtml.append("<form action=\"mojibake\" method=\"post\">");
-            bodyHtml.append(MessageUtils.getMsg("description.reverse.name", locale));
+            bodyHtml.append(MessageUtils.getMsg("description.capitalize.string", locale));
             bodyHtml.append("<br><br>");
             bodyHtml.append(MessageUtils.getMsg("label.name", locale) + ": ");
-            bodyHtml.append("<input type=\"text\" name=\"name\" size=\"50\" maxlength=\"50\">");
+            bodyHtml.append("<input type=\"text\" name=\"string\" size=\"100\" maxlength=\"100\">");
             bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
 
-            if (name != null && !"".equals(name)) {
-                String reverseName = getReverseName(name);
-                bodyHtml.append(MessageUtils.getMsg("label.reversed.name", locale) + " -&gt; "
-                        + ESAPI.encoder().encodeForHTML(reverseName));
+            if (string != null && !"".equals(string)) {
+                // Capitalize the given string
+                String capitalizeName = WordUtils.capitalize(string);
+                bodyHtml.append(MessageUtils.getMsg("label.capitalized.string", locale) + " : " + ESAPI.encoder().encodeForHTML(capitalizeName));
             } else {
-                bodyHtml.append(MessageUtils.getMsg("msg.enter.name", locale));
+                bodyHtml.append(MessageUtils.getMsg("msg.enter.string", locale));
             }
             bodyHtml.append("<br><br>");
             bodyHtml.append(MessageUtils.getInfoMsg("msg.note.mojibake", locale));
             bodyHtml.append("</form>");
 
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xss.page", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.mojibake.page", locale),
                     bodyHtml.toString());
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         }
-    }
-
-    public String getReverseName(String name) {
-        StringBuilder sb = new StringBuilder(name);
-        return sb.reverse().toString();
     }
 }

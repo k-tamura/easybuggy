@@ -56,7 +56,7 @@ public class SlowRegularExpressionServlet extends HttpServlet {
                     bodyHtml.append(MessageUtils.getMsg("msg.not.match.regular.expression", locale));
                 }
             } else {
-                bodyHtml.append(MessageUtils.getMsg("msg.enter.word", locale));
+                bodyHtml.append(MessageUtils.getMsg("msg.enter.string", locale));
             }
             bodyHtml.append("<br><br>");
             bodyHtml.append(MessageUtils.getInfoMsg("msg.note.slow.regular.expression", locale));

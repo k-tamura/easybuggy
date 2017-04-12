@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
@@ -23,26 +24,27 @@ public class XSSServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         try {
-            String name = req.getParameter("name");
+            String string = req.getParameter("string");
             Locale locale = req.getLocale();
 
             StringBuilder bodyHtml = new StringBuilder();
 
             bodyHtml.append("<form action=\"xss\" method=\"post\">");
-            bodyHtml.append(MessageUtils.getMsg("description.reverse.name", locale));
+            bodyHtml.append(MessageUtils.getMsg("description.reverse.string", locale));
             bodyHtml.append("<br><br>");
             bodyHtml.append(MessageUtils.getMsg("label.name", locale) + ": ");
-            bodyHtml.append("<input type=\"text\" name=\"name\" size=\"50\" maxlength=\"50\">");
+            bodyHtml.append("<input type=\"text\" name=\"string\" size=\"50\" maxlength=\"50\">");
             bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
 
-            if (name != null && !"".equals(name)) {
-                // Reverse name
-                String reverseName = getReverseName(name);
-                bodyHtml.append(MessageUtils.getMsg("label.reversed.name", locale) + " -&gt; " + reverseName);
+            if (string != null && !"".equals(string)) {
+                // Reverse the given string
+                String reversedName = StringUtils.reverse(string);
+                bodyHtml.append(MessageUtils.getMsg("label.reversed.string", locale) + " : "
+                        + reversedName);
             } else {
-                bodyHtml.append(MessageUtils.getMsg("msg.enter.name", locale));
+                bodyHtml.append(MessageUtils.getMsg("msg.enter.string", locale));
             }
             bodyHtml.append("<br><br>");
             bodyHtml.append(MessageUtils.getInfoMsg("msg.note.xss", locale));
@@ -54,11 +56,5 @@ public class XSSServlet extends HttpServlet {
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         }
-    }
-
-    /* Return the reversed name for a given name */
-    private String getReverseName(String name) {
-        StringBuilder sb = new StringBuilder(name);
-        return sb.reverse().toString();
     }
 }
