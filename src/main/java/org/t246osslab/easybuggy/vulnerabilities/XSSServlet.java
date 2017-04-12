@@ -32,7 +32,7 @@ public class XSSServlet extends HttpServlet {
             bodyHtml.append("<form action=\"xss\" method=\"post\">");
             bodyHtml.append(MessageUtils.getMsg("description.reverse.string", locale));
             bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getMsg("label.name", locale) + ": ");
+            bodyHtml.append(MessageUtils.getMsg("label.string", locale) + ": ");
             bodyHtml.append("<input type=\"text\" name=\"string\" size=\"100\" maxlength=\"100\">");
             bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
