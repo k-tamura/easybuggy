@@ -1,8 +1,11 @@
 package org.t246osslab.easybuggy.troubles;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Date;
 import java.util.Locale;
 
@@ -21,25 +24,53 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/filedescriptorleak" })
 public class FileDescriptorLeakServlet extends HttpServlet {
 
+    private static final int MAX_DISPLAY_COUNT = 15;
     private static final Logger log = LoggerFactory.getLogger(FileDescriptorLeakServlet.class);
+    private long count = 0;
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        StringBuilder bodyHtml = new StringBuilder();
         Locale locale = req.getLocale();
-        bodyHtml.append(MessageUtils.getMsg("label.current.time", locale) + ": ");
-        bodyHtml.append(new Date());
-        bodyHtml.append("<br><br>");
+        StringBuilder bodyHtml = new StringBuilder();
         try {
-            File file = new File(System.getProperty("java.io.tmpdir"), "test.txt");
-            FileOutputStream fos1 = new FileOutputStream(file);
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.file.descriptor.leak.occur", req.getLocale()));
+            File file = new File(req.getServletContext().getAttribute("javax.servlet.context.tempdir").toString(),
+                    "test.txt");
+            FileOutputStream fos1 = new FileOutputStream(file, true);
+            OutputStreamWriter osw = new OutputStreamWriter(fos1);
+            osw.write("<tr>");
+            osw.write("<td>" + new Date().toString() + "</td>");
+            osw.write("<td>" + req.getRemoteAddr() + "</td>");
+            osw.write("<td>" + req.getRequestedSessionId() + "</td>");
+            osw.write("</tr>" + System.getProperty("line.separator"));
+            osw.flush();
+            count++;
+
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            bodyHtml.append("<p>" + MessageUtils.getMsg("description.access.history", req.getLocale()) + "</p>");
+            bodyHtml.append(
+                    "<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\">");
+            bodyHtml.append("<th>" + MessageUtils.getMsg("label.access.time", locale) + "</th>");
+            bodyHtml.append("<th>" + MessageUtils.getMsg("label.ip.address", locale) + "</th>");
+            bodyHtml.append("<th>" + MessageUtils.getMsg("label.session.id", locale) + "</th>");
+            int headerLength = bodyHtml.length();
+            String line;
+            long currentLineNum = 0;
+            while ((line = br.readLine()) != null) {
+                if (count - currentLineNum <= MAX_DISPLAY_COUNT) {
+                    bodyHtml.insert(headerLength, line);
+                }
+                currentLineNum++;
+            }
+            bodyHtml.append("</table>");
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
-            bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale));
+            bodyHtml.append(
+                    MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() }, locale));
             bodyHtml.append(e.getLocalizedMessage());
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.current.time", locale), bodyHtml.toString());
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.file.descriptor.leak.occur", req.getLocale()));
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.access.history", locale),
+                    bodyHtml.toString());
         }
     }
 }
