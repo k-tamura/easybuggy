@@ -51,7 +51,7 @@ public class EndlessWaitingServlet extends HttpServlet {
 
             if (count > 0) {
                 /* create a batch file in the temp directory */
-                File batFile = createBatchFile(count);
+                File batFile = createBatchFile(count, req.getServletContext().getAttribute("javax.servlet.context.tempdir").toString());
 
                 if (batFile == null) {
                     bodyHtml.append(MessageUtils.getMsg("msg.cant.create.batch", locale));
@@ -81,7 +81,7 @@ public class EndlessWaitingServlet extends HttpServlet {
         }
     }
 
-    private File createBatchFile(int count) throws IOException {
+    private File createBatchFile(int count, String tmpdir) throws IOException {
         BufferedWriter buffwriter = null;
         FileWriter fileWriter = null;
         File batFile = null;
@@ -97,7 +97,7 @@ public class EndlessWaitingServlet extends HttpServlet {
                 firstLine = "#!/bin/sh";
             }
 
-            batFile = new File(System.getProperty("java.io.tmpdir"), batFileName);
+            batFile = new File(tmpdir, batFileName);
             if (!batFile.setExecutable(true)) {
                 log.debug("batFile.setExecutable(true) returns false.");
             }
