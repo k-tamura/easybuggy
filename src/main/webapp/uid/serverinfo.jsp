@@ -12,37 +12,39 @@
 <html>
 <head>
 <title><fmt:message key="section.server.info" /></title>
-<c:import url="/dfi/style_bootstrap.html" /> 
+<c:import url="/dfi/style_bootstrap.html" />
 </head>
-<body style="margin-left:20px;margin-right:20px;">
-<table style="width:720px;">
-<tr><td>
-<h2>
-<span class="glyphicon glyphicon-globe"></span>&nbsp;<fmt:message key="section.server.info" />
-</h2>
-</td><td align="right">
-<fmt:message key="label.login.user.id" />: <%=session.getAttribute("userid")%>
-<br>
-<a href="/logout"><fmt:message key="label.logout" /></a>
-</td></tr>
-</table>
-<hr style="margin-top:0px"/>
-<% request.setAttribute("systemProperties", java.lang.System.getProperties()); %>
-<table style="width:720px;" class="table table-striped table-bordered table-hover" style="font-size:small;">
-  <tr>
-   <th>Key</th>
-   <th>Value</th>
-  </tr>
-  <c:forEach var="entry" items="${systemProperties}">
-   <tr>
-    <td>
-     <c:out value="${entry.key}" />
-    </td>
-    <td>
-     <c:out value="${entry.value}" />
-    </td>
-   </tr>
-  </c:forEach>
- </table>
+<body style="margin-left: 20px; margin-right: 20px;">
+	<table style="width: 100%;">
+		<tr>
+			<td>
+				<h2>
+					<span class="glyphicon glyphicon-globe"></span>&nbsp;
+					<fmt:message key="section.server.info" />
+				</h2>
+			</td>
+			<td align="right"><fmt:message key="label.login.user.id" />: <%=session.getAttribute("userid")%>
+				<br> <a href="/logout"><fmt:message key="label.logout" /></a>
+			</td>
+		</tr>
+	</table>
+	<hr style="margin-top: 0px" />
+	<%
+	    request.setAttribute("systemProperties", java.lang.System.getProperties());
+	%>
+	<table style="width: 720px;"
+		class="table table-striped table-bordered table-hover"
+		style="font-size:small;">
+		<tr>
+			<th>Key</th>
+			<th>Value</th>
+		</tr>
+		<c:forEach var="entry" items="${systemProperties}">
+			<tr>
+				<td><c:out value="${entry.key}" /></td>
+				<td><c:out value="${entry.value}" /></td>
+			</tr>
+		</c:forEach>
+	</table>
 </body>
 </html>

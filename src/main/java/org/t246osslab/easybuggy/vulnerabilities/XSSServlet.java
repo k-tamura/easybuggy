@@ -33,7 +33,7 @@ public class XSSServlet extends HttpServlet {
             bodyHtml.append(MessageUtils.getMsg("description.reverse.string", locale));
             bodyHtml.append("<br><br>");
             bodyHtml.append(MessageUtils.getMsg("label.name", locale) + ": ");
-            bodyHtml.append("<input type=\"text\" name=\"string\" size=\"50\" maxlength=\"50\">");
+            bodyHtml.append("<input type=\"text\" name=\"string\" size=\"100\" maxlength=\"100\">");
             bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");

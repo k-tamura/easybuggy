@@ -36,8 +36,6 @@ public class SQLInjectionServlet extends HttpServlet {
             bodyHtml.append("<form action=\"sqlijc\" method=\"post\">");
             bodyHtml.append(MessageUtils.getMsg("msg.enter.name.and.passwd", locale));
             bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getMsg("msg.example.name.and.passwd", locale));
-            bodyHtml.append("<br><br>");
             bodyHtml.append(MessageUtils.getMsg("label.name", locale) + ": ");
             bodyHtml.append("<input type=\"text\" name=\"name\" size=\"20\" maxlength=\"20\">");
             bodyHtml.append("&nbsp;&nbsp;");

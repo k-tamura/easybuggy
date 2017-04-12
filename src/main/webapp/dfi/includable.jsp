@@ -17,7 +17,20 @@
 	</c:if>
 </c:catch>
 </head>
-<body style="margin: 20px;">
+<body style="margin-left: 20px; margin-right: 20px;">
+	<table style="width: 100%;">
+		<tr>
+			<td>
+				<h2>
+					<span class="glyphicon glyphicon-globe"></span>&nbsp;
+					<fmt:message key="section.design.test" />
+				</h2>
+			</td>
+			<td align="right"><a href="/"><fmt:message key="label.go.to.main" /></a>
+			</td>
+		</tr>
+	</table>
+	<hr style="margin-top: 0px" />
 	<header>
 	<table style="width:720px;">
 		<tr>
@@ -27,9 +40,6 @@
 	</table>
 	</header>
 	<hr style="margin-top:10px"/>
-	<h2>
-		<fmt:message key="section.design.test" />
-	</h2>
 	<p>
 		<fmt:message key="description.design.test" />
 	</p>
@@ -55,6 +65,7 @@
 			<fmt:message key="style.description.materialize" />
 		</p></li>
 	</ul>
+	<br>
 	<div class="alert alert-info" role="alert">
 		<span class="glyphicon glyphicon-info-sign"></span>&nbsp;
 		<fmt:message key="msg.note.dangerous.file.inclusion" />

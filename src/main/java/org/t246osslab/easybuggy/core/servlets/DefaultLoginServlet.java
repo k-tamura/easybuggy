@@ -44,7 +44,6 @@ public class DefaultLoginServlet extends HttpServlet {
 
         bodyHtml.append("<p>" + MessageUtils.getMsg("msg.need.admin.privilege", locale));
         bodyHtml.append(MessageUtils.getMsg("msg.enter.id.and.password", locale) + "</p>");
-        bodyHtml.append("<p>" + MessageUtils.getMsg("msg.example.name.and.passwd", locale) + "</p>");
         bodyHtml.append("<form method=\"POST\" action=\"" + req.getRequestURI() + "\">");
         bodyHtml.append("<table width=\"400px\" height=\"150px\">");
         bodyHtml.append("<tr>");

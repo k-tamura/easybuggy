@@ -42,8 +42,6 @@ public class LDAPInjectionServlet extends HttpServlet {
             bodyHtml.append("<form action=\"ldapijc\" method=\"post\">");
             bodyHtml.append(MessageUtils.getMsg("msg.enter.name.and.passwd", locale));
             bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getMsg("msg.example.name.and.passwd", locale));
-            bodyHtml.append("<br><br>");
             bodyHtml.append(MessageUtils.getMsg("label.name", locale) + ": ");
             bodyHtml.append("<input type=\"text\" name=\"name\" size=\"20\" maxlength=\"20\">");
             bodyHtml.append("&nbsp;&nbsp;");
@@ -82,7 +80,8 @@ public class LDAPInjectionServlet extends HttpServlet {
                     AliasDerefMode.NEVER_DEREF_ALIASES, null);
             StringBuilder sb = new StringBuilder();
             for (ClonedServerEntry e : cursor) {
-                sb.append("<tr><td>" + e.get("displayName").getString() + "</td><td>" + e.get("employeeNumber").getString() + "</td></tr>");
+                sb.append("<tr><td>" + e.get("displayName").getString() + "</td><td>"
+                        + e.get("employeeNumber").getString() + "</td></tr>");
             }
             if (sb.length() > 0) {
                 result = "<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\"><th>"

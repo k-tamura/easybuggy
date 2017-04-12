@@ -11,21 +11,33 @@
 <html>
 <head>
 <title><fmt:message key="section.client.info" /></title>
-<c:import url="/dfi/style_bootstrap.html" /> 
+<c:import url="/dfi/style_bootstrap.html" />
 </head>
-<body style="margin-left:20px;margin-right:20px;">
-	<h2>
-		<span class="glyphicon glyphicon-globe"></span>&nbsp;
-		<fmt:message key="section.client.info" />
-	</h2>
-    <hr style="margin-top:0px"/>
+<body style="margin-left: 20px; margin-right: 20px;">
+	<table style="width: 100%;">
+		<tr>
+			<td>
+				<h2>
+					<span class="glyphicon glyphicon-globe"></span>&nbsp;
+					<fmt:message key="section.client.info" />
+				</h2>
+			</td>
+			<td align="right"><a href="/"><fmt:message key="label.go.to.main" /></a>
+			</td>
+		</tr>
+	</table>
+	<hr style="margin-top: 0px" />
 	<ul>
-		<li><p>User-Agent: <%=request.getHeader("user-agent")%></p></li>
-		<li><p>Accept-Language: <%=request.getHeader("Accept-Language")%></p></li>
+		<li><p>
+				User-Agent:
+				<%=request.getHeader("user-agent")%></p></li>
+		<li><p>
+				Accept-Language:
+				<%=request.getHeader("Accept-Language")%></p></li>
 	</ul>
-	<hr/>
+	<hr />
 	<div class="alert alert-info" role="alert">
-		<span class="glyphicon glyphicon-info-sign"></span>&nbsp; 
+		<span class="glyphicon glyphicon-info-sign"></span>&nbsp;
 		<fmt:message key="msg.note.unintended.file.disclosure" />
 	</div>
 </body>

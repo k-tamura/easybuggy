@@ -13,7 +13,20 @@
 <title>EasyBuggy</title>
 <c:import url="/dfi/style_bootstrap.html" /> 
 </head>
-<body style="margin: 20px;">
+<body style="margin-left: 20px; margin-right: 20px;">
+	<table style="width: 100%;">
+		<tr>
+			<td>
+				<h2>
+					<span class="glyphicon glyphicon-globe"></span>&nbsp;
+					<fmt:message key="section.design.test" />
+				</h2>
+			</td>
+			<td align="right"><a href="/"><fmt:message key="label.go.to.main" /></a>
+			</td>
+		</tr>
+	</table>
+	<hr style="margin-top: 0px" />
 	<!-- header section start -->
 	<c:catch var="ex">
 		<c:if
@@ -23,10 +36,6 @@
 		</c:if>
 	</c:catch>
 	<!-- header section end -->
-	<hr style="margin-top:10px"/>
-	<h2>
-		<fmt:message key="section.design.test" />
-	</h2>
 	<p>
 		<fmt:message key="description.design.test" />
 	</p>
@@ -46,11 +55,11 @@
 				<fmt:message key="style.description.monochro" />
 			</p></li>
 	</ul>
+	<br>
 	<div class="alert alert-info" role="alert">
 		<span class="glyphicon glyphicon-info-sign"></span>&nbsp;
 		<fmt:message key="msg.note.directory.traversal" />
 	</div>
-	<hr>
 	<!-- footer section start -->
 	<c:catch var="ex">
 		<c:if
