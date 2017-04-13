@@ -1,7 +1,8 @@
 package org.t246osslab.easybuggy.troubles;
 
 import java.io.IOException;
-import java.util.Date;
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -24,31 +25,38 @@ public class ThreadLeakServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         StringBuilder bodyHtml = new StringBuilder();
         Locale locale = req.getLocale();
-        bodyHtml.append(MessageUtils.getMsg("label.current.time", locale) + ": ");
-        bodyHtml.append(new Date());
-        bodyHtml.append("<br><br>");
         try {
-        SubThread sub = new SubThread();
-        sub.start();
-        bodyHtml.append(MessageUtils.getInfoMsg("msg.thread.leak.occur", req.getLocale()));
+            ThreadCountLoggingThread sub = new ThreadCountLoggingThread();
+            sub.start();
 
+            ThreadMXBean bean = ManagementFactory.getThreadMXBean();
+            bodyHtml.append(MessageUtils.getMsg("label.current.thread.count", locale) + ": ");
+            bodyHtml.append(bean.getAllThreadIds().length);
+            bodyHtml.append("<br><br>");
+
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.thread.leak.occur", req.getLocale()));
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
             bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
                     locale));
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.current.time", locale),
-                    bodyHtml.toString());
+            HTTPResponseCreator.createSimpleResponse(req, res,
+                    MessageUtils.getMsg("title.current.thread.count", locale), bodyHtml.toString());
         }
     }
 }
 
-class SubThread extends Thread {
+class ThreadCountLoggingThread extends Thread {
+
+    private static final Logger log = LoggerFactory.getLogger(ThreadCountLoggingThread.class);
+
     @Override
     public void run() {
         while (true) {
             try {
                 Thread.sleep(100000);
+                ThreadMXBean bean = ManagementFactory.getThreadMXBean();
+                log.info("Current thread count: " + bean.getAllThreadIds().length);
             } catch (InterruptedException e) {
             }
         }
