@@ -6,6 +6,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -23,6 +27,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.owasp.esapi.ESAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.t246osslab.easybuggy.core.dao.DBClient;
 import org.t246osslab.easybuggy.core.utils.Closer;
 import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.core.utils.MessageUtils;
@@ -50,10 +55,11 @@ public class XEEandXXEServlet extends HttpServlet {
         StringBuilder bodyHtml = new StringBuilder();
         if ("/xee".equals(req.getServletPath())) {
             bodyHtml.append("<form method=\"post\" action=\"xee\" enctype=\"multipart/form-data\">");
+            bodyHtml.append(MessageUtils.getMsg("msg.add.users.by.xml", locale));
         } else {
             bodyHtml.append("<form method=\"post\" action=\"xxe\" enctype=\"multipart/form-data\">");
+            bodyHtml.append(MessageUtils.getMsg("msg.update.users.by.xml", locale));
         }
-        bodyHtml.append(MessageUtils.getMsg("msg.add.users.by.xml", locale));
         bodyHtml.append("<br><br>");
         bodyHtml.append("<pre id=\"code\" class=\"prettyprint lang-xml\">");
         bodyHtml.append(ESAPI.encoder().encodeForHTML("<?xml version=\"1.0\"?>") + "<br>");
@@ -97,6 +103,9 @@ public class XEEandXXEServlet extends HttpServlet {
             bodyHtml.append(TAB + ESAPI.encoder().encodeForHTML("</soapenv:Body>") + "<br>");
             bodyHtml.append(ESAPI.encoder().encodeForHTML("</soapenv:Envelope>") + "<br>");
             bodyHtml.append("</pre>");
+            bodyHtml.append("</form>");
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xee", locale),
+                    bodyHtml.toString());
         } else {
             bodyHtml.append(MessageUtils.getInfoMsg("msg.note.xxe.step1", locale));
             bodyHtml.append("<pre id=\"code\" class=\"prettyprint lang-xml\">");
@@ -114,9 +123,10 @@ public class XEEandXXEServlet extends HttpServlet {
                             + "<br>");
             bodyHtml.append(ESAPI.encoder().encodeForHTML("<users />"));
             bodyHtml.append("</pre>");
+            bodyHtml.append("</form>");
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xxe", locale),
+                    bodyHtml.toString());
         }
-        bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xxe", locale), bodyHtml.toString());
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -177,6 +187,7 @@ public class XEEandXXEServlet extends HttpServlet {
                 File file = new File(savePath + File.separator + fileName);
                 SAXParserFactory spf = SAXParserFactory.newInstance();
                 if ("/xee".equals(req.getServletPath())) {
+                    customHandler.setInsert(true);
                     spf.setFeature("http://xml.org/sax/features/external-general-entities", false);
                     spf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
                 } else {
@@ -230,6 +241,7 @@ public class XEEandXXEServlet extends HttpServlet {
         private StringBuilder result = new StringBuilder();
         private boolean isRegistered = false;
         private boolean isOuExist = false;
+        private boolean isInsert = false;
         private Locale locale = null;
 
         @Override
@@ -250,10 +262,22 @@ public class XEEandXXEServlet extends HttpServlet {
                 result.append("<th>" + MessageUtils.getMsg("label.mail", locale) + "</th>");
                 result.append("</tr>");
             } else if (isOuExist && "user".equals(qName)) {
+                String executeResult = null;
+                if (isInsert) {
+                    executeResult = insertUser(attributes.getValue("uid"), attributes.getValue("phone"),
+                            attributes.getValue("mail"), locale);
+                } else {
+                    executeResult = updateUser(attributes.getValue("uid"), attributes.getValue("phone"),
+                            attributes.getValue("mail"), locale);
+                }
                 result.append("<tr>");
                 result.append("<td>" + ESAPI.encoder().encodeForHTML(attributes.getValue("uid")) + "</td>");
-                result.append("<td>" + ESAPI.encoder().encodeForHTML(attributes.getValue("phone")) + "</td>");
-                result.append("<td>" + ESAPI.encoder().encodeForHTML(attributes.getValue("mail")) + "</td>");
+                if (executeResult == null) {
+                    result.append("<td>" + ESAPI.encoder().encodeForHTML(attributes.getValue("phone")) + "</td>");
+                    result.append("<td>" + ESAPI.encoder().encodeForHTML(attributes.getValue("mail")) + "</td>");
+                } else {
+                    result.append("<td colspan=\"2\">" + executeResult + "</td>");
+                }
                 result.append("</tr>");
                 isRegistered = true;
             }
@@ -266,6 +290,10 @@ public class XEEandXXEServlet extends HttpServlet {
             }
         }
 
+        void setInsert(boolean isInsert) {
+            this.isInsert  = isInsert;
+        }
+        
         void setLocale(Locale locale) {
             this.locale  = locale;
         }
@@ -276,6 +304,88 @@ public class XEEandXXEServlet extends HttpServlet {
 
         boolean isRegistered() {
             return isRegistered;
+        }
+        
+        public String insertUser(String id, String phone, String mail, Locale locale) {
+
+            PreparedStatement stmt = null;
+            Connection conn = null;
+            String resultMessage = null;
+            try {
+                
+                conn = DBClient.getConnection();
+                conn.setAutoCommit(true);
+                
+                stmt = conn.prepareStatement("select * from users where id = ?");
+                stmt.setString(1, id);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    return MessageUtils.getMsg("msg.user.already.exist", locale);
+                }
+                
+                stmt = conn.prepareStatement("insert into users values (?, ?, ?, ?, ?, ?, ?)");
+
+                stmt.setString(1, id);
+                stmt.setString(2, "dummy");
+                stmt.setString(3, "dummy");
+                stmt.setString(4, "dummy");
+                stmt.setString(5, "true");
+                stmt.setString(6, phone);
+                stmt.setString(7, mail);
+                if (stmt.executeUpdate() != 1){
+                    resultMessage = MessageUtils.getMsg("msg.user.already.exist", locale);
+                }
+
+            } catch (SQLException e) {
+                resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale);
+                log.error("SQLException occurs: ", e);
+            } catch (Exception e) {
+                resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale);
+                log.error("Exception occurs: ", e);
+            } finally {
+                Closer.close(stmt);
+                Closer.close(conn);
+            }
+            return resultMessage;
+        }
+
+        public String updateUser(String id, String phone, String mail, Locale locale) {
+
+            PreparedStatement stmt = null;
+            Connection conn = null;
+            String resultMessage = null;
+            try {
+                
+                conn = DBClient.getConnection();
+                conn.setAutoCommit(true);
+
+                stmt = conn.prepareStatement("select * from users where id = ?");
+                stmt.setString(1, id);
+                ResultSet rs = stmt.executeQuery();
+                if (!rs.next()) {
+                    return MessageUtils.getMsg("msg.user.not.exist", locale);
+                }
+                
+                stmt = conn.prepareStatement("update users set phone = ?, mail = ? where id = ?");
+
+                stmt.setString(1, phone);
+                stmt.setString(2, mail);
+                stmt.setString(3, id);
+                if (stmt.executeUpdate() != 1){
+                    resultMessage = MessageUtils.getMsg("msg.user.not.exist", locale);
+                }
+
+            } catch (SQLException e) {
+                resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale);
+                log.error("SQLException occurs: ", e);
+            } catch (Exception e) {
+                resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale);
+                log.error("Exception occurs: ", e);
+            } finally {
+                Closer.close(stmt);
+                Closer.close(conn);
+            }
+            return resultMessage;
         }
     }
 }

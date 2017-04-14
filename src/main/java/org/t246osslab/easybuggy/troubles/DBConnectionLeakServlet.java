@@ -67,16 +67,21 @@ public class DBConnectionLeakServlet extends HttpServlet {
         try {
             conn = DBClient.getConnection();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select id, name from users where ispublic = 'true'");
+            rs = stmt.executeQuery("select id, name, phone, mail from users where ispublic = 'true'");
             StringBuilder sb = new StringBuilder();
             while (rs.next()) {
-                sb.append("<tr><td>" + rs.getString("id") + "</td><td>" + rs.getString("name") + "</td></tr>");
+                sb.append("<tr><td>" + rs.getString("id") + "</td><td>" + rs.getString("name") + "</td><td>"
+                        + rs.getString("phone") + "</td><td>" + rs.getString("mail") + "</td></tr>");
             }
             if (sb.length() > 0) {
                 result = "<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\"><th>"
                         + MessageUtils.getMsg("label.user.id", locale)
                         + "</th><th>"
-                        + MessageUtils.getMsg("label.name", locale) + "</th>" + sb.toString() + "</table>";
+                        + MessageUtils.getMsg("label.name", locale)
+                        + "</th><th>"
+                        + MessageUtils.getMsg("label.phone", locale)
+                        + "</th><th>"
+                        + MessageUtils.getMsg("label.mail", locale) + "</th>" + sb.toString() + "</table>";
             }
         } catch (Exception e) {
             log.error("Exception occurs: ", e);

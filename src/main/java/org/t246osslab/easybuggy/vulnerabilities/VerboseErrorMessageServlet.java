@@ -43,7 +43,7 @@ public class VerboseErrorMessageServlet extends DefaultLoginServlet {
             session.setAttribute("authNMsg", "msg.account.locked");
             response.sendRedirect("/verbosemsg/login");
         } else if (!isExistUser(userid)) {
-            session.setAttribute("authNMsg", "msg.not.exist");
+            session.setAttribute("authNMsg", "msg.user.not.exist");
             response.sendRedirect("/verbosemsg/login");
         } else if (!password.matches("[0-9a-z]{8}")) {
             session.setAttribute("authNMsg", "msg.low.alphnum8");
