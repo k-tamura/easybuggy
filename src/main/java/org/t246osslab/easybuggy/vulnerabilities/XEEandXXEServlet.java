@@ -208,17 +208,30 @@ public class XEEandXXEServlet extends HttpServlet {
 
             StringBuilder bodyHtml = new StringBuilder();
             if (isRegistered && customHandler.isRegistered()) {
-                bodyHtml.append(MessageUtils.getMsg("msg.batch.registration.complete", locale));
+                if ("/xee".equals(req.getServletPath())) {
+                    bodyHtml.append(MessageUtils.getMsg("msg.batch.registration.complete", locale));
+                } else {
+                    bodyHtml.append(MessageUtils.getMsg("msg.batch.update.complete", locale));
+                }
                 bodyHtml.append("<br><br>");
             } else {
-                bodyHtml.append(MessageUtils.getErrMsg("msg.batch.registration.fail", locale));
+                if ("/xee".equals(req.getServletPath())) {
+                    bodyHtml.append(MessageUtils.getErrMsg("msg.batch.registration.fail", locale));
+                } else {
+                    bodyHtml.append(MessageUtils.getErrMsg("msg.batch.update.fail", locale));
+                }
             }
             bodyHtml.append(customHandler.getResult());
             bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"button\" onClick='history.back();' value=\""
                     + MessageUtils.getMsg("label.history.back", locale) + "\">");
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xxe", locale),
-                    bodyHtml.toString());
+            if ("/xee".equals(req.getServletPath())) {
+                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xee", locale),
+                        bodyHtml.toString());
+            } else {
+                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xxe", locale),
+                        bodyHtml.toString());
+            }
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
