@@ -32,6 +32,7 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
         StringBuilder bodyHtml = new StringBuilder();
         try {
             Object value = null;
+            String errMessage = "";
             boolean isValid = true;
             OgnlContext ctx = new OgnlContext();
             String expression = req.getParameter("expression");
@@ -43,18 +44,22 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
                     value = Ognl.getValue(expr, ctx);
                 } catch (OgnlException e) {
                     isValid = false;
+                    errMessage = e.getReason().getMessage();
                     log.debug("OgnlException occurs: ", e);
+                } catch (Exception e) {
+                    isValid = false;
+                    log.debug("Exception occurs: ", e);
                 }
             }
 
             bodyHtml.append("<form action=\"ognleijc\" method=\"post\">");
             bodyHtml.append(MessageUtils.getMsg("msg.enter.math.expression", locale));
             bodyHtml.append("<br><br>");
-            if (isValid) {
+            if (expression == null) {
+                bodyHtml.append("<input type=\"text\" name=\"expression\" size=\"80\" maxlength=\"300\">");
+            } else {
                 bodyHtml.append("<input type=\"text\" name=\"expression\" size=\"80\" maxlength=\"300\" value=\""
                         + ESAPI.encoder().encodeForHTML(expression) + "\">");
-            } else {
-                bodyHtml.append("<input type=\"text\" name=\"expression\" size=\"80\" maxlength=\"300\">");
             }
             bodyHtml.append(" = ");
             if (isValid && value != null && NumberUtils.isNumber(value.toString())) {
@@ -63,6 +68,9 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
             bodyHtml.append("<br><br>");
+            if ((!isValid || value == null) && expression != null) {
+                bodyHtml.append(MessageUtils.getErrMsg("msg.invalid.expression", new String[] { errMessage }, locale));
+            }
             bodyHtml.append(MessageUtils.getInfoMsg("msg.note.enter.runtime.exec", locale));
             bodyHtml.append("</form>");
 
