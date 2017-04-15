@@ -24,6 +24,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.owasp.esapi.ESAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -347,7 +348,7 @@ public class XEEandXXEServlet extends HttpServlet {
                     stmt.setString(1, attributes.getValue("uid"));
                     stmt.setString(2, attributes.getValue("name"));
                     stmt.setString(3, attributes.getValue("password"));
-                    stmt.setString(4, "dummy");
+                    stmt.setString(4, RandomStringUtils.randomNumeric(10));
                     stmt.setString(5, "true");
                     stmt.setString(6, attributes.getValue("phone"));
                     stmt.setString(7, attributes.getValue("mail"));
