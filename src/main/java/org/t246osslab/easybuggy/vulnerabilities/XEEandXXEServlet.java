@@ -64,10 +64,14 @@ public class XEEandXXEServlet extends HttpServlet {
         bodyHtml.append("<pre id=\"code\" class=\"prettyprint lang-xml\">");
         bodyHtml.append(ESAPI.encoder().encodeForHTML("<?xml version=\"1.0\"?>") + "<br>");
         bodyHtml.append(ESAPI.encoder().encodeForHTML("<users ou=\"ou=people,dc=t246osslab,dc=org\" >") + "<br>");
-        bodyHtml.append(TAB + ESAPI.encoder()
-                .encodeForHTML("<user uid=\"user01\" phone=\"090-1234-5678\" mail=\"user01@example.com\"/>") + "<br>");
-        bodyHtml.append(TAB + ESAPI.encoder()
-                .encodeForHTML("<user uid=\"user02\" phone=\"090-9876-5432\" mail=\"user02@example.com\">") + "<br>");
+        bodyHtml.append(TAB);
+        bodyHtml.append(ESAPI.encoder().encodeForHTML(
+                        "<user uid=\"11\" name=\"Tommy\" password=\"pasworld\" phone=\"090-1004-5678\" mail=\"user11@example.com\"/>"));
+        bodyHtml.append("<br>");
+        bodyHtml.append(TAB);
+        bodyHtml.append(ESAPI.encoder().encodeForHTML(
+                        "<user uid=\"12\" name=\"Matt\" password=\"PaSsWoRd\" phone=\"090-9984-1118\" mail=\"user12@example.com\"/>"));
+        bodyHtml.append("<br>");
         bodyHtml.append(ESAPI.encoder().encodeForHTML("</users>"));
         bodyHtml.append("</pre>");
         bodyHtml.append("<br>");
@@ -222,7 +226,6 @@ public class XEEandXXEServlet extends HttpServlet {
                 }
             }
             bodyHtml.append(customHandler.getResult());
-            bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"button\" onClick='history.back();' value=\""
                     + MessageUtils.getMsg("label.history.back", locale) + "\">");
             if ("/xee".equals(req.getServletPath())) {
@@ -271,25 +274,22 @@ public class XEEandXXEServlet extends HttpServlet {
                 result.append("<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\">");
                 result.append("<tr>");
                 result.append("<th>" + MessageUtils.getMsg("label.user.id", locale) + "</th>");
+                result.append("<th>" + MessageUtils.getMsg("label.name", locale) + "</th>");
+                result.append("<th>" + MessageUtils.getMsg("label.password", locale) + "</th>");
                 result.append("<th>" + MessageUtils.getMsg("label.phone", locale) + "</th>");
                 result.append("<th>" + MessageUtils.getMsg("label.mail", locale) + "</th>");
                 result.append("</tr>");
             } else if (isOuExist && "user".equals(qName)) {
-                String executeResult = null;
-                if (isInsert) {
-                    executeResult = insertUser(attributes.getValue("uid"), attributes.getValue("phone"),
-                            attributes.getValue("mail"), locale);
-                } else {
-                    executeResult = updateUser(attributes.getValue("uid"), attributes.getValue("phone"),
-                            attributes.getValue("mail"), locale);
-                }
+                String executeResult = upsertUser(attributes, locale);
                 result.append("<tr>");
                 result.append("<td>" + ESAPI.encoder().encodeForHTML(attributes.getValue("uid")) + "</td>");
                 if (executeResult == null) {
+                    result.append("<td>" + ESAPI.encoder().encodeForHTML(attributes.getValue("name")) + "</td>");
+                    result.append("<td>" + ESAPI.encoder().encodeForHTML(attributes.getValue("password")) + "</td>");
                     result.append("<td>" + ESAPI.encoder().encodeForHTML(attributes.getValue("phone")) + "</td>");
                     result.append("<td>" + ESAPI.encoder().encodeForHTML(attributes.getValue("mail")) + "</td>");
                 } else {
-                    result.append("<td colspan=\"2\">" + executeResult + "</td>");
+                    result.append("<td colspan=\"4\">" + executeResult + "</td>");
                 }
                 result.append("</tr>");
                 isRegistered = true;
@@ -319,9 +319,10 @@ public class XEEandXXEServlet extends HttpServlet {
             return isRegistered;
         }
         
-        public String insertUser(String id, String phone, String mail, Locale locale) {
+        public String upsertUser(Attributes attributes, Locale locale) {
 
             PreparedStatement stmt = null;
+            ResultSet rs = null;
             Connection conn = null;
             String resultMessage = null;
             try {
@@ -330,25 +331,40 @@ public class XEEandXXEServlet extends HttpServlet {
                 conn.setAutoCommit(true);
                 
                 stmt = conn.prepareStatement("select * from users where id = ?");
-                stmt.setString(1, id);
-                ResultSet rs = stmt.executeQuery();
+                stmt.setString(1, attributes.getValue("uid"));
+                rs = stmt.executeQuery();
                 if (rs.next()) {
-                    return MessageUtils.getMsg("msg.user.already.exist", locale);
+                    if (isInsert){
+                        return MessageUtils.getMsg("msg.user.already.exist", locale);
+                    }
+                }else{
+                    if (!isInsert){
+                        return MessageUtils.getMsg("msg.user.not.exist", locale);
+                    }
+                }              
+                if (isInsert){
+                    stmt = conn.prepareStatement("insert into users values (?, ?, ?, ?, ?, ?, ?)");
+                    stmt.setString(1, attributes.getValue("uid"));
+                    stmt.setString(2, attributes.getValue("name"));
+                    stmt.setString(3, attributes.getValue("password"));
+                    stmt.setString(4, "dummy");
+                    stmt.setString(5, "true");
+                    stmt.setString(6, attributes.getValue("phone"));
+                    stmt.setString(7, attributes.getValue("mail"));
+                    if (stmt.executeUpdate() != 1){
+                        resultMessage = MessageUtils.getMsg("msg.user.already.exist", locale);
+                    }
+                }else{
+                    stmt = conn.prepareStatement("update users set name = ?, password = ?, phone = ?, mail = ? where id = ?");
+                    stmt.setString(1, attributes.getValue("name"));
+                    stmt.setString(2, attributes.getValue("password"));
+                    stmt.setString(3, attributes.getValue("phone"));
+                    stmt.setString(4, attributes.getValue("mail"));
+                    stmt.setString(5, attributes.getValue("uid"));
+                    if (stmt.executeUpdate() != 1){
+                        resultMessage = MessageUtils.getMsg("msg.user.not.exist", locale);
+                    }
                 }
-                
-                stmt = conn.prepareStatement("insert into users values (?, ?, ?, ?, ?, ?, ?)");
-
-                stmt.setString(1, id);
-                stmt.setString(2, "dummy");
-                stmt.setString(3, "dummy");
-                stmt.setString(4, "dummy");
-                stmt.setString(5, "true");
-                stmt.setString(6, phone);
-                stmt.setString(7, mail);
-                if (stmt.executeUpdate() != 1){
-                    resultMessage = MessageUtils.getMsg("msg.user.already.exist", locale);
-                }
-
             } catch (SQLException e) {
                 resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale);
                 log.error("SQLException occurs: ", e);
@@ -356,45 +372,7 @@ public class XEEandXXEServlet extends HttpServlet {
                 resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale);
                 log.error("Exception occurs: ", e);
             } finally {
-                Closer.close(stmt);
-                Closer.close(conn);
-            }
-            return resultMessage;
-        }
-
-        public String updateUser(String id, String phone, String mail, Locale locale) {
-
-            PreparedStatement stmt = null;
-            Connection conn = null;
-            String resultMessage = null;
-            try {
-                
-                conn = DBClient.getConnection();
-                conn.setAutoCommit(true);
-
-                stmt = conn.prepareStatement("select * from users where id = ?");
-                stmt.setString(1, id);
-                ResultSet rs = stmt.executeQuery();
-                if (!rs.next()) {
-                    return MessageUtils.getMsg("msg.user.not.exist", locale);
-                }
-                
-                stmt = conn.prepareStatement("update users set phone = ?, mail = ? where id = ?");
-
-                stmt.setString(1, phone);
-                stmt.setString(2, mail);
-                stmt.setString(3, id);
-                if (stmt.executeUpdate() != 1){
-                    resultMessage = MessageUtils.getMsg("msg.user.not.exist", locale);
-                }
-
-            } catch (SQLException e) {
-                resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale);
-                log.error("SQLException occurs: ", e);
-            } catch (Exception e) {
-                resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale);
-                log.error("Exception occurs: ", e);
-            } finally {
+                Closer.close(rs);
                 Closer.close(stmt);
                 Closer.close(conn);
             }
