@@ -31,21 +31,6 @@
 	</p>
 	<ul>
 		<li><p>
-				<a href="memoryleak"><fmt:message
-						key="function.name.memory.leak" /></a>:
-				<fmt:message key="function.description.memory.leak" />
-			</p></li>
-		<li><p>
-				<a href="memoryleak2"><fmt:message
-						key="function.name.memory.leak2" /></a>:
-				<fmt:message key="function.description.memory.leak2" />
-			</p></li>
-		<li><p>
-				<a href="memoryleak3"><fmt:message
-						key="function.name.memory.leak3" /></a>:
-				<fmt:message key="function.description.memory.leak3" />
-			</p></li>
-		<li><p>
 				<a href="deadlock"><fmt:message key="function.name.dead.lock" /></a>:
 				<fmt:message key="function.description.dead.lock" />
 			</p></li>
@@ -76,6 +61,21 @@
 				<a href="jvmcrasheav" target="_blank"><fmt:message
 						key="function.name.jvm.crash.eav" /> </a>:
 				<fmt:message key="function.description.jvm.crash.eav" />
+			</p></li>
+		<li><p>
+				<a href="memoryleak"><fmt:message
+						key="function.name.memory.leak" /></a>:
+				<fmt:message key="function.description.memory.leak" />
+			</p></li>
+		<li><p>
+				<a href="memoryleak2"><fmt:message
+						key="function.name.memory.leak2" /></a>:
+				<fmt:message key="function.description.memory.leak2" />
+			</p></li>
+		<li><p>
+				<a href="memoryleak3"><fmt:message
+						key="function.name.memory.leak3" /></a>:
+				<fmt:message key="function.description.memory.leak3" />
 			</p></li>
 		<li><p>
 				<a href="netsocketleak"><fmt:message
