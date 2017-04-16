@@ -64,7 +64,7 @@ public class XEEandXXEServlet extends HttpServlet {
         bodyHtml.append("<br><br>");
         bodyHtml.append("<pre id=\"code\" class=\"prettyprint lang-xml\">");
         bodyHtml.append(ESAPI.encoder().encodeForHTML("<?xml version=\"1.0\"?>") + "<br>");
-        bodyHtml.append(ESAPI.encoder().encodeForHTML("<users ou=\"ou=people,dc=t246osslab,dc=org\" >") + "<br>");
+        bodyHtml.append(ESAPI.encoder().encodeForHTML("<users>") + "<br>");
         bodyHtml.append(TAB);
         bodyHtml.append(ESAPI.encoder().encodeForHTML(
                         "<user uid=\"11\" name=\"Tommy\" password=\"pasworld\" phone=\"090-1004-5678\" mail=\"user11@example.com\"/>"));
@@ -257,7 +257,7 @@ public class XEEandXXEServlet extends HttpServlet {
     public class CustomHandler extends DefaultHandler {
         private StringBuilder result = new StringBuilder();
         private boolean isRegistered = false;
-        private boolean isOuExist = false;
+        private boolean isUsersExist = false;
         private boolean isInsert = false;
         private Locale locale = null;
 
@@ -265,13 +265,7 @@ public class XEEandXXEServlet extends HttpServlet {
         public void startElement(String uri, String localName, String qName, Attributes attributes)
                 throws SAXException {
             if ("users".equals(qName)) {
-                String ou = attributes.getValue("ou");
-                if (ou == null || "".equals(ou)) {
-                    return;
-                }
-                isOuExist = true;
-                result.append("<p>ou: " + ESAPI.encoder().encodeForHTML(ou) + "</p>");
-                result.append("<hr/>");
+                isUsersExist = true;
                 result.append("<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\">");
                 result.append("<tr>");
                 result.append("<th>" + MessageUtils.getMsg("label.user.id", locale) + "</th>");
@@ -280,7 +274,7 @@ public class XEEandXXEServlet extends HttpServlet {
                 result.append("<th>" + MessageUtils.getMsg("label.phone", locale) + "</th>");
                 result.append("<th>" + MessageUtils.getMsg("label.mail", locale) + "</th>");
                 result.append("</tr>");
-            } else if (isOuExist && "user".equals(qName)) {
+            } else if (isUsersExist && "user".equals(qName)) {
                 String executeResult = upsertUser(attributes, locale);
                 result.append("<tr>");
                 result.append("<td>" + ESAPI.encoder().encodeForHTML(attributes.getValue("uid")) + "</td>");
