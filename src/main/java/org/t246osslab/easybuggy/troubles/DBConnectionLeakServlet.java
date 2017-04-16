@@ -25,8 +25,6 @@ public class DBConnectionLeakServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(DBConnectionLeakServlet.class);
 
-    boolean isLoad = false;
-
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         Locale locale = req.getLocale();
@@ -43,9 +41,9 @@ public class DBConnectionLeakServlet extends HttpServlet {
                 }
             }
             bodyHtml.append(selectUsers(locale));
-            if(dbUrl == null || "".equals(dbUrl) || dbUrl.startsWith("jdbc:derby:memory:")){
+            if (dbUrl == null || "".equals(dbUrl) || dbUrl.startsWith("jdbc:derby:memory:")) {
                 bodyHtml.append(MessageUtils.getInfoMsg("msg.note.not.use.ext.db", locale));
-            }else{
+            } else {
                 bodyHtml.append(MessageUtils.getInfoMsg("msg.db.connection.leak.occur", locale));
             }
 
