@@ -137,7 +137,7 @@
 				<fmt:message key="function.description.sql.injection" />
 			</p></li>
 		<li><p>
-				<a href="ldapijc"><fmt:message
+				<a href="admins/main?logintype=ldapijc"><fmt:message
 						key="function.name.ldap.injection" /></a>:
 				<fmt:message key="function.description.ldap.injection" />
 			</p></li>

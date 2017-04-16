@@ -135,7 +135,7 @@ public class DefaultLoginServlet extends HttpServlet {
             admin.setLastLoginFailedTime(new Date());
             
             session.setAttribute("authNMsg", "msg.authentication.fail");
-            response.sendRedirect("/login");
+            doGet(request, response) ;
         }
     }
 
@@ -151,7 +151,7 @@ public class DefaultLoginServlet extends HttpServlet {
     }
 
     protected boolean authUser(String username, String password) {
-
+        
         ExprNode filter = null;
         EntryFilteringCursor cursor = null;
         try {
