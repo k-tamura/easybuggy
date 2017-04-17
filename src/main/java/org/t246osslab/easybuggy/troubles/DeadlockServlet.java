@@ -1,6 +1,8 @@
 package org.t246osslab.easybuggy.troubles;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -30,18 +32,9 @@ public class DeadlockServlet extends HttpServlet {
 
         StringBuilder bodyHtml = new StringBuilder();
         Locale locale = req.getLocale();
-        String[] tzIDs = TimeZone.getAvailableIDs();
-        bodyHtml.append("<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\">");
-        bodyHtml.append("<tr>");
-        bodyHtml.append("<th>" + MessageUtils.getMsg("label.timezone.id", locale) + "</th>");
-        bodyHtml.append("<th>" + MessageUtils.getMsg("label.timezone.name", locale) + "</th>");
-        bodyHtml.append("</tr>");
-        for (int i = 0; i < tzIDs.length; i++) {
-            TimeZone tz1 = TimeZone.getTimeZone(tzIDs[i]);
-            bodyHtml.append("<tr><td>" + tz1.getID() + "</td>");
-            bodyHtml.append("<td>" +  tz1.getDisplayName() + "</td></tr>");
-        }
-        bodyHtml.append("</table>");
+        bodyHtml.append(MessageUtils.getMsg("label.current.time", locale) + ": ");
+        bodyHtml.append(DateFormat.getTimeInstance().format(new Date()));
+        bodyHtml.append("<br><br>");
         try {
             if (isFirstLoad) {
                 isFirstLoad = false;
@@ -59,7 +52,8 @@ public class DeadlockServlet extends HttpServlet {
             log.error("Exception occurs: ", e);
             bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale));
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.timezone.list", locale), bodyHtml.toString());
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.current.time", locale),
+                    bodyHtml.toString());
         }
     }
 
