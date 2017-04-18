@@ -36,7 +36,7 @@ public class MemoryLeakServlet2 extends HttpServlet {
             int j = i + 1000;
             for (; i < j; i++) {
                 ClassPool pool = ClassPool.getDefault();
-                pool.makeClass("eu.plumbr.demo.Generated" + i).toClass();
+                pool.makeClass("org.t246osslab.easybuggy.core.servlets.TestServlet" + i).toClass();
             }
             bodyHtml.append(MessageUtils.getInfoMsg("msg.permgen.space.leak.occur", req.getLocale()));
 
