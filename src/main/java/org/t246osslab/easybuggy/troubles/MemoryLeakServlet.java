@@ -35,11 +35,11 @@ public class MemoryLeakServlet extends HttpServlet {
             bodyHtml.append("<th>" + MessageUtils.getMsg("label.timezone.id", locale) + "</th>");
             bodyHtml.append("<th>" + MessageUtils.getMsg("label.timezone.name", locale) + "</th>");
             bodyHtml.append("<th>" + MessageUtils.getMsg("label.timezone.name", locale) + "</th>");
-            bodyHtml.append("<th>" + "Raw Offset" + "</th>");
-            bodyHtml.append("<th>" + "DST Savings" + "</th>");
-            bodyHtml.append("<th>" + "has Same Rules" + "</th>");
-            bodyHtml.append("<th>" + "in Daylight Time" + "</th>");
-            bodyHtml.append("<th>" + "use Daylight Time" + "</th>");
+            bodyHtml.append("<th>" + MessageUtils.getMsg("label.timezone.raw.offset", locale) + "</th>");
+            bodyHtml.append("<th>" + MessageUtils.getMsg("label.timezone.dst.savings", locale) + "</th>");
+            bodyHtml.append("<th>" + MessageUtils.getMsg("label.timezone.has.same.rules", locale) + "</th>");
+            bodyHtml.append("<th>" + MessageUtils.getMsg("label.timezone.in.daylight.time", locale) + "</th>");
+            bodyHtml.append("<th>" + MessageUtils.getMsg("label.timezone.use.daylight.time", locale) + "</th>");
             bodyHtml.append("</tr>");
             Date currentTime = new Date();
             for (int i = 0; i < tzIDs.length; i++) {
@@ -61,7 +61,10 @@ public class MemoryLeakServlet extends HttpServlet {
                 bodyHtml.append("<td><span " + style + " \">" +  tz1.useDaylightTime() + "</span></td></tr>");
             }
             bodyHtml.append("</table>");
-            cache.put(String.valueOf(bodyHtml.hashCode()), bodyHtml.toString());
+            String hashCode = String.valueOf(bodyHtml.hashCode());
+            if (!cache.containsKey(hashCode)) {
+                cache.put(hashCode, bodyHtml.toString());
+            }
             bodyHtml.append(MessageUtils.getInfoMsg("msg.java.heap.space.leak.occur", req.getLocale()));
 
         } catch (Exception e) {
