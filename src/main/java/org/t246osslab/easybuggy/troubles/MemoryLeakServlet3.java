@@ -35,14 +35,8 @@ public class MemoryLeakServlet3 extends HttpServlet {
         bodyHtml.append("<td>" + tz.getRawOffset() + "</td></tr>");
         bodyHtml.append("</table>");
         try {
-            String inputString = "inputString";
-            byte[] input = inputString.getBytes();
-            byte[] output = new byte[100];
-            for (int i = 0; i < 1000; i++) {
-                Deflater compresser = new Deflater();
-                compresser.setInput(input);
-                compresser.deflate(output);
-            }
+            toDoRemove();
+            
             bodyHtml.append(MessageUtils.getInfoMsg("msg.c.heap.space.leak.occur", req.getLocale()));
 
         } catch (Exception e) {
@@ -52,6 +46,17 @@ public class MemoryLeakServlet3 extends HttpServlet {
         } finally {
             HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.timezone", locale),
                     bodyHtml.toString());
+        }
+    }
+
+    private void toDoRemove() {
+        String inputString = "inputString";
+        byte[] input = inputString.getBytes();
+        byte[] output = new byte[100];
+        for (int i = 0; i < 1000; i++) {
+            Deflater compresser = new Deflater();
+            compresser.setInput(input);
+            compresser.deflate(output);
         }
     }
 }
