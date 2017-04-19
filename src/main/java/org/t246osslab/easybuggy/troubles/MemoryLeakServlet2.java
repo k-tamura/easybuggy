@@ -1,10 +1,14 @@
 package org.t246osslab.easybuggy.troubles;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.util.Date;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryPoolMXBean;
+import java.lang.management.MemoryType;
+import java.lang.management.MemoryUsage;
+import java.util.List;
 import java.util.Locale;
 
+import javassist.CannotCompileException;
 import javassist.ClassPool;
 
 import javax.servlet.ServletException;
@@ -29,14 +33,24 @@ public class MemoryLeakServlet2 extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         StringBuilder bodyHtml = new StringBuilder();
         Locale locale = req.getLocale();
-        bodyHtml.append(MessageUtils.getMsg("label.current.date", locale) + ": ");
-        bodyHtml.append(DateFormat.getDateInstance().format(new Date()));
-        bodyHtml.append("<br><br>");
         try {
-            int j = i + 1000;
-            for (; i < j; i++) {
-                ClassPool pool = ClassPool.getDefault();
-                pool.makeClass("org.t246osslab.easybuggy.core.servlets.TestServlet" + i).toClass();
+            toDoRemove();
+            
+            List<MemoryPoolMXBean> memoryPoolMXBeans = ManagementFactory.getMemoryPoolMXBeans();
+            for (MemoryPoolMXBean memoryPoolMXBean : memoryPoolMXBeans) {
+                if (MemoryType.NON_HEAP.equals(memoryPoolMXBean.getType())) {
+                    bodyHtml.append("<p>" + memoryPoolMXBean.getName() + "</p>");
+                    bodyHtml.append("<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\">");
+                    bodyHtml.append("<tr><th></th>");
+                    bodyHtml.append("<th width=\"18%\">" + MessageUtils.getMsg("label.memory.init", locale) + "</th>");
+                    bodyHtml.append("<th width=\"18%\">" + MessageUtils.getMsg("label.memory.used", locale) + "</th>");
+                    bodyHtml.append("<th width=\"18%\">" + MessageUtils.getMsg("label.memory.committed", locale) + "</th>");
+                    bodyHtml.append("<th width=\"18%\">" + MessageUtils.getMsg("label.memory.max", locale) + "</th></tr>");
+                    writeUsageRow(bodyHtml, memoryPoolMXBean.getUsage(), MessageUtils.getMsg("label.memory.usage", locale));
+                    writeUsageRow(bodyHtml, memoryPoolMXBean.getPeakUsage(), MessageUtils.getMsg("label.memory.peak.usage", locale));
+                    writeUsageRow(bodyHtml, memoryPoolMXBean.getCollectionUsage(), MessageUtils.getMsg("label.memory.collection.usage", locale));
+                    bodyHtml.append("</table>");
+                }
             }
             bodyHtml.append(MessageUtils.getInfoMsg("msg.permgen.space.leak.occur", req.getLocale()));
 
@@ -45,8 +59,26 @@ public class MemoryLeakServlet2 extends HttpServlet {
             bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
                     locale));
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.current.date", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.nonheap.memory.usage", locale),
                     bodyHtml.toString());
+        }
+    }
+
+    private void writeUsageRow(StringBuilder bodyHtml, MemoryUsage usage, String usageName) {
+        if (usage != null) {
+            bodyHtml.append("<tr><td>" + usageName + "</td>");
+            bodyHtml.append("<td>" + usage.getInit() + "</td>");
+            bodyHtml.append("<td>" + usage.getUsed() + "</td>");
+            bodyHtml.append("<td>" + usage.getCommitted() + "</td>");
+            bodyHtml.append("<td>" + (usage.getMax() == -1 ? "[undefined]" : usage.getMax()) + "</td></tr>");
+        }
+    }
+
+    private void toDoRemove() throws CannotCompileException {
+        int j = i + 1000;
+        ClassPool pool = ClassPool.getDefault();
+        for (; i < j; i++) {
+            pool.makeClass("org.t246osslab.easybuggy.core.model.TestClass" + i).toClass();
         }
     }
 }
