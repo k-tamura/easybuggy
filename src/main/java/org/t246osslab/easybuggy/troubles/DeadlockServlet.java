@@ -1,8 +1,9 @@
 package org.t246osslab.easybuggy.troubles;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.util.Date;
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -25,35 +26,50 @@ public class DeadlockServlet extends HttpServlet {
     private final Object lock1 = new Object();
     private final Object lock2 = new Object();
     private boolean switchFlag = true;
-    private boolean isFirstLoad = true;
 
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        StringBuilder bodyHtml = new StringBuilder();
         Locale locale = req.getLocale();
-        bodyHtml.append(MessageUtils.getMsg("label.current.time", locale) + ": ");
-        bodyHtml.append(DateFormat.getTimeInstance().format(new Date()));
-        bodyHtml.append("<br><br>");
+        StringBuilder bodyHtml = new StringBuilder();
         try {
-            if (isFirstLoad) {
-                isFirstLoad = false;
-                bodyHtml.append(MessageUtils.getInfoMsg("msg.dead.lock.occur", locale));
-            } else {
-                switchFlag = !switchFlag;
-                if (switchFlag) {
-                    lock12();
-                } else {
-                    lock21();
-                }
-                bodyHtml.append(MessageUtils.getMsg("msg.dead.lock.not.occur", locale));
+            bodyHtml.append("<form action=\"deadlock\" method=\"post\">");
+            bodyHtml.append(MessageUtils.getMsg("msg.get.current.deadlock", locale));
+            bodyHtml.append("<br><br>");
+            bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.update", locale) + "\">");
+            bodyHtml.append("</form>");
+            if ("POST".equalsIgnoreCase(req.getMethod())) {
+                todoRemove();
             }
+            ThreadMXBean bean = ManagementFactory.getThreadMXBean();
+            long[] threadIds = bean.findDeadlockedThreads();
+            if (threadIds != null) {
+                bodyHtml.append("<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\">");
+                ThreadInfo[] infos = bean.getThreadInfo(threadIds);
+                for (ThreadInfo info : infos) {
+                    bodyHtml.append("<tr><td>" + info.toString() + "</td></tr>");
+                }
+                bodyHtml.append("</table>");
+            } else {
+                bodyHtml.append(MessageUtils.getMsg("msg.dead.lock.not.occur", locale));
+                bodyHtml.append("<br><br>");
+            }
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.dead.lock.occur", locale));
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
             bodyHtml.append(
                     MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() }, locale));
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.current.time", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.detect.deadlock", locale),
                     bodyHtml.toString());
+        }
+    }
+
+    private void todoRemove() {
+        switchFlag = !switchFlag;
+        if (switchFlag) {
+            lock12();
+        } else {
+            lock21();
         }
     }
 
@@ -77,7 +93,7 @@ public class DeadlockServlet extends HttpServlet {
 
     private void sleep() {
         try {
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             log.error("Exception occurs: ", e);
         }
