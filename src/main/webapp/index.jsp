@@ -6,6 +6,7 @@
 	scope="session" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="indexpage" />
+<% session.removeAttribute("dlpinit"); %>
 <!DOCTYPE html>
 <html>
 <head>

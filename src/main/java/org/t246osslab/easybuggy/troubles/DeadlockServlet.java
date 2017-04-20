@@ -32,17 +32,17 @@ public class DeadlockServlet extends HttpServlet {
         Locale locale = req.getLocale();
         StringBuilder bodyHtml = new StringBuilder();
         try {
-            bodyHtml.append("<form action=\"deadlock\" method=\"post\">");
-            bodyHtml.append(MessageUtils.getMsg("msg.get.current.deadlock", locale));
-            bodyHtml.append("<br><br>");
-            bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.update", locale) + "\">");
-            bodyHtml.append("</form>");
-            if ("POST".equalsIgnoreCase(req.getMethod())) {
+            if (req.getSession().getAttribute("dlpinit") == null) {
+                req.getSession().setAttribute("dlpinit", "true");
+            } else {
                 todoRemove();
             }
+            
             ThreadMXBean bean = ManagementFactory.getThreadMXBean();
             long[] threadIds = bean.findDeadlockedThreads();
             if (threadIds != null) {
+                bodyHtml.append(MessageUtils.getMsg("msg.dead.lock.detected", locale));
+                bodyHtml.append("<br><br>");
                 bodyHtml.append("<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\">");
                 ThreadInfo[] infos = bean.getThreadInfo(threadIds);
                 for (ThreadInfo info : infos) {
