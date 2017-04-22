@@ -3,8 +3,11 @@ package org.t246osslab.easybuggy.troubles;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLTransactionRollbackException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -13,10 +16,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.dao.DBClient;
+import org.t246osslab.easybuggy.core.model.User;
 import org.t246osslab.easybuggy.core.utils.Closer;
 import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.core.utils.MessageUtils;
@@ -31,67 +34,145 @@ public class DeadlockServlet2 extends HttpServlet {
 
         Locale locale = req.getLocale();
         StringBuilder bodyHtml = new StringBuilder();
+        String updateResult = "";
+        ArrayList<User> users = null;
         try {
-            String order = req.getParameter("order");
-            bodyHtml.append("<form action=\"deadlock2\" method=\"post\">");
-            bodyHtml.append(MessageUtils.getMsg("msg.select.asc.or.desc", locale));
-            bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getMsg("label.order", locale) + ": ");
-            bodyHtml.append("<input type=\"radio\" name=\"order\" value=\"asc\" checked>");
-            bodyHtml.append(MessageUtils.getMsg("label.asc", locale));
-            bodyHtml.append("&nbsp; ");
-            bodyHtml.append("<input type=\"radio\" name=\"order\" value=\"desc\">");
-            bodyHtml.append(MessageUtils.getMsg("label.desc", locale));
-            bodyHtml.append("<br><br>");
-            bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.update", locale) + "\">");
-            bodyHtml.append("<br><br>");
-
-            if ("asc".equals(order)) {
-                String message = updateUsersTable(new String[] {"1", "2"}, locale);
-                bodyHtml.append(message);
-            } else if ("desc".equals(order)) {
-                String message = updateUsersTable(new String[] { "2", "1" }, locale);
-                bodyHtml.append(message);
-            }else{
-                bodyHtml.append(MessageUtils.getMsg("msg.warn.select.asc.or.desc", locale));
-                bodyHtml.append("<br><br>");
+            String order = getOrder(req);
+            if ("POST".equals(req.getMethod())) {
+                users = new ArrayList<User>();
+                for (int j = 0;; j++) {
+                    String uid = req.getParameter("uid_" + (j + 1));
+                    if (uid == null) {
+                        break;
+                    }
+                    User user = new User();
+                    user.setUserId(uid);
+                    user.setName(req.getParameter(uid + "_name"));
+                    user.setPhone(req.getParameter(uid + "_phone"));
+                    user.setMail(req.getParameter(uid + "_mail"));
+                    users.add(user);
+                }
+                updateResult = updateUsers(users, locale);
+            } else {
+                users = selectUsers(order, locale);
             }
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.sql.deadlock", locale));
-            bodyHtml.append("</form>");
+            createHTMLUserTable(locale, bodyHtml, users, order, updateResult);
+
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
-            bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale));
+            bodyHtml.append(
+                    MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() }, locale));
             bodyHtml.append(e.getLocalizedMessage());
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.update.ordered.recordes", locale), bodyHtml.toString());
+            HTTPResponseCreator.createSimpleResponse(req, res,
+                    MessageUtils.getMsg("title.xxe", locale), bodyHtml.toString());
         }
-
     }
 
-    public String updateUsersTable(String[] ids, Locale locale) {
+    private String getOrder(HttpServletRequest req) {
+        String order = req.getParameter("order");
+        if ("asc".equals(order)) {
+            order = "desc";
+        } else {
+            order = "asc";
+        }
+        return order;
+    }
+
+    private void createHTMLUserTable(Locale locale, StringBuilder bodyHtml, ArrayList<User> users, String order,
+            String updateResult) {
+
+        bodyHtml.append("<form action=\"deadlock2\" method=\"post\">");
+        bodyHtml.append(MessageUtils.getMsg("msg.update.users", locale));
+        bodyHtml.append("<br><br>");
+        bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.update", locale) + "\">");
+        bodyHtml.append("<br><br>");
+        bodyHtml.append(
+                "<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\"><th>");
+        bodyHtml.append("<a href=\"/deadlock2?order=" + order + "\">" + MessageUtils.getMsg("label.user.id", locale)
+                + "</a></th><th>");
+        bodyHtml.append(MessageUtils.getMsg("label.name", locale) + "</th><th>");
+        bodyHtml.append(MessageUtils.getMsg("label.phone", locale) + "</th><th>");
+        bodyHtml.append(MessageUtils.getMsg("label.mail", locale) + "</th>");
+        int rownum = 1;
+        for (User user : users) {
+            bodyHtml.append("<tr><td><input type=\"hidden\" name=\"uid_" + rownum + "\" value=\"" + user.getUserId()
+                    + "\"></input>" + user.getUserId() + "</td>");
+            bodyHtml.append("<td><input type=\"text\" name=\"" + user.getUserId() + "_name\" value=\"" + user.getName()
+                    + "\"></input></td>");
+            bodyHtml.append("<td><input type=\"text\" name=\"" + user.getUserId() + "_phone\" value=\""
+                    + user.getPhone() + "\"></input></td>");
+            bodyHtml.append("<td><input type=\"text\" name=\"" + user.getUserId() + "_mail\" value=\"" + user.getMail()
+                    + "\"></input></td></tr>");
+            rownum++;
+        }
+        bodyHtml.append("</table>");
+        bodyHtml.append(updateResult);
+        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.sql.deadlock", locale));
+        bodyHtml.append("</form>");
+    }
+
+    private ArrayList<User> selectUsers(String order, Locale locale) {
+
+        Statement stmt = null;
+        Connection conn = null;
+        ResultSet rs = null;
+        ArrayList<User> users = new ArrayList<User>();
+        try {
+            if (!"asc".equals(order) && !"desc".equals(order)) {
+                order = "asc";
+            }
+
+            conn = DBClient.getConnection();
+            conn.setAutoCommit(true);
+            // conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("select * from users where ispublic = 'true' order by id " + order);
+            while (rs.next()) {
+                User user = new User();
+                user.setUserId(rs.getString("id"));
+                user.setName(rs.getString("name"));
+                user.setPhone(rs.getString("phone"));
+                user.setMail(rs.getString("mail"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            log.error("SQLException occurs: ", e);
+        } catch (Exception e) {
+            log.error("Exception occurs: ", e);
+        } finally {
+            Closer.close(rs);
+            Closer.close(stmt);
+            Closer.close(conn);
+        }
+        return users;
+    }
+
+    private String updateUsers(ArrayList<User> users, Locale locale) {
 
         PreparedStatement stmt = null;
         Connection conn = null;
         int executeUpdate = 0;
         String resultMessage = "";
         try {
-            
+
             conn = DBClient.getConnection();
             conn.setAutoCommit(false);
             // conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
-            stmt = conn.prepareStatement("Update users set secret = ? where id = ?");
-            stmt.setString(1, RandomStringUtils.randomNumeric(10));
-            stmt.setString(2, ids[0]);
-            executeUpdate = stmt.executeUpdate();
-
-            Thread.sleep(5000);
-
-            stmt.setString(1, RandomStringUtils.randomNumeric(10));
-            stmt.setString(2, ids[1]);
-            executeUpdate = executeUpdate + stmt.executeUpdate();
+            stmt = conn.prepareStatement("Update users set name = ?, phone = ?, mail = ? where id = ?");
+            for (User user : users) {
+                stmt.setString(1, user.getName());
+                stmt.setString(2, user.getPhone());
+                stmt.setString(3, user.getMail());
+                stmt.setString(4, user.getUserId());
+                executeUpdate = executeUpdate + stmt.executeUpdate();
+                Thread.sleep(500);
+            }
             conn.commit();
-            resultMessage = MessageUtils.getMsg("msg.update.records", new Object[] { executeUpdate }, locale) + "<br><br>";
+            resultMessage = MessageUtils.getMsg("msg.update.records", new Object[] { executeUpdate }, locale)
+                    + "<br><br>";
 
         } catch (SQLTransactionRollbackException e) {
             resultMessage = MessageUtils.getErrMsg("msg.deadlock.occurs", locale);
@@ -101,12 +182,14 @@ public class DeadlockServlet2 extends HttpServlet {
             if ("41000".equals(e.getSQLState())) {
                 resultMessage = MessageUtils.getErrMsg("msg.deadlock.occurs", locale);
             } else {
-                resultMessage = MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale);
+                resultMessage = MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
+                        locale);
             }
             log.error("SQLException occurs: ", e);
             rollbak(conn);
         } catch (Exception e) {
-            resultMessage = MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale);
+            resultMessage = MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
+                    locale);
             log.error("Exception occurs: ", e);
             rollbak(conn);
         } finally {

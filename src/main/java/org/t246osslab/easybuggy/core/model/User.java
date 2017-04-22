@@ -8,6 +8,8 @@ public class User {
     private String name = null;
     private String password = null;
     private String secret = null;
+    private String phone = null;
+    private String mail = null;
     private int loginFailedCount = 0;
     private Date lastLoginFailedTime = null;
 
@@ -43,6 +45,22 @@ public class User {
         this.secret = secret;
     }
     
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
     public int getLoginFailedCount() {
         return loginFailedCount;
     }
