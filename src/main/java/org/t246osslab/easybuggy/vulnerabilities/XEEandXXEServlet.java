@@ -67,11 +67,11 @@ public class XEEandXXEServlet extends HttpServlet {
         bodyHtml.append(ESAPI.encoder().encodeForHTML("<users>") + "<br>");
         bodyHtml.append(TAB);
         bodyHtml.append(ESAPI.encoder().encodeForHTML(
-                        "<user uid=\"11\" name=\"Tommy\" password=\"pasworld\" phone=\"090-1004-5678\" mail=\"user11@example.com\"/>"));
+                        "<user uid=\"user11\" name=\"Tommy\" password=\"pasworld\" phone=\"090-1004-5678\" mail=\"user11@example.com\"/>"));
         bodyHtml.append("<br>");
         bodyHtml.append(TAB);
         bodyHtml.append(ESAPI.encoder().encodeForHTML(
-                        "<user uid=\"12\" name=\"Matt\" password=\"PaSsWoRd\" phone=\"090-9984-1118\" mail=\"user12@example.com\"/>"));
+                        "<user uid=\"user12\" name=\"Matt\" password=\"PaSsWoRd\" phone=\"090-9984-1118\" mail=\"user12@example.com\"/>"));
         bodyHtml.append("<br>");
         bodyHtml.append(ESAPI.encoder().encodeForHTML("</users>"));
         bodyHtml.append("</pre>");

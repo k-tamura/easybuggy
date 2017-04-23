@@ -71,7 +71,7 @@ public class SQLInjectionServlet extends HttpServlet {
         try {
             conn = DBClient.getConnection();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM users WHERE name='" + name + "' AND password='" + password + "'");
+            rs = stmt.executeQuery("SELECT * FROM users WHERE ispublic = 'true' AND name='" + name + "' AND password='" + password + "'");
             StringBuilder sb = new StringBuilder();
             while (rs.next()) {
                 sb.append("<tr><td>" + rs.getString("name") + "</td><td>" + rs.getString("secret") + "</td></tr>");

@@ -69,16 +69,22 @@ public final class DBClient {
         // create users table
         stmt.executeUpdate("create table users (id varchar(10) primary key, name varchar(30), password varchar(30), secret varchar(100), ispublic varchar(5), phone varchar(20), mail varchar(100))");
 
-        // insert sample records
-        stmt.executeUpdate("insert into users values ('0','Mark','password','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
-        stmt.executeUpdate("insert into users values ('1','David','pas2w0rd','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
-        stmt.executeUpdate("insert into users values ('2','Peter','pa33word','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
-        stmt.executeUpdate("insert into users values ('3','James','pathwood','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
-        stmt.executeUpdate("insert into users values ('4','Benjamin','password','" + RandomStringUtils.randomNumeric(10) + "','false', '', '')");
-        stmt.executeUpdate("insert into users values ('5','Eric','pas2w0rd','" + RandomStringUtils.randomNumeric(10) + "','false', '', '')");
-        stmt.executeUpdate("insert into users values ('6','Sharon','pa33word','" + RandomStringUtils.randomNumeric(10) + "','false', '', '')");
-        stmt.executeUpdate("insert into users values ('7','Pamela','pathwood','" + RandomStringUtils.randomNumeric(10) + "','false', '', '')");
-        stmt.executeUpdate("insert into users values ('8','Jacqueline','password','" + RandomStringUtils.randomNumeric(10) + "','false', '', '')");
-        stmt.executeUpdate("insert into users values ('9','Michelle','pas2w0rd','" + RandomStringUtils.randomNumeric(10) + "','false', '', '')");
+        // insert private (invisible) user records
+        stmt.executeUpdate("insert into users values ('admin','admin','password','" + RandomStringUtils.randomNumeric(10) + "','false', '', '')");
+        stmt.executeUpdate("insert into users values ('admin02','admin02','pas2w0rd','" + RandomStringUtils.randomNumeric(10) + "','false', '', '')");
+        stmt.executeUpdate("insert into users values ('admin03','admin03','pa33word','" + RandomStringUtils.randomNumeric(10) + "','false', '', '')");
+        stmt.executeUpdate("insert into users values ('admin04','admin04','pathwood','" + RandomStringUtils.randomNumeric(10) + "','false', '', '')");
+        
+        // insert public (test) user records
+        stmt.executeUpdate("insert into users values ('user00','Mark','pastword','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
+        stmt.executeUpdate("insert into users values ('user01','David','pa32w0rd','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
+        stmt.executeUpdate("insert into users values ('user02','Peter','pa23word','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
+        stmt.executeUpdate("insert into users values ('user03','James','patwired','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
+        stmt.executeUpdate("insert into users values ('user04','Benjamin','password','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
+        stmt.executeUpdate("insert into users values ('user05','Eric','pas2w0rd','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
+        stmt.executeUpdate("insert into users values ('user06','Sharon','pa3world','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
+        stmt.executeUpdate("insert into users values ('user07','Pamela','pathwood','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
+        stmt.executeUpdate("insert into users values ('user08','Jacqueline','password','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
+        stmt.executeUpdate("insert into users values ('user09','Michelle','pas2w0rd','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
     }
 }
