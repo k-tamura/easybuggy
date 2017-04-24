@@ -156,11 +156,8 @@ public class DeadlockServlet2 extends HttpServlet {
         int executeUpdate = 0;
         String resultMessage = "";
         try {
-
             conn = DBClient.getConnection();
             conn.setAutoCommit(false);
-            // conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-
             stmt = conn.prepareStatement("Update users set name = ?, phone = ?, mail = ? where id = ?");
             for (User user : users) {
                 stmt.setString(1, user.getName());
@@ -168,6 +165,7 @@ public class DeadlockServlet2 extends HttpServlet {
                 stmt.setString(3, user.getMail());
                 stmt.setString(4, user.getUserId());
                 executeUpdate = executeUpdate + stmt.executeUpdate();
+                log.info(user.getUserId() +" is updated.");
                 Thread.sleep(500);
             }
             conn.commit();
@@ -179,12 +177,8 @@ public class DeadlockServlet2 extends HttpServlet {
             log.error("SQLTransactionRollbackException occurs: ", e);
             rollbak(conn);
         } catch (SQLException e) {
-            if ("41000".equals(e.getSQLState())) {
-                resultMessage = MessageUtils.getErrMsg("msg.deadlock.occurs", locale);
-            } else {
-                resultMessage = MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
-                        locale);
-            }
+            resultMessage = MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
+                    locale);
             log.error("SQLException occurs: ", e);
             rollbak(conn);
         } catch (Exception e) {
