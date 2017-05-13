@@ -13,6 +13,13 @@ public class User {
     private int loginFailedCount = 0;
     private Date lastLoginFailedTime = null;
 
+    @Override
+    public String toString() {
+        return "User [userId=" + userId + ", name=" + name + ", password=" + password + ", secret=" + secret
+                + ", phone=" + phone + ", mail=" + mail + ", loginFailedCount=" + loginFailedCount
+                + ", lastLoginFailedTime=" + lastLoginFailedTime + "]";
+    }
+
     public String getUserId() {
         return userId;
     }
