@@ -239,6 +239,11 @@
 						key="function.name.slow.string.plus.operation" /></a>:
 				<fmt:message key="function.description.slow.string.plus.operation" />
 			</p></li>
+		<li><p>
+				<a href="createobjects"><fmt:message
+						key="function.name.slow.unnecessary.object.creation" /></a>:
+				<fmt:message key="function.description.slow.unnecessary.object.creation" />
+			</p></li>
 		<!-- <li><p>
 			<fmt:message key="function.name.stop.the.world" />
 				:
