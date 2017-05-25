@@ -11,6 +11,7 @@
 <html>
 <head>
 <title>EasyBuggy</title>
+<link rel="icon" type="image/vnd.microsoft.icon" href="/images/favicon.ico">
 <c:catch var="ex">
 	<c:if test="${param.template != null && !fn:contains(param.template,'../') && !fn:startsWith(param.template,'/')}">
 		<c:import url="<%= request.getParameter(\"template\")%>" /> 

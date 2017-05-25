@@ -12,6 +12,7 @@
 <html>
 <head>
 <title><fmt:message key="section.server.info" /></title>
+<link rel="icon" type="image/vnd.microsoft.icon" href="/images/favicon.ico">
 <c:import url="/dfi/style_bootstrap.html" />
 </head>
 <body style="margin-left: 20px; margin-right: 20px;">
