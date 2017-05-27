@@ -25,6 +25,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.owasp.esapi.ESAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -161,7 +162,7 @@ public class XEEandXXEServlet extends HttpServlet {
         }
         try {
             String fileName = getFileName(filePart);
-            if (fileName == null || "".equals(fileName)) {
+            if (StringUtils.isBlank(fileName)) {
                 doGet(req, res);
                 return;
             } else if (!fileName.endsWith(".xml")) {
@@ -236,7 +237,6 @@ public class XEEandXXEServlet extends HttpServlet {
                 HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xxe", locale),
                         bodyHtml.toString());
             }
-
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         } finally {

@@ -19,6 +19,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
  
@@ -36,9 +37,9 @@ public class EmailUtils {
     }
     
     public static boolean isReadyToSendEmail() {
-        if (ApplicationUtils.getSmtpHost() == null || "".equals(ApplicationUtils.getSmtpHost())
-                || ApplicationUtils.getSmtpPort() == null || "".equals(ApplicationUtils.getSmtpPort())
-                || ApplicationUtils.getAdminAddress() == null || "".equals(ApplicationUtils.getAdminAddress())) {
+        if (StringUtils.isBlank(ApplicationUtils.getSmtpHost())
+                || StringUtils.isBlank(ApplicationUtils.getSmtpPort())
+                || StringUtils.isBlank(ApplicationUtils.getAdminAddress())) {
             return false;
         }
         return true;

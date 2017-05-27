@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.owasp.esapi.ESAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +46,7 @@ public class CodeInjectionServlet extends HttpServlet {
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
 
-            if (jsonString != null && !"".equals(jsonString)) {
+            if (!StringUtils.isBlank(jsonString)) {
                 jsonString = jsonString.replaceAll(" ", "");
                 jsonString = jsonString.replaceAll("\r\n", "");
                 jsonString = jsonString.replaceAll("\n", "");

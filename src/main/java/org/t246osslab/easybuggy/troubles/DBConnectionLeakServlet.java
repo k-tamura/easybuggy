@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.dao.DBClient;
@@ -33,7 +34,7 @@ public class DBConnectionLeakServlet extends HttpServlet {
             final String dbUrl = ApplicationUtils.getDatabaseURL();
             final String dbDriver = ApplicationUtils.getDatabaseDriver();
 
-            if (dbDriver != null && !"".equals(dbDriver)) {
+            if (!StringUtils.isBlank(dbDriver)) {
                 try {
                     Class.forName(dbDriver);
                 } catch (Exception e) {
@@ -41,7 +42,7 @@ public class DBConnectionLeakServlet extends HttpServlet {
                 }
             }
             bodyHtml.append(selectUsers(locale));
-            if (dbUrl == null || "".equals(dbUrl) || dbUrl.startsWith("jdbc:derby:memory:")) {
+            if (StringUtils.isBlank(dbUrl) || dbUrl.startsWith("jdbc:derby:memory:")) {
                 bodyHtml.append(MessageUtils.getInfoMsg("msg.note.not.use.ext.db", locale));
             } else {
                 bodyHtml.append(MessageUtils.getInfoMsg("msg.db.connection.leak.occur", locale));

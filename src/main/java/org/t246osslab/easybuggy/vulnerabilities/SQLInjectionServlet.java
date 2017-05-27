@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.dao.DBClient;
@@ -45,7 +46,7 @@ public class SQLInjectionServlet extends HttpServlet {
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
 
-            if (name != null && password != null && !"".equals(name) && !"".equals(password) && password.length() >= 8) {
+            if (!StringUtils.isBlank(name) && !StringUtils.isBlank(password) && password.length() >= 8) {
                 bodyHtml.append(selectUsers(name, password, req));
             } else {
                 bodyHtml.append(MessageUtils.getMsg("msg.warn.enter.name.and.passwd", locale));

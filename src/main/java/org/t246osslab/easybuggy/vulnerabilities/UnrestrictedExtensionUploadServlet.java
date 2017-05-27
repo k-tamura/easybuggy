@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.utils.Closer;
@@ -84,7 +85,7 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
         }
         try {
             String fileName = getFileName(filePart);
-            if (fileName == null || "".equals(fileName)) {
+            if (StringUtils.isBlank(fileName)) {
                 doGet(req, res);
                 return;
             }
@@ -118,14 +119,14 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
             StringBuilder bodyHtml = new StringBuilder();
             if (isConverted) {
                 bodyHtml.append(MessageUtils.getMsg("msg.convert.grayscale.complete", locale));
+                bodyHtml.append("<br><br>");
             } else {
-                bodyHtml.append(MessageUtils.getMsg("msg.convert.grayscale.fail", locale));
+                bodyHtml.append(MessageUtils.getErrMsg("msg.convert.grayscale.fail", locale));
             }
             if (isConverted) {
                 bodyHtml.append("<br><br>");
                 bodyHtml.append("<img src=\"" + SAVE_DIR + "/" + fileName + "\">");
             }
-            bodyHtml.append("<br><br>");
             bodyHtml.append("<INPUT type=\"button\" onClick='history.back();' value=\""
                     + MessageUtils.getMsg("label.history.back", locale) + "\">");
             HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.unrestricted.extension.upload", locale),

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.directory.shared.ldap.entry.ModificationOperation;
 import org.apache.directory.shared.ldap.entry.client.ClientModification;
 import org.apache.directory.shared.ldap.entry.client.DefaultClientAttribute;
@@ -61,7 +62,7 @@ public class ClickJackingServlet extends HttpServlet {
         }
         String userid = (String) session.getAttribute("userid");
         String mail = req.getParameter("mail");
-        if (mail != null && !"".equals(mail) && isValidEmailAddress(mail)) {
+        if (!StringUtils.isBlank(mail) && isValidEmailAddress(mail)) {
             try {
                 DefaultClientAttribute entryAttribute = new DefaultClientAttribute("mail", ESAPI.encoder()
                         .encodeForLDAP(mail.trim()));

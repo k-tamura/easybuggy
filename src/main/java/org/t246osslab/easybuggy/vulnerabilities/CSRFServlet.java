@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.directory.shared.ldap.entry.ModificationOperation;
 import org.apache.directory.shared.ldap.entry.client.ClientModification;
 import org.apache.directory.shared.ldap.entry.client.DefaultClientAttribute;
@@ -59,7 +60,7 @@ public class CSRFServlet extends HttpServlet {
         }
         String userid = (String) session.getAttribute("userid");
         String password = req.getParameter("password");
-        if (userid != null && password != null && !"".equals(userid) && !"".equals(password) && password.length() >= 8) {
+        if (!StringUtils.isBlank(userid) && !StringUtils.isBlank(password) && password.length() >= 8) {
             try {
                 DefaultClientAttribute entryAttribute = new DefaultClientAttribute("userPassword", ESAPI.encoder()
                         .encodeForLDAP(password.trim()));
@@ -87,7 +88,7 @@ public class CSRFServlet extends HttpServlet {
                 doGet(req, res);
             }
         } else {
-            if (password == null || "".equals(password) || password.length() < 8) {
+            if (StringUtils.isBlank(password) || password.length() < 8) {
                 req.setAttribute("errorMessage", MessageUtils.getErrMsg("msg.passwd.is.too.short", locale));
             } else {
                 req.setAttribute("errorMessage", MessageUtils.getErrMsg("msg.unknown.exception.occur",

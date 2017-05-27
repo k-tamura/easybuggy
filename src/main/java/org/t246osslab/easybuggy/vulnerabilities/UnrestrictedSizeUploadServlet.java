@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.utils.Closer;
@@ -77,7 +78,7 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
         final Part filePart = req.getPart("file");
         try {
             String fileName = getFileName(filePart);
-            if (fileName == null || "".equals(fileName)) {
+            if (StringUtils.isBlank(fileName)) {
                 doGet(req, res);
                 return;
             } else if (!isImageFile(fileName)) {
@@ -102,8 +103,8 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
 
             try {
                 // Reverse the color of the upload image
-                if(!isConverted){
-                    revereColor(new File(savePath + File.separator + fileName).getAbsolutePath());
+                if (!isConverted) {
+                    reverseColor(new File(savePath + File.separator + fileName).getAbsolutePath());
                     isConverted = true;
                 }
             } catch (Exception e) {
@@ -114,14 +115,14 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
             StringBuilder bodyHtml = new StringBuilder();
             if (isConverted) {
                 bodyHtml.append(MessageUtils.getMsg("msg.reverse.color.complete", locale));
+                bodyHtml.append("<br><br>");
             } else {
-                bodyHtml.append(MessageUtils.getMsg("msg.reverse.color.fail", locale));
+                bodyHtml.append(MessageUtils.getErrMsg("msg.reverse.color.fail", locale));
             }
             if (isConverted) {
                 bodyHtml.append("<br><br>");
                 bodyHtml.append("<img src=\"" + SAVE_DIR + "/" + fileName + "\">");
             }
-            bodyHtml.append("<br><br>");
             bodyHtml.append("<INPUT type=\"button\" onClick='history.back();' value=\""
                     + MessageUtils.getMsg("label.history.back", locale) + "\">");
             HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.unrestricted.size.upload", locale),
@@ -151,7 +152,7 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
     }
 
     // Reverse the color of the image file
-    private void revereColor(String fileName) throws IOException {
+    private void reverseColor(String fileName) throws IOException {
         BufferedImage image = ImageIO.read(new File(fileName));
         WritableRaster raster = image.getRaster();
         int[] pixelBuffer = new int[raster.getNumDataElements()];

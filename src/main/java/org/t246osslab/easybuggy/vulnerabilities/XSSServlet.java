@@ -38,7 +38,7 @@ public class XSSServlet extends HttpServlet {
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
 
-            if (string != null && !"".equals(string)) {
+            if (!StringUtils.isBlank(string)) {
                 // Reverse the given string
                 String reversedName = StringUtils.reverse(string);
                 bodyHtml.append(MessageUtils.getMsg("label.reversed.string", locale) + " : "

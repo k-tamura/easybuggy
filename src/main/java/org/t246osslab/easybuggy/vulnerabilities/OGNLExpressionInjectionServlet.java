@@ -9,16 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ognl.Ognl;
-import ognl.OgnlContext;
-import ognl.OgnlException;
-
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.owasp.esapi.ESAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.core.utils.MessageUtils;
+
+import ognl.Ognl;
+import ognl.OgnlContext;
+import ognl.OgnlException;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/ognleijc" })
@@ -36,7 +37,7 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
             boolean isValid = true;
             OgnlContext ctx = new OgnlContext();
             String expression = req.getParameter("expression");
-            if (expression == null || "".equals(expression)) {
+            if (StringUtils.isBlank(expression)) {
                 isValid = false;
             } else {
                 try {

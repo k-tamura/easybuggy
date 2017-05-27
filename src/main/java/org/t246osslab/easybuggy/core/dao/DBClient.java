@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.utils.ApplicationUtils;
@@ -49,7 +50,7 @@ public final class DBClient {
     public static Connection getConnection() throws SQLException {
         final String dbDriver = ApplicationUtils.getDatabaseDriver();
         final String dbUrl = ApplicationUtils.getDatabaseURL();
-        if (dbDriver != null && !"".equals(dbDriver)) {
+        if (!StringUtils.isBlank(dbDriver)) {
             try {
                 Class.forName(dbDriver);
             } catch (ClassNotFoundException e) {

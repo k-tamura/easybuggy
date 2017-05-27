@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.utils.EmailUtils;
@@ -98,7 +99,7 @@ public class MailHeaderInjectionServlet extends HttpServlet {
         String mail = req.getParameter("mail");
         String subject = req.getParameter("subject");
         String content = req.getParameter("content");
-        if (subject == null || "".equals(subject.trim()) || content == null || "".equals(content.trim())) {
+        if (StringUtils.isBlank(subject) || StringUtils.isBlank(content)) {
             resultMessage = MessageUtils.getMsg("msg.mail.is.empty", locale);
             doGet(req, res);
             return;

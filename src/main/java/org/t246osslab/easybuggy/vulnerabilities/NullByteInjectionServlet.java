@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.utils.Closer;
@@ -37,7 +38,7 @@ public class NullByteInjectionServlet extends HttpServlet {
         bodyHtml.append("<p>" + MessageUtils.getInfoMsg("msg.note.null.byte.injection", locale) + "</p>");
         try {
             String fileName = req.getParameter("fileName");
-            if (fileName == null || "".equals(fileName)) {
+            if (StringUtils.isBlank(fileName)) {
                 HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.guide.download", locale),
                         bodyHtml.toString());
                 return;
