@@ -233,6 +233,7 @@
 								<argument>-ea</argument>
 								<argument>-jar</argument>
 								<argument>target/easybuggy.jar</argument>
+								<argument>-httpPort=${easybuggy-port}</argument>
 							</arguments>
 						</configuration>
 					</execution>
