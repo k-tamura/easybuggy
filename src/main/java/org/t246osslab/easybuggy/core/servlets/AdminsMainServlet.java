@@ -21,11 +21,14 @@ public class AdminsMainServlet extends HttpServlet {
         StringBuilder bodyHtml = new StringBuilder();
         bodyHtml.append(MessageUtils.getMsg("msg.admin.page.top", locale));
         bodyHtml.append("<br><br>");
-        bodyHtml.append("<a href=\"/uid/serverinfo.jsp\">" + MessageUtils.getMsg("section.server.info", locale) + "</a>");
+        bodyHtml.append("<a href=\"" + res.encodeURL("/uid/serverinfo.jsp") + "\">"
+                + MessageUtils.getMsg("section.server.info", locale) + "</a>");
         bodyHtml.append("<br><br>");
-        bodyHtml.append("<a href=\"/admins/csrf\">" + MessageUtils.getMsg("section.change.password", locale) + "</a>");
+        bodyHtml.append("<a href=\"" + res.encodeURL("/admins/csrf") + "\">"
+                + MessageUtils.getMsg("section.change.password", locale) + "</a>");
         bodyHtml.append("<br><br>");
-        bodyHtml.append("<a href=\"/admins/clickjacking\">" + MessageUtils.getMsg("section.change.mail", locale) + "</a>");
+        bodyHtml.append("<a href=\"" + res.encodeURL("/admins/clickjacking") + "\">"
+                + MessageUtils.getMsg("section.change.mail", locale) + "</a>");
         HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.admins.main.page", locale),
                 bodyHtml.toString());
     }

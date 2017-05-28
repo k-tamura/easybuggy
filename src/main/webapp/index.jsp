@@ -184,6 +184,11 @@
 				<fmt:message key="function.description.brute.force" />
 			</p></li>
 		<li><p>
+				<a href=<%=response.encodeURL("admins/main?logintype=sessionfixation")%>><fmt:message
+						key="function.name.session.fixation" /></a>:
+				<fmt:message key="function.description.session.fixation" />
+			</p></li>
+		<li><p>
 				<a href="admins/main?logintype=verbosemsg"><fmt:message
 						key="function.name.verbose.error.message" /></a>:
 				<fmt:message key="function.description.verbose.error.message" />
