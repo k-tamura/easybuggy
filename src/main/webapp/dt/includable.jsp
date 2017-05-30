@@ -59,7 +59,7 @@
 	<br>
 	<div class="alert alert-info" role="alert">
 		<span class="glyphicon glyphicon-info-sign"></span>&nbsp;
-		<fmt:message key="msg.note.directory.traversal" />
+		<fmt:message key="msg.note.path.traversal" />
 	</div>
 	<!-- footer section start -->
 	<c:catch var="ex">

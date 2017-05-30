@@ -200,8 +200,8 @@
 			</p></li>
 		<li><p>
 				<a href="/dt/includable.jsp?template=basic"><fmt:message
-						key="function.name.directory.traversal" /></a>:
-				<fmt:message key="function.description.directory.traversal" />
+						key="function.name.path.traversal" /></a>:
+				<fmt:message key="function.description.path.traversal" />
 			</p></li>
 		<li><p>
 				<a href="/uid/clientinfo.jsp"><fmt:message
