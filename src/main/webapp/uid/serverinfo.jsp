@@ -37,8 +37,8 @@
 		class="table table-striped table-bordered table-hover"
 		style="font-size:small;">
 		<tr>
-			<th>Key</th>
-			<th>Value</th>
+			<th><fmt:message key="label.key" /></th>
+			<th><fmt:message key="label.value" /></th>
 		</tr>
 		<c:forEach var="entry" items="${systemProperties}">
 			<tr>
