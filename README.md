@@ -4,7 +4,7 @@
 EasyBuggy
 =
 
-EasyBuggy is a broken web application in order to understand behavior of bugs and vulnerabilities, for example, [memory leak, dead lock, JVM crash, SQL injection and so on](https://github.com/k-tamura/easybuggy/wiki).
+EasyBuggy is a broken web application in order to understand behavior of bugs and vulnerabilities, for example, [memory leak, deadlock, JVM crash, SQL injection and so on](https://github.com/k-tamura/easybuggy/wiki).
 
 ![logo](https://github.com/k-tamura/easybuggy/blob/master/src/main/webapp/images/easybuggy.png)
 
