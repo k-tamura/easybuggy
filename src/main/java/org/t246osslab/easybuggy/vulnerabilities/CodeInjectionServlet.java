@@ -59,6 +59,10 @@ public class CodeInjectionServlet extends HttpServlet {
                 } catch (ScriptException e) {
                     bodyHtml.append(MessageUtils.getErrMsg("msg.invalid.json", new String[] { ESAPI.encoder()
                             .encodeForHTML(e.getMessage()) }, locale));
+                } catch (Exception e) {
+                    log.error("Exception occurs: ", e);
+                    bodyHtml.append(MessageUtils.getErrMsg("msg.invalid.json", new String[] { ESAPI.encoder()
+                            .encodeForHTML(e.getMessage()) }, locale));
                 }
             } else {
                 bodyHtml.append(MessageUtils.getMsg("msg.enter.json.string", locale));
