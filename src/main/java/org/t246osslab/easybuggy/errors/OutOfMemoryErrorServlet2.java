@@ -13,6 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 public class OutOfMemoryErrorServlet2 extends HttpServlet {
     
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        byte[] buffer = new byte[Integer.MAX_VALUE];
+        req.setAttribute("oome2", new byte[Integer.MAX_VALUE]);
     }
 }

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 public class UnsatisfiedLinkErrorServlet extends HttpServlet {
 
-    private native static NetworkInterface getByName0(String name) throws SocketException;
+    private static native NetworkInterface getByName0(String name) throws SocketException;
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         getByName0("");

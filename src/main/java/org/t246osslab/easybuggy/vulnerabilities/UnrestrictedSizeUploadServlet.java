@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.Locale;
 
 import javax.imageio.ImageIO;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,15 +103,9 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
                 isConverted = true;
             }
 
-            try {
-                // Reverse the color of the upload image
-                if (!isConverted) {
-                    reverseColor(new File(savePath + File.separator + fileName).getAbsolutePath());
-                    isConverted = true;
-                }
-            } catch (Exception e) {
-                // Log and ignore the exception
-                log.warn("Exception occurs: ", e);
+            // Reverse the color of the upload image
+            if (!isConverted) {
+                isConverted = reverseColor(new File(savePath + File.separator + fileName).getAbsolutePath());
             }
 
             StringBuilder bodyHtml = new StringBuilder();
@@ -136,9 +132,8 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
     }
 
     private boolean isImageFile(String fileName) {
-        return fileName.endsWith(".png") || fileName.endsWith(".gif") || fileName.endsWith(".jpg")
-                || fileName.endsWith(".jpeg") || fileName.endsWith(".tif") || fileName.endsWith(".tiff")
-                || fileName.endsWith(".bmp");
+        return Arrays.asList(new String[] { "png", "gif", "jpg", "jpeg", "tif", "tiff", "bmp" }).contains(
+                FilenameUtils.getExtension(fileName));
     }
 
     // Get file name from content-disposition filename
@@ -152,20 +147,28 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
     }
 
     // Reverse the color of the image file
-    private void reverseColor(String fileName) throws IOException {
-        BufferedImage image = ImageIO.read(new File(fileName));
-        WritableRaster raster = image.getRaster();
-        int[] pixelBuffer = new int[raster.getNumDataElements()];
-        for (int y = 0; y < raster.getHeight(); y++) {
-            for (int x = 0; x < raster.getWidth(); x++) {
-                raster.getPixel(x, y, pixelBuffer);
-                pixelBuffer[0] = ~pixelBuffer[0];
-                pixelBuffer[1] = ~pixelBuffer[1];
-                pixelBuffer[2] = ~pixelBuffer[2];
-                raster.setPixel(x, y, pixelBuffer);
+    private boolean reverseColor(String fileName) throws IOException {
+        boolean isConverted = false;
+        try {
+            BufferedImage image = ImageIO.read(new File(fileName));
+            WritableRaster raster = image.getRaster();
+            int[] pixelBuffer = new int[raster.getNumDataElements()];
+            for (int y = 0; y < raster.getHeight(); y++) {
+                for (int x = 0; x < raster.getWidth(); x++) {
+                    raster.getPixel(x, y, pixelBuffer);
+                    pixelBuffer[0] = ~pixelBuffer[0];
+                    pixelBuffer[1] = ~pixelBuffer[1];
+                    pixelBuffer[2] = ~pixelBuffer[2];
+                    raster.setPixel(x, y, pixelBuffer);
+                }
             }
+            // Output the image
+            ImageIO.write(image, "png", new File(fileName));
+            isConverted = true;
+        } catch (Exception e) {
+            // Log and ignore the exception
+            log.warn("Exception occurs: ", e);
         }
-        // Output the image
-        ImageIO.write(image, "png", new File(fileName));
+        return isConverted;
     }
 }

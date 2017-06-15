@@ -13,6 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 public class ArithmeticExceptionServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        int i = 1 / 0;
+        res.addIntHeader("ae", 1 / 0);
     }
 }

@@ -31,6 +31,6 @@ public class ExceptionInInitializerErrorServlet extends HttpServlet {
 
 class InitializerErrorThrower {
     static {
-        int i = 1 / 0;
+        LoggerFactory.getLogger(InitializerErrorThrower.class).debug("clinit" + 1 / 0);
     }
 }

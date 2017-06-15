@@ -47,69 +47,21 @@ public final class ApplicationUtils {
     private static String adminAddress = null;
 
     static {
-        ResourceBundle bundle = null;
         try {
-            bundle = ResourceBundle.getBundle("application");
+            ResourceBundle bundle = ResourceBundle.getBundle("application");
+            databaseURL = getProperty(bundle, "database.url", databaseURL);
+            databaseDriver = getProperty(bundle, "database.driver", databaseDriver);
+            accountLockTime = getProperty(bundle, "account.lock.time", accountLockTime);
+            accountLockCount = getProperty(bundle, "account.lock.count", accountLockCount);
+            smtpHost = getProperty(bundle, "mail.smtp.host", smtpHost);
+            smtpPort = getProperty(bundle, "mail.smtp.port", smtpPort);
+            smtpAuth = getProperty(bundle, "mail.smtp.auth", smtpAuth);
+            smtpStarttlsEnable = getProperty(bundle, "mail.smtp.starttls.enable", smtpStarttlsEnable);
+            smtpUser = getProperty(bundle, "mail.user", smtpUser);
+            smtpPass = getProperty(bundle, "mail.password", smtpPass);
+            adminAddress = getProperty(bundle, "mail.admin.address", adminAddress);
         } catch (MissingResourceException e) {
-            log.error("Exception occurs: ", e);
-        }
-        if (bundle != null) {
-            try {
-                databaseURL = bundle.getString("database.url");
-            } catch (Exception e) {
-                log.error("Exception occurs: ", e);
-            }
-            try {
-                databaseDriver = bundle.getString("database.driver");
-            } catch (Exception e) {
-                log.error("Exception occurs: ", e);
-            }
-            try {
-                accountLockTime = Long.parseLong(bundle.getString("account.lock.time"));
-            } catch (Exception e) {
-                log.error("Exception occurs: ", e);
-            }
-            try {
-                accountLockCount = Integer.parseInt(bundle.getString("account.lock.count"));
-            } catch (Exception e) {
-                log.error("Exception occurs: ", e);
-            }
-            try {
-                smtpHost = bundle.getString("mail.smtp.host");
-            } catch (Exception e) {
-                log.error("Exception occurs: ", e);
-            }
-            try {
-                smtpPort = bundle.getString("mail.smtp.port");
-            } catch (Exception e) {
-                log.error("Exception occurs: ", e);
-            }
-            try {
-                smtpAuth = bundle.getString("mail.smtp.auth");
-            } catch (Exception e) {
-                log.error("Exception occurs: ", e);
-            }
-            try {
-                smtpStarttlsEnable = bundle.getString("mail.smtp.starttls.enable");
-            } catch (Exception e) {
-                log.error("Exception occurs: ", e);
-            }
-            try {
-                smtpUser = bundle.getString("mail.user");
-            } catch (Exception e) {
-                log.error("Exception occurs: ", e);
-            }
-            try {
-                smtpPass = bundle.getString("mail.password");
-            } catch (Exception e) {
-                log.error("Exception occurs: ", e);
-            }
-            
-            try {
-                adminAddress = bundle.getString("mail.admin.address");
-            } catch (Exception e) {
-                log.error("Exception occurs: ", e);
-            }
+            log.error("MissingResourceException occurs: ", e);
         }
     }
 
@@ -215,5 +167,32 @@ public final class ApplicationUtils {
      */
     public static String getAdminAddress() {
         return adminAddress;
+    }
+
+    private static String getProperty(ResourceBundle bundle, String key, String defaultValue) {
+        try {
+            return bundle.getString(key);
+        } catch (Exception e) {
+            log.error("Exception occurs: ", e);
+        }
+        return defaultValue;
+    }
+    
+    private static int getProperty(ResourceBundle bundle, String key, int defaultValue) {
+        try {
+            return Integer.parseInt(bundle.getString(key));
+        } catch (Exception e) {
+            log.error("Exception occurs: ", e);
+        }
+        return defaultValue;
+    }
+    
+    private static long getProperty(ResourceBundle bundle, String key, long defaultValue) {
+        try {
+            return Long.parseLong(bundle.getString(key));
+        } catch (Exception e) {
+            log.error("Exception occurs: ", e);
+        }
+        return defaultValue;
     }
 }

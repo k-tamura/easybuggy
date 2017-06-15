@@ -35,8 +35,8 @@ public class FileDescriptorLeakServlet extends HttpServlet {
         try {
             File file = new File(req.getServletContext().getAttribute("javax.servlet.context.tempdir").toString(),
                     "test.txt");
-            FileOutputStream fos1 = new FileOutputStream(file, true);
-            OutputStreamWriter osw = new OutputStreamWriter(fos1);
+            FileOutputStream fos = new FileOutputStream(file, true);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);
             osw.write("<tr>");
             osw.write("<td>" + new Date().toString() + "</td>");
             osw.write("<td>" + req.getRemoteAddr() + "</td>");

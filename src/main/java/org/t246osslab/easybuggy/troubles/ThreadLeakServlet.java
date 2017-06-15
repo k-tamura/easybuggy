@@ -58,6 +58,7 @@ class ThreadCountLoggingThread extends Thread {
                 ThreadMXBean bean = ManagementFactory.getThreadMXBean();
                 log.info("Current thread count: " + bean.getAllThreadIds().length);
             } catch (InterruptedException e) {
+                // ignore
             }
         }
     }

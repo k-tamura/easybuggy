@@ -186,9 +186,9 @@ public class XEEandXXEServlet extends HttpServlet {
                 isRegistered = true;
             }
 
-            SAXParser parser;
             CustomHandler customHandler = new CustomHandler();
             customHandler.setLocale(locale);
+            SAXParser parser;
             try {
                 File file = new File(savePath + File.separator + fileName);
                 SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -201,8 +201,6 @@ public class XEEandXXEServlet extends HttpServlet {
                 }
                 parser = spf.newSAXParser();
                 parser.parse(file, customHandler);
-
-                // TODO Implement registration
                 isRegistered = true;
             } catch (ParserConfigurationException e) {
                 log.error("ParserConfigurationException occurs: ", e);
@@ -317,58 +315,63 @@ public class XEEandXXEServlet extends HttpServlet {
         public String upsertUser(Attributes attributes, Locale locale) {
 
             PreparedStatement stmt = null;
+            PreparedStatement stmt2 = null;
             ResultSet rs = null;
             Connection conn = null;
             String resultMessage = null;
             try {
-                
+
                 conn = DBClient.getConnection();
                 conn.setAutoCommit(true);
-                
+
                 stmt = conn.prepareStatement("select * from users where id = ?");
                 stmt.setString(1, attributes.getValue("uid"));
                 rs = stmt.executeQuery();
                 if (rs.next()) {
-                    if (isInsert){
+                    if (isInsert) {
                         return MessageUtils.getMsg("msg.user.already.exist", locale);
                     }
-                }else{
-                    if (!isInsert){
+                } else {
+                    if (!isInsert) {
                         return MessageUtils.getMsg("msg.user.not.exist", locale);
                     }
-                }              
-                if (isInsert){
-                    stmt = conn.prepareStatement("insert into users values (?, ?, ?, ?, ?, ?, ?)");
-                    stmt.setString(1, attributes.getValue("uid"));
-                    stmt.setString(2, attributes.getValue("name"));
-                    stmt.setString(3, attributes.getValue("password"));
-                    stmt.setString(4, RandomStringUtils.randomNumeric(10));
-                    stmt.setString(5, "true");
-                    stmt.setString(6, attributes.getValue("phone"));
-                    stmt.setString(7, attributes.getValue("mail"));
-                    if (stmt.executeUpdate() != 1){
+                }
+                if (isInsert) {
+                    stmt2 = conn.prepareStatement("insert into users values (?, ?, ?, ?, ?, ?, ?)");
+                    stmt2.setString(1, attributes.getValue("uid"));
+                    stmt2.setString(2, attributes.getValue("name"));
+                    stmt2.setString(3, attributes.getValue("password"));
+                    stmt2.setString(4, RandomStringUtils.randomNumeric(10));
+                    stmt2.setString(5, "true");
+                    stmt2.setString(6, attributes.getValue("phone"));
+                    stmt2.setString(7, attributes.getValue("mail"));
+                    if (stmt2.executeUpdate() != 1) {
                         resultMessage = MessageUtils.getMsg("msg.user.already.exist", locale);
                     }
-                }else{
-                    stmt = conn.prepareStatement("update users set name = ?, password = ?, phone = ?, mail = ? where id = ?");
-                    stmt.setString(1, attributes.getValue("name"));
-                    stmt.setString(2, attributes.getValue("password"));
-                    stmt.setString(3, attributes.getValue("phone"));
-                    stmt.setString(4, attributes.getValue("mail"));
-                    stmt.setString(5, attributes.getValue("uid"));
-                    if (stmt.executeUpdate() != 1){
+                } else {
+                    stmt2 = conn
+                            .prepareStatement("update users set name = ?, password = ?, phone = ?, mail = ? where id = ?");
+                    stmt2.setString(1, attributes.getValue("name"));
+                    stmt2.setString(2, attributes.getValue("password"));
+                    stmt2.setString(3, attributes.getValue("phone"));
+                    stmt2.setString(4, attributes.getValue("mail"));
+                    stmt2.setString(5, attributes.getValue("uid"));
+                    if (stmt2.executeUpdate() != 1) {
                         resultMessage = MessageUtils.getMsg("msg.user.not.exist", locale);
                     }
                 }
             } catch (SQLException e) {
-                resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale);
+                resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
+                        locale);
                 log.error("SQLException occurs: ", e);
             } catch (Exception e) {
-                resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale);
+                resultMessage = MessageUtils.getMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
+                        locale);
                 log.error("Exception occurs: ", e);
             } finally {
                 Closer.close(rs);
                 Closer.close(stmt);
+                Closer.close(stmt2);
                 Closer.close(conn);
             }
             return resultMessage;

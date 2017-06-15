@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.owasp.esapi.ESAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,11 +36,8 @@ public class StringPlusOperationServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         try {
-            int length = 0;
-            try {
-                length = Integer.parseInt(req.getParameter("length"));
-            } catch (NumberFormatException e) {
-            }
+            String strLength = req.getParameter("length");
+            int length = NumberUtils.toInt(strLength, 0);
             String[] characters = req.getParameterValues("characters");
             Locale locale = req.getLocale();
 
@@ -69,16 +67,19 @@ public class StringPlusOperationServlet extends HttpServlet {
             if (length > 0) {
                 // StringBuilder builder = new StringBuilder();
                 String s = "";
-                java.util.Random rand = new java.util.Random();
-                Date startDate = new Date();
-                log.info("Start Date: {}", startDate.toString());
-                for (int i = 0; i < length && i < MAX_LENGTH; i++) {
-                    s = s + characters[rand.nextInt(characters.length)];
-                    // builder.append(characters[rand.nextInt(characters.length)]);
+                if (characters != null) {
+                    java.util.Random rand = new java.util.Random();
+                    Date startDate = new Date();
+                    log.info("Start Date: {}", startDate.toString());
+                    for (int i = 0; i < length && i < MAX_LENGTH; i++) {
+                        s = s + characters[rand.nextInt(characters.length)];
+                        // builder.append(characters[rand.nextInt(characters.length)]);
+                    }
+                    Date endDate = new Date();
+                    log.info("End Date: {}", endDate.toString());
                 }
-                Date endDate = new Date();
-                log.info("End Date: {}", endDate.toString());
-                bodyHtml.append(MessageUtils.getMsg("label.execution.result", locale) + "<BR><BR>");
+                bodyHtml.append(MessageUtils.getMsg("label.execution.result", locale));
+                bodyHtml.append("<br><br>");
                 // bodyHtml.append(ESAPI.encoder().encodeForHTML(builder.toString()));
                 bodyHtml.append(ESAPI.encoder().encodeForHTML(s));
             } else {

@@ -1,9 +1,11 @@
 package org.t246osslab.easybuggy.core.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable{
     
+    private static final long serialVersionUID = 1L;
     private String userId = null;
     private String name = null;
     private String password = null;

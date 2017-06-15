@@ -13,6 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 public class NullPointerExceptionServlet extends HttpServlet {
     
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        Integer.decode(null);
+        req.setAttribute("npe", Integer.decode(null));
     }
 }

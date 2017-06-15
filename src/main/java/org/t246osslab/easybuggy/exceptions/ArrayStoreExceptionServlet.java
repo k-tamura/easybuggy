@@ -14,6 +14,6 @@ public class ArrayStoreExceptionServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Object[] objects = new String[1];
-        objects[0] = new Integer(0);
+        objects[0] = Integer.valueOf(1);
     }
 }

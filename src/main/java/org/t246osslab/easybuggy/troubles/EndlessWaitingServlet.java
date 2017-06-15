@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.utils.Closer;
@@ -32,11 +33,8 @@ public class EndlessWaitingServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         try {
-            int count = 0;
-            try {
-                count = Integer.parseInt(req.getParameter("count"));
-            } catch (NumberFormatException e) {
-            }
+            String strCount = req.getParameter("count");
+            int count = NumberUtils.toInt(strCount, 0);
             Locale locale = req.getLocale();
 
             StringBuilder bodyHtml = new StringBuilder();
@@ -60,9 +58,10 @@ public class EndlessWaitingServlet extends HttpServlet {
                     ProcessBuilder pb = new ProcessBuilder(batFile.getAbsolutePath());
                     Process process = pb.start();
                     process.waitFor();
-                    bodyHtml.append(
-                            MessageUtils.getMsg("msg.executed.batch", locale) + batFile.getAbsolutePath() + "<BR><BR>");
-                    bodyHtml.append(MessageUtils.getMsg("label.execution.result", locale) + "<BR><BR>");
+                    bodyHtml.append(MessageUtils.getMsg("msg.executed.batch", locale) + batFile.getAbsolutePath());
+                    bodyHtml.append("<br><br>");
+                    bodyHtml.append(MessageUtils.getMsg("label.execution.result", locale));
+                    bodyHtml.append("<br><br>");
                     bodyHtml.append(printInputStream(process.getInputStream()));
                     bodyHtml.append(printInputStream(process.getErrorStream()));
                 }
@@ -116,11 +115,8 @@ public class EndlessWaitingServlet extends HttpServlet {
             buffwriter.close();
             fileWriter.close();
             if (!osName.toLowerCase().startsWith("windows")) {
-                try {
-                    Runtime runtime = Runtime.getRuntime();
-                    runtime.exec("chmod 777 " + batFile.getAbsolutePath());
-                } catch (IOException ex) {
-                }
+                Runtime runtime = Runtime.getRuntime();
+                runtime.exec("chmod 777 " + batFile.getAbsolutePath());
             }
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
@@ -139,7 +135,7 @@ public class EndlessWaitingServlet extends HttpServlet {
                 if (line == null) {
                     break;
                 }
-                sb.append(line + "<BR>");
+                sb.append(line + "<br>");
             }
         } finally {
             Closer.close(br);

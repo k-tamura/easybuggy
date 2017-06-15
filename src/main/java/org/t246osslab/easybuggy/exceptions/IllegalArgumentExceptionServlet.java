@@ -1,7 +1,7 @@
 package org.t246osslab.easybuggy.exceptions;
 
 import java.io.IOException;
-import java.util.Date;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 public class IllegalArgumentExceptionServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        new Date(null);
+        req.setAttribute("iae", new ArrayList<Object>(-1));
     }
 }

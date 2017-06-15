@@ -13,6 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 public class ArrayIndexOutOfBoundsExceptionServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        int i = (new int[] { 1 })[1];
+        req.setAttribute("aioobe", (new int[] { 1 })[1]);
     }
 }

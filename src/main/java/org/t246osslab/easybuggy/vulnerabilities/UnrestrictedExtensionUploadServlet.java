@@ -105,15 +105,8 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
                 isConverted = true;
             }
 
-            try {
-                // Convert the file into gray scale image.
-                if (!isConverted) {
-                    convert2GrayScale(new File(savePath + File.separator + fileName).getAbsolutePath());
-                    isConverted = true;
-                }
-            } catch (Exception e) {
-                // Log and ignore the exception
-                log.warn("Exception occurs: ", e);
+            if (!isConverted) {
+                isConverted = convert2GrayScale(new File(savePath + File.separator + fileName).getAbsolutePath());
             }
 
             StringBuilder bodyHtml = new StringBuilder();
@@ -150,28 +143,41 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
     }
 
     // Convert color image into gray scale image.
-    private void convert2GrayScale(String fileName) throws IOException {
-        BufferedImage image = ImageIO.read(new File(fileName));
-
-        // convert to gray scale
-        for (int y = 0; y < image.getHeight(); y++) {
-            for (int x = 0; x < image.getWidth(); x++) {
-                int p = image.getRGB(x, y);
-                int a = (p >> 24) & 0xff;
-                int r = (p >> 16) & 0xff;
-                int g = (p >> 8) & 0xff;
-                int b = p & 0xff;
-
-                // calculate average
-                int avg = (r + g + b) / 3;
-
-                // replace RGB value with avg
-                p = (a << 24) | (avg << 16) | (avg << 8) | avg;
-
-                image.setRGB(x, y, p);
+    private boolean convert2GrayScale(String fileName) throws IOException {
+        boolean isConverted = false;
+        try {
+            // Convert the file into gray scale image.
+            BufferedImage image = ImageIO.read(new File(fileName));
+            if (image == null) {
+                log.warn("Cannot read upload file as image file, file name: " + fileName);
+                return false;
             }
+
+            // convert to gray scale
+            for (int y = 0; y < image.getHeight(); y++) {
+                for (int x = 0; x < image.getWidth(); x++) {
+                    int p = image.getRGB(x, y);
+                    int a = (p >> 24) & 0xff;
+                    int r = (p >> 16) & 0xff;
+                    int g = (p >> 8) & 0xff;
+                    int b = p & 0xff;
+
+                    // calculate average
+                    int avg = (r + g + b) / 3;
+
+                    // replace RGB value with avg
+                    p = (a << 24) | (avg << 16) | (avg << 8) | avg;
+
+                    image.setRGB(x, y, p);
+                }
+            }
+            // Output the image
+            ImageIO.write(image, "png", new File(fileName));
+            isConverted = true;
+        } catch (Exception e) {
+            // Log and ignore the exception
+            log.warn("Exception occurs: ", e);
         }
-        // Output the image
-        ImageIO.write(image, "png", new File(fileName));
+        return isConverted;
     }
 }

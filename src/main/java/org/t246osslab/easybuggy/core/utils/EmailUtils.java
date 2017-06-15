@@ -13,7 +13,6 @@ import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -48,9 +47,8 @@ public class EmailUtils {
     /**
      * Sends an e-mail message from a SMTP host with a list of attached files.
      */
-    public static void sendEmailWithAttachment(
-            String subject, String message, List<File> attachedFiles)
-                    throws AddressException, MessagingException {
+    public static void sendEmailWithAttachment(String subject, String message, List<File> attachedFiles)
+            throws MessagingException {
         // sets SMTP server properties
         Properties properties = new Properties();
         properties.put("mail.smtp.host", ApplicationUtils.getSmtpHost());
@@ -87,17 +85,15 @@ public class EmailUtils {
         multipart.addBodyPart(messageBodyPart);
  
         // adds attachments
-        if (attachedFiles != null && attachedFiles.size() > 0) {
+        if (attachedFiles != null && !attachedFiles.isEmpty()) {
             for (File aFile : attachedFiles) {
                 MimeBodyPart attachPart = new MimeBodyPart();
- 
-                try {
+                 try {
                     attachPart.attachFile(aFile);
                 } catch (IOException e) {
                     log.error("IOException occurs: ", e);
                 }
- 
-                multipart.addBodyPart(attachPart);
+                 multipart.addBodyPart(attachPart);
             }
         }
  

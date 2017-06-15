@@ -20,6 +20,7 @@ import javax.servlet.http.Part;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.t246osslab.easybuggy.core.utils.Closer;
 import org.t246osslab.easybuggy.core.utils.EmailUtils;
 import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
 import org.t246osslab.easybuggy.core.utils.MessageUtils;
@@ -86,9 +87,6 @@ public class MailHeaderInjectionServlet extends HttpServlet {
                 bodyHtml.toString());
     }
 
-    /**
-     * handles form submission
-     */
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         String resultMessage = "";
@@ -101,13 +99,14 @@ public class MailHeaderInjectionServlet extends HttpServlet {
         String content = req.getParameter("content");
         if (StringUtils.isBlank(subject) || StringUtils.isBlank(content)) {
             resultMessage = MessageUtils.getMsg("msg.mail.is.empty", locale);
+            req.setAttribute("message", resultMessage);
             doGet(req, res);
             return;
         }
         StringBuilder sb = new StringBuilder();
-        sb.append(MessageUtils.getMsg("label.name", locale)).append(": ").append(name).append("<BR>");
-        sb.append(MessageUtils.getMsg("label.mail", locale)).append(": ").append(mail).append("<BR>").append("<BR>");
-        sb.append(MessageUtils.getMsg("label.content", locale)).append(": ").append(content).append("<BR>");
+        sb.append(MessageUtils.getMsg("label.name", locale)).append(": ").append(name).append("<br>");
+        sb.append(MessageUtils.getMsg("label.mail", locale)).append(": ").append(mail).append("<br>").append("<br>");
+        sb.append(MessageUtils.getMsg("label.content", locale)).append(": ").append(content).append("<br>");
         try {
             EmailUtils.sendEmailWithAttachment(subject, sb.toString(), uploadedFiles);
             resultMessage = MessageUtils.getMsg("msg.sent.mail", locale);
@@ -126,32 +125,37 @@ public class MailHeaderInjectionServlet extends HttpServlet {
      * to the mail message.
      */
     private List<File> saveUploadedFiles(HttpServletRequest request)
-            throws IllegalStateException, IOException, ServletException {
+            throws IOException, ServletException {
         List<File> listFiles = new ArrayList<File>();
         byte[] buffer = new byte[4096];
-        int bytesRead = -1;
+        int bytesRead;
         Collection<Part> multiparts = request.getParts();
-        if (multiparts.size() > 0) {
+        if (!multiparts.isEmpty()) {
             for (Part part : request.getParts()) {
                 // creates a file to be saved
                 String fileName = extractFileName(part);
-                if (fileName == null || fileName.equals("")) {
+                if (StringUtils.isBlank(fileName)) {
                     // not attachment part, continue
                     continue;
                 }
 
                 File saveFile = new File(fileName);
                 log.debug("Uploaded file is saved on: " + saveFile.getAbsolutePath());
-                FileOutputStream outputStream = new FileOutputStream(saveFile);
-
-                // saves uploaded file
-                InputStream inputStream = part.getInputStream();
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
+                FileOutputStream outputStream = null;
+                InputStream inputStream = null;
+                try {
+                    outputStream = new FileOutputStream(saveFile);
+                    // saves uploaded file
+                    inputStream = part.getInputStream();
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                } catch (Exception e) {
+                    log.error("Exception occurs: ", e);
+                } finally {
+                    Closer.close(outputStream);
+                    Closer.close(inputStream);
                 }
-                outputStream.close();
-                inputStream.close();
-
                 listFiles.add(saveFile);
             }
         }
@@ -166,7 +170,7 @@ public class MailHeaderInjectionServlet extends HttpServlet {
         String[] items = contentDisp.split(";");
         for (String s : items) {
             if (s.trim().startsWith("filename")) {
-                return s.substring(s.indexOf("=") + 2, s.length() - 1);
+                return s.substring(s.indexOf('=') + 2, s.length() - 1);
             }
         }
         return null;
@@ -176,9 +180,11 @@ public class MailHeaderInjectionServlet extends HttpServlet {
      * Deletes all uploaded files, should be called after the e-mail was sent.
      */
     private void deleteUploadFiles(List<File> listFiles) {
-        if (listFiles != null && listFiles.size() > 0) {
+        if (listFiles != null && !listFiles.isEmpty()) {
             for (File aFile : listFiles) {
-                aFile.delete();
+                if (!aFile.delete()) {
+                    log.debug("Cannot remove file: " + aFile);
+                }
             }
         }
     }

@@ -13,6 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 public class NegativeArraySizeExceptionServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        int[] intArray = new int[-1];
+        req.setAttribute("nase", new int[-1]);
     }
 }

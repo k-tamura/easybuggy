@@ -14,6 +14,6 @@ public class ClassCastExceptionServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         req.setAttribute("param1", "value1");
-        String[] s = (String[]) req.getAttribute("param1");
+        req.setAttribute("param2", (String[]) req.getAttribute("param1"));
     }
 }

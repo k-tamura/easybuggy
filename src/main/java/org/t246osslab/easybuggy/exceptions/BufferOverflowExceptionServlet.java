@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.t246osslab.easybuggy.core.utils.Closer;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/boe" })
@@ -24,9 +25,10 @@ public class BufferOverflowExceptionServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(BufferOverflowExceptionServlet.class);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        RandomAccessFile raf = null;
         try {
             File f = new File("test.txt");
-            RandomAccessFile raf = new RandomAccessFile(f, "rw");
+            raf = new RandomAccessFile(f, "rw");
             FileChannel ch = raf.getChannel();
             MappedByteBuffer buf = ch.map(MapMode.READ_WRITE, 0, f.length());
             final byte[] src = new byte[10];
@@ -35,6 +37,8 @@ public class BufferOverflowExceptionServlet extends HttpServlet {
             log.error("FileNotFoundException occurs: ", e);
         } catch (IOException e) {
             log.error("IOException occurs: ", e);
+        } finally {
+            Closer.close(raf);
         }
     }
 }

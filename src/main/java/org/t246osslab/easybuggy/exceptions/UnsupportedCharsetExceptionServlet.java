@@ -14,6 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 public class UnsupportedCharsetExceptionServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        new String("str".getBytes(Charset.defaultCharset()), Charset.forName("test"));
+        req.setAttribute("uce", new String("str".getBytes(Charset.defaultCharset()), Charset.forName("test")));
     }
 }

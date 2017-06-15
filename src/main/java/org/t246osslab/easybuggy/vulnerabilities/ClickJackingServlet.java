@@ -99,7 +99,8 @@ public class ClickJackingServlet extends HttpServlet {
         try {
            InternetAddress emailAddr = new InternetAddress(email);
            emailAddr.validate();
-        } catch (AddressException ex) {
+        } catch (AddressException e) {
+            log.debug("Mail address is invalid: " + email, e);
            result = false;
         }
         return result;

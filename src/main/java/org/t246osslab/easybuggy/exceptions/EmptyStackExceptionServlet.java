@@ -20,8 +20,8 @@ public class EmptyStackExceptionServlet extends HttpServlet {
 
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Stack<String> stack = new Stack<String>();
-        String tmp = null;
-        while (null != (tmp = (String) stack.pop())) {
+        String tmp;
+        while (null != (tmp = stack.pop())) {
             log.debug("Stack.pop(): " + tmp);
         }
     }

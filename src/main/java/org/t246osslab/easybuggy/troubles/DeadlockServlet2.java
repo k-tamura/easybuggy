@@ -54,7 +54,7 @@ public class DeadlockServlet2 extends HttpServlet {
                 }
                 updateResult = updateUsers(users, locale);
             } else {
-                users = selectUsers(order, locale);
+                users = selectUsers(order);
             }
             createHTMLUserTable(locale, bodyHtml, users, order, updateResult);
 
@@ -112,23 +112,19 @@ public class DeadlockServlet2 extends HttpServlet {
         bodyHtml.append("</form>");
     }
 
-    private ArrayList<User> selectUsers(String order, Locale locale) {
+    private ArrayList<User> selectUsers(String order) {
 
         Statement stmt = null;
         Connection conn = null;
         ResultSet rs = null;
         ArrayList<User> users = new ArrayList<User>();
         try {
-            if (!"asc".equals(order) && !"desc".equals(order)) {
-                order = "asc";
-            }
-
             conn = DBClient.getConnection();
             conn.setAutoCommit(true);
             // conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select * from users where ispublic = 'true' order by id " + order);
+            rs = stmt.executeQuery("select * from users where ispublic = 'true' order by id " + ("desc".equals(order) ? "desc" : "asc"));
             while (rs.next()) {
                 User user = new User();
                 user.setUserId(rs.getString("id"));

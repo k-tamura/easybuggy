@@ -13,6 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 public class NumberFormatExceptionServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        Integer.valueOf("");
+        req.setAttribute("nfe", Integer.valueOf(""));
     }
 }

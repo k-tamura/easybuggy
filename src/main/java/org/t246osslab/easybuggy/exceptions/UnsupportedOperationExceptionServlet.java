@@ -20,7 +20,7 @@ public class UnsupportedOperationExceptionServlet extends HttpServlet {
         Iterator<String> i = alphabet.iterator();
         while(i.hasNext()){
             String name = i.next();
-            if(!name.equals("a")){
+            if(!"a".equals(name)){
                 i.remove();
             }
         }
