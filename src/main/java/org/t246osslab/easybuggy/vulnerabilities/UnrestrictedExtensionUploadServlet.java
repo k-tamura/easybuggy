@@ -31,7 +31,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 10, maxRequestSize = 1024 * 1024 * 50)
 public class UnrestrictedExtensionUploadServlet extends HttpServlet {
 
-    private static final Logger log = LoggerFactory.getLogger(UnrestrictedSizeUploadServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(UnrestrictedExtensionUploadServlet.class);
 
     // Name of the directory where uploaded files is saved
     private static final String SAVE_DIR = "uploadFiles";

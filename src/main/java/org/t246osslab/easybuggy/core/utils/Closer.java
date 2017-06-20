@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class Closer {
 
-    private static final Logger log = LoggerFactory.getLogger(MessageUtils.class);
+    private static final Logger log = LoggerFactory.getLogger(Closer.class);
 
     // squid:S1118: Utility classes should not have public constructors
     private Closer() {

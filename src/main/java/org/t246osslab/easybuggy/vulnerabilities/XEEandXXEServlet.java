@@ -43,7 +43,7 @@ import org.xml.sax.helpers.DefaultHandler;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 10, maxRequestSize = 1024 * 1024 * 50)
 public class XEEandXXEServlet extends HttpServlet {
 
-    private static final Logger log = LoggerFactory.getLogger(UnrestrictedSizeUploadServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(XEEandXXEServlet.class);
 
     // Name of the directory where uploaded files is saved
     private static final String SAVE_DIR = "uploadFiles";
