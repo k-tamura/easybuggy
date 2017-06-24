@@ -30,7 +30,7 @@ public class CreatingUnnecessaryObjectsServlet extends HttpServlet {
             bodyHtml.append("<form action=\"createobjects\" method=\"post\">");
             bodyHtml.append(MessageUtils.getMsg("msg.calc.sym.natural.numbers", locale));
             bodyHtml.append("<br><br>n = ");
-            if (number >= 0) {
+            if (number > 0) {
                 bodyHtml.append(
                         "<input type=\"text\" name=\"number\" size=\"9\" maxlength=\"9\" value=" + strNumber + ">");
             } else {

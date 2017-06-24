@@ -48,7 +48,8 @@
 		<li><p>
 				<a href="infiniteloop" target="_blank"><fmt:message
 						key="function.name.infinite.loop" /></a>:
-				<fmt:message key="function.description.infinite.loop" /></li>
+				<fmt:message key="function.description.infinite.loop" />
+			</p></li>
 		<li><p>
 				<a href="redirectloop" target="_blank"><fmt:message
 						key="function.name.redirect.loop" /></a>:
@@ -184,7 +185,7 @@
 				<fmt:message key="function.description.brute.force" />
 			</p></li>
 		<li><p>
-				<a href=<%=response.encodeURL("admins/main?logintype=sessionfixation")%>><fmt:message
+				<a href="<%=response.encodeURL("admins/main?logintype=sessionfixation")%>"><fmt:message
 						key="function.name.session.fixation" /></a>:
 				<fmt:message key="function.description.session.fixation" />
 			</p></li>
@@ -529,7 +530,7 @@
 
 	<hr>
 	<footer>
-		<img src="images/easybuggyL.png">Copyright &copy; 2016-17 T246
+		<img src="images/easybuggyL.png" />Copyright &copy; 2016-17 T246
 		OSS Lab, all rights reserved.
 	</footer>
 </body>

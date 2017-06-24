@@ -14,6 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 public class OutOfMemoryErrorServlet6 extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        req.setAttribute("oome2", ByteBuffer.allocateDirect(99999999));
+        req.setAttribute("oome6", ByteBuffer.allocateDirect(99999999));
     }
 }
