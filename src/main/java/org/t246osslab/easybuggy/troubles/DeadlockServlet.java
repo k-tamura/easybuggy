@@ -53,7 +53,7 @@ public class DeadlockServlet extends HttpServlet {
                 bodyHtml.append(MessageUtils.getMsg("msg.dead.lock.not.occur", locale));
                 bodyHtml.append("<br><br>");
             }
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.dead.lock.occur", locale));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.dead.lock.occur", locale));
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
             bodyHtml.append(

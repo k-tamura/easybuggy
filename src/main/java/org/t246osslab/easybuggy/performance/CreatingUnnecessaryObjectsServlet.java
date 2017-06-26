@@ -99,5 +99,5 @@ public class CreatingUnnecessaryObjectsServlet extends HttpServlet {
     private long calcSum3(int number) {
         return (long) number * (number + 1) / 2;
     }
-    */
+*/
 }

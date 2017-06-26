@@ -45,7 +45,7 @@ public class DBConnectionLeakServlet extends HttpServlet {
             if (StringUtils.isBlank(dbUrl) || dbUrl.startsWith("jdbc:derby:memory:")) {
                 bodyHtml.append(MessageUtils.getInfoMsg("msg.note.not.use.ext.db", locale));
             } else {
-                bodyHtml.append(MessageUtils.getInfoMsg("msg.db.connection.leak.occur", locale));
+                bodyHtml.append(MessageUtils.getInfoMsg("msg.note.db.connection.leak.occur", locale));
             }
 
         } catch (Exception e) {
@@ -83,6 +83,7 @@ public class DBConnectionLeakServlet extends HttpServlet {
                         + MessageUtils.getMsg("label.mail", locale) + "</th>" + sb.toString() + "</table>";
             }
         } catch (Exception e) {
+            result = MessageUtils.getErrMsg("msg.db.access.error.occur", locale);
             log.error("Exception occurs: ", e);
         } finally {
             /* A DB connection leaks because the following lines are commented out.

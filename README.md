@@ -11,7 +11,7 @@ EasyBuggy is a broken web application in order to understand behavior of bugs an
 Quick Start
 -
 
-    $ mvn clean install exec:exec
+    $ mvn clean install
 
 ( or ``` java -jar easybuggy.jar ``` or deploy ROOT.war on your servlet container with [the JVM options](https://github.com/k-tamura/easybuggy/blob/master/pom.xml#L204). )
 
