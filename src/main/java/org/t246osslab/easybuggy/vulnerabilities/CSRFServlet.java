@@ -59,7 +59,7 @@ public class CSRFServlet extends HttpServlet {
             return;
         }
         String userid = (String) session.getAttribute("userid");
-        String password = req.getParameter("password");
+        String password = StringUtils.trim(req.getParameter("password"));
         if (!StringUtils.isBlank(userid) && !StringUtils.isBlank(password) && password.length() >= 8) {
             try {
                 DefaultClientAttribute entryAttribute = new DefaultClientAttribute("userPassword", ESAPI.encoder()

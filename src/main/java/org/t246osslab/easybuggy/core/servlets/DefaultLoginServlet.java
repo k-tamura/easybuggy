@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.directory.server.core.filtering.EntryFilteringCursor;
 import org.apache.directory.shared.ldap.filter.ExprNode;
 import org.apache.directory.shared.ldap.filter.FilterParser;
@@ -89,8 +90,8 @@ public class DefaultLoginServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        String userid = request.getParameter("userid");
-        String password = request.getParameter("password");
+        String userid = StringUtils.trim(request.getParameter("userid"));
+        String password = StringUtils.trim(request.getParameter("password"));
 
         HttpSession session = request.getSession(true);
         if (isAccountLocked(userid)) {

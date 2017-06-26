@@ -29,8 +29,8 @@ public class SQLInjectionServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         try {
-            String name = req.getParameter("name");
-            String password = req.getParameter("password");
+            String name = StringUtils.trim(req.getParameter("name"));
+            String password = StringUtils.trim(req.getParameter("password"));
             Locale locale = req.getLocale();
             StringBuilder bodyHtml = new StringBuilder();
 
@@ -72,7 +72,7 @@ public class SQLInjectionServlet extends HttpServlet {
         try {
             conn = DBClient.getConnection();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM users WHERE ispublic = 'true' AND name='" + name + "' AND password='" + password + "'");
+            rs = stmt.executeQuery("SELECT name, secret FROM users WHERE ispublic = 'true' AND name='" + name + "' AND password='" + password + "'");
             StringBuilder sb = new StringBuilder();
             while (rs.next()) {
                 sb.append("<tr><td>" + rs.getString("name") + "</td><td>" + rs.getString("secret") + "</td></tr>");

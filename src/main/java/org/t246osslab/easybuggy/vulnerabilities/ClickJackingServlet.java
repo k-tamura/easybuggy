@@ -61,7 +61,7 @@ public class ClickJackingServlet extends HttpServlet {
             return;
         }
         String userid = (String) session.getAttribute("userid");
-        String mail = req.getParameter("mail");
+        String mail = StringUtils.trim(req.getParameter("mail"));
         if (!StringUtils.isBlank(mail) && isValidEmailAddress(mail)) {
             try {
                 DefaultClientAttribute entryAttribute = new DefaultClientAttribute("mail", ESAPI.encoder()
