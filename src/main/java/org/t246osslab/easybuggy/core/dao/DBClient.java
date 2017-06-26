@@ -77,7 +77,7 @@ public final class DBClient {
         stmt.executeUpdate("insert into users values ('admin04','admin04','pathwood','" + RandomStringUtils.randomNumeric(10) + "','false', '', '')");
         
         // insert public (test) user records
-        stmt.executeUpdate("insert into users values ('user00','Mark','pastword','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
+        stmt.executeUpdate("insert into users values ('user00','Mark','password','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
         stmt.executeUpdate("insert into users values ('user01','David','pa32w0rd','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
         stmt.executeUpdate("insert into users values ('user02','Peter','pa23word','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
         stmt.executeUpdate("insert into users values ('user03','James','patwired','" + RandomStringUtils.randomNumeric(10) + "','true', '', '')");
