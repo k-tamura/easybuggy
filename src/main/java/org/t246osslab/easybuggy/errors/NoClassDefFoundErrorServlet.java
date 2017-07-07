@@ -14,6 +14,7 @@ import org.t246osslab.easybuggy.core.utils.DeleteClassWhileMavenBuild;
 @WebServlet(urlPatterns = { "/ncdfe" })
 public class NoClassDefFoundErrorServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         new DeleteClassWhileMavenBuild();
     }

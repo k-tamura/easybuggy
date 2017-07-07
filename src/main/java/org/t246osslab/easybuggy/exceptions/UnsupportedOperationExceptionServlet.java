@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = { "/uoe" })
 public class UnsupportedOperationExceptionServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         List<String> alphabet = Arrays.asList("a", "b", "c");
         Iterator<String> i = alphabet.iterator();

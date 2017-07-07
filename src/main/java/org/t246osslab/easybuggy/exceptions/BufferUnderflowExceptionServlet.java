@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = { "/bue" })
 public class BufferUnderflowExceptionServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         ByteBuffer.wrap(new byte[]{1}).getDouble();
     }

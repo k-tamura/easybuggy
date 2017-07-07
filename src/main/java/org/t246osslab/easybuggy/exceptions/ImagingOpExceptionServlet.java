@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = { "/imoe" })
 public class ImagingOpExceptionServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         BufferedImage img = new BufferedImage(1, 40000, BufferedImage.TYPE_INT_RGB);
         AffineTransformOp flipAtop = new AffineTransformOp(AffineTransform.getScaleInstance(1, 1),

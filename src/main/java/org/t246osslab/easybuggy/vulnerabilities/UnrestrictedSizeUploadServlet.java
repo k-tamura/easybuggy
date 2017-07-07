@@ -37,7 +37,7 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
 
     // Name of the directory where uploaded files is saved
     private static final String SAVE_DIR = "uploadFiles";
-
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         Locale locale = req.getLocale();
@@ -60,6 +60,7 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
                 bodyHtml.toString());
     }
 
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         Locale locale = req.getLocale();

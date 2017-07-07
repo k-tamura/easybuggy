@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = { "/ioobe" })
 public class IndexOutOfBoundsExceptionServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         new ArrayList<String>().get(1);
     }

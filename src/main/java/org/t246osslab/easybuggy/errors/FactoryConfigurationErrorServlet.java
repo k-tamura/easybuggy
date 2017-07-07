@@ -13,6 +13,7 @@ import javax.xml.parsers.SAXParserFactory;
 @WebServlet(urlPatterns = { "/fce" })
 public class FactoryConfigurationErrorServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         System.setProperty("javax.xml.parsers.SAXParserFactory", "non-exist-factory");
         SAXParserFactory.newInstance();

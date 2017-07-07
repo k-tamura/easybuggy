@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = { "/ase" })
 public class ArrayStoreExceptionServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Object[] objects = new String[1];
         objects[0] = Integer.valueOf(1);

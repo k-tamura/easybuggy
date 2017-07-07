@@ -26,7 +26,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 public class NullByteInjectionServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(NullByteInjectionServlet.class);
-
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         ServletOutputStream os = null;
         InputStream fis = null;

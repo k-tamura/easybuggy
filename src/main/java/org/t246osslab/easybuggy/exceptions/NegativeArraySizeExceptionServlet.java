@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = { "/nase" })
 public class NegativeArraySizeExceptionServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         req.setAttribute("nase", new int[-1]);
     }

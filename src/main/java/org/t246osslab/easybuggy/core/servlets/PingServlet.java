@@ -19,6 +19,7 @@ public class PingServlet extends HttpServlet {
     
     private static final Logger log = LoggerFactory.getLogger(PingServlet.class);
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         PrintWriter writer = null;

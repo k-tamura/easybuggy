@@ -13,6 +13,7 @@ import javax.swing.undo.UndoManager;
 @WebServlet(urlPatterns = { "/cue" })
 public class CannotUndoExceptionServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         new UndoManager().undo();
     }

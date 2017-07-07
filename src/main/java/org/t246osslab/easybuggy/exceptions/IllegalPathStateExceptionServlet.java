@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = { "/ipse" })
 public class IllegalPathStateExceptionServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         GeneralPath subPath = new GeneralPath(GeneralPath.WIND_EVEN_ODD, 100);
         subPath.closePath();

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = { "/redirectloop" })
 public class RedirectLoopServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         res.sendRedirect("/redirectloop");
     }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = { "/cce" })
 public class ClassCastExceptionServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         req.setAttribute("param1", "value1");
         req.setAttribute("param2", (String[]) req.getAttribute("param1"));

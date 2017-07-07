@@ -16,6 +16,7 @@ import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 @WebServlet(urlPatterns = { "/mpte" })
 public class MalformedParameterizedTypeExceptionServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         ParameterizedTypeImpl.make(List.class, new Type[]{}, null);
     }

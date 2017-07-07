@@ -30,6 +30,7 @@ public class DeadlockServlet2 extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(DeadlockServlet2.class);
 
+    @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         Locale locale = req.getLocale();

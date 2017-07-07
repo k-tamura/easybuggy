@@ -23,6 +23,7 @@ public class MojibakeServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(MojibakeServlet.class);
 
+    @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         req.setCharacterEncoding("Shift_JIS");

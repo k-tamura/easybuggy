@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = { "/ime" })
 public class InputMismatchExceptionServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         new Scanner("a").nextInt();
     }

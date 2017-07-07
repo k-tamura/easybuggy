@@ -22,6 +22,7 @@ public class MemoryLeakServlet3 extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(MemoryLeakServlet3.class);
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         StringBuilder bodyHtml = new StringBuilder();
         Locale locale = req.getLocale();

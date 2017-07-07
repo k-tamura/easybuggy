@@ -30,6 +30,7 @@ public class MemoryLeakServlet extends HttpServlet {
 
     private HashMap<String, String> cache = new HashMap<String, String>();
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         StringBuilder bodyHtml = new StringBuilder();
         Locale locale = req.getLocale();

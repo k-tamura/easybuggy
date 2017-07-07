@@ -18,6 +18,7 @@ public class EmptyStackExceptionServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(EmptyStackExceptionServlet.class);
 
+    @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Stack<String> stack = new Stack<String>();
         String tmp;

@@ -21,6 +21,7 @@ public class XSSServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(XSSServlet.class);
 
+    @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         try {

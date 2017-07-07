@@ -26,6 +26,7 @@ public class DBConnectionLeakServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(DBConnectionLeakServlet.class);
 
+    @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         Locale locale = req.getLocale();

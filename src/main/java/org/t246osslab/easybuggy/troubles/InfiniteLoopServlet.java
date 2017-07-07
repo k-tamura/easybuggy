@@ -17,6 +17,7 @@ public class InfiniteLoopServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(InfiniteLoopServlet.class);
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         while (true) {
             String contextPath = req.getContextPath();

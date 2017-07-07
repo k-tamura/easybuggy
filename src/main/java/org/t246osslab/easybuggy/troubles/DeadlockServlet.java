@@ -27,6 +27,7 @@ public class DeadlockServlet extends HttpServlet {
     private final Object lock2 = new Object();
     private boolean switchFlag = true;
 
+    @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         Locale locale = req.getLocale();

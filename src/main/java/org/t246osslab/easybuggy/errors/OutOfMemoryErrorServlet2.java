@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = { "/oome2" })
 public class OutOfMemoryErrorServlet2 extends HttpServlet {
     
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         req.setAttribute("oome2", new byte[Integer.MAX_VALUE]);
     }

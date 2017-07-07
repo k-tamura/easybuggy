@@ -19,6 +19,7 @@ public class UnsatisfiedLinkErrorServlet extends HttpServlet {
 
     private static native NetworkInterface getByName0(String name) throws SocketException;
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         getByName0("");
     }

@@ -22,6 +22,7 @@ public class IntegerOverflowServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(IntegerOverflowServlet.class);
 
+    @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         BigDecimal thickness = null;
         BigDecimal thicknessM = null;

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = { "/uce" })
 public class UnsupportedCharsetExceptionServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         req.setAttribute("uce", new String("str".getBytes(Charset.defaultCharset()), Charset.forName("test")));
     }

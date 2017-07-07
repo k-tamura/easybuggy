@@ -22,6 +22,7 @@ public class ThreadLeakServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(ThreadLeakServlet.class);
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         StringBuilder bodyHtml = new StringBuilder();
         Locale locale = req.getLocale();

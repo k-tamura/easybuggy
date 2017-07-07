@@ -13,6 +13,7 @@ import javax.xml.transform.TransformerFactory;
 @WebServlet(urlPatterns = { "/tfce" })
 public class TransformerFactoryConfigurationErrorServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         System.setProperty("javax.xml.transform.TransformerFactory", "a");
         TransformerFactory.newInstance();

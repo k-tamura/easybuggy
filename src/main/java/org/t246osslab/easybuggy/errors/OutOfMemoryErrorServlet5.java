@@ -19,6 +19,7 @@ public class OutOfMemoryErrorServlet5 extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(OutOfMemoryErrorServlet5.class);
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         try {

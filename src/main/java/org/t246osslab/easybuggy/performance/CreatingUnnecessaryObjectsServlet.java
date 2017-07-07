@@ -21,6 +21,7 @@ public class CreatingUnnecessaryObjectsServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(CreatingUnnecessaryObjectsServlet.class);
 
+    @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         try {
             Locale locale = req.getLocale();

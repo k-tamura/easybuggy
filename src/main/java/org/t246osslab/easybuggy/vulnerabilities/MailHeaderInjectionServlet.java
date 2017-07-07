@@ -33,7 +33,8 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 public class MailHeaderInjectionServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(MailHeaderInjectionServlet.class);
-
+    
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Locale locale = req.getLocale();
         if (!EmailUtils.isReadyToSendEmail()) {
@@ -83,6 +84,7 @@ public class MailHeaderInjectionServlet extends HttpServlet {
                 bodyHtml.toString());
     }
 
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         String resultMessage = "";

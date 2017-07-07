@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = { "/gsfe" })
 public class GenericSignatureFormatErrorServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         final TestClass<String> testClass1 = new TestClass<String>();
         TestClass<?> testClass2 = testClass1;

@@ -28,6 +28,7 @@ public class FileDescriptorLeakServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(FileDescriptorLeakServlet.class);
     private long count = 0;
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         Locale locale = req.getLocale();

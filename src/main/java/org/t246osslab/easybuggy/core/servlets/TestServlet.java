@@ -14,6 +14,7 @@ import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
 @WebServlet(urlPatterns = { "/test" })
 public class TestServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         HTTPResponseCreator.createSimpleResponse(req, res, "Test", "Test!!");

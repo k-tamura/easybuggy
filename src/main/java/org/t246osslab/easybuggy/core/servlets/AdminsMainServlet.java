@@ -16,6 +16,7 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @WebServlet(urlPatterns = { "/admins/main" })
 public class AdminsMainServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Locale locale = req.getLocale();
         StringBuilder bodyHtml = new StringBuilder();

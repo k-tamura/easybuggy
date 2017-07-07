@@ -22,6 +22,7 @@ public class NetworkSocketLeakServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(NetworkSocketLeakServlet.class);
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         HttpURLConnection connection = null;

@@ -17,6 +17,7 @@ public class IllegalMonitorStateExceptionServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(IllegalMonitorStateExceptionServlet.class);
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Thread thread = new Thread();
         thread.start();

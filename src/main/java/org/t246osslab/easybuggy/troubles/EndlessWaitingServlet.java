@@ -30,6 +30,7 @@ public class EndlessWaitingServlet extends HttpServlet {
 
     private static final int MAX_COUNT = 100000;
 
+    @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         try {

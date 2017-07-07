@@ -21,6 +21,7 @@ public class LossOfTrailingDigitsServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(LossOfTrailingDigitsServlet.class);
 
+    @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         boolean isValid = true;
         Locale locale = req.getLocale();

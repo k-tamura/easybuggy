@@ -28,11 +28,13 @@ public class VerboseErrorMessageServlet extends DefaultLoginServlet {
     
     private static final Logger log = LoggerFactory.getLogger(VerboseErrorMessageServlet.class);
     
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         req.setAttribute("login.page.note", "msg.note.verbose.errror.message");
         super.doGet(req, res);
     }
 
+    @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
         String userid = req.getParameter("userid");

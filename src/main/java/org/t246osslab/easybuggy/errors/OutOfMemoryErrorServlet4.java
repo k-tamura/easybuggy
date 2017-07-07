@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = { "/oome4" })
 public class OutOfMemoryErrorServlet4 extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         Properties properties = System.getProperties();

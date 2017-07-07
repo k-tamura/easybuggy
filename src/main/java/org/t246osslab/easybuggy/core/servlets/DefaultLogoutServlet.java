@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/logout" })
 public class DefaultLogoutServlet extends HttpServlet {
+    
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         HttpSession session = req.getSession(true);

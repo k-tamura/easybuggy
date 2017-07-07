@@ -21,6 +21,7 @@ public class TruncationErrorServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(TruncationErrorServlet.class);
 
+    @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Locale locale = req.getLocale();
         String strNumber = req.getParameter("number");

@@ -24,6 +24,7 @@ public class BufferOverflowExceptionServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(BufferOverflowExceptionServlet.class);
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         RandomAccessFile raf = null;
         try {

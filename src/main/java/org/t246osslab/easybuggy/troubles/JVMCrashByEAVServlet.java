@@ -20,6 +20,7 @@ public class JVMCrashByEAVServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(JVMCrashByEAVServlet.class);
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         try {

@@ -30,6 +30,7 @@ public class MemoryLeakServlet2 extends HttpServlet {
 
     private int i = 0;
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         StringBuilder bodyHtml = new StringBuilder();
         Locale locale = req.getLocale();

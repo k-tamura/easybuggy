@@ -18,6 +18,7 @@ public class ExceptionInInitializerErrorServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(ExceptionInInitializerErrorServlet.class);
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         try {
             Class<?> cl = Class.forName("org.t246osslab.easybuggy.errors.InitializerErrorThrower");

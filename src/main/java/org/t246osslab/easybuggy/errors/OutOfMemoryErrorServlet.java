@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/oome" })
 public class OutOfMemoryErrorServlet extends HttpServlet {
-    
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         StringBuilder sb = new StringBuilder();
         while (true) {

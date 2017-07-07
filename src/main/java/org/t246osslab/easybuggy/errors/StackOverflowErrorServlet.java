@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 public class StackOverflowErrorServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         new S().toString();
     }

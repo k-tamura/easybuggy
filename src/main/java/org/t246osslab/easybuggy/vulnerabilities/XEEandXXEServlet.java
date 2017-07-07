@@ -49,7 +49,8 @@ public class XEEandXXEServlet extends HttpServlet {
     private static final String SAVE_DIR = "uploadFiles";
 
     private static final String TAB = "&nbsp;&nbsp;&nbsp;&nbsp;";
-
+    
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         Locale locale = req.getLocale();
@@ -135,6 +136,7 @@ public class XEEandXXEServlet extends HttpServlet {
         }
     }
 
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         Locale locale = req.getLocale();
