@@ -25,6 +25,7 @@ public class LDAPInjectionServlet extends DefaultLoginServlet {
 
     private static final Logger log = LoggerFactory.getLogger(LDAPInjectionServlet.class);
 
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         req.setAttribute("login.page.note", "msg.note.ldap.injection");
         super.doGet(req, res);

@@ -21,11 +21,13 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
 
     private static final Logger log = LoggerFactory.getLogger(OpenRedirectServlet.class);
 
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         req.setAttribute("login.page.note", "msg.note.open.redirect");
         super.doGet(req, res);
     }
 
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         String userid = request.getParameter("userid");

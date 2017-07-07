@@ -14,31 +14,33 @@ import org.t246osslab.easybuggy.core.servlets.DefaultLoginServlet;
 @WebServlet(urlPatterns = { "/bruteforce/login" })
 public class BruteForceServlet extends DefaultLoginServlet {
 
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         req.setAttribute("login.page.note", "msg.note.brute.force");
         super.doGet(req, res);
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    @Override
+    public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
-        String userid = request.getParameter("userid");
-        String password = request.getParameter("password");
+        String userid = req.getParameter("userid");
+        String password = req.getParameter("password");
 
-        HttpSession session = request.getSession(true);
+        HttpSession session = req.getSession(true);
         if (authUser(userid, password)) {
             session.setAttribute("authNMsg", "authenticated");
             session.setAttribute("userid", userid);
 
             String target = (String) session.getAttribute("target");
             if (target == null) {
-                response.sendRedirect("/admins/main");
+                res.sendRedirect("/admins/main");
             } else {
                 session.removeAttribute("target");
-                response.sendRedirect(target);
+                res.sendRedirect(target);
             }
         } else {
             session.setAttribute("authNMsg", "msg.authentication.fail");
-            response.sendRedirect("/bruteforce/login");
+            doGet(req, res);
         }
     }
 }

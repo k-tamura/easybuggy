@@ -113,12 +113,10 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
             if (isConverted) {
                 bodyHtml.append(MessageUtils.getMsg("msg.convert.grayscale.complete", locale));
                 bodyHtml.append("<br><br>");
-            } else {
-                bodyHtml.append(MessageUtils.getErrMsg("msg.convert.grayscale.fail", locale));
-            }
-            if (isConverted) {
                 bodyHtml.append("<img src=\"" + SAVE_DIR + "/" + fileName + "\">");
                 bodyHtml.append("<br><br>");
+            } else {
+                bodyHtml.append(MessageUtils.getErrMsg("msg.convert.grayscale.fail", locale));
             }
             bodyHtml.append("<INPUT type=\"button\" onClick='history.back();' value=\""
                     + MessageUtils.getMsg("label.history.back", locale) + "\">");

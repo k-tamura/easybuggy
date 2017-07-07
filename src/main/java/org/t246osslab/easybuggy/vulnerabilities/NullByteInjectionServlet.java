@@ -47,7 +47,7 @@ public class NullByteInjectionServlet extends HttpServlet {
             }
 
             // Get absolute path of the web application
-            String appPath = req.getServletContext().getRealPath("");
+            String appPath = getServletContext().getRealPath("");
 
             File file = new File(appPath + File.separator + "pdf" + File.separator + fileName);
             if (!file.exists()) {

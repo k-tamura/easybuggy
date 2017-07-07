@@ -13,6 +13,7 @@ import org.t246osslab.easybuggy.core.servlets.DefaultLoginServlet;
 @WebServlet(urlPatterns = { "/sessionfixation/login" })
 public class SessionFixationServlet extends DefaultLoginServlet {
 
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         req.setAttribute("login.page.note", "msg.note.session.fixation");
         super.doGet(req, res);

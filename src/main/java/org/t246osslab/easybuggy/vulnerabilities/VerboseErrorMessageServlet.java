@@ -33,21 +33,21 @@ public class VerboseErrorMessageServlet extends DefaultLoginServlet {
         super.doGet(req, res);
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
-        String userid = request.getParameter("userid");
-        String password = request.getParameter("password");
+        String userid = req.getParameter("userid");
+        String password = req.getParameter("password");
 
-        HttpSession session = request.getSession(true);
+        HttpSession session = req.getSession(true);
         if (isAccountLocked(userid)) {
             session.setAttribute("authNMsg", "msg.account.locked");
-            response.sendRedirect("/verbosemsg/login");
+            doGet(req, res);
         } else if (!isExistUser(userid)) {
             session.setAttribute("authNMsg", "msg.user.not.exist");
-            response.sendRedirect("/verbosemsg/login");
+            doGet(req, res);
         } else if (!password.matches("[0-9a-z]{8}")) {
             session.setAttribute("authNMsg", "msg.low.alphnum8");
-            response.sendRedirect("/verbosemsg/login");
+            doGet(req, res);
         } else if (authUser(userid, password)) {
             /* Reset account lock */
             User admin = userLoginHistory.get(userid);
@@ -67,10 +67,10 @@ public class VerboseErrorMessageServlet extends DefaultLoginServlet {
 
             String target = (String) session.getAttribute("target");
             if (target == null) {
-                response.sendRedirect("/admins/main");
+                res.sendRedirect("/admins/main");
             } else {
                 session.removeAttribute("target");
-                response.sendRedirect(target);
+                res.sendRedirect(target);
             }
         } else {
             /* account lock count +1 */
@@ -87,7 +87,7 @@ public class VerboseErrorMessageServlet extends DefaultLoginServlet {
             admin.setLastLoginFailedTime(new Date());
 
             session.setAttribute("authNMsg", "msg.password.not.match");
-            response.sendRedirect("/verbosemsg/login");
+            doGet(req, res);
         }
     }
     
@@ -115,5 +115,4 @@ public class VerboseErrorMessageServlet extends DefaultLoginServlet {
         }
         return false;
     }
-
 }

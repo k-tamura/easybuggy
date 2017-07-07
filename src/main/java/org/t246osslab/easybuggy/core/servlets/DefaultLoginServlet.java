@@ -37,7 +37,8 @@ public class DefaultLoginServlet extends HttpServlet {
     protected ConcurrentHashMap<String, User> userLoginHistory = new ConcurrentHashMap<String, User>();
     
     private static final Logger log = LoggerFactory.getLogger(DefaultLoginServlet.class);
-
+    
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
         Locale locale = req.getLocale();
@@ -88,6 +89,7 @@ public class DefaultLoginServlet extends HttpServlet {
                 bodyHtml.toString());
     }
 
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         String userid = StringUtils.trim(request.getParameter("userid"));
