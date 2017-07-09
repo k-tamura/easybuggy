@@ -51,20 +51,7 @@ public class CodeInjectionServlet extends HttpServlet {
                 jsonString = jsonString.replaceAll(" ", "");
                 jsonString = jsonString.replaceAll("\r\n", "");
                 jsonString = jsonString.replaceAll("\n", "");
-                try {
-                    ScriptEngineManager manager = new ScriptEngineManager();
-                    ScriptEngine scriptEngine = manager.getEngineByName("JavaScript");
-                    scriptEngine.eval("JSON.parse('" + jsonString + "')");
-                    bodyHtml.append(MessageUtils.getMsg("msg.valid.json", locale));
-                    bodyHtml.append("<br><br>");
-                } catch (ScriptException e) {
-                    bodyHtml.append(MessageUtils.getErrMsg("msg.invalid.json", new String[] { ESAPI.encoder()
-                            .encodeForHTML(e.getMessage()) }, locale));
-                } catch (Exception e) {
-                    log.error("Exception occurs: ", e);
-                    bodyHtml.append(MessageUtils.getErrMsg("msg.invalid.json", new String[] { ESAPI.encoder()
-                            .encodeForHTML(e.getMessage()) }, locale));
-                }
+                parseJson(jsonString, locale, bodyHtml);
             } else {
                 bodyHtml.append(MessageUtils.getMsg("msg.enter.json.string", locale));
                 bodyHtml.append("<br><br>");
@@ -76,6 +63,23 @@ public class CodeInjectionServlet extends HttpServlet {
                     bodyHtml.toString());
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
+        }
+    }
+
+    private void parseJson(String jsonString, Locale locale, StringBuilder bodyHtml) {
+        try {
+            ScriptEngineManager manager = new ScriptEngineManager();
+            ScriptEngine scriptEngine = manager.getEngineByName("JavaScript");
+            scriptEngine.eval("JSON.parse('" + jsonString + "')");
+            bodyHtml.append(MessageUtils.getMsg("msg.valid.json", locale));
+            bodyHtml.append("<br><br>");
+        } catch (ScriptException e) {
+            bodyHtml.append(MessageUtils.getErrMsg("msg.invalid.json", new String[] { ESAPI.encoder()
+                    .encodeForHTML(e.getMessage()) }, locale));
+        } catch (Exception e) {
+            log.error("Exception occurs: ", e);
+            bodyHtml.append(MessageUtils.getErrMsg("msg.invalid.json", new String[] { ESAPI.encoder()
+                    .encodeForHTML(e.getMessage()) }, locale));
         }
     }
 }

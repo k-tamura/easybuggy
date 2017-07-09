@@ -36,12 +36,9 @@ public class EmailUtils {
     }
     
     public static boolean isReadyToSendEmail() {
-        if (StringUtils.isBlank(ApplicationUtils.getSmtpHost())
+        return !(StringUtils.isBlank(ApplicationUtils.getSmtpHost())
                 || StringUtils.isBlank(ApplicationUtils.getSmtpPort())
-                || StringUtils.isBlank(ApplicationUtils.getAdminAddress())) {
-            return false;
-        }
-        return true;
+                || StringUtils.isBlank(ApplicationUtils.getAdminAddress()));
     }
     
     /**
@@ -60,6 +57,7 @@ public class EmailUtils {
  
         // creates a new session with an authenticator
         Authenticator auth = new Authenticator() {
+            @Override
             public PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(ApplicationUtils.getSmtpUser(), ApplicationUtils.getSmtpPass());
             }

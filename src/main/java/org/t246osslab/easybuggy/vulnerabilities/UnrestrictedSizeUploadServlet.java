@@ -76,8 +76,6 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
         }
 
         // Save the file
-        OutputStream out = null;
-        InputStream in = null;
         final Part filePart = req.getPart("file");
         try {
             String fileName = getFileName(filePart);
@@ -89,20 +87,7 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
                 doGet(req, res);
                 return;
             }
-            // TODO Remove this try block that is a workaround of issue #9 (FileNotFoundException on Jetty * Windows)
-            boolean isConverted = false;
-            try {
-                out = new FileOutputStream(savePath + File.separator + fileName);
-                in = filePart.getInputStream();
-                int read = 0;
-                final byte[] bytes = new byte[1024];
-                while ((read = in.read(bytes)) != -1) {
-                    out.write(bytes, 0, read);
-                }
-            } catch (FileNotFoundException e) {
-                // Ignore because file already exists
-                isConverted = true;
-            }
+            boolean isConverted = writeFile(savePath, filePart, fileName);
 
             // Reverse the color of the upload image
             if (!isConverted) {
@@ -125,9 +110,28 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
+        }
+    }
+
+    private boolean writeFile(String savePath, final Part filePart, String fileName) throws IOException {
+        boolean isConverted = false;
+        OutputStream out = null;
+        InputStream in = null;
+        try {
+            out = new FileOutputStream(savePath + File.separator + fileName);
+            in = filePart.getInputStream();
+            int read = 0;
+            final byte[] bytes = new byte[1024];
+            while ((read = in.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+        } catch (FileNotFoundException e) {
+            // Ignore because file already exists (converted)
+            isConverted = true;
         } finally {
             Closer.close(out, in);
         }
+        return isConverted;
     }
 
     private boolean isImageFile(String fileName) {

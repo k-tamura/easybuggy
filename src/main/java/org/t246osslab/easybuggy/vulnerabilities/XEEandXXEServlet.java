@@ -152,8 +152,6 @@ public class XEEandXXEServlet extends HttpServlet {
         }
 
         // Save the file
-        OutputStream out = null;
-        InputStream in = null;
         Part filePart = null;
         try {
             filePart = req.getPart("file");
@@ -172,45 +170,11 @@ public class XEEandXXEServlet extends HttpServlet {
                 doGet(req, res);
                 return;
             }
-            // TODO Remove this try block that is a workaround of issue #9 (FileNotFoundException on
-            // Jetty * Windows)
-            boolean isRegistered = false;
-            try {
-                out = new FileOutputStream(savePath + File.separator + fileName);
-                in = filePart.getInputStream();
-                int read = 0;
-                final byte[] bytes = new byte[1024];
-                while ((read = in.read(bytes)) != -1) {
-                    out.write(bytes, 0, read);
-                }
-            } catch (FileNotFoundException e) {
-                // Ignore because file already exists
-                isRegistered = true;
-            }
+            writeFile(savePath, filePart, fileName);
 
             CustomHandler customHandler = new CustomHandler();
             customHandler.setLocale(locale);
-            SAXParser parser;
-            try {
-                File file = new File(savePath + File.separator + fileName);
-                SAXParserFactory spf = SAXParserFactory.newInstance();
-                if ("/xee".equals(req.getServletPath())) {
-                    customHandler.setInsert(true);
-                    spf.setFeature("http://xml.org/sax/features/external-general-entities", false);
-                    spf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-                } else {
-                    spf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-                }
-                parser = spf.newSAXParser();
-                parser.parse(file, customHandler);
-                isRegistered = true;
-            } catch (ParserConfigurationException e) {
-                log.error("ParserConfigurationException occurs: ", e);
-            } catch (SAXException e) {
-                log.error("SAXException occurs: ", e);
-            } catch (Exception e) {
-                log.error("Exception occurs: ", e);
-            }
+            boolean isRegistered = parseXML(req, savePath, fileName, customHandler);
 
             StringBuilder bodyHtml = new StringBuilder();
             if (isRegistered && customHandler.isRegistered()) {
@@ -239,6 +203,49 @@ public class XEEandXXEServlet extends HttpServlet {
             }
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
+        }
+    }
+
+    private boolean parseXML(HttpServletRequest req, String savePath, String fileName, 
+            CustomHandler customHandler) {
+        boolean isRegistered = false;
+        SAXParser parser;
+        try {
+            File file = new File(savePath + File.separator + fileName);
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            if ("/xee".equals(req.getServletPath())) {
+                customHandler.setInsert(true);
+                spf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+                spf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            } else {
+                spf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            }
+            parser = spf.newSAXParser();
+            parser.parse(file, customHandler);
+            isRegistered = true;
+        } catch (ParserConfigurationException e) {
+            log.error("ParserConfigurationException occurs: ", e);
+        } catch (SAXException e) {
+            log.error("SAXException occurs: ", e);
+        } catch (Exception e) {
+            log.error("Exception occurs: ", e);
+        }
+        return isRegistered;
+    }
+
+    private void writeFile(String savePath, Part filePart, String fileName) throws IOException {
+        OutputStream out = null;
+        InputStream in = null;
+        try {
+            out = new FileOutputStream(savePath + File.separator + fileName);
+            in = filePart.getInputStream();
+            int read = 0;
+            final byte[] bytes = new byte[1024];
+            while ((read = in.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+        } catch (FileNotFoundException e) {
+            // Ignore because file already exists
         } finally {
             Closer.close(out, in);
         }

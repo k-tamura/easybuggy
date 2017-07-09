@@ -122,7 +122,6 @@ public class DeadlockServlet2 extends HttpServlet {
         try {
             conn = DBClient.getConnection();
             conn.setAutoCommit(true);
-            // conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from users where ispublic = 'true' order by id " + ("desc".equals(order) ? "desc" : "asc"));

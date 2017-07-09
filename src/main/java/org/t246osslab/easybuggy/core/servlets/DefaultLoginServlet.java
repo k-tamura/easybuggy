@@ -144,13 +144,10 @@ public class DefaultLoginServlet extends HttpServlet {
 
     protected boolean isAccountLocked(String userid) {
         User admin = userLoginHistory.get(userid);
-        if (admin != null
+        return (admin != null
                 && admin.getLoginFailedCount() == ApplicationUtils.getAccountLockCount()
                 && (new Date().getTime() - admin.getLastLoginFailedTime().getTime() < ApplicationUtils
-                        .getAccountLockTime())) {
-            return true;
-        }
-        return false;
+                        .getAccountLockTime()));
     }
 
     protected boolean authUser(String username, String password) {

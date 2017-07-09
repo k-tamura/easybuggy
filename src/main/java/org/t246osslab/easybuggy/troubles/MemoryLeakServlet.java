@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import javassist.CannotCompileException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -75,7 +73,7 @@ public class MemoryLeakServlet extends HttpServlet {
         }
     }
 
-    private void toDoRemove() throws CannotCompileException {
+    private void toDoRemove() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 100000; i++) {
             sb.append("Memory leak occurs!");

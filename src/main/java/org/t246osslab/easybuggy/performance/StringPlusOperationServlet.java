@@ -70,14 +70,12 @@ public class StringPlusOperationServlet extends HttpServlet {
                 String s = "";
                 if (characters != null) {
                     java.util.Random rand = new java.util.Random();
-                    Date startDate = new Date();
-                    log.info("Start Date: {}", startDate.toString());
+                    log.info("Start Date: {}", new Date());
                     for (int i = 0; i < length && i < MAX_LENGTH; i++) {
                         s = s + characters[rand.nextInt(characters.length)];
                         // builder.append(characters[rand.nextInt(characters.length)]);
                     }
-                    Date endDate = new Date();
-                    log.info("End Date: {}", endDate.toString());
+                    log.info("End Date: {}", new Date());
                 }
                 bodyHtml.append(MessageUtils.getMsg("label.execution.result", locale));
                 bodyHtml.append("<br><br>");

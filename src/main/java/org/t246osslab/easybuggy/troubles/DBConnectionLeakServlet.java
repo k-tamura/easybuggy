@@ -36,11 +36,7 @@ public class DBConnectionLeakServlet extends HttpServlet {
             final String dbDriver = ApplicationUtils.getDatabaseDriver();
 
             if (!StringUtils.isBlank(dbDriver)) {
-                try {
-                    Class.forName(dbDriver);
-                } catch (Exception e) {
-                    log.error("Exception occurs: ", e);
-                }
+                loadDbDriver(dbDriver);
             }
             bodyHtml.append(selectUsers(locale));
             if (StringUtils.isBlank(dbUrl) || dbUrl.startsWith("jdbc:derby:memory:")) {
@@ -55,6 +51,14 @@ public class DBConnectionLeakServlet extends HttpServlet {
             bodyHtml.append(e.getLocalizedMessage());
         } finally {
             HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.user.list", locale), bodyHtml.toString());
+        }
+    }
+
+    private void loadDbDriver(final String dbDriver) {
+        try {
+            Class.forName(dbDriver);
+        } catch (Exception e) {
+            log.error("Exception occurs: ", e);
         }
     }
     
@@ -75,12 +79,9 @@ public class DBConnectionLeakServlet extends HttpServlet {
             }
             if (sb.length() > 0) {
                 result = "<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\"><th>"
-                        + MessageUtils.getMsg("label.user.id", locale)
-                        + "</th><th>"
-                        + MessageUtils.getMsg("label.name", locale)
-                        + "</th><th>"
-                        + MessageUtils.getMsg("label.phone", locale)
-                        + "</th><th>"
+                        + MessageUtils.getMsg("label.user.id", locale) + "</th><th>"
+                        + MessageUtils.getMsg("label.name", locale) + "</th><th>"
+                        + MessageUtils.getMsg("label.phone", locale) + "</th><th>"
                         + MessageUtils.getMsg("label.mail", locale) + "</th>" + sb.toString() + "</table>";
             }
         } catch (Exception e) {

@@ -75,8 +75,6 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
         }
 
         // Save the file
-        OutputStream out = null;
-        InputStream in = null;
         Part filePart = null;
         try {
             filePart = req.getPart("file");
@@ -91,21 +89,7 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
                 doGet(req, res);
                 return;
             }
-            // TODO Remove this try block that is a workaround of issue #9 (FileNotFoundException on
-            // Jetty * Windows)
-            boolean isConverted = false;
-            try {
-                out = new FileOutputStream(savePath + File.separator + fileName);
-                in = filePart.getInputStream();
-                int read = 0;
-                final byte[] bytes = new byte[1024];
-                while ((read = in.read(bytes)) != -1) {
-                    out.write(bytes, 0, read);
-                }
-            } catch (FileNotFoundException e) {
-                // Ignore because file already exists
-                isConverted = true;
-            }
+            boolean isConverted = writeFile(savePath, filePart, fileName);
 
             if (!isConverted) {
                 isConverted = convert2GrayScale(new File(savePath + File.separator + fileName).getAbsolutePath());
@@ -127,9 +111,28 @@ public class UnrestrictedExtensionUploadServlet extends HttpServlet {
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
+        }
+    }
+
+    private boolean writeFile(String savePath, Part filePart, String fileName) throws IOException {
+        boolean isConverted = false;
+        OutputStream out = null;
+        InputStream in = null;
+        try {
+            out = new FileOutputStream(savePath + File.separator + fileName);
+            in = filePart.getInputStream();
+            int read = 0;
+            final byte[] bytes = new byte[1024];
+            while ((read = in.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+        } catch (FileNotFoundException e) {
+            // Ignore because file already exists (converted and Windows locked the file)
+            isConverted = true;
         } finally {
             Closer.close(out, in);
         }
+        return isConverted;
     }
 
     // Get file name from content-disposition filename

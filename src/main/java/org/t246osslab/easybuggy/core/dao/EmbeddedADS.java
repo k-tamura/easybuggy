@@ -51,17 +51,7 @@ public final class EmbeddedADS {
             service.startup();
 
             // Add the root entry if it does not exist
-            try {
-                service.getAdminSession().lookup(t246osslabPartition.getSuffixDn());
-            } catch (Exception e) {
-                log.debug("Exception occurs: ", e);
-                LdapDN dnBar = new LdapDN(ROOT_DN);
-                ServerEntry entryBar = service.newEntry(dnBar);
-                entryBar.add("objectClass", "dcObject", "organization");
-                entryBar.add("o", ROOT_PARTITION_NAME);
-                entryBar.add("dc", ROOT_PARTITION_NAME);
-                service.getAdminSession().add(entryBar);
-            }
+            addRootEntry(t246osslabPartition);
 
             // Add the people entries
             LdapDN peopleDn = new LdapDN(PEOPLE_CONTAINER_DN);
@@ -79,6 +69,20 @@ public final class EmbeddedADS {
             addUser("admin4", "pathwood", RandomStringUtils.randomNumeric(10));
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
+        }
+    }
+
+    private static void addRootEntry(Partition t246osslabPartition) throws Exception {
+        try {
+            service.getAdminSession().lookup(t246osslabPartition.getSuffixDn());
+        } catch (Exception e) {
+            log.debug("Exception occurs: ", e);
+            LdapDN dnBar = new LdapDN(ROOT_DN);
+            ServerEntry entryBar = service.newEntry(dnBar);
+            entryBar.add("objectClass", "dcObject", "organization");
+            entryBar.add("o", ROOT_PARTITION_NAME);
+            entryBar.add("dc", ROOT_PARTITION_NAME);
+            service.getAdminSession().add(entryBar);
         }
     }
  
