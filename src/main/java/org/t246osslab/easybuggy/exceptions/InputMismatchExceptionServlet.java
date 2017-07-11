@@ -9,12 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.t246osslab.easybuggy.core.utils.Closer;
+
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/ime" })
 public class InputMismatchExceptionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        new Scanner("a").nextInt();
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner("a");
+            scanner.nextInt();
+        } finally {
+            Closer.close(scanner);
+        }
     }
 }
