@@ -196,7 +196,7 @@
 								<argument>-XX:MaxDirectMemorySize=90m</argument>
 								<argument>-XX:+UseSerialGC</argument>
 								<argument>-Xloggc:logs/gc.log</argument>
-								<!-- MaxPermSize: For Java 8 or later, add pid and timestamp prefix -->
+								<!-- GC Log: For Java 8 or later, add pid and timestamp prefix -->
 								<!-- <argument>-Xloggc:logs/gc_%p_%t.log</argument> -->
 								<argument>-XX:+PrintHeapAtGC</argument>
 								<argument>-XX:+PrintGCDetails</argument>
