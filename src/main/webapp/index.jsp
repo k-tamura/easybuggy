@@ -1,12 +1,22 @@
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="org.t246osslab.easybuggy.core.utils.MessageUtils" %>
 <c:set var="language"
 	value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
 	scope="session" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="indexpage" />
-<% session.removeAttribute("dlpinit"); %>
+<%
+    session.removeAttribute("dlpinit");
+    String permName = MessageUtils.getMsg("label.metaspace", request.getLocale());
+    String permNameInErrorMsg = permName;
+    String javaVersion = System.getProperty("java.version");
+    if (javaVersion.startsWith("1.6") || javaVersion.startsWith("1.7")) {
+        permName = MessageUtils.getMsg("label.permgen.space", request.getLocale());
+        permNameInErrorMsg = "PermGen space";
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -71,9 +81,14 @@
 				<fmt:message key="function.description.memory.leak" />
 			</p></li>
 		<li><p>
-				<a href="memoryleak2"><fmt:message
-						key="function.name.memory.leak2" /></a>:
-				<fmt:message key="function.description.memory.leak2" />
+				<a href="memoryleak2">
+					<fmt:message key="function.name.memory.leak2">
+						<fmt:param value="<%=permName%>" />
+					</fmt:message>
+				</a>:
+				<fmt:message key="function.description.memory.leak2">
+					<fmt:param value="<%=permName%>" />
+				</fmt:message>
 			</p></li>
 		<li><p>
 				<a href="memoryleak3"><fmt:message
@@ -324,7 +339,7 @@
 				</fmt:message>
 			</p></li>
 		<li><p>
-				<a href="oome5" target="_blank">OutOfMemoryError (PermGen space)</a>:
+				<a href="oome5" target="_blank">OutOfMemoryError (<%=permNameInErrorMsg%>)</a>:
 				<fmt:message key="function.description.throwable">
 					<fmt:param value="OutOfMemoryError" />
 				</fmt:message>

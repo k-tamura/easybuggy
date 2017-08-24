@@ -53,7 +53,9 @@ public class MemoryLeakServlet2 extends HttpServlet {
                     bodyHtml.append("</table>");
                 }
             }
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.permgen.space.leak.occur", req.getLocale()));
+            String permName = (System.getProperty("java.version").startsWith("1.6") || System.getProperty("java.version").startsWith("1.7"))
+                    ? MessageUtils.getMsg("label.permgen.space", locale) : MessageUtils.getMsg("label.metaspace",locale);
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.permgen.space.leak.occur", new String[] { permName }, req.getLocale()));
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
