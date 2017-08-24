@@ -6,3 +6,5 @@ logs/
 server-work/
 *.swp
 *.log
+/.extract
+/.scannerwork
