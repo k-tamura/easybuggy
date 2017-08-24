@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.t246osslab.easybuggy</groupId>
 	<artifactId>easybuggy</artifactId>
 	<version>1-SNAPSHOT</version>
 	<packaging>war</packaging>
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<easybuggy-port>8080</easybuggy-port>
 	</properties>
+	
+	<profiles>
+		<!-- JRE 7 or older specific config elements -->
+		<profile>
+			<id>jre7</id>
+			<!-- activates JRE 7 by default -->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<jvm.args.perm.size>-XX:MaxPermSize=64m</jvm.args.perm.size>
+				<jvm.args.gc.log.path>-Xloggc:logs/gc.log</jvm.args.gc.log.path>
+			</properties>
+		</profile>
+		<!-- JRE 8 specific config elements -->
+		<profile>
+			<id>jre8</id>
+			<properties>
+				<jvm.args.perm.size>-XX:MaxMetaspaceSize=64m</jvm.args.perm.size>
+				<jvm.args.gc.log.path>-Xloggc:logs/gc_%p_%t.log</jvm.args.gc.log.path>
+			</properties>
+		</profile>
+	</profiles>
+	
 	<dependencies>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -85,6 +111,7 @@
 			<version>1.5.1</version>
 		</dependency>
 	</dependencies>
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -189,15 +216,11 @@
 							<classpathScope>test</classpathScope>
 							<executable>java</executable>
 							<arguments>
+								<argument>${jvm.args.perm.size}</argument>
+								<argument>${jvm.args.gc.log.path}</argument>
 								<argument>-Xmx256m</argument>
-								<!-- MaxPermSize: For Java 7 or older, MaxMetaspaceSize: For 8 or later -->
-								<argument>-XX:MaxPermSize=32m</argument>
-								<!-- <argument>-XX:MaxMetaspaceSize=32m</argument> -->
 								<argument>-XX:MaxDirectMemorySize=90m</argument>
 								<argument>-XX:+UseSerialGC</argument>
-								<argument>-Xloggc:logs/gc.log</argument>
-								<!-- GC Log: For Java 8 or later, add pid and timestamp prefix -->
-								<!-- <argument>-Xloggc:logs/gc_%p_%t.log</argument> -->
 								<argument>-XX:+PrintHeapAtGC</argument>
 								<argument>-XX:+PrintGCDetails</argument>
 								<argument>-XX:+PrintGCDateStamps</argument>
@@ -209,7 +232,7 @@
 								<argument>-XX:+HeapDumpOnOutOfMemoryError</argument>
 								<argument>-XX:HeapDumpPath=logs/</argument>
 								<argument>-XX:ErrorFile=logs/hs_err_pid%p.log</argument>
-								<argument>-XX:NativeMemoryTracking=summary</argument>
+								<!-- <argument>-XX:NativeMemoryTracking=summary</argument> -->
 								<!-- Auto kill JVM when OOME occurs: For post-8u92 JDKs -->
 								<!-- <argument>-XX:+CrashOnOutOfMemoryError</argument> -->
 								<!-- Auto kill JVM when OOME occurs: For Linux -->
