@@ -34,4 +34,8 @@ class InitializerErrorThrower {
     static {
         LoggerFactory.getLogger(InitializerErrorThrower.class).debug("clinit" + 1 / 0);
     }
+    
+    private InitializerErrorThrower(){
+        // this constructor is added to suppress sonar advice
+    }
 }

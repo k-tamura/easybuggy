@@ -8,6 +8,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 import org.owasp.esapi.ESAPI;
+import org.t246osslab.easybuggy.core.utils.Closer;
 
 @WebListener
 public class InitializationListener implements ServletContextListener {
@@ -17,23 +18,29 @@ public class InitializationListener implements ServletContextListener {
          * Suppress noisy messages output by the ESAPI library. For more detail:
          * https://stackoverflow.com/questions/45857064/how-to-suppress-messages-output-by-esapi-library
          */
+        PrintStream printStream = null;
+        OutputStream outputStream = null;
+        PrintStream original = System.out;
         try {
-            PrintStream original = System.out;
-            PrintStream out = new PrintStream(new OutputStream() {
+            outputStream = new OutputStream() {
                 public void write(int b) {
                     // Do nothing
                 }
-            });
-            System.setOut(out);
-            System.setErr(out);
+            };
+            printStream = new PrintStream(outputStream);
+            System.setOut(printStream);
+            System.setErr(printStream);
             ESAPI.encoder();
-            System.setOut(original);
         } catch (Exception e) {
             // Do nothing
+        } finally {
+            System.setOut(original);
+            Closer.close(printStream, outputStream);
         }
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
+        // Do nothing
     }
 }
