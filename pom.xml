@@ -7,28 +7,20 @@
 	<artifactId>easybuggy</artifactId>
 	<version>1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<easybuggy-port>8080</easybuggy-port>
+		<!-- default properties (JDK 1.7 or earlier) -->
+		<jvm.args.perm.size>-XX:MaxPermSize=64m</jvm.args.perm.size>
+		<jvm.args.gc.log.path>-Xloggc:logs/gc.log</jvm.args.gc.log.path>
 	</properties>
-	
+
 	<profiles>
-		<!-- JRE 7 or older specific config elements -->
 		<profile>
-			<id>jre7</id>
-			<!-- activates JRE 7 by default -->
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<jdk>1.8</jdk>
 			</activation>
-			<properties>
-				<jvm.args.perm.size>-XX:MaxPermSize=64m</jvm.args.perm.size>
-				<jvm.args.gc.log.path>-Xloggc:logs/gc.log</jvm.args.gc.log.path>
-			</properties>
-		</profile>
-		<!-- JRE 8 specific config elements -->
-		<profile>
-			<id>jre8</id>
 			<properties>
 				<jvm.args.perm.size>-XX:MaxMetaspaceSize=64m</jvm.args.perm.size>
 				<jvm.args.gc.log.path>-Xloggc:logs/gc_%p_%t.log</jvm.args.gc.log.path>
