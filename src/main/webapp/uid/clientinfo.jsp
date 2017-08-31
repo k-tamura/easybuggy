@@ -49,12 +49,7 @@
 		document.getElementById("appVersion").textContent=navigator.appVersion;
 		document.getElementById("platform").textContent=navigator.platform;
 		document.getElementById("userAgent").textContent=navigator.userAgent;
-		document.getElementById("browserLanguage").textContent=navigator.browserLanguage;
-		if (document.all) {
-			document.getElementById("browserLanguage").textContent=navigator.browserLanguage;
-		} else {
-			document.getElementById("browserLanguage").textContent=navigator.language;
-		}
+		document.getElementById("browserLanguage").textContent=navigator.language;
 	// -->
 	</script>
 </body>
