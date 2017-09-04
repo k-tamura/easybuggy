@@ -247,6 +247,7 @@
 								<argument>-Dcom.sun.management.jmxremote.authenticate=false</argument>
 								<!-- <argument>-Djava.security.manager</argument>
 								<argument>-Djava.security.policy=catalina.policy</argument> -->
+								<!-- <argument>-Deasybuggy.safe.mode=true</argument> -->
 								<argument>-ea</argument>
 								<argument>-jar</argument>
 								<argument>target/easybuggy.jar</argument>
