@@ -190,7 +190,7 @@
 				<fmt:message key="function.description.unrestricted.ext.upload" />
 			</p></li>
 		<li><p>
-				<a href="admins/main?logintype=openredirect"><fmt:message
+				<a href="admins/main?logintype=openredirect&goto=/uid/serverinfo.jsp"><fmt:message
 						key="function.name.open.redirect" /></a>:
 				<fmt:message key="function.description.open.redirect" />
 			</p></li>
