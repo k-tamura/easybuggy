@@ -69,6 +69,7 @@ public class AuthenticationFilter implements Filter {
                 } else {
                     response.sendRedirect("/" + loginType + "/login" + queryString);
                 }
+                return;
             }
         }
         chain.doFilter(req, res);
