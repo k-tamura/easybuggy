@@ -12,7 +12,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<easybuggy-port>8080</easybuggy-port>
 		<!-- default properties (JDK 1.7 or earlier) -->
-		<jvm.args.perm.size>-XX:MaxPermSize=64m</jvm.args.perm.size>
+		<jvm.args.perm.size>-XX:MaxPermSize=128m</jvm.args.perm.size>
 		<jvm.args.gc.log.path>-Xloggc:logs/gc.log</jvm.args.gc.log.path>
 	</properties>
 
@@ -22,7 +22,7 @@
 				<jdk>1.8</jdk>
 			</activation>
 			<properties>
-				<jvm.args.perm.size>-XX:MaxMetaspaceSize=64m</jvm.args.perm.size>
+				<jvm.args.perm.size>-XX:MaxMetaspaceSize=128m</jvm.args.perm.size>
 				<jvm.args.gc.log.path>-Xloggc:logs/gc_%p_%t.log</jvm.args.gc.log.path>
 			</properties>
 		</profile>
@@ -247,7 +247,7 @@
 								<argument>-Dcom.sun.management.jmxremote.authenticate=false</argument>
 								<!-- <argument>-Djava.security.manager</argument>
 								<argument>-Djava.security.policy=catalina.policy</argument> -->
-								<!-- <argument>-Deasybuggy.safe.mode=true</argument> -->
+								<!-- <argument>-Deasybuggy.mode=only-vulnerabilities</argument> -->
 								<argument>-ea</argument>
 								<argument>-jar</argument>
 								<argument>target/easybuggy.jar</argument>

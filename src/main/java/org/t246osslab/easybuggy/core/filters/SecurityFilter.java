@@ -1,7 +1,6 @@
 package org.t246osslab.easybuggy.core.filters;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -19,15 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebFilter(urlPatterns = { "/*" })
 public class SecurityFilter implements Filter {
 	
-	/**
-	 * Protected pages by safe mode.
-	 */
-	private static final String[] PROTECTED_PAGES = { "/dbconnectionleak", "/endlesswaiting", "/filedescriptorleak",
-			"/forwardloop", "/infiniteloop", "/jvmcrasheav", "/memoryleak", "/memoryleak2", "/memoryleak3",
-			"/netsocketleak", "/threadleak", "/oome", "/oome2", "/oome3", "/oome4", "/oome5", "/oome6",
-			"/redirectloop" };
-	
-    /**
+   /**
      * Default constructor.
      */
     public SecurityFilter() {
@@ -45,12 +36,6 @@ public class SecurityFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 		String target = request.getRequestURI();
-
-		String property = System.getProperty("easybuggy.safe.mode");
-		if (property != null && property.equalsIgnoreCase("true") && Arrays.asList(PROTECTED_PAGES).contains(target)) {
-			response.sendRedirect("/safemode");
-			return;
-		}
 
         /* Prevent clickjacking if target is not /admins/clickjacking ... */
         if (!target.startsWith("/admins/clickjacking")) {

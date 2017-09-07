@@ -16,6 +16,8 @@
         permName = MessageUtils.getMsg("label.permgen.space", request.getLocale());
         permNameInErrorMsg = "PermGen space";
     }
+    String mode = System.getProperty("easybuggy.mode");
+    boolean isOnlyVulnerabilities = mode != null && mode.equalsIgnoreCase("only-vulnerabilities");
 %>
 <!DOCTYPE html>
 <html>
@@ -34,6 +36,7 @@
 		</table>
 	</header>
 	<hr>
+<% if (!isOnlyVulnerabilities) { %>
 	<h2>
 		<span class="glyphicon glyphicon-knight"></span>&nbsp;
 		<fmt:message key="section.troubles" />
@@ -137,6 +140,7 @@
 				<fmt:message key="function.description.loss.of.trailing.digits" />
 			</p></li>
 	</ul>
+<% } %>
 
 	<h2>
 		<span class="glyphicon glyphicon-knight"></span>&nbsp;
@@ -243,6 +247,7 @@
 			</p></li>
 	</ul>
 
+<% if (!isOnlyVulnerabilities) { %>
 	<h2>
 		<span class="glyphicon glyphicon-knight"></span>&nbsp;
 		<fmt:message key="section.performance.issue" />
@@ -542,6 +547,7 @@
 				</fmt:message>
 			</p></li>
 	</ul>
+<% } %>
 
 	<hr>
 	<footer>
