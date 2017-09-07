@@ -75,9 +75,9 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
             fileSaveDir.mkdir();
         }
 
-        // Save the file
-        final Part filePart = req.getPart("file");
         try {
+            // Save the file
+            final Part filePart = req.getPart("file");
             String fileName = getFileName(filePart);
             if (StringUtils.isBlank(fileName)) {
                 doGet(req, res);
