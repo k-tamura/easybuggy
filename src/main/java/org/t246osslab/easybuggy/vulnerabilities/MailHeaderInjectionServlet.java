@@ -51,7 +51,7 @@ public class MailHeaderInjectionServlet extends HttpServlet {
         bodyHtml.append(MessageUtils.getMsg("description.send.mail", locale));
         bodyHtml.append("<br><br>");
         bodyHtml.append("<form action=\"mailheaderijct\" method=\"post\" enctype=\"multipart/form-data\">");
-        bodyHtml.append("<table>");
+        bodyHtml.append("<table style=\"font-size:small;\">");
         bodyHtml.append("<tr>");
         bodyHtml.append("<td>" + MessageUtils.getMsg("label.your.name", locale) + ":&nbsp;<br><br></td>");
         bodyHtml.append("<td><input type=\"text\" name=\"name\" size=\"50\"/><br><br></td>");
@@ -79,7 +79,7 @@ public class MailHeaderInjectionServlet extends HttpServlet {
         bodyHtml.append("</table>");
         bodyHtml.append("<br>");
         if (req.getAttribute("message") != null) {
-            bodyHtml.append(req.getAttribute("message"));
+            bodyHtml.append(req.getAttribute("message") + "<br><br>");
             req.setAttribute("message", null);
         }
         bodyHtml.append(MessageUtils.getInfoMsg("msg.note.mail.header.injection", locale));
