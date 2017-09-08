@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,9 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
  */
 @SuppressWarnings("serial")
 @WebServlet("/mailheaderijct")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class MailHeaderInjectionServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(MailHeaderInjectionServlet.class);
