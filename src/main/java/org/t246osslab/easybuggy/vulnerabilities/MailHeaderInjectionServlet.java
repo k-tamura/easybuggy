@@ -129,37 +129,41 @@ public class MailHeaderInjectionServlet extends HttpServlet {
     private List<File> saveUploadedFiles(HttpServletRequest request)
             throws IOException, ServletException {
         List<File> listFiles = new ArrayList<File>();
-        byte[] buffer = new byte[4096];
-        int bytesRead;
-        Collection<Part> multiparts = request.getParts();
-        if (!multiparts.isEmpty()) {
-            for (Part part : request.getParts()) {
-                // creates a file to be saved
-                String fileName = extractFileName(part);
-                if (StringUtils.isBlank(fileName)) {
-                    // not attachment part, continue
-                    continue;
-                }
-
-                File saveFile = new File(fileName);
-                log.debug("Uploaded file is saved on: " + saveFile.getAbsolutePath());
-                FileOutputStream outputStream = null;
-                InputStream inputStream = null;
-                try {
-                    outputStream = new FileOutputStream(saveFile);
-                    // saves uploaded file
-                    inputStream = part.getInputStream();
-                    while ((bytesRead = inputStream.read(buffer)) != -1) {
-                        outputStream.write(buffer, 0, bytesRead);
+        try {
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            Collection<Part> multiparts = request.getParts();
+            if (!multiparts.isEmpty()) {
+                for (Part part : request.getParts()) {
+                    // creates a file to be saved
+                    String fileName = extractFileName(part);
+                    if (StringUtils.isBlank(fileName)) {
+                        // not attachment part, continue
+                        continue;
                     }
-                } catch (Exception e) {
-                    log.error("Exception occurs: ", e);
-                } finally {
-                    Closer.close(outputStream);
-                    Closer.close(inputStream);
+
+                    File saveFile = new File(fileName);
+                    log.debug("Uploaded file is saved on: " + saveFile.getAbsolutePath());
+                    FileOutputStream outputStream = null;
+                    InputStream inputStream = null;
+                    try {
+                        outputStream = new FileOutputStream(saveFile);
+                        // saves uploaded file
+                        inputStream = part.getInputStream();
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
+                        }
+                    } catch (Exception e) {
+                        log.error("Exception occurs: ", e);
+                    } finally {
+                        Closer.close(outputStream);
+                        Closer.close(inputStream);
+                    }
+                    listFiles.add(saveFile);
                 }
-                listFiles.add(saveFile);
             }
+        } catch (Exception e) {
+            log.error("Exception occurs: ", e);
         }
         return listFiles;
     }
