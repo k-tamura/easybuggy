@@ -63,6 +63,10 @@ public class ClickJackingServlet extends HttpServlet {
             return;
         }
         String userid = (String) session.getAttribute("userid");
+        if (userid == null) {
+            res.sendRedirect("/");
+            return;
+        }
         String mail = StringUtils.trim(req.getParameter("mail"));
         if (!StringUtils.isBlank(mail) && isValidEmailAddress(mail)) {
             try {

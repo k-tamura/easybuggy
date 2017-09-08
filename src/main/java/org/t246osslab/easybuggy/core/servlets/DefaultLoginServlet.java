@@ -152,6 +152,9 @@ public class DefaultLoginServlet extends HttpServlet {
 
     protected boolean authUser(String username, String password) {
         
+        if (username == null || password == null) {
+            return false;
+        }
         ExprNode filter = null;
         EntryFilteringCursor cursor = null;
         try {
