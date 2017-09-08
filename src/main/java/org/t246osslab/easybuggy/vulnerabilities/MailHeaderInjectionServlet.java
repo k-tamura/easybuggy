@@ -51,7 +51,7 @@ public class MailHeaderInjectionServlet extends HttpServlet {
         bodyHtml.append(MessageUtils.getMsg("description.send.mail", locale));
         bodyHtml.append("<br><br>");
         bodyHtml.append("<form action=\"mailheaderijct\" method=\"post\" enctype=\"multipart/form-data\">");
-        bodyHtml.append("<table style=\"font-size:small;\">");
+        bodyHtml.append("<table class=\"table table-bordered\" style=\"font-size:small;\">");
         bodyHtml.append("<tr>");
         bodyHtml.append("<td>" + MessageUtils.getMsg("label.your.name", locale) + ":&nbsp;<br><br></td>");
         bodyHtml.append("<td><input type=\"text\" name=\"name\" size=\"50\"/><br><br></td>");
