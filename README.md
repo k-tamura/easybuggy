@@ -21,10 +21,13 @@ Access to
 
     http://localhost:8080
 
-#### To stop:
+### To stop:
 
   Use <kbd>CTRL</kbd>+<kbd>C</kbd>
 
+or access to:
+
+    http://localhost:8080/exit
     
 For more detail
 -
