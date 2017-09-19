@@ -22,7 +22,7 @@ EasyBuggyは、[メモリリーク、デッドロック、JVMクラッシュ、S
     http://localhost:8080
 
 
-停止するには:
+### 停止するには:
 
   <kbd>CTRL</kbd>+<kbd>C</kbd>をクリック
   
