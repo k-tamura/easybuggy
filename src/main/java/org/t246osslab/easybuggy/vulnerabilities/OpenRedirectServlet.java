@@ -62,12 +62,6 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
             
             String gotoUrl = request.getParameter("goto");
             if (gotoUrl != null) {
-                try {
-                    URL u = new URL(gotoUrl);
-                    gotoUrl = u.toURI().toString();
-                } catch (Exception e) {
-                    log.warn("Invalid goto Url: {}", gotoUrl);
-                }
                 response.sendRedirect(gotoUrl);
             } else {
                 String target = (String) session.getAttribute("target");
