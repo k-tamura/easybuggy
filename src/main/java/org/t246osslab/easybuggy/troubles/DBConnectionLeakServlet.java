@@ -50,7 +50,7 @@ public class DBConnectionLeakServlet extends HttpServlet {
             bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale));
             bodyHtml.append(e.getLocalizedMessage());
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.user.list", locale), bodyHtml.toString());
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.dbconnectionleak.page", locale), bodyHtml.toString());
         }
     }
 

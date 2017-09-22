@@ -71,9 +71,9 @@ public class EndlessWaitingServlet extends HttpServlet {
                 bodyHtml.append("<br>");
             }
             bodyHtml.append("<br>");
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.enter.count", locale));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.endlesswaiting", locale));
             bodyHtml.append("</form>");
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.endless.waiting.page", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.endlesswaiting.page", locale),
                     bodyHtml.toString());
 
         } catch (Exception e) {

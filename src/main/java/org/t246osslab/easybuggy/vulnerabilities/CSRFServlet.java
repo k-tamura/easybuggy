@@ -48,7 +48,7 @@ public class CSRFServlet extends HttpServlet {
         }
         bodyHtml.append(MessageUtils.getInfoMsg("msg.note.csrf", locale));
         bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("section.change.password", locale),
+        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.csrf.page", locale),
                 bodyHtml.toString());
     }
 
@@ -82,7 +82,7 @@ public class CSRFServlet extends HttpServlet {
                 bodyHtml.append("<a href=\"/admins/main\">" + MessageUtils.getMsg("label.goto.admin.page", locale)
                         + "</a>");
                 bodyHtml.append("</form>");
-                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("section.change.password", locale),
+                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.csrf.page", locale),
                         bodyHtml.toString());
             } catch (Exception e) {
                 log.error("Exception occurs: ", e);

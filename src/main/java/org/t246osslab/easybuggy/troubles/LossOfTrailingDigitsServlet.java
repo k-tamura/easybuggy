@@ -49,10 +49,10 @@ public class LossOfTrailingDigitsServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
             bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.enter.decimal.value", locale));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.lossoftrailingdigits", locale));
             bodyHtml.append("</form>");
             HTTPResponseCreator.createSimpleResponse(req, res,
-                    MessageUtils.getMsg("title.loss.of.trailing.digits.page", locale), bodyHtml.toString());
+                    MessageUtils.getMsg("title.lossoftrailingdigits.page", locale), bodyHtml.toString());
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);

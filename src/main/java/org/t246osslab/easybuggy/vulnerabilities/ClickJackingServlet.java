@@ -50,7 +50,7 @@ public class ClickJackingServlet extends HttpServlet {
         }
         bodyHtml.append(MessageUtils.getInfoMsg("msg.note.clickjacking", locale));
         bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("section.change.mail", locale),
+        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.clickjacking.page", locale),
                 bodyHtml.toString());
     }
 
@@ -88,7 +88,7 @@ public class ClickJackingServlet extends HttpServlet {
                 bodyHtml.append("<a href=\"/admins/main\">" + MessageUtils.getMsg("label.goto.admin.page", locale)
                         + "</a>");
                 bodyHtml.append("</form>");
-                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("section.change.mail", locale),
+                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.clickjacking.page", locale),
                         bodyHtml.toString());
             } catch (Exception e) {
                 log.error("Exception occurs: ", e);

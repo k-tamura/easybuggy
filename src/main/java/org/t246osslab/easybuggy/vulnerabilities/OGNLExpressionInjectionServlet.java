@@ -71,10 +71,10 @@ public class OGNLExpressionInjectionServlet extends HttpServlet {
         if (value == null && expression != null) {
             bodyHtml.append(MessageUtils.getErrMsg("msg.invalid.expression", new String[] { errMessage }, locale));
         }
-        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.enter.runtime.exec", locale));
+        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.commandinjection", locale));
         bodyHtml.append("</form>");
 
         HTTPResponseCreator.createSimpleResponse(req, res,
-                MessageUtils.getMsg("title.ognl.expression.injection.page", locale), bodyHtml.toString());
+                MessageUtils.getMsg("title.commandinjection.page", locale), bodyHtml.toString());
     }
 }

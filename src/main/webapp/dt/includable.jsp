@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>EasyBuggy</title>
+<title><fmt:message key="title.design.test.page" /></title>
 <link rel="icon" type="image/vnd.microsoft.icon" href="/images/favicon.ico">
 <c:import url="/dfi/style_bootstrap.html" /> 
 </head>
@@ -20,7 +20,7 @@
 			<td>
 				<h2>
 					<span class="glyphicon glyphicon-globe"></span>&nbsp;
-					<fmt:message key="section.design.test" />
+					<fmt:message key="title.design.test.page" />
 				</h2>
 			</td>
 			<td align="right"><a href="/"><fmt:message key="label.go.to.main" /></a>

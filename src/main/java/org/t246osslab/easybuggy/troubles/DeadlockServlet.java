@@ -54,13 +54,13 @@ public class DeadlockServlet extends HttpServlet {
                 bodyHtml.append(MessageUtils.getMsg("msg.dead.lock.not.occur", locale));
                 bodyHtml.append("<br><br>");
             }
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.dead.lock.occur", locale));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.deadlock", locale));
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
             bodyHtml.append(
                     MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() }, locale));
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.detect.deadlock", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.deadlock.page", locale),
                     bodyHtml.toString());
         }
     }

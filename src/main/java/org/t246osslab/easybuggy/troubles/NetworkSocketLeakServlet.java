@@ -52,13 +52,13 @@ public class NetworkSocketLeakServlet extends HttpServlet {
             bodyHtml.append("<td>" + (end - start) + "</td></tr>");
             bodyHtml.append("</table>");
 
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.socket.leak.occur", req.getLocale()));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.netsocketleak", req.getLocale()));
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
             bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
                     locale));
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.response.time", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.netsocketleak.page", locale),
                     bodyHtml.toString());
         }
     }

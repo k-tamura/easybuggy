@@ -10,7 +10,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title><fmt:message key="section.server.info" /></title>
+<title><fmt:message key="title.serverinfo.page" /></title>
 <link rel="icon" type="image/vnd.microsoft.icon" href="/images/favicon.ico">
 <c:import url="/dfi/style_bootstrap.html" />
 </head>
@@ -20,7 +20,7 @@
 			<td>
 				<h2>
 					<span class="glyphicon glyphicon-globe"></span>&nbsp;
-					<fmt:message key="section.server.info" />
+					<fmt:message key="title.serverinfo.page" />
 				</h2>
 			</td>
 			<td align="right"><fmt:message key="label.login.user.id" />: <%=session.getAttribute("userid")%>

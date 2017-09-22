@@ -68,10 +68,10 @@ public class IntegerOverflowServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
             bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.positive.number", locale));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.intoverflow", locale));
             bodyHtml.append("</form>");
 
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.integer.overflow.page", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.intoverflow.page", locale),
                     bodyHtml.toString());
 
         } catch (Exception e) {

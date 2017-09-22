@@ -23,13 +23,13 @@ public class AdminsMainServlet extends HttpServlet {
         bodyHtml.append(MessageUtils.getMsg("msg.admin.page.top", locale));
         bodyHtml.append("<br><br><ul>");
         bodyHtml.append("<li><a href=\"" + res.encodeURL("/uid/serverinfo.jsp") + "\">"
-                + MessageUtils.getMsg("section.server.info", locale) + "</a></li>");
+                + MessageUtils.getMsg("title.serverinfo.page", locale) + "</a></li>");
         bodyHtml.append("<li><a href=\"" + res.encodeURL("/admins/csrf") + "\">"
-                + MessageUtils.getMsg("section.change.password", locale) + "</a></li>");
+                + MessageUtils.getMsg("title.csrf.page", locale) + "</a></li>");
         bodyHtml.append("<li><a href=\"" + res.encodeURL("/admins/clickjacking") + "\">"
-                + MessageUtils.getMsg("section.change.mail", locale) + "</a></li>");
+                + MessageUtils.getMsg("title.clickjacking.page", locale) + "</a></li>");
         bodyHtml.append("</ul>");
-        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.admins.main.page", locale),
+        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.adminmain.page", locale),
                 bodyHtml.toString());
     }
 }

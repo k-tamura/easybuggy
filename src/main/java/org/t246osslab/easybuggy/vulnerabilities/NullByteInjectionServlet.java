@@ -35,11 +35,11 @@ public class NullByteInjectionServlet extends HttpServlet {
         bodyHtml.append("<p>" + MessageUtils.getMsg("msg.download.file", locale) + "</p>");
         bodyHtml.append("<ul><li><a href=\"nullbyteijct?fileName=AdminGuide\">Admin Guide</a></li>");
         bodyHtml.append("<li><a href=\"nullbyteijct?fileName=DeveloperGuide\">Developer Guide</a></li></ul>");
-        bodyHtml.append("<p>" + MessageUtils.getInfoMsg("msg.note.null.byte.injection", locale) + "</p>");
+        bodyHtml.append("<p>" + MessageUtils.getInfoMsg("msg.note.nullbyteinjection", locale) + "</p>");
         try {
             String fileName = req.getParameter("fileName");
             if (StringUtils.isBlank(fileName)) {
-                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.guide.download", locale),
+                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.nullbyteinjection.page", locale),
                         bodyHtml.toString());
                 return;
             } else {
@@ -51,7 +51,7 @@ public class NullByteInjectionServlet extends HttpServlet {
 
             File file = new File(appPath + File.separator + "pdf" + File.separator + fileName);
             if (!file.exists()) {
-                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.guide.download", locale),
+                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.nullbyteinjection.page", locale),
                         bodyHtml.toString());
                 return;
             }

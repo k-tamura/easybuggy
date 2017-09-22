@@ -43,7 +43,7 @@ public class MailHeaderInjectionServlet extends HttpServlet {
         Locale locale = req.getLocale();
         if (!EmailUtils.isReadyToSendEmail()) {
             HTTPResponseCreator.createSimpleResponse(req, res,
-                    MessageUtils.getMsg("title.mail.header.injection.page", locale),
+                    MessageUtils.getMsg("title.mailheaderinjection.page", locale),
                     MessageUtils.getInfoMsg("msg.smtp.server.not.setup", locale));
             return;
         }
@@ -82,9 +82,9 @@ public class MailHeaderInjectionServlet extends HttpServlet {
             bodyHtml.append(req.getAttribute("message") + "<br><br>");
             req.setAttribute("message", null);
         }
-        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.mail.header.injection", locale));
+        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.mailheaderinjection", locale));
         bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.mail.header.injection.page", locale),
+        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.mailheaderinjection.page", locale),
                 bodyHtml.toString());
     }
 

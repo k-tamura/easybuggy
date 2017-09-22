@@ -68,10 +68,10 @@ public class CreatingUnnecessaryObjectsServlet extends HttpServlet {
         bodyHtml.append("<br><br>");
         bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
         bodyHtml.append("<br><br>");
-        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.enter.large.number", locale));
+        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.createobjects", locale));
         bodyHtml.append("</form>");
 
-        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.sum.of.natural.numbers", locale),
+        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.createobjects.page", locale),
                 bodyHtml.toString());
     }
 

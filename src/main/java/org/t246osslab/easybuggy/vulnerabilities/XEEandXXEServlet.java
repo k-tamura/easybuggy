@@ -111,7 +111,7 @@ public class XEEandXXEServlet extends HttpServlet {
             bodyHtml.append(ESAPI.encoder().encodeForHTML("</soapenv:Envelope>") + "<br>");
             bodyHtml.append("</pre>");
             bodyHtml.append("</form>");
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xee", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xee.page", locale),
                     bodyHtml.toString());
         } else {
             bodyHtml.append(MessageUtils.getInfoMsg("msg.note.xxe.step1", locale));
@@ -131,7 +131,7 @@ public class XEEandXXEServlet extends HttpServlet {
             bodyHtml.append(ESAPI.encoder().encodeForHTML("<users />"));
             bodyHtml.append("</pre>");
             bodyHtml.append("</form>");
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xxe", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xxe.page", locale),
                     bodyHtml.toString());
         }
     }
@@ -195,10 +195,10 @@ public class XEEandXXEServlet extends HttpServlet {
             bodyHtml.append("<input type=\"button\" onClick='history.back();' value=\""
                     + MessageUtils.getMsg("label.history.back", locale) + "\">");
             if ("/xee".equals(req.getServletPath())) {
-                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xee", locale),
+                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xee.page", locale),
                         bodyHtml.toString());
             } else {
-                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xxe", locale),
+                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.xxe.page", locale),
                         bodyHtml.toString());
             }
         } catch (Exception e) {

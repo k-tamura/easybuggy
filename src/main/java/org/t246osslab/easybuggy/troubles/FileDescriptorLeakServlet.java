@@ -69,8 +69,8 @@ public class FileDescriptorLeakServlet extends HttpServlet {
                     MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() }, locale));
             bodyHtml.append(e.getLocalizedMessage());
         } finally {
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.file.descriptor.leak.occur", req.getLocale()));
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.access.history", locale),
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.filedescriptorleak", req.getLocale()));
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.filedescriptorleak.page", locale),
                     bodyHtml.toString());
         }
     }

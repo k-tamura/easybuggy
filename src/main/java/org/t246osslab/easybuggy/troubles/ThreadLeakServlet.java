@@ -35,14 +35,14 @@ public class ThreadLeakServlet extends HttpServlet {
             bodyHtml.append(bean.getAllThreadIds().length);
             bodyHtml.append("<br><br>");
 
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.thread.leak.occur", req.getLocale()));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.threadleak", req.getLocale()));
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
             bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
                     locale));
         } finally {
             HTTPResponseCreator.createSimpleResponse(req, res,
-                    MessageUtils.getMsg("title.current.thread.count", locale), bodyHtml.toString());
+                    MessageUtils.getMsg("title.threadleak.page", locale), bodyHtml.toString());
         }
     }
 }

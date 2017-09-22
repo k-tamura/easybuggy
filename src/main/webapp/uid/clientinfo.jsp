@@ -10,7 +10,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title><fmt:message key="section.client.info" /></title>
+<title><fmt:message key="title.clientinfo.page" /></title>
 <link rel="icon" type="image/vnd.microsoft.icon" href="/images/favicon.ico">
 <c:import url="/dfi/style_bootstrap.html" />
 </head>
@@ -20,7 +20,7 @@
 			<td>
 				<h2>
 					<span class="glyphicon glyphicon-globe"></span>&nbsp;
-					<fmt:message key="section.client.info" />
+					<fmt:message key="title.clientinfo.page" />
 				</h2>
 			</td>
 			<td align="right"><a href="/"><fmt:message key="label.go.to.main" /></a>
@@ -40,7 +40,7 @@
 	<hr />
 	<div class="alert alert-info" role="alert">
 		<span class="glyphicon glyphicon-info-sign"></span>&nbsp;
-		<fmt:message key="msg.note.unintended.file.disclosure" />
+		<fmt:message key="msg.note.clientinfo" />
 	</div>
 	<script type="text/javascript">
 	<!--

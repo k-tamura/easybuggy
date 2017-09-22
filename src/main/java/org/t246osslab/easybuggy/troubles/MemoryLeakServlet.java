@@ -51,14 +51,14 @@ public class MemoryLeakServlet extends HttpServlet {
                     bodyHtml.append("</table>");
                 }
             }
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.java.heap.space.leak.occur", req.getLocale()));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.memoryleak", req.getLocale()));
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
             bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
                     locale));
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.heap.memory.usage", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.memoryleak.page", locale),
                     bodyHtml.toString());
         }
     }

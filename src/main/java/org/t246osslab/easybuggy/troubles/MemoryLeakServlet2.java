@@ -62,7 +62,7 @@ public class MemoryLeakServlet2 extends HttpServlet {
             bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
                     locale));
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.nonheap.memory.usage", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.memoryleak2.page", locale),
                     bodyHtml.toString());
         }
     }

@@ -66,7 +66,7 @@ public class DeadlockServlet2 extends HttpServlet {
             bodyHtml.append(e.getLocalizedMessage());
         } finally {
             HTTPResponseCreator.createSimpleResponse(req, res,
-                    MessageUtils.getMsg("title.xxe", locale), bodyHtml.toString());
+                    MessageUtils.getMsg("title.xxe.page", locale), bodyHtml.toString());
         }
     }
 
@@ -109,7 +109,7 @@ public class DeadlockServlet2 extends HttpServlet {
         }
         bodyHtml.append("</table>");
         bodyHtml.append(updateResult);
-        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.sql.deadlock", locale));
+        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.deadlock2", locale));
         bodyHtml.append("</form>");
     }
 

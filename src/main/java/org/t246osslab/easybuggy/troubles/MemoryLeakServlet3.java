@@ -38,14 +38,14 @@ public class MemoryLeakServlet3 extends HttpServlet {
         try {
             toDoRemove();
             
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.c.heap.space.leak.occur", req.getLocale()));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.memoryleak3", req.getLocale()));
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
             bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
                     locale));
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.timezone", locale),
+            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.memoryleak3.page", locale),
                     bodyHtml.toString());
         }
     }

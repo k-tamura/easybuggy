@@ -45,10 +45,10 @@ public class TruncationErrorServlet extends HttpServlet {
             bodyHtml.append("<br><br>");
             bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
             bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.enter.specific.nembers", locale));
+            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.truncationerror", locale));
             bodyHtml.append("</form>");
             HTTPResponseCreator.createSimpleResponse(req, res,
-                    MessageUtils.getMsg("title.truncation.error.page", locale), bodyHtml.toString());
+                    MessageUtils.getMsg("title.truncationerror.page", locale), bodyHtml.toString());
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
