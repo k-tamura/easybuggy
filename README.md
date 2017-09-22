@@ -2,7 +2,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![GitHub release](https://img.shields.io/github/release/k-tamura/easybuggy.svg)](https://github.com/k-tamura/easybuggy/releases/latest)
 
-EasyBuggy
+EasyBuggy :baby_symbol:
 =
 
 EasyBuggy is a broken web application in order to understand behavior of bugs and vulnerabilities, for example, [memory leak, deadlock, JVM crash, SQL injection and so on](https://github.com/k-tamura/easybuggy/wiki).
@@ -10,7 +10,7 @@ EasyBuggy is a broken web application in order to understand behavior of bugs an
 ![logo](https://github.com/k-tamura/easybuggy/blob/master/src/main/webapp/images/easybuggy.png)
 ![vuls](https://github.com/k-tamura/test/blob/master/bugs.png)
 
-Quick Start
+:clock4: Quick Start
 -
 
     $ mvn clean install
@@ -25,7 +25,7 @@ Access to
 
   Use <kbd>CTRL</kbd>+<kbd>C</kbd>
 
-For more detail
+:clock4: For more detail
 -
    
 See [the wiki page](https://github.com/k-tamura/easybuggy/wiki).
