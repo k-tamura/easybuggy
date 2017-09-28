@@ -31,3 +31,8 @@ EasyBuggyは、[メモリリーク、デッドロック、JVMクラッシュ、S
 -
    
 [wikiページ](https://github.com/k-tamura/easybuggy/wiki)を参照下さい。
+
+使用例
+-
+
+![usage](https://github.com/k-tamura/test/blob/master/img_eb.gif)
