@@ -90,8 +90,13 @@ public class DeadlockServlet2 extends HttpServlet {
         bodyHtml.append("<br><br>");
         bodyHtml.append(
                 "<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\"><th>");
-        bodyHtml.append("<a href=\"/deadlock2?order=" + order + "\">" + MessageUtils.getMsg("label.user.id", locale)
-                + "</a></th><th>");
+        bodyHtml.append("<a href=\"/deadlock2?order=" + order + "\">" + MessageUtils.getMsg("label.user.id", locale));
+        if ("desc".equals(order)) {
+            bodyHtml.append(" <span class=\"glyphicon glyphicon-triangle-bottom\"></span>");
+        } else {
+            bodyHtml.append(" <span class=\"glyphicon glyphicon-triangle-top\"></span>");
+        }
+        bodyHtml.append("</a></th><th>");
         bodyHtml.append(MessageUtils.getMsg("label.name", locale) + "</th><th>");
         bodyHtml.append(MessageUtils.getMsg("label.phone", locale) + "</th><th>");
         bodyHtml.append(MessageUtils.getMsg("label.mail", locale) + "</th>");
