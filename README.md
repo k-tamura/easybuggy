@@ -30,3 +30,7 @@ Access to
    
 See [the wiki page](https://github.com/k-tamura/easybuggy/wiki).
 
+:clock4: Demo
+-
+
+![demo](https://github.com/k-tamura/test/blob/master/demo_eb.gif)
