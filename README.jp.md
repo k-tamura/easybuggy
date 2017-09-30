@@ -24,7 +24,7 @@ EasyBuggyは、[メモリリーク、デッドロック、JVMクラッシュ、S
 
 ### 停止するには:
 
-  <kbd>CTRL</kbd>+<kbd>C</kbd>をクリック
+  <kbd>CTRL</kbd>+<kbd>C</kbd>をクリック ( または: http://localhost:8080/exit にアクセス )
   
 
 :clock4: 詳細は
