@@ -35,6 +35,6 @@ EasyBuggyは、[メモリリーク、デッドロック、JVMクラッシュ、S
 使用例
 -
 
-EasyBuggyを起動して、デッドロック、無限ループ、メモリリーク、LDAPインジェクション、JVMクラッシュの順で実行しています。
+EasyBuggyを起動して、無限ループ、LDAPインジェクション、UnsatisfiedLinkError、BufferOverflowException、デッドロック、メモリリーク、JVMクラッシュの順で実行しています。
 
-![usage](https://github.com/k-tamura/test/blob/master/img_eb.gif)
+![usage](https://github.com/k-tamura/test/blob/master/demo_eb_ja.gif)
