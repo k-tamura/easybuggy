@@ -25,7 +25,7 @@ public class OutOfMemoryErrorServlet5 extends HttpServlet {
         try {
             for (int i = 0; i < 1000000; i++) {
                 ClassPool pool = ClassPool.getDefault();
-                pool.makeClass("eu.plumbr.demo.Generated" + i).toClass();
+                pool.makeClass("org.t246osslab.easybuggy.Generated" + i).toClass();
             }
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
