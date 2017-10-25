@@ -8,3 +8,5 @@ server-work/
 *.log
 /.extract
 /.scannerwork
+/.idea/
+/easybuggy.iml
