@@ -14,16 +14,12 @@ import org.apache.directory.shared.ldap.filter.FilterParser;
 import org.apache.directory.shared.ldap.filter.SearchScope;
 import org.apache.directory.shared.ldap.message.AliasDerefMode;
 import org.apache.directory.shared.ldap.name.LdapDN;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.dao.EmbeddedADS;
 import org.t246osslab.easybuggy.core.servlets.DefaultLoginServlet;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/ldapijc/login" })
 public class LDAPInjectionServlet extends DefaultLoginServlet {
-
-    private static final Logger log = LoggerFactory.getLogger(LDAPInjectionServlet.class);
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
@@ -32,17 +28,16 @@ public class LDAPInjectionServlet extends DefaultLoginServlet {
     }
     
     @Override
-    protected boolean authUser(String username, String password) {
+    protected boolean authUser(String uid, String password) {
 
-        if (StringUtils.isBlank(username) || username.length() < 5 || StringUtils.isBlank(password)
-                || password.length() < 8) {
+        if (StringUtils.isBlank(uid) || uid.length() < 5 || StringUtils.isBlank(password) || password.length() < 8) {
             return false;
         }
         
         ExprNode filter = null;
         EntryFilteringCursor cursor = null;
         try {
-            filter = FilterParser.parse("(&(uid=" + username.trim() + ")(userPassword=" + password.trim() + "))");
+            filter = FilterParser.parse("(&(uid=" + uid.trim() + ")(userPassword=" + password.trim() + "))");
             cursor = EmbeddedADS.getAdminSession().search(new LdapDN("ou=people,dc=t246osslab,dc=org"),
                     SearchScope.SUBTREE, filter, AliasDerefMode.NEVER_DEREF_ALIASES, null);
             if (cursor.available()) {

@@ -1,5 +1,5 @@
 package org.t246osslab.easybuggy.core.utils;
- 
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -13,6 +13,7 @@ import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -27,7 +28,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class EmailUtils {
-    
+
     private static final Logger log = LoggerFactory.getLogger(EmailUtils.class);
 
     // squid:S1118: Utility classes should not have public constructors
@@ -35,6 +36,9 @@ public class EmailUtils {
         throw new IllegalAccessError("Utility class");
     }
     
+    /**
+     * Check if it is ready to send E-mail.
+     */
     public static boolean isReadyToSendEmail() {
         return !(StringUtils.isBlank(ApplicationUtils.getSmtpHost())
                 || StringUtils.isBlank(ApplicationUtils.getSmtpPort())
@@ -43,6 +47,10 @@ public class EmailUtils {
     
     /**
      * Sends an e-mail message from a SMTP host with a list of attached files.
+     * 
+     * @param subject Mail subject
+     * @param message Mail content
+     * @param attachedFiles Attached files
      */
     public static void sendEmailWithAttachment(String subject, String message, List<File> attachedFiles)
             throws MessagingException {
@@ -100,5 +108,23 @@ public class EmailUtils {
  
         // sends the e-mail
         Transport.send(msg);
+    }
+
+
+    /**
+     * Validate the given string as E-mail address.
+     * 
+     * @param mailAddress Mail address
+     */
+    public static boolean isValidEmailAddress(String mailAddress) {
+        boolean result = true;
+        try {
+            InternetAddress emailAddr = new InternetAddress(mailAddress);
+            emailAddr.validate();
+        } catch (AddressException e) {
+            log.debug("Mail address is invalid: " + mailAddress, e);
+            result = false;
+        }
+        return result;
     }
 }

@@ -11,20 +11,14 @@ import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.core.utils.MessageUtils;
+import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/memoryleak" })
-public class MemoryLeakServlet extends HttpServlet {
-
-    private static final Logger log = LoggerFactory.getLogger(MemoryLeakServlet.class);
+public class MemoryLeakServlet extends AbstractServlet {
 
     private HashMap<String, String> cache = new HashMap<String, String>();
 
@@ -41,25 +35,24 @@ public class MemoryLeakServlet extends HttpServlet {
                     bodyHtml.append("<p>" + memoryPoolMXBean.getName() + "</p>");
                     bodyHtml.append("<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\">");
                     bodyHtml.append("<tr><th></th>");
-                    bodyHtml.append("<th width=\"18%\">" + MessageUtils.getMsg("label.memory.init", locale) + "</th>");
-                    bodyHtml.append("<th width=\"18%\">" + MessageUtils.getMsg("label.memory.used", locale) + "</th>");
-                    bodyHtml.append("<th width=\"18%\">" + MessageUtils.getMsg("label.memory.committed", locale) + "</th>");
-                    bodyHtml.append("<th width=\"18%\">" + MessageUtils.getMsg("label.memory.max", locale) + "</th></tr>");
-                    writeUsageRow(bodyHtml, memoryPoolMXBean.getUsage(), MessageUtils.getMsg("label.memory.usage", locale));
-                    writeUsageRow(bodyHtml, memoryPoolMXBean.getPeakUsage(), MessageUtils.getMsg("label.memory.peak.usage", locale));
-                    writeUsageRow(bodyHtml, memoryPoolMXBean.getCollectionUsage(), MessageUtils.getMsg("label.memory.collection.usage", locale));
+                    bodyHtml.append("<th width=\"18%\">" + getMsg("label.memory.init", locale) + "</th>");
+                    bodyHtml.append("<th width=\"18%\">" + getMsg("label.memory.used", locale) + "</th>");
+                    bodyHtml.append("<th width=\"18%\">" + getMsg("label.memory.committed", locale) + "</th>");
+                    bodyHtml.append("<th width=\"18%\">" + getMsg("label.memory.max", locale) + "</th></tr>");
+                    writeUsageRow(bodyHtml, memoryPoolMXBean.getUsage(), getMsg("label.memory.usage", locale));
+                    writeUsageRow(bodyHtml, memoryPoolMXBean.getPeakUsage(), getMsg("label.memory.peak.usage", locale));
+                    writeUsageRow(bodyHtml, memoryPoolMXBean.getCollectionUsage(), getMsg("label.memory.collection.usage", locale));
                     bodyHtml.append("</table>");
                 }
             }
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.memoryleak", req.getLocale()));
+            bodyHtml.append(getInfoMsg("msg.note.memoryleak", req.getLocale()));
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
-            bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
+            bodyHtml.append(getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
                     locale));
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.memoryleak.page", locale),
-                    bodyHtml.toString());
+            responseToClient(req, res, getMsg("title.memoryleak.page", locale), bodyHtml.toString());
         }
     }
 

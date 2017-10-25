@@ -5,7 +5,6 @@ import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,40 +15,33 @@ import org.apache.directory.shared.ldap.entry.client.ClientModification;
 import org.apache.directory.shared.ldap.entry.client.DefaultClientAttribute;
 import org.apache.directory.shared.ldap.message.ModifyRequestImpl;
 import org.apache.directory.shared.ldap.name.LdapDN;
-import org.owasp.esapi.ESAPI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.dao.EmbeddedADS;
-import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.core.utils.MessageUtils;
+import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/admins/csrf" })
-public class CSRFServlet extends HttpServlet {
+public class CSRFServlet extends AbstractServlet {
 
-    private static final Logger log = LoggerFactory.getLogger(CSRFServlet.class);
-    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Locale locale = req.getLocale();
 
         StringBuilder bodyHtml = new StringBuilder();
         bodyHtml.append("<form action=\"/admins/csrf\" method=\"post\">");
-        bodyHtml.append(MessageUtils.getMsg("msg.enter.passwd", locale));
+        bodyHtml.append(getMsg("msg.enter.passwd", locale));
         bodyHtml.append("<br><br>");
-        bodyHtml.append(MessageUtils.getMsg("label.password", locale) + ": ");
+        bodyHtml.append(getMsg("label.password", locale) + ": ");
         bodyHtml.append("<input type=\"password\" name=\"password\" size=\"30\" maxlength=\"30\" autocomplete=\"off\">");
         bodyHtml.append("<br><br>");
-        bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
+        bodyHtml.append("<input type=\"submit\" value=\"" + getMsg("label.submit", locale) + "\">");
         bodyHtml.append("<br><br>");
         String errorMessage = (String) req.getAttribute("errorMessage");
         if (errorMessage != null) {
             bodyHtml.append(errorMessage);
         }
-        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.csrf", locale));
+        bodyHtml.append(getInfoMsg("msg.note.csrf", locale));
         bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.csrf.page", locale),
-                bodyHtml.toString());
+        responseToClient(req, res, getMsg("title.csrf.page", locale), bodyHtml.toString());
     }
 
     @Override
@@ -64,36 +56,33 @@ public class CSRFServlet extends HttpServlet {
         String password = StringUtils.trim(req.getParameter("password"));
         if (!StringUtils.isBlank(userid) && !StringUtils.isBlank(password) && password.length() >= 8) {
             try {
-                DefaultClientAttribute entryAttribute = new DefaultClientAttribute("userPassword", ESAPI.encoder()
-                        .encodeForLDAP(password.trim()));
+                DefaultClientAttribute entryAttribute = new DefaultClientAttribute("userPassword", encodeForLDAP(password.trim()));
                 ClientModification clientModification = new ClientModification();
                 clientModification.setAttribute(entryAttribute);
                 clientModification.setOperation(ModificationOperation.REPLACE_ATTRIBUTE);
                 ModifyRequestImpl modifyRequest = new ModifyRequestImpl(1);
-                modifyRequest.setName(new LdapDN("uid=" + ESAPI.encoder().encodeForLDAP(userid.trim())
+                modifyRequest.setName(new LdapDN("uid=" + encodeForLDAP(userid.trim())
                         + ",ou=people,dc=t246osslab,dc=org"));
                 modifyRequest.addModification(clientModification);
                 EmbeddedADS.getAdminSession().modify(modifyRequest);
 
                 StringBuilder bodyHtml = new StringBuilder();
                 bodyHtml.append("<form>");
-                bodyHtml.append(MessageUtils.getMsg("msg.passwd.changed", locale));
+                bodyHtml.append(getMsg("msg.passwd.changed", locale));
                 bodyHtml.append("<br><br>");
-                bodyHtml.append("<a href=\"/admins/main\">" + MessageUtils.getMsg("label.goto.admin.page", locale)
-                        + "</a>");
+                bodyHtml.append("<a href=\"/admins/main\">" + getMsg("label.goto.admin.page", locale) + "</a>");
                 bodyHtml.append("</form>");
-                HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.csrf.page", locale),
-                        bodyHtml.toString());
+                responseToClient(req, res, getMsg("title.csrf.page", locale), bodyHtml.toString());
             } catch (Exception e) {
                 log.error("Exception occurs: ", e);
-                req.setAttribute("errorMessage", MessageUtils.getErrMsg("msg.passwd.change.failed", locale));
+                req.setAttribute("errorMessage", getErrMsg("msg.passwd.change.failed", locale));
                 doGet(req, res);
             }
         } else {
             if (StringUtils.isBlank(password) || password.length() < 8) {
-                req.setAttribute("errorMessage", MessageUtils.getErrMsg("msg.passwd.is.too.short", locale));
+                req.setAttribute("errorMessage", getErrMsg("msg.passwd.is.too.short", locale));
             } else {
-                req.setAttribute("errorMessage", MessageUtils.getErrMsg("msg.unknown.exception.occur",
+                req.setAttribute("errorMessage", getErrMsg("msg.unknown.exception.occur",
                         new String[] { "userid: " + userid }, locale));
             }
             doGet(req, res);

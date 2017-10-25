@@ -8,20 +8,14 @@ import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.core.utils.MessageUtils;
+import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/deadlock" })
-public class DeadlockServlet extends HttpServlet {
-
-    private static final Logger log = LoggerFactory.getLogger(DeadlockServlet.class);
+public class DeadlockServlet extends AbstractServlet {
 
     private final Object lock1 = new Object();
     private final Object lock2 = new Object();
@@ -42,7 +36,7 @@ public class DeadlockServlet extends HttpServlet {
             ThreadMXBean bean = ManagementFactory.getThreadMXBean();
             long[] threadIds = bean.findDeadlockedThreads();
             if (threadIds != null) {
-                bodyHtml.append(MessageUtils.getMsg("msg.dead.lock.detected", locale));
+                bodyHtml.append(getMsg("msg.dead.lock.detected", locale));
                 bodyHtml.append("<br><br>");
                 bodyHtml.append("<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\">");
                 ThreadInfo[] infos = bean.getThreadInfo(threadIds);
@@ -51,17 +45,15 @@ public class DeadlockServlet extends HttpServlet {
                 }
                 bodyHtml.append("</table>");
             } else {
-                bodyHtml.append(MessageUtils.getMsg("msg.dead.lock.not.occur", locale));
+                bodyHtml.append(getMsg("msg.dead.lock.not.occur", locale));
                 bodyHtml.append("<br><br>");
             }
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.deadlock", locale));
+            bodyHtml.append(getInfoMsg("msg.note.deadlock", locale));
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
-            bodyHtml.append(
-                    MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() }, locale));
+            bodyHtml.append(getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() }, locale));
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.deadlock.page", locale),
-                    bodyHtml.toString());
+            responseToClient(req, res, getMsg("title.deadlock.page", locale), bodyHtml.toString());
         }
     }
 

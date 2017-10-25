@@ -1,7 +1,7 @@
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page import="org.t246osslab.easybuggy.core.utils.MessageUtils" %>
+<%@ page import="java.util.ResourceBundle" %>
 <c:set var="language"
 	value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
 	scope="session" />
@@ -9,11 +9,12 @@
 <fmt:setBundle basename="indexpage" />
 <%
     session.removeAttribute("dlpinit");
-    String permName = MessageUtils.getMsg("label.metaspace", request.getLocale());
+    ResourceBundle rb = ResourceBundle.getBundle("messages", request.getLocale());
+    String permName = rb.getString("label.metaspace");
     String permNameInErrorMsg = permName;
     String javaVersion = System.getProperty("java.version");
     if (javaVersion.startsWith("1.6") || javaVersion.startsWith("1.7")) {
-        permName = MessageUtils.getMsg("label.permgen.space", request.getLocale());
+        permName = rb.getString("label.permgen.space");
         permNameInErrorMsg = "PermGen space";
     }
     String mode = System.getProperty("easybuggy.mode");
@@ -22,15 +23,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>EasyBuggy</title>
-<link rel="icon" type="image/vnd.microsoft.icon" href="/images/favicon.ico">
-<c:import url="/dfi/style_bootstrap.html" />
+	<title>EasyBuggy</title>
+	<link rel="stylesheet"
+		  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"
+		  integrity="sha384-OHBBOqpYHNsIqQy8hL1U+8OXf9hH6QRxi0+EODezv82DfnZoV7qoHAZDwMwEJvSw"
+		  crossorigin="anonymous">
+	<link rel="icon" type="image/vnd.microsoft.icon" href="${pageContext.request.contextPath}/images/favicon.ico">
+	<c:import url="/dfi/style_bootstrap.html" />
 </head>
 <body style="margin-top: 20px; margin-left: 20px; margin-right: 20px;">
 	<header>
 		<table style="width: 720px;">
 			<tr>
-				<td><img src="images/easybuggy.png"></td>
+				<td><p class="bounceInRight animated"><img src="images/easybuggy.png"></p></td>
 				<td><fmt:message key="description.all" /></td>
 			</tr>
 		</table>
@@ -214,26 +219,26 @@
 				<fmt:message key="function.description.verbose.error.message" />
 			</p></li>
 		<li><p>
-				<a href="/dfi/includable.jsp?template=style_bootstrap.html"><fmt:message
+				<a href="${pageContext.request.contextPath}/dfi/includable.jsp?template=style_bootstrap.html"><fmt:message
 						key="function.name.dangerous.file.inclusion" /></a>:
 				<fmt:message key="function.description.dangerous.file.inclusion" />
 			</p></li>
 		<li><p>
-				<a href="/dt/includable.jsp?template=basic"><fmt:message
+				<a href="${pageContext.request.contextPath}/dt/includable.jsp?template=basic"><fmt:message
 						key="function.name.path.traversal" /></a>:
 				<fmt:message key="function.description.path.traversal" />
 			</p></li>
 		<li><p>
-				<a href="/uid/clientinfo.jsp"><fmt:message
+				<a href="${pageContext.request.contextPath}/uid/clientinfo.jsp"><fmt:message
 						key="function.name.unintended.file.disclosure" /></a>:
 				<fmt:message key="function.description.unintended.file.disclosure" />
 			</p></li>
 		<li><p>
-				<a href="/admins/csrf"><fmt:message key="function.name.csrf" /></a>:
+				<a href="${pageContext.request.contextPath}/admins/csrf"><fmt:message key="function.name.csrf" /></a>:
 				<fmt:message key="function.description.csrf" />
 			</p></li>
 		<li><p>
-				<a href="/admins/clickjacking"><fmt:message
+				<a href="${pageContext.request.contextPath}/admins/clickjacking"><fmt:message
 						key="function.name.clickjacking" /></a>:
 				<fmt:message key="function.description.clickjacking" />
 			</p></li>
@@ -271,11 +276,6 @@
 						key="function.name.slow.unnecessary.object.creation" /></a>:
 				<fmt:message key="function.description.slow.unnecessary.object.creation" />
 			</p></li>
-		<!-- <li><p>
-			<fmt:message key="function.name.stop.the.world" />
-				:
-			<fmt:message key="function.description.stop.the.world" />
-		</p></li> -->
 	</ul>
 
 	<h2>

@@ -1,7 +1,6 @@
 package org.t246osslab.easybuggy.vulnerabilities;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -10,16 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.model.User;
 import org.t246osslab.easybuggy.core.servlets.DefaultLoginServlet;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/openredirect/login" })
 public class OpenRedirectServlet extends DefaultLoginServlet {
-
-    private static final Logger log = LoggerFactory.getLogger(OpenRedirectServlet.class);
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
@@ -28,66 +23,46 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
-        String userid = request.getParameter("userid");
-        String password = request.getParameter("password");
-        String loginQueryString = request.getParameter("loginquerystring");
+        String userid = req.getParameter("userid");
+        String password = req.getParameter("password");
+        String loginQueryString = req.getParameter("loginquerystring");
         if (loginQueryString == null) {
             loginQueryString = "";
         } else {
             loginQueryString = "?" + loginQueryString;
         }
         
-        HttpSession session = request.getSession(true);
+        HttpSession session = req.getSession(true);
         if (isAccountLocked(userid)) {
             session.setAttribute("authNMsg", "msg.account.locked");
-            response.sendRedirect("/openredirect/login" + loginQueryString);
+            res.sendRedirect("/openredirect/login" + loginQueryString);
         } else if (authUser(userid, password)) {
-            /* Reset account lock */
-            User admin = userLoginHistory.get(userid);
-            if (admin == null) {
-                User newAdmin = new User();
-                newAdmin.setUserId(userid);
-                admin = userLoginHistory.putIfAbsent(userid, newAdmin);
-                if (admin == null) {
-                    admin = newAdmin;
-                }
-            }
-            admin.setLoginFailedCount(0);
-            admin.setLastLoginFailedTime(null);
+            /* Reset account lock count */
+            resetAccountLock(userid);
 
             session.setAttribute("authNMsg", "authenticated");
             session.setAttribute("userid", userid);
             
-            String gotoUrl = request.getParameter("goto");
+            String gotoUrl = req.getParameter("goto");
             if (gotoUrl != null) {
-                response.sendRedirect(gotoUrl);
+                res.sendRedirect(gotoUrl);
             } else {
                 String target = (String) session.getAttribute("target");
                 if (target == null) {
-                    response.sendRedirect("/admins/main");
+                    res.sendRedirect("/admins/main");
                 } else {
                     session.removeAttribute("target");
-                    response.sendRedirect(target);
+                    res.sendRedirect(target);
                 }
             }
         } else {
             /* account lock count +1 */
-            User admin = userLoginHistory.get(userid);
-            if (admin == null) {
-                User newAdmin = new User();
-                newAdmin.setUserId(userid);
-                admin = userLoginHistory.putIfAbsent(userid, newAdmin);
-                if (admin == null) {
-                    admin = newAdmin;
-                }
-            }
-            admin.setLoginFailedCount(admin.getLoginFailedCount() + 1);
-            admin.setLastLoginFailedTime(new Date());
+            incrementAccountLockNum(userid);
             
             session.setAttribute("authNMsg", "msg.authentication.fail");
-            response.sendRedirect("/openredirect/login" + loginQueryString);
+            res.sendRedirect("/openredirect/login" + loginQueryString);
         }
     }
 }

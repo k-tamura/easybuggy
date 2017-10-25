@@ -5,31 +5,26 @@ import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.core.utils.MessageUtils;
-
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/admins/main" })
-public class AdminsMainServlet extends HttpServlet {
+public class AdminsMainServlet extends AbstractServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Locale locale = req.getLocale();
         StringBuilder bodyHtml = new StringBuilder();
-        bodyHtml.append(MessageUtils.getMsg("msg.admin.page.top", locale));
+        bodyHtml.append(getMsg("msg.admin.page.top", locale));
         bodyHtml.append("<br><br><ul>");
-        bodyHtml.append("<li><a href=\"" + res.encodeURL("/uid/serverinfo.jsp") + "\">"
-                + MessageUtils.getMsg("title.serverinfo.page", locale) + "</a></li>");
-        bodyHtml.append("<li><a href=\"" + res.encodeURL("/admins/csrf") + "\">"
-                + MessageUtils.getMsg("title.csrf.page", locale) + "</a></li>");
-        bodyHtml.append("<li><a href=\"" + res.encodeURL("/admins/clickjacking") + "\">"
-                + MessageUtils.getMsg("title.clickjacking.page", locale) + "</a></li>");
+        bodyHtml.append("<li><a href=\"").append(res.encodeURL("/uid/serverinfo.jsp")).append("\">");
+        bodyHtml.append(getMsg("title.serverinfo.page", locale)).append("</a></li>");
+        bodyHtml.append("<li><a href=\"").append(res.encodeURL("/admins/csrf")).append("\">");
+        bodyHtml.append(getMsg("title.csrf.page", locale)).append("</a></li>");
+        bodyHtml.append("<li><a href=\"").append(res.encodeURL("/admins/clickjacking")).append("\">");
+        bodyHtml.append(getMsg("title.clickjacking.page", locale)).append("</a></li>");
         bodyHtml.append("</ul>");
-        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.adminmain.page", locale),
-                bodyHtml.toString());
+        responseToClient(req, res, getMsg("title.adminmain.page", locale), bodyHtml.toString());
     }
 }

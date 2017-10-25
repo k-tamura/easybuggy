@@ -28,7 +28,7 @@ public final class EmbeddedADS {
     /** The directory service */
     private static DirectoryService service;
 
-    /**
+    /*
      * Create an instance of EmbeddedADS and initialize it.
      */
     static {

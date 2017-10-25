@@ -5,21 +5,15 @@ import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.math.NumberUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.core.utils.MessageUtils;
+import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/createobjects" })
-public class CreatingUnnecessaryObjectsServlet extends HttpServlet {
-
-    private static final Logger log = LoggerFactory.getLogger(CreatingUnnecessaryObjectsServlet.class);
+public class CreatingUnnecessaryObjectsServlet extends AbstractServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -28,7 +22,7 @@ public class CreatingUnnecessaryObjectsServlet extends HttpServlet {
         int number = NumberUtils.toInt(strNumber, -1);
         StringBuilder bodyHtml = new StringBuilder();
         bodyHtml.append("<form action=\"createobjects\" method=\"post\">");
-        bodyHtml.append(MessageUtils.getMsg("msg.calc.sym.natural.numbers", locale));
+        bodyHtml.append(getMsg("msg.calc.sym.natural.numbers", locale));
         bodyHtml.append("<br><br>n = ");
         if (number > 0) {
             bodyHtml.append("<input type=\"text\" name=\"number\" size=\"9\" maxlength=\"9\" value=" + strNumber + ">");
@@ -66,13 +60,12 @@ public class CreatingUnnecessaryObjectsServlet extends HttpServlet {
             log.info("{} ms", (System.nanoTime() - start) / 1000000f);
         }
         bodyHtml.append("<br><br>");
-        bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.calculate", locale) + "\">");
+        bodyHtml.append("<input type=\"submit\" value=\"" + getMsg("label.calculate", locale) + "\">");
         bodyHtml.append("<br><br>");
-        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.createobjects", locale));
+        bodyHtml.append(getInfoMsg("msg.note.createobjects", locale));
         bodyHtml.append("</form>");
 
-        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.createobjects.page", locale),
-                bodyHtml.toString());
+        responseToClient(req, res, getMsg("title.createobjects.page", locale), bodyHtml.toString());
     }
 
     private Long calcSum1(int number) {

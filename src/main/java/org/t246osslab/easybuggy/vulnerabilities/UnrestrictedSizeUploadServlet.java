@@ -3,11 +3,7 @@ package org.t246osslab.easybuggy.vulnerabilities;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -15,49 +11,43 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.core.utils.Closer;
-import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.core.utils.MessageUtils;
+import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
+import org.t246osslab.easybuggy.core.utils.MultiPartFileUtils;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/ursupload" })
 @MultipartConfig
-public class UnrestrictedSizeUploadServlet extends HttpServlet {
-
-    private static final Logger log = LoggerFactory.getLogger(UnrestrictedSizeUploadServlet.class);
+public class UnrestrictedSizeUploadServlet extends AbstractServlet {
 
     // Name of the directory where uploaded files is saved
     private static final String SAVE_DIR = "uploadFiles";
-    @Override
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         Locale locale = req.getLocale();
 
         StringBuilder bodyHtml = new StringBuilder();
         bodyHtml.append("<form method=\"post\" action=\"ursupload\" enctype=\"multipart/form-data\">");
-        bodyHtml.append(MessageUtils.getMsg("msg.reverse.color", locale));
+        bodyHtml.append(getMsg("msg.reverse.color", locale));
         bodyHtml.append("<br><br>");
         bodyHtml.append("<input type=\"file\" name=\"file\" size=\"60\" /><br>");
-        bodyHtml.append(MessageUtils.getMsg("msg.select.upload.file", locale));
+        bodyHtml.append(getMsg("msg.select.upload.file", locale));
         bodyHtml.append("<br><br>");
-        bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.upload", locale) + "\" />");
+        bodyHtml.append("<input type=\"submit\" value=\"" + getMsg("label.upload", locale) + "\" />");
         bodyHtml.append("<br><br>");
         if (req.getAttribute("errorMessage") != null) {
             bodyHtml.append(req.getAttribute("errorMessage"));
         }
-        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.unrestrictedsizeupload", locale));
+        bodyHtml.append(getInfoMsg("msg.note.unrestrictedsizeupload", locale));
         bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.unrestrictedsizeupload.page", locale),
-                bodyHtml.toString());
+        responseToClient(req, res, getMsg("title.unrestrictedsizeupload.page", locale), bodyHtml.toString());
     }
 
     @Override
@@ -78,16 +68,16 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
         try {
             // Save the file
             final Part filePart = req.getPart("file");
-            String fileName = getFileName(filePart);
+            String fileName = MultiPartFileUtils.getFileName(filePart);
             if (StringUtils.isBlank(fileName)) {
                 doGet(req, res);
                 return;
             } else if (!isImageFile(fileName)) {
-                req.setAttribute("errorMessage", MessageUtils.getErrMsg("msg.not.image.file", locale));
+                req.setAttribute("errorMessage", getErrMsg("msg.not.image.file", locale));
                 doGet(req, res);
                 return;
             }
-            boolean isConverted = writeFile(savePath, filePart, fileName);
+            boolean isConverted = MultiPartFileUtils.writeFile(filePart, savePath, fileName);
 
             // Reverse the color of the upload image
             if (!isConverted) {
@@ -96,57 +86,25 @@ public class UnrestrictedSizeUploadServlet extends HttpServlet {
 
             StringBuilder bodyHtml = new StringBuilder();
             if (isConverted) {
-                bodyHtml.append(MessageUtils.getMsg("msg.reverse.color.complete", locale));
+                bodyHtml.append(getMsg("msg.reverse.color.complete", locale));
                 bodyHtml.append("<br><br>");
                 bodyHtml.append("<img src=\"" + SAVE_DIR + "/" + fileName + "\">");
                 bodyHtml.append("<br><br>");
             } else {
-                bodyHtml.append(MessageUtils.getErrMsg("msg.reverse.color.fail", locale));
+                bodyHtml.append(getErrMsg("msg.reverse.color.fail", locale));
             }
             bodyHtml.append("<INPUT type=\"button\" onClick='history.back();' value=\""
-                    + MessageUtils.getMsg("label.history.back", locale) + "\">");
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.unrestrictedsizeupload.page", locale),
-                    bodyHtml.toString());
+                    + getMsg("label.history.back", locale) + "\">");
+            responseToClient(req, res, getMsg("title.unrestrictedsizeupload.page", locale), bodyHtml.toString());
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         }
     }
 
-    private boolean writeFile(String savePath, final Part filePart, String fileName) throws IOException {
-        boolean isConverted = false;
-        OutputStream out = null;
-        InputStream in = null;
-        try {
-            out = new FileOutputStream(savePath + File.separator + fileName);
-            in = filePart.getInputStream();
-            int read = 0;
-            final byte[] bytes = new byte[1024];
-            while ((read = in.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
-            }
-        } catch (FileNotFoundException e) {
-            // Ignore because file already exists (converted)
-            isConverted = true;
-        } finally {
-            Closer.close(out, in);
-        }
-        return isConverted;
-    }
-
     private boolean isImageFile(String fileName) {
         return Arrays.asList("png", "gif", "jpg", "jpeg", "tif", "tiff", "bmp").contains(
                 FilenameUtils.getExtension(fileName));
-    }
-
-    // Get file name from content-disposition filename
-    private String getFileName(final Part part) {
-        for (String content : part.getHeader("content-disposition").split(";")) {
-            if (content.trim().startsWith("filename")) {
-                return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
-            }
-        }
-        return null;
     }
 
     // Reverse the color of the image file

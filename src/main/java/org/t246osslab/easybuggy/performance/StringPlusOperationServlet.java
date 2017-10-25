@@ -7,22 +7,16 @@ import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.owasp.esapi.ESAPI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.core.utils.MessageUtils;
+import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/strplusopr" })
-public class StringPlusOperationServlet extends HttpServlet {
-
-    private static final Logger log = LoggerFactory.getLogger(StringPlusOperationServlet.class);
+public class StringPlusOperationServlet extends AbstractServlet {
 
     private static final int MAX_LENGTH = 1000000;
     private static final String[] ALL_NUMBERS = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
@@ -44,25 +38,25 @@ public class StringPlusOperationServlet extends HttpServlet {
 
             StringBuilder bodyHtml = new StringBuilder();
             bodyHtml.append("<form action=\"strplusopr\" method=\"post\">");
-            bodyHtml.append(MessageUtils.getMsg("description.random.string.generator", locale));
+            bodyHtml.append(getMsg("description.random.string.generator", locale));
             bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getMsg("label.character.count", locale) + ": ");
+            bodyHtml.append(getMsg("label.character.count", locale) + ": ");
             bodyHtml.append("<br>");
             if (length > 0) {
-                bodyHtml.append(
-                        "<input type=\"text\" name=\"length\" size=\"6\" maxlength=\"6\" value=\"" + length + "\">");
+                bodyHtml.append("<input type=\"text\" name=\"length\" size=\"6\" maxlength=\"6\" value=\"" + length
+                        + "\">");
             } else {
                 bodyHtml.append("<input type=\"text\" name=\"length\" size=\"6\" maxlength=\"6\">");
             }
             bodyHtml.append("<br><br>");
-            bodyHtml.append("<p>" + MessageUtils.getMsg("label.available.characters", locale) + "</p>");
+            bodyHtml.append("<p>" + getMsg("label.available.characters", locale) + "</p>");
 
             appendCheckBox(characters, locale, bodyHtml, ALL_NUMBERS, "label.numbers");
             appendCheckBox(characters, locale, bodyHtml, ALL_UPPER_CHARACTERS, "label.uppercase.characters");
             appendCheckBox(characters, locale, bodyHtml, ALL_LOWER_CHARACTERS, "label.lowercase.characters");
             appendCheckBox(characters, locale, bodyHtml, ALL_SIGNS, "label.signs");
 
-            bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
+            bodyHtml.append("<input type=\"submit\" value=\"" + getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
 
             if (length > 0) {
@@ -77,18 +71,17 @@ public class StringPlusOperationServlet extends HttpServlet {
                     }
                     log.info("End Date: {}", new Date());
                 }
-                bodyHtml.append(MessageUtils.getMsg("label.execution.result", locale));
+                bodyHtml.append(getMsg("label.execution.result", locale));
                 bodyHtml.append("<br><br>");
-                // bodyHtml.append(ESAPI.encoder().encodeForHTML(builder.toString()));
-                bodyHtml.append(ESAPI.encoder().encodeForHTML(s));
+                // bodyHtml.append(encodeForHTML(builder.toString()));
+                bodyHtml.append(encodeForHTML(s));
             } else {
-                bodyHtml.append(MessageUtils.getMsg("msg.enter.positive.number", locale));
+                bodyHtml.append(getMsg("msg.enter.positive.number", locale));
             }
             bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.strplusopr", locale));
+            bodyHtml.append(getInfoMsg("msg.note.strplusopr", locale));
             bodyHtml.append("</form>");
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.strplusopr.page", locale),
-                    bodyHtml.toString());
+            responseToClient(req, res, getMsg("title.strplusopr.page", locale), bodyHtml.toString());
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
@@ -97,7 +90,7 @@ public class StringPlusOperationServlet extends HttpServlet {
 
     private void appendCheckBox(String[] characters, Locale locale, StringBuilder bodyHtml, String[] allCharacters,
             String label) {
-        bodyHtml.append("<p>" + MessageUtils.getMsg(label, locale) + "</p>");
+        bodyHtml.append("<p>" + getMsg(label, locale) + "</p>");
         bodyHtml.append("<p>");
         for (int i = 0; i < allCharacters.length; i++) {
             bodyHtml.append("<input type=\"checkbox\" name=\"characters\" value=\"");

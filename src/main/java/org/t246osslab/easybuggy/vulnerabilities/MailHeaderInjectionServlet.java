@@ -12,18 +12,15 @@ import java.util.Locale;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
 import org.t246osslab.easybuggy.core.utils.Closer;
 import org.t246osslab.easybuggy.core.utils.EmailUtils;
-import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.core.utils.MessageUtils;
+import org.t246osslab.easybuggy.core.utils.MultiPartFileUtils;
 
 /**
  * A servlet that takes message details from user and send it as a new mail through an SMTP server.
@@ -34,47 +31,44 @@ import org.t246osslab.easybuggy.core.utils.MessageUtils;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10, // 10MB
         maxRequestSize = 1024 * 1024 * 50) // 50MB
-public class MailHeaderInjectionServlet extends HttpServlet {
+public class MailHeaderInjectionServlet extends AbstractServlet {
 
-    private static final Logger log = LoggerFactory.getLogger(MailHeaderInjectionServlet.class);
-    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Locale locale = req.getLocale();
         if (!EmailUtils.isReadyToSendEmail()) {
-            HTTPResponseCreator.createSimpleResponse(req, res,
-                    MessageUtils.getMsg("title.mailheaderinjection.page", locale),
-                    MessageUtils.getInfoMsg("msg.smtp.server.not.setup", locale));
+            responseToClient(req, res, getMsg("title.mailheaderinjection.page", locale),
+                    getInfoMsg("msg.smtp.server.not.setup", locale));
             return;
         }
         StringBuilder bodyHtml = new StringBuilder();
-        bodyHtml.append(MessageUtils.getMsg("description.send.mail", locale));
+        bodyHtml.append(getMsg("description.send.mail", locale));
         bodyHtml.append("<br><br>");
         bodyHtml.append("<form action=\"mailheaderijct\" method=\"post\" enctype=\"multipart/form-data\">");
         bodyHtml.append("<table class=\"table table-bordered\" style=\"font-size:small;\">");
         bodyHtml.append("<tr>");
-        bodyHtml.append("<td>" + MessageUtils.getMsg("label.your.name", locale) + ":&nbsp;<br><br></td>");
+        bodyHtml.append("<td>" + getMsg("label.your.name", locale) + ":&nbsp;<br><br></td>");
         bodyHtml.append("<td><input type=\"text\" name=\"name\" size=\"50\"/><br><br></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("<tr>");
-        bodyHtml.append("<td>" + MessageUtils.getMsg("label.your.mail", locale) + ":&nbsp;<br><br></td>");
+        bodyHtml.append("<td>" + getMsg("label.your.mail", locale) + ":&nbsp;<br><br></td>");
         bodyHtml.append("<td><input type=\"text\" name=\"mail\" size=\"50\"/><br><br></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("<tr>");
-        bodyHtml.append("<td>" + MessageUtils.getMsg("label.subject", locale) + ":&nbsp;<br><br></td>");
+        bodyHtml.append("<td>" + getMsg("label.subject", locale) + ":&nbsp;<br><br></td>");
         bodyHtml.append("<td><input type=\"text\" name=\"subject\" size=\"50\"/><br><br></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("<tr>");
-        bodyHtml.append("<td>" + MessageUtils.getMsg("label.content", locale) + ":&nbsp;<br><br></td>");
+        bodyHtml.append("<td>" + getMsg("label.content", locale) + ":&nbsp;<br><br></td>");
         bodyHtml.append("<td><textarea rows=\"10\" cols=\"39\" name=\"content\"></textarea> <br><br></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("<tr>");
-        bodyHtml.append("<td>" + MessageUtils.getMsg("label.attach.file", locale) + ":&nbsp;<br><br></td>");
+        bodyHtml.append("<td>" + getMsg("label.attach.file", locale) + ":&nbsp;<br><br></td>");
         bodyHtml.append("<td><input type=\"file\" name=\"file\" size=\"50\" /><br></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("<tr>");
         bodyHtml.append("<td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\""
-                + MessageUtils.getMsg("label.submit", locale) + "\"/></td>");
+                + getMsg("label.submit", locale) + "\"/></td>");
         bodyHtml.append("</tr>");
         bodyHtml.append("</table>");
         bodyHtml.append("<br>");
@@ -82,10 +76,9 @@ public class MailHeaderInjectionServlet extends HttpServlet {
             bodyHtml.append(req.getAttribute("message") + "<br><br>");
             req.setAttribute("message", null);
         }
-        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.mailheaderinjection", locale));
+        bodyHtml.append(getInfoMsg("msg.note.mailheaderinjection", locale));
         bodyHtml.append("</form>");
-        HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.mailheaderinjection.page", locale),
-                bodyHtml.toString());
+        responseToClient(req, res, getMsg("title.mailheaderinjection.page", locale), bodyHtml.toString());
     }
 
     @Override
@@ -100,21 +93,21 @@ public class MailHeaderInjectionServlet extends HttpServlet {
         String subject = req.getParameter("subject");
         String content = req.getParameter("content");
         if (StringUtils.isBlank(subject) || StringUtils.isBlank(content)) {
-            resultMessage = MessageUtils.getMsg("msg.mail.is.empty", locale);
+            resultMessage = getMsg("msg.mail.is.empty", locale);
             req.setAttribute("message", resultMessage);
             doGet(req, res);
             return;
         }
         StringBuilder sb = new StringBuilder();
-        sb.append(MessageUtils.getMsg("label.name", locale)).append(": ").append(name).append("<br>");
-        sb.append(MessageUtils.getMsg("label.mail", locale)).append(": ").append(mail).append("<br>").append("<br>");
-        sb.append(MessageUtils.getMsg("label.content", locale)).append(": ").append(content).append("<br>");
+        sb.append(getMsg("label.name", locale)).append(": ").append(name).append("<br>");
+        sb.append(getMsg("label.mail", locale)).append(": ").append(mail).append("<br>").append("<br>");
+        sb.append(getMsg("label.content", locale)).append(": ").append(content).append("<br>");
         try {
             EmailUtils.sendEmailWithAttachment(subject, sb.toString(), uploadedFiles);
-            resultMessage = MessageUtils.getMsg("msg.sent.mail", locale);
+            resultMessage = getMsg("msg.sent.mail", locale);
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
-            resultMessage = MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale);
+            resultMessage = getErrMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale);
         } finally {
             deleteUploadFiles(uploadedFiles);
             req.setAttribute("message", resultMessage);
@@ -136,7 +129,7 @@ public class MailHeaderInjectionServlet extends HttpServlet {
             if (!multiparts.isEmpty()) {
                 for (Part part : request.getParts()) {
                     // creates a file to be saved
-                    String fileName = extractFileName(part);
+                    String fileName = MultiPartFileUtils.getFileName(part);
                     if (StringUtils.isBlank(fileName)) {
                         // not attachment part, continue
                         continue;
@@ -166,20 +159,6 @@ public class MailHeaderInjectionServlet extends HttpServlet {
             log.error("Exception occurs: ", e);
         }
         return listFiles;
-    }
-
-    /**
-     * Retrieves file name of a upload part from its HTTP header
-     */
-    private String extractFileName(Part part) {
-        String contentDisp = part.getHeader("content-disposition");
-        String[] items = contentDisp.split(";");
-        for (String s : items) {
-            if (s.trim().startsWith("filename")) {
-                return s.substring(s.indexOf('=') + 2, s.length() - 1);
-            }
-        }
-        return null;
     }
 
     /**

@@ -8,23 +8,17 @@ import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.dao.DBClient;
+import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
 import org.t246osslab.easybuggy.core.utils.ApplicationUtils;
-import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/dbconnectionleak" })
-public class DBConnectionLeakServlet extends HttpServlet {
-
-    private static final Logger log = LoggerFactory.getLogger(DBConnectionLeakServlet.class);
+public class DBConnectionLeakServlet extends AbstractServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -40,17 +34,17 @@ public class DBConnectionLeakServlet extends HttpServlet {
             }
             bodyHtml.append(selectUsers(locale));
             if (StringUtils.isBlank(dbUrl) || dbUrl.startsWith("jdbc:derby:memory:")) {
-                bodyHtml.append(MessageUtils.getInfoMsg("msg.note.not.use.ext.db", locale));
+                bodyHtml.append(getInfoMsg("msg.note.not.use.ext.db", locale));
             } else {
-                bodyHtml.append(MessageUtils.getInfoMsg("msg.note.db.connection.leak.occur", locale));
+                bodyHtml.append(getInfoMsg("msg.note.db.connection.leak.occur", locale));
             }
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
-            bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale));
+            bodyHtml.append(getErrMsg("msg.unknown.exception.occur", new String[]{e.getMessage()}, locale));
             bodyHtml.append(e.getLocalizedMessage());
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.dbconnectionleak.page", locale), bodyHtml.toString());
+            responseToClient(req, res, getMsg("title.dbconnectionleak.page", locale), bodyHtml.toString());
         }
     }
 
@@ -67,7 +61,7 @@ public class DBConnectionLeakServlet extends HttpServlet {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
-        String result = MessageUtils.getErrMsg("msg.error.user.not.exist", locale);
+        String result = getErrMsg("msg.error.user.not.exist", locale);
         try {
             conn = DBClient.getConnection();
             stmt = conn.createStatement();
@@ -79,13 +73,13 @@ public class DBConnectionLeakServlet extends HttpServlet {
             }
             if (sb.length() > 0) {
                 result = "<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\"><th>"
-                        + MessageUtils.getMsg("label.user.id", locale) + "</th><th>"
-                        + MessageUtils.getMsg("label.name", locale) + "</th><th>"
-                        + MessageUtils.getMsg("label.phone", locale) + "</th><th>"
-                        + MessageUtils.getMsg("label.mail", locale) + "</th>" + sb.toString() + "</table>";
+                        + getMsg("label.user.id", locale) + "</th><th>"
+                        + getMsg("label.name", locale) + "</th><th>"
+                        + getMsg("label.phone", locale) + "</th><th>"
+                        + getMsg("label.mail", locale) + "</th>" + sb.toString() + "</table>";
             }
         } catch (Exception e) {
-            result = MessageUtils.getErrMsg("msg.db.access.error.occur", locale);
+            result = getErrMsg("msg.db.access.error.occur", locale);
             log.error("Exception occurs: ", e);
         } finally {
             /* A DB connection leaks because the following lines are commented out.

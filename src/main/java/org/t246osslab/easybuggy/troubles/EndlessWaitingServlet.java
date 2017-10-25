@@ -11,22 +11,16 @@ import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.math.NumberUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
 import org.t246osslab.easybuggy.core.utils.Closer;
-import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/endlesswaiting" })
-public class EndlessWaitingServlet extends HttpServlet {
-
-    private static final Logger log = LoggerFactory.getLogger(EndlessWaitingServlet.class);
+public class EndlessWaitingServlet extends AbstractServlet {
 
     private static final int MAX_COUNT = 100000;
 
@@ -40,12 +34,12 @@ public class EndlessWaitingServlet extends HttpServlet {
 
             StringBuilder bodyHtml = new StringBuilder();
             bodyHtml.append("<form action=\"endlesswaiting\" method=\"post\">");
-            bodyHtml.append(MessageUtils.getMsg("description.endless.waiting", locale));
+            bodyHtml.append(getMsg("description.endless.waiting", locale));
             bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getMsg("label.character.count", locale) + ": ");
+            bodyHtml.append(getMsg("label.character.count", locale) + ": ");
             bodyHtml.append("<input type=\"text\" name=\"count\" size=\"5\" maxlength=\"5\">");
             bodyHtml.append("<br><br>");
-            bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
+            bodyHtml.append("<input type=\"submit\" value=\"" + getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
 
             if (count > 0) {
@@ -53,28 +47,27 @@ public class EndlessWaitingServlet extends HttpServlet {
                 File batFile = createBatchFile(count, req.getServletContext().getAttribute("javax.servlet.context.tempdir").toString());
 
                 if (batFile == null) {
-                    bodyHtml.append(MessageUtils.getMsg("msg.cant.create.batch", locale));
+                    bodyHtml.append(getMsg("msg.cant.create.batch", locale));
                 } else {
                     /* execte the batch */
                     ProcessBuilder pb = new ProcessBuilder(batFile.getAbsolutePath());
                     Process process = pb.start();
                     process.waitFor();
-                    bodyHtml.append(MessageUtils.getMsg("msg.executed.batch", locale) + batFile.getAbsolutePath());
+                    bodyHtml.append(getMsg("msg.executed.batch", locale) + batFile.getAbsolutePath());
                     bodyHtml.append("<br><br>");
-                    bodyHtml.append(MessageUtils.getMsg("label.execution.result", locale));
+                    bodyHtml.append(getMsg("label.execution.result", locale));
                     bodyHtml.append("<br><br>");
                     bodyHtml.append(printInputStream(process.getInputStream()));
                     bodyHtml.append(printInputStream(process.getErrorStream()));
                 }
             } else {
-                bodyHtml.append(MessageUtils.getMsg("msg.enter.positive.number", locale));
+                bodyHtml.append(getMsg("msg.enter.positive.number", locale));
                 bodyHtml.append("<br>");
             }
             bodyHtml.append("<br>");
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.endlesswaiting", locale));
+            bodyHtml.append(getInfoMsg("msg.note.endlesswaiting", locale));
             bodyHtml.append("</form>");
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.endlesswaiting.page", locale),
-                    bodyHtml.toString());
+            responseToClient(req, res, getMsg("title.endlesswaiting.page", locale), bodyHtml.toString());
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);

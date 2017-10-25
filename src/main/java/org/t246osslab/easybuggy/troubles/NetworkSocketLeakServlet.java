@@ -7,26 +7,20 @@ import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.core.utils.MessageUtils;
+import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/netsocketleak" })
-public class NetworkSocketLeakServlet extends HttpServlet {
-
-    private static final Logger log = LoggerFactory.getLogger(NetworkSocketLeakServlet.class);
+public class NetworkSocketLeakServlet extends AbstractServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        HttpURLConnection connection = null;
-        URL url = null;
+        HttpURLConnection connection;
+        URL url;
         StringBuilder bodyHtml = new StringBuilder();
         Locale locale = req.getLocale();
         try {
@@ -42,24 +36,23 @@ public class NetworkSocketLeakServlet extends HttpServlet {
             int responseCode = connection.getResponseCode();
             long end = System.currentTimeMillis();
             
-            bodyHtml.append("<p>"+MessageUtils.getMsg("description.response.time", req.getLocale())+"</p>");
+            bodyHtml.append("<p>"+getMsg("description.response.time", req.getLocale())+"</p>");
             bodyHtml.append("<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\">");
-            bodyHtml.append("<tr><td>" + MessageUtils.getMsg("label.ping.url", locale) + "</td>");
+            bodyHtml.append("<tr><td>" + getMsg("label.ping.url", locale) + "</td>");
             bodyHtml.append("<td>" + pingURL + "</td></tr>");
-            bodyHtml.append("<tr><td>" + MessageUtils.getMsg("label.response.code", req.getLocale()) + "</td>");
+            bodyHtml.append("<tr><td>" + getMsg("label.response.code", req.getLocale()) + "</td>");
             bodyHtml.append("<td>" + responseCode + "</td></tr>");
-            bodyHtml.append("<tr><td>" + MessageUtils.getMsg("label.response.time", locale) + "</td>");
+            bodyHtml.append("<tr><td>" + getMsg("label.response.time", locale) + "</td>");
             bodyHtml.append("<td>" + (end - start) + "</td></tr>");
             bodyHtml.append("</table>");
 
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.netsocketleak", req.getLocale()));
+            bodyHtml.append(getInfoMsg("msg.note.netsocketleak", req.getLocale()));
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
-            bodyHtml.append(MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
+            bodyHtml.append(getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
                     locale));
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.netsocketleak.page", locale),
-                    bodyHtml.toString());
+            responseToClient(req, res, getMsg("title.netsocketleak.page", locale), bodyHtml.toString());
         }
     }
 }

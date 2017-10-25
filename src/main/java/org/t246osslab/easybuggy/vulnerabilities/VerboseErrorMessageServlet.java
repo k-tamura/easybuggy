@@ -16,8 +16,6 @@ import org.apache.directory.shared.ldap.filter.SearchScope;
 import org.apache.directory.shared.ldap.message.AliasDerefMode;
 import org.apache.directory.shared.ldap.name.LdapDN;
 import org.owasp.esapi.ESAPI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.dao.EmbeddedADS;
 import org.t246osslab.easybuggy.core.model.User;
 import org.t246osslab.easybuggy.core.servlets.DefaultLoginServlet;
@@ -25,8 +23,6 @@ import org.t246osslab.easybuggy.core.servlets.DefaultLoginServlet;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/verbosemsg/login" })
 public class VerboseErrorMessageServlet extends DefaultLoginServlet {
-    
-    private static final Logger log = LoggerFactory.getLogger(VerboseErrorMessageServlet.class);
     
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
@@ -51,18 +47,8 @@ public class VerboseErrorMessageServlet extends DefaultLoginServlet {
             session.setAttribute("authNMsg", "msg.low.alphnum8");
             doGet(req, res);
         } else if (authUser(userid, password)) {
-            /* Reset account lock */
-            User admin = userLoginHistory.get(userid);
-            if (admin == null) {
-                User newAdmin = new User();
-                newAdmin.setUserId(userid);
-                admin = userLoginHistory.putIfAbsent(userid, newAdmin);
-                if (admin == null) {
-                    admin = newAdmin;
-                }
-            }
-            admin.setLoginFailedCount(0);
-            admin.setLastLoginFailedTime(null);
+            /* Reset account lock count */
+            resetAccountLock(userid);
 
             session.setAttribute("authNMsg", "authenticated");
             session.setAttribute("userid", userid);
@@ -76,17 +62,7 @@ public class VerboseErrorMessageServlet extends DefaultLoginServlet {
             }
         } else {
             /* account lock count +1 */
-            User admin = userLoginHistory.get(userid);
-            if (admin == null) {
-                User newAdmin = new User();
-                newAdmin.setUserId(userid);
-                admin = userLoginHistory.putIfAbsent(userid, newAdmin);
-                if (admin == null) {
-                    admin = newAdmin;
-                }
-            }
-            admin.setLoginFailedCount(admin.getLoginFailedCount() + 1);
-            admin.setLastLoginFailedTime(new Date());
+            incrementAccountLockNum(userid);
 
             session.setAttribute("authNMsg", "msg.password.not.match");
             doGet(req, res);
@@ -95,10 +71,10 @@ public class VerboseErrorMessageServlet extends DefaultLoginServlet {
     
     private boolean isExistUser(String username) {
 
-        ExprNode filter = null;
+        ExprNode filter;
         EntryFilteringCursor cursor = null;
         try {
-            filter = FilterParser.parse("(uid=" + ESAPI.encoder().encodeForLDAP(username.trim()) + ")");
+            filter = FilterParser.parse("(uid=" + encodeForLDAP(username.trim()) + ")");
             cursor = EmbeddedADS.getAdminSession().search(new LdapDN("ou=people,dc=t246osslab,dc=org"),
                     SearchScope.SUBTREE, filter, AliasDerefMode.NEVER_DEREF_ALIASES, null);
             if (cursor.available()) {

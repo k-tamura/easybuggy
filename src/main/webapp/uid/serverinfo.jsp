@@ -11,7 +11,7 @@
 <html>
 <head>
 <title><fmt:message key="title.serverinfo.page" /></title>
-<link rel="icon" type="image/vnd.microsoft.icon" href="/images/favicon.ico">
+<link rel="icon" type="image/vnd.microsoft.icon" href="${pageContext.request.contextPath}/images/favicon.ico">
 <c:import url="/dfi/style_bootstrap.html" />
 </head>
 <body style="margin-left: 20px; margin-right: 20px;">
@@ -24,11 +24,11 @@
 				</h2>
 			</td>
 			<td align="right"><fmt:message key="label.login.user.id" />: <%=session.getAttribute("userid")%>
-				<br> <a href="/logout"><fmt:message key="label.logout" /></a>
+				<br> <a href="${pageContext.request.contextPath}/logout"><fmt:message key="label.logout" /></a>
 			</td>
 		</tr>
 	</table>
-	<hr style="margin-top: 0px" />
+	<hr style="margin-top: 0" />
 	<%
 	    request.setAttribute("systemProperties", java.lang.System.getProperties());
 	%>

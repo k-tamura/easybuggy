@@ -8,22 +8,16 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.owasp.esapi.ESAPI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.core.utils.MessageUtils;
+import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/codeijc" })
-public class CodeInjectionServlet extends HttpServlet {
-
-    private static final Logger log = LoggerFactory.getLogger(CodeInjectionServlet.class);
+public class CodeInjectionServlet extends AbstractServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -35,17 +29,16 @@ public class CodeInjectionServlet extends HttpServlet {
             StringBuilder bodyHtml = new StringBuilder();
 
             bodyHtml.append("<form action=\"codeijc\" method=\"post\">");
-            bodyHtml.append(MessageUtils.getMsg("description.parse.json", locale));
+            bodyHtml.append(getMsg("description.parse.json", locale));
             bodyHtml.append("<br><br>");
-            bodyHtml.append(MessageUtils.getMsg("label.json.string", locale) + ": ");
+            bodyHtml.append(getMsg("label.json.string", locale) + ": ");
+            bodyHtml.append("<textarea name=\"jsonString\" cols=\"80\" rows=\"15\">");
             if (!StringUtils.isBlank(jsonString)) {
-                bodyHtml.append("<textarea name=\"jsonString\" cols=\"80\" rows=\"15\">"
-                        + ESAPI.encoder().encodeForHTML(jsonString) + "</textarea>");
-            } else {
-                bodyHtml.append("<textarea name=\"jsonString\" cols=\"80\" rows=\"15\"></textarea>");
+                bodyHtml.append(encodeForHTML(jsonString));
             }
+            bodyHtml.append("</textarea>");
             bodyHtml.append("<br><br>");
-            bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.submit", locale) + "\">");
+            bodyHtml.append("<input type=\"submit\" value=\"" + getMsg("label.submit", locale) + "\">");
             bodyHtml.append("<br><br>");
 
             if (!StringUtils.isBlank(jsonString)) {
@@ -54,14 +47,13 @@ public class CodeInjectionServlet extends HttpServlet {
                 jsonString = jsonString.replaceAll("\n", "");
                 parseJson(jsonString, locale, bodyHtml);
             } else {
-                bodyHtml.append(MessageUtils.getMsg("msg.enter.json.string", locale));
+                bodyHtml.append(getMsg("msg.enter.json.string", locale));
                 bodyHtml.append("<br><br>");
             }
-            bodyHtml.append(MessageUtils.getInfoMsg("msg.note.codeinjection", locale));
+            bodyHtml.append(getInfoMsg("msg.note.codeinjection", locale));
             bodyHtml.append("</form>");
 
-            HTTPResponseCreator.createSimpleResponse(req, res, MessageUtils.getMsg("title.codeinjection.page", locale),
-                    bodyHtml.toString());
+            responseToClient(req, res, getMsg("title.codeinjection.page", locale), bodyHtml.toString());
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         }
@@ -72,14 +64,14 @@ public class CodeInjectionServlet extends HttpServlet {
             ScriptEngineManager manager = new ScriptEngineManager();
             ScriptEngine scriptEngine = manager.getEngineByName("JavaScript");
             scriptEngine.eval("JSON.parse('" + jsonString + "')");
-            bodyHtml.append(MessageUtils.getMsg("msg.valid.json", locale));
+            bodyHtml.append(getMsg("msg.valid.json", locale));
             bodyHtml.append("<br><br>");
         } catch (ScriptException e) {
-            bodyHtml.append(MessageUtils.getErrMsg("msg.invalid.json", new String[] { ESAPI.encoder()
+            bodyHtml.append(getErrMsg("msg.invalid.json", new String[] { ESAPI.encoder()
                     .encodeForHTML(e.getMessage()) }, locale));
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
-            bodyHtml.append(MessageUtils.getErrMsg("msg.invalid.json", new String[] { ESAPI.encoder()
+            bodyHtml.append(getErrMsg("msg.invalid.json", new String[] { ESAPI.encoder()
                     .encodeForHTML(e.getMessage()) }, locale));
         }
     }

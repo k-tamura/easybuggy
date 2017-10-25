@@ -6,13 +6,14 @@ import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
+
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/oome4" })
-public class OutOfMemoryErrorServlet4 extends HttpServlet {
+public class OutOfMemoryErrorServlet4 extends AbstractServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

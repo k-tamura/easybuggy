@@ -12,23 +12,17 @@ import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.t246osslab.easybuggy.core.dao.DBClient;
 import org.t246osslab.easybuggy.core.model.User;
+import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
 import org.t246osslab.easybuggy.core.utils.Closer;
-import org.t246osslab.easybuggy.core.utils.HTTPResponseCreator;
-import org.t246osslab.easybuggy.core.utils.MessageUtils;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/deadlock2" })
-public class DeadlockServlet2 extends HttpServlet {
-
-    private static final Logger log = LoggerFactory.getLogger(DeadlockServlet2.class);
+public class DeadlockServlet2 extends AbstractServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -62,11 +56,10 @@ public class DeadlockServlet2 extends HttpServlet {
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
             bodyHtml.append(
-                    MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() }, locale));
+                    getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() }, locale));
             bodyHtml.append(e.getLocalizedMessage());
         } finally {
-            HTTPResponseCreator.createSimpleResponse(req, res,
-                    MessageUtils.getMsg("title.xxe.page", locale), bodyHtml.toString());
+            responseToClient(req, res, getMsg("title.xxe.page", locale), bodyHtml.toString());
         }
     }
 
@@ -84,22 +77,22 @@ public class DeadlockServlet2 extends HttpServlet {
             String updateResult) {
 
         bodyHtml.append("<form action=\"deadlock2\" method=\"post\">");
-        bodyHtml.append(MessageUtils.getMsg("msg.update.users", locale));
+        bodyHtml.append(getMsg("msg.update.users", locale));
         bodyHtml.append("<br><br>");
-        bodyHtml.append("<input type=\"submit\" value=\"" + MessageUtils.getMsg("label.update", locale) + "\">");
+        bodyHtml.append("<input type=\"submit\" value=\"" + getMsg("label.update", locale) + "\">");
         bodyHtml.append("<br><br>");
         bodyHtml.append(
                 "<table class=\"table table-striped table-bordered table-hover\" style=\"font-size:small;\"><th>");
-        bodyHtml.append("<a href=\"/deadlock2?order=" + order + "\">" + MessageUtils.getMsg("label.user.id", locale));
+        bodyHtml.append("<a href=\"/deadlock2?order=" + order + "\">" + getMsg("label.user.id", locale));
         if ("desc".equals(order)) {
             bodyHtml.append(" <span class=\"glyphicon glyphicon-triangle-bottom\"></span>");
         } else {
             bodyHtml.append(" <span class=\"glyphicon glyphicon-triangle-top\"></span>");
         }
         bodyHtml.append("</a></th><th>");
-        bodyHtml.append(MessageUtils.getMsg("label.name", locale) + "</th><th>");
-        bodyHtml.append(MessageUtils.getMsg("label.phone", locale) + "</th><th>");
-        bodyHtml.append(MessageUtils.getMsg("label.mail", locale) + "</th>");
+        bodyHtml.append(getMsg("label.name", locale) + "</th><th>");
+        bodyHtml.append(getMsg("label.phone", locale) + "</th><th>");
+        bodyHtml.append(getMsg("label.mail", locale) + "</th>");
         int rownum = 1;
         for (User user : users) {
             bodyHtml.append("<tr><td><input type=\"hidden\" name=\"uid_" + rownum + "\" value=\"" + user.getUserId()
@@ -114,7 +107,7 @@ public class DeadlockServlet2 extends HttpServlet {
         }
         bodyHtml.append("</table>");
         bodyHtml.append(updateResult);
-        bodyHtml.append(MessageUtils.getInfoMsg("msg.note.deadlock2", locale));
+        bodyHtml.append(getInfoMsg("msg.note.deadlock2", locale));
         bodyHtml.append("</form>");
     }
 
@@ -170,20 +163,20 @@ public class DeadlockServlet2 extends HttpServlet {
                 Thread.sleep(500);
             }
             conn.commit();
-            resultMessage = MessageUtils.getMsg("msg.update.records", new Object[] { executeUpdate }, locale)
+            resultMessage = getMsg("msg.update.records", new Object[] { executeUpdate }, locale)
                     + "<br><br>";
 
         } catch (SQLTransactionRollbackException e) {
-            resultMessage = MessageUtils.getErrMsg("msg.deadlock.occurs", locale);
+            resultMessage = getErrMsg("msg.deadlock.occurs", locale);
             log.error("SQLTransactionRollbackException occurs: ", e);
             rollbak(conn);
         } catch (SQLException e) {
-            resultMessage = MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
+            resultMessage = getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
                     locale);
             log.error("SQLException occurs: ", e);
             rollbak(conn);
         } catch (Exception e) {
-            resultMessage = MessageUtils.getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
+            resultMessage = getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
                     locale);
             log.error("Exception occurs: ", e);
             rollbak(conn);

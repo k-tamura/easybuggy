@@ -11,7 +11,7 @@
 <html>
 <head>
 <title><fmt:message key="title.design.test.page" /></title>
-<link rel="icon" type="image/vnd.microsoft.icon" href="/images/favicon.ico">
+<link rel="icon" type="image/vnd.microsoft.icon" href="${pageContext.request.contextPath}/images/favicon.ico">
 <c:catch var="ex">
 	<c:if test="${param.template != null && !fn:contains(param.template,'../') && !fn:startsWith(param.template,'/')}">
 		<c:import url="<%= request.getParameter(\"template\")%>" /> 
@@ -27,15 +27,15 @@
 					<fmt:message key="title.design.test.page" />
 				</h2>
 			</td>
-			<td align="right"><a href="/"><fmt:message key="label.go.to.main" /></a>
+			<td align="right"><a href="${pageContext.request.contextPath}/"><fmt:message key="label.go.to.main" /></a>
 			</td>
 		</tr>
 	</table>
-	<hr style="margin-top: 0px" />
+	<hr style="margin-top: 0" />
 	<header>
 	<table style="width:720px;">
 		<tr>
-			<td><img src="/images/easybuggy.png"></td>
+			<td><img src="${pageContext.request.contextPath}/images/easybuggy.png"></td>
 			<td><fmt:message key="description.design.page" /></td>
 		</tr>
 	</table>

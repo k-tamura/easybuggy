@@ -7,13 +7,14 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
+
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/uoe" })
-public class UnsupportedOperationExceptionServlet extends HttpServlet {
+public class UnsupportedOperationExceptionServlet extends AbstractServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

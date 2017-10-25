@@ -11,7 +11,7 @@
 <html>
 <head>
 <title><fmt:message key="title.clientinfo.page" /></title>
-<link rel="icon" type="image/vnd.microsoft.icon" href="/images/favicon.ico">
+<link rel="icon" type="image/vnd.microsoft.icon" href="${pageContext.request.contextPath}/images/favicon.ico">
 <c:import url="/dfi/style_bootstrap.html" />
 </head>
 <body style="margin-left: 20px; margin-right: 20px;">
@@ -23,11 +23,11 @@
 					<fmt:message key="title.clientinfo.page" />
 				</h2>
 			</td>
-			<td align="right"><a href="/"><fmt:message key="label.go.to.main" /></a>
+			<td align="right"><a href="${pageContext.request.contextPath}/"><fmt:message key="label.go.to.main" /></a>
 			</td>
 		</tr>
 	</table>
-	<hr style="margin-top: 0px" />
+	<hr style="margin-top: 0" />
 	<table class="table table-striped table-bordered table-hover" style="font-size: small;">
 		<tr><th><fmt:message key="label.key" /></th><th><fmt:message key="label.value" /></th></tr>
 		<tr><td><fmt:message key="label.code" /></td><td id="appCodeName"></td></tr>
