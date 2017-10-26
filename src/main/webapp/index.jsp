@@ -7,6 +7,7 @@
 	scope="session" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="indexpage" />
+<%! boolean isFirstLoad = true;%>
 <%
     session.removeAttribute("dlpinit");
     ResourceBundle rb = ResourceBundle.getBundle("messages", request.getLocale());
@@ -35,7 +36,11 @@
 	<header>
 		<table style="width: 720px;">
 			<tr>
-				<td><p class="bounceInRight animated"><img src="images/easybuggy.png"></p></td>
+			<% if (isFirstLoad) { isFirstLoad = false;%>
+				<td><img src="images/easybuggy.png" class="bounceInRight animated" /></td>
+			<% } else { %>
+				<td><img src="images/easybuggy.png" /></td>
+			<% } %>
 				<td><fmt:message key="description.all" /></td>
 			</tr>
 		</table>
