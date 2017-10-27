@@ -38,3 +38,17 @@ EasyBuggyは、[メモリリーク、デッドロック、JVMクラッシュ、S
 EasyBuggyを起動して、無限ループ、LDAPインジェクション、UnsatisfiedLinkError、BufferOverflowException、デッドロック、メモリリーク、JVMクラッシュの順で実行しています。
 
 ![usage](https://github.com/k-tamura/test/blob/master/demo_eb_ja.gif)
+
+:clock4: EasyBuggyクローン:
+-
+* [EasyBuggy Boot](https://github.com/k-tamura/easybuggy4sb)
+
+  Spring BootベースのEasyBuggyクローン
+
+  ![logo](https://raw.githubusercontent.com/wiki/k-tamura/easybuggy/images/mov_ebsb.gif)
+
+* [EasyBuggy Bootlin](https://github.com/k-tamura/easybuggy4kt)
+
+  Kotlinで実装されたSpring BootベースのEasyBuggyクローン
+
+  ![logo](https://raw.githubusercontent.com/wiki/k-tamura/easybuggy/images/mov_ebkt.gif)
