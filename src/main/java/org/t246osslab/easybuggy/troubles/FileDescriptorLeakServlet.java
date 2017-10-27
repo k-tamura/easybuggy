@@ -29,8 +29,7 @@ public class FileDescriptorLeakServlet extends AbstractServlet {
         Locale locale = req.getLocale();
         StringBuilder bodyHtml = new StringBuilder();
         try {
-            File file = new File(req.getServletContext().getAttribute("javax.servlet.context.tempdir").toString(),
-                    "test.txt");
+            File file = new File(req.getServletContext().getAttribute("javax.servlet.context.tempdir").toString(),"test.txt");
             FileOutputStream fos = new FileOutputStream(file, true);
             OutputStreamWriter osw = new OutputStreamWriter(fos);
             osw.write("<tr>");

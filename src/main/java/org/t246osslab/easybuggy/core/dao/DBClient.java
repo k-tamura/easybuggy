@@ -68,7 +68,8 @@ public final class DBClient {
             log.debug("SQLException occurs: ", e);
         }
         // create users table
-        stmt.executeUpdate("create table users (id varchar(10) primary key, name varchar(30), password varchar(30), secret varchar(100), ispublic varchar(5), phone varchar(20), mail varchar(100))");
+        stmt.executeUpdate("create table users (id varchar(10) primary key, name varchar(30), password varchar(30), " +
+                "secret varchar(100), ispublic varchar(5), phone varchar(20), mail varchar(100))");
 
         // insert private (invisible) user records
         stmt.executeUpdate("insert into users values ('admin','admin','password','" + RandomStringUtils.randomNumeric(10) + "','false', '', '')");

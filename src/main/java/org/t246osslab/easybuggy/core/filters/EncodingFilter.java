@@ -19,13 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 public class EncodingFilter implements Filter {
 
     /**
-     * Default constructor.
-     */
-    public EncodingFilter() {
-        // Do nothing
-    }
-
-    /**
      * Set the encoding to use for requests.
      * "Shift_JIS" is intentionally set to the request to /mojibake.
      * 

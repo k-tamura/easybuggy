@@ -66,8 +66,7 @@ public class ClickJackingServlet extends AbstractServlet {
                 clientModification.setAttribute(entryAttribute);
                 clientModification.setOperation(ModificationOperation.REPLACE_ATTRIBUTE);
                 ModifyRequestImpl modifyRequest = new ModifyRequestImpl(1);
-                modifyRequest.setName(new LdapDN("uid=" + encodeForLDAP(userid.trim())
-                        + ",ou=people,dc=t246osslab,dc=org"));
+                modifyRequest.setName(new LdapDN("uid=" + encodeForLDAP(userid.trim()) + ",ou=people,dc=t246osslab,dc=org"));
                 modifyRequest.addModification(clientModification);
                 EmbeddedADS.getAdminSession().modify(modifyRequest);
 

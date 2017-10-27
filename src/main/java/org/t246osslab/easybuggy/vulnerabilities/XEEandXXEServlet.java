@@ -58,10 +58,12 @@ public class XEEandXXEServlet extends AbstractServlet {
         bodyHtml.append(encodeForHTML("<?xml version=\"1.0\"?>") + "<br>");
         bodyHtml.append(encodeForHTML("<users>") + "<br>");
         bodyHtml.append(TAB);
-        bodyHtml.append(encodeForHTML("<user uid=\"user11\" name=\"Tommy\" password=\"pasworld\" phone=\"090-1004-5678\" mail=\"user11@example.com\"/>"));
+        bodyHtml.append(encodeForHTML("<user uid=\"user11\" name=\"Tommy\" password=\"pasworld\" " +
+                "phone=\"090-1004-5678\" mail=\"user11@example.com\"/>"));
         bodyHtml.append("<br>");
         bodyHtml.append(TAB);
-        bodyHtml.append(encodeForHTML("<user uid=\"user12\" name=\"Matt\" password=\"PaSsWoRd\" phone=\"090-9984-1118\" mail=\"user12@example.com\"/>"));
+        bodyHtml.append(encodeForHTML("<user uid=\"user12\" name=\"Matt\" password=\"PaSsWoRd\" " +
+                "phone=\"090-9984-1118\" mail=\"user12@example.com\"/>"));
         bodyHtml.append("<br>");
         bodyHtml.append(encodeForHTML("</users>"));
         bodyHtml.append("</pre>");
@@ -310,8 +312,7 @@ public class XEEandXXEServlet extends AbstractServlet {
                         resultMessage = getMsg("msg.user.already.exist", locale);
                     }
                 } else {
-                    stmt2 = conn
-                            .prepareStatement("update users set name = ?, password = ?, phone = ?, mail = ? where id = ?");
+                    stmt2 = conn.prepareStatement("update users set name = ?, password = ?, phone = ?, mail = ? where id = ?");
                     stmt2.setString(1, attributes.getValue("name"));
                     stmt2.setString(2, attributes.getValue("password"));
                     stmt2.setString(3, attributes.getValue("phone"));
@@ -322,12 +323,10 @@ public class XEEandXXEServlet extends AbstractServlet {
                     }
                 }
             } catch (SQLException e) {
-                resultMessage = getMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
-                        locale);
+                resultMessage = getMsg("msg.unknown.exception.occur", new String[] { e.getMessage() }, locale);
                 log.error("SQLException occurs: ", e);
             } catch (Exception e) {
-                resultMessage = getMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
-                        locale);
+                resultMessage = getMsg("msg.unknown.exception.occur", new String[] { e.getMessage() }, locale);
                 log.error("Exception occurs: ", e);
             } finally {
                 Closer.close(rs);

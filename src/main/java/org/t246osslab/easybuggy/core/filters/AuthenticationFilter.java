@@ -20,13 +20,6 @@ import javax.servlet.http.HttpSession;
 public class AuthenticationFilter implements Filter {
 
     /**
-     * Default constructor.
-     */
-    public AuthenticationFilter() {
-        // Do nothing
-    }
-
-    /**
      * Intercept unauthenticated requests for specific URLs and redirect to login page.
      *
      * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)

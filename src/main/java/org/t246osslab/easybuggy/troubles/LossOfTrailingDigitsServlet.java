@@ -31,8 +31,7 @@ public class LossOfTrailingDigitsServlet extends AbstractServlet {
             bodyHtml.append(getMsg("msg.enter.decimal.value", locale));
             bodyHtml.append("<br><br>");
             if (!Double.isNaN(number) && isValid) {
-                bodyHtml.append("<input type=\"text\" name=\"number\" size=\"18\" maxlength=\"18\" value=" + strNumber
-                        + ">");
+                bodyHtml.append("<input type=\"text\" name=\"number\" size=\"18\" maxlength=\"18\" value=" + strNumber + ">");
             } else {
                 bodyHtml.append("<input type=\"text\" name=\"number\" size=\"18\" maxlength=\"18\">");
             }

@@ -53,8 +53,7 @@ public class MemoryLeakServlet2 extends AbstractServlet {
 
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
-            bodyHtml.append(getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
-                    locale));
+            bodyHtml.append(getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() }, locale));
         } finally {
             responseToClient(req, res, getMsg("title.memoryleak2.page", locale), bodyHtml.toString());
         }

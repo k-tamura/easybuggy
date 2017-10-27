@@ -27,8 +27,7 @@ public class RoundOffErrorServlet extends AbstractServlet {
             bodyHtml.append(getMsg("msg.enter.positive.number", locale));
             bodyHtml.append("<br><br>");
             if (1 <= number && number <= 9) {
-                bodyHtml.append("<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\" value=" + strNumber
-                        + ">");
+                bodyHtml.append("<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\" value=" + strNumber + ">");
             } else {
                 bodyHtml.append("<input type=\"text\" name=\"number\" size=\"1\" maxlength=\"1\">");
             }

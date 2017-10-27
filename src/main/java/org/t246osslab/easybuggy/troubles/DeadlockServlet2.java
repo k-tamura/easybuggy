@@ -163,21 +163,18 @@ public class DeadlockServlet2 extends AbstractServlet {
                 Thread.sleep(500);
             }
             conn.commit();
-            resultMessage = getMsg("msg.update.records", new Object[] { executeUpdate }, locale)
-                    + "<br><br>";
+            resultMessage = getMsg("msg.update.records", new Object[] { executeUpdate }, locale) + "<br><br>";
 
         } catch (SQLTransactionRollbackException e) {
             resultMessage = getErrMsg("msg.deadlock.occurs", locale);
             log.error("SQLTransactionRollbackException occurs: ", e);
             rollbak(conn);
         } catch (SQLException e) {
-            resultMessage = getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
-                    locale);
+            resultMessage = getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() }, locale);
             log.error("SQLException occurs: ", e);
             rollbak(conn);
         } catch (Exception e) {
-            resultMessage = getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() },
-                    locale);
+            resultMessage = getErrMsg("msg.unknown.exception.occur", new String[] { e.getMessage() }, locale);
             log.error("Exception occurs: ", e);
             rollbak(conn);
         } finally {
