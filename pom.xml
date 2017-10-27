@@ -18,6 +18,7 @@
 
 	<profiles>
 		<profile>
+			<id>JDK-Switch</id>
 			<activation>
 				<jdk>1.8</jdk>
 			</activation>
@@ -133,7 +134,7 @@
 								<requireJavaVersion>
 									<version>[1.6,)</version>
 									<message>[ERROR] OLD JDK [${java.version}] in use.
-										Jetty ${jetty-version} requires JDK 1.6 or later</message>
+										EasyBuggy requires JDK 1.6 or later</message>
 								</requireJavaVersion>
 							</rules>
 						</configuration>
@@ -187,7 +188,6 @@
 							<path>/</path>
 							<enableNaming>true</enableNaming>
 							<finalName>easybuggy.jar</finalName>
-							<charset>utf-8</charset>
 						</configuration>
 					</execution>
 				</executions>
@@ -196,7 +196,6 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.2</version>
-				<!-- Comment out Payara sections to avoid proxy error due to slow downloading. -->
 				<executions>
 					<execution>
 						<id>startup-uber-start</id>
@@ -282,9 +281,6 @@
 											<goal>run</goal>
 										</goals>
 									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
 								</pluginExecution>
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
