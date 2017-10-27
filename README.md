@@ -110,13 +110,13 @@ This demo shows: Start up -> Infinite Loop -> LDAP Injection -> UnsatisfiedLinkE
 
 :clock4: EasyBuggy clones:
 -
-* EasyBuggy Boot
+* [EasyBuggy Boot](https://github.com/k-tamura/easybuggy4sb)
 
   EasyBuggy clone build on Spring Boot
 
   ![logo](https://raw.githubusercontent.com/wiki/k-tamura/easybuggy/images/mov_ebsb.gif)
 
-* EasyBuggy Bootlin
+* [EasyBuggy Bootlin](https://github.com/k-tamura/easybuggy4kt)
 
   EasyBuggy clone build on Spring Boot and written in Kotlin
 
