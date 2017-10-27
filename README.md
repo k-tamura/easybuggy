@@ -108,3 +108,16 @@ This demo shows: Start up -> Infinite Loop -> LDAP Injection -> UnsatisfiedLinkE
   * TransformerFactoryConfigurationError
   * UnsatisfiedLinkError
 
+:clock4: EasyBuggy clones:
+-
+* EasyBuggy Boot
+
+  EasyBuggy clone build on Spring Boot
+
+  ![logo](https://raw.githubusercontent.com/wiki/k-tamura/easybuggy/images/mov_ebsb.gif)
+
+* EasyBuggy Bootlin
+
+  EasyBuggy clone build on Spring Boot and written in Kotlin
+
+  ![logo](https://raw.githubusercontent.com/wiki/k-tamura/easybuggy/images/mov_ebkt.gif)
