@@ -66,7 +66,7 @@
     </div>
     <hr>
     <footer>
-        <img src="/images/easybuggyL.png">Copyright &copy; 2016-17 T246 OSS Lab, all rights reserved.
+        <img src="/images/easybuggyL.png">Copyright &copy; 2017 T246 OSS Lab, all rights reserved.
     </footer>
 </body>
 </html>

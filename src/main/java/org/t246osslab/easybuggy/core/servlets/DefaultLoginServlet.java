@@ -28,7 +28,7 @@ import org.t246osslab.easybuggy.core.utils.ApplicationUtils;
 public class DefaultLoginServlet extends AbstractServlet {
     
     /* User's login history using in-memory account locking */
-    protected ConcurrentHashMap<String, User> userLoginHistory = new ConcurrentHashMap<String, User>();
+    private ConcurrentHashMap<String, User> userLoginHistory = new ConcurrentHashMap<String, User>();
     
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
@@ -62,9 +62,9 @@ public class DefaultLoginServlet extends AbstractServlet {
         while (paramNames.hasMoreElements()) {
             String paramName = (String) paramNames.nextElement();
             String[] paramValues = req.getParameterValues(paramName);
-            for (int i = 0; i < paramValues.length; i++) {
+            for (String paramValue : paramValues) {
                 bodyHtml.append("<input type=\"hidden\" name=\"" + encodeForHTML(paramName)
-                        + "\" value=\"" + encodeForHTML(paramValues[i]) + "\">");
+                        + "\" value=\"" + encodeForHTML(paramValue) + "\">");
             }
         }
 
@@ -138,7 +138,7 @@ public class DefaultLoginServlet extends AbstractServlet {
         if (uid == null || password == null) {
             return false;
         }
-        ExprNode filter = null;
+        ExprNode filter;
         EntryFilteringCursor cursor = null;
         try {
             filter = FilterParser.parse("(&(uid=" + encodeForLDAP(uid.trim())
@@ -162,7 +162,7 @@ public class DefaultLoginServlet extends AbstractServlet {
         return false;
     }
 
-    protected User getUser(String userid) {
+    private User getUser(String userid) {
         User admin = userLoginHistory.get(userid);
         if (admin == null) {
             User newAdmin = new User();

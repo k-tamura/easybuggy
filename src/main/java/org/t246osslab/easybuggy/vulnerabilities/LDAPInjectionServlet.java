@@ -34,7 +34,7 @@ public class LDAPInjectionServlet extends DefaultLoginServlet {
             return false;
         }
         
-        ExprNode filter = null;
+        ExprNode filter;
         EntryFilteringCursor cursor = null;
         try {
             filter = FilterParser.parse("(&(uid=" + uid.trim() + ")(userPassword=" + password.trim() + "))");

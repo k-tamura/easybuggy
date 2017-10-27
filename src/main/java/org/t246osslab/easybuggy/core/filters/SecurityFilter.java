@@ -26,8 +26,8 @@ public class SecurityFilter implements Filter {
     }
 
     /**
-     * Call {@link #doFilter(HttpServletRequest, HttpServletResponse, FilterChain)}.
-     * 
+     * Prevent several security vulnerabilities.
+     *
      * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
      */
     @Override

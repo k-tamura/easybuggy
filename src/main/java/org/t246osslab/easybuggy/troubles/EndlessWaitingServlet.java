@@ -80,8 +80,8 @@ public class EndlessWaitingServlet extends AbstractServlet {
         File batFile = null;
         try {
             String osName = System.getProperty("os.name").toLowerCase();
-            String batFileName = null;
-            String firstLine = null;
+            String batFileName;
+            String firstLine;
             if (osName.toLowerCase().startsWith("windows")) {
                 batFileName = "test.bat";
                 firstLine = "@echo off";

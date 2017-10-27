@@ -194,7 +194,7 @@ public class XEEandXXEServlet extends AbstractServlet {
             File file = new File(savePath + File.separator + fileName);
             SAXParserFactory spf = SAXParserFactory.newInstance();
             if ("/xee".equals(req.getServletPath())) {
-                customHandler.setInsert(true);
+                customHandler.setInsert();
                 spf.setFeature("http://xml.org/sax/features/external-general-entities", false);
                 spf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
             } else {
@@ -257,8 +257,8 @@ public class XEEandXXEServlet extends AbstractServlet {
             }
         }
 
-        void setInsert(boolean isInsert) {
-            this.isInsert  = isInsert;
+        void setInsert() {
+            this.isInsert  = true;
         }
         
         void setLocale(Locale locale) {

@@ -27,8 +27,8 @@ public class AuthenticationFilter implements Filter {
     }
 
     /**
-     * Call {@link #doFilter(HttpServletRequest, HttpServletResponse, FilterChain)}.
-     * 
+     * Intercept unauthenticated requests for specific URLs and redirect to login page.
+     *
      * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
      */
     @Override

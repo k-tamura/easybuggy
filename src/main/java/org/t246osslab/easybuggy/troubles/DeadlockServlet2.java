@@ -148,7 +148,7 @@ public class DeadlockServlet2 extends AbstractServlet {
         PreparedStatement stmt = null;
         Connection conn = null;
         int executeUpdate = 0;
-        String resultMessage = "";
+        String resultMessage;
         try {
             conn = DBClient.getConnection();
             conn.setAutoCommit(false);

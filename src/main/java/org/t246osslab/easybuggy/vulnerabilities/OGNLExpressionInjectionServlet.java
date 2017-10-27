@@ -14,7 +14,6 @@ import ognl.OgnlException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.owasp.esapi.ESAPI;
 import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
 
 @SuppressWarnings("serial")

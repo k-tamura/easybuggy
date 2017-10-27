@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.owasp.esapi.ESAPI;
 import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
 
 @SuppressWarnings("serial")
@@ -67,12 +66,10 @@ public class CodeInjectionServlet extends AbstractServlet {
             bodyHtml.append(getMsg("msg.valid.json", locale));
             bodyHtml.append("<br><br>");
         } catch (ScriptException e) {
-            bodyHtml.append(getErrMsg("msg.invalid.json", new String[] { ESAPI.encoder()
-                    .encodeForHTML(e.getMessage()) }, locale));
+            bodyHtml.append(getErrMsg("msg.invalid.json", new String[] { encodeForHTML(e.getMessage()) }, locale));
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
-            bodyHtml.append(getErrMsg("msg.invalid.json", new String[] { ESAPI.encoder()
-                    .encodeForHTML(e.getMessage()) }, locale));
+            bodyHtml.append(getErrMsg("msg.invalid.json", new String[] { encodeForHTML(e.getMessage()) }, locale));
         }
     }
 }

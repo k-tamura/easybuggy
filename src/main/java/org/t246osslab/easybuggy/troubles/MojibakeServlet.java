@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.WordUtils;
-import org.owasp.esapi.ESAPI;
 import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
 
 // EncodingFilter excludes /mojibake. 

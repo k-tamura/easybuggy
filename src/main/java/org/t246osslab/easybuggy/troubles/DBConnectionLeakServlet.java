@@ -81,8 +81,8 @@ public class DBConnectionLeakServlet extends AbstractServlet {
         } catch (Exception e) {
             result = getErrMsg("msg.db.access.error.occur", locale);
             log.error("Exception occurs: ", e);
-        } finally {
             /* A DB connection leaks because the following lines are commented out.
+        } finally {
             Closer.close(rs);
             Closer.close(stmt);
             Closer.close(conn);

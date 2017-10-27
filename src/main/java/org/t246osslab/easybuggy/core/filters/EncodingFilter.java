@@ -26,7 +26,8 @@ public class EncodingFilter implements Filter {
     }
 
     /**
-     * Call {@link #doFilter(HttpServletRequest, HttpServletResponse, FilterChain)}.
+     * Set the encoding to use for requests.
+     * "Shift_JIS" is intentionally set to the request to /mojibake.
      * 
      * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
      */

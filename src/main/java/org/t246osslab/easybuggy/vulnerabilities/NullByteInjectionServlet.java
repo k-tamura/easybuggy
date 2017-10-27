@@ -58,7 +58,7 @@ public class NullByteInjectionServlet extends AbstractServlet {
 
             os = res.getOutputStream();
             byte[] bufferData = new byte[1024];
-            int read = 0;
+            int read;
             while ((read = fis.read(bufferData)) != -1) {
                 os.write(bufferData, 0, read);
             }

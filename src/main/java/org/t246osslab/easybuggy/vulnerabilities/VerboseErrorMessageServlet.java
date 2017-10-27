@@ -1,7 +1,6 @@
 package org.t246osslab.easybuggy.vulnerabilities;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,9 +14,7 @@ import org.apache.directory.shared.ldap.filter.FilterParser;
 import org.apache.directory.shared.ldap.filter.SearchScope;
 import org.apache.directory.shared.ldap.message.AliasDerefMode;
 import org.apache.directory.shared.ldap.name.LdapDN;
-import org.owasp.esapi.ESAPI;
 import org.t246osslab.easybuggy.core.dao.EmbeddedADS;
-import org.t246osslab.easybuggy.core.model.User;
 import org.t246osslab.easybuggy.core.servlets.DefaultLoginServlet;
 
 @SuppressWarnings("serial")

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.math.NumberUtils;
-import org.owasp.esapi.ESAPI;
 import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
 
 @SuppressWarnings("serial")
@@ -92,15 +91,15 @@ public class StringPlusOperationServlet extends AbstractServlet {
             String label) {
         bodyHtml.append("<p>" + getMsg(label, locale) + "</p>");
         bodyHtml.append("<p>");
-        for (int i = 0; i < allCharacters.length; i++) {
+        for (String allCharacter : allCharacters) {
             bodyHtml.append("<input type=\"checkbox\" name=\"characters\" value=\"");
-            bodyHtml.append(allCharacters[i]);
-            if (characters == null || Arrays.asList(characters).contains(allCharacters[i])) {
+            bodyHtml.append(allCharacter);
+            if (characters == null || Arrays.asList(characters).contains(allCharacter)) {
                 bodyHtml.append("\" checked=\"checked\">");
             } else {
                 bodyHtml.append("\">");
             }
-            bodyHtml.append(allCharacters[i]);
+            bodyHtml.append(allCharacter);
             bodyHtml.append(" ");
         }
         bodyHtml.append("</p>");
