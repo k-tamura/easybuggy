@@ -7,8 +7,7 @@ EasyBuggy :baby_symbol:
 
 EasyBuggyは、[メモリリーク、デッドロック、JVMクラッシュ、SQLインジェクションなど](https://github.com/k-tamura/easybuggy/wiki)、バグや脆弱性の動作を理解するためにつくられたバグだらけのWebアプリケーションです。
 
-![logo](https://github.com/k-tamura/easybuggy/blob/master/src/main/webapp/images/easybuggy.png)
-![vuls](https://github.com/k-tamura/test/blob/master/bugs.png)
+![logo](https://raw.githubusercontent.com/wiki/k-tamura/easybuggy/images/mov_eb.gif)
 
 :clock4: クイックスタート
 -
