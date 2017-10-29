@@ -18,13 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebFilter(urlPatterns = { "/*" })
 public class SecurityFilter implements Filter {
 	
-   /**
-     * Default constructor.
-     */
-    public SecurityFilter() {
-        // Do nothing
-    }
-
     /**
      * Prevent several security vulnerabilities.
      *

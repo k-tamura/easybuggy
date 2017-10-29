@@ -30,7 +30,7 @@ public class DeadlockServlet2 extends AbstractServlet {
         Locale locale = req.getLocale();
         StringBuilder bodyHtml = new StringBuilder();
         String updateResult = "";
-        ArrayList<User> users = null;
+        ArrayList<User> users;
         try {
             String order = getOrder(req);
             if ("POST".equals(req.getMethod())) {
