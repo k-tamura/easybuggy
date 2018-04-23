@@ -36,8 +36,7 @@ public class DefaultLoginServlet extends AbstractServlet {
         Locale locale = req.getLocale();
         StringBuilder bodyHtml = new StringBuilder();
 
-        bodyHtml.append("<p>" + getMsg("msg.need.admin.privilege", locale) + " ");
-        bodyHtml.append(getMsg("msg.enter.id.and.password", locale) + "</p>");
+        bodyHtml.append("<p>" + getMsg("msg.need.admin.privilege", locale) + "</p>");
         bodyHtml.append("<form method=\"POST\" action=\"" + req.getRequestURI() + "\">");
         bodyHtml.append("<table width=\"400px\" height=\"150px\">");
         bodyHtml.append("<tr>");
