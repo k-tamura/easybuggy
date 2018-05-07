@@ -28,7 +28,7 @@ import org.t246osslab.easybuggy.core.utils.ApplicationUtils;
 public class DefaultLoginServlet extends AbstractServlet {
     
     /* User's login history using in-memory account locking */
-    private ConcurrentHashMap<String, User> userLoginHistory = new ConcurrentHashMap<String, User>();
+    private static ConcurrentHashMap<String, User> userLoginHistory = new ConcurrentHashMap<String, User>();
     
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
@@ -68,9 +68,9 @@ public class DefaultLoginServlet extends AbstractServlet {
         }
 
         HttpSession session = req.getSession(true);
-        if (session.getAttribute("authNMsg") != null
-                && !"authenticated".equals(session.getAttribute("authNMsg"))) {
-            bodyHtml.append(getErrMsg((String) session.getAttribute("authNMsg"), locale));
+        String authNMsg = (String) session.getAttribute("authNMsg");
+        if (authNMsg != null && !"authenticated".equals(authNMsg)) {
+            bodyHtml.append(authNMsg);
             session.setAttribute("authNMsg", null);
         }
         if (req.getAttribute("login.page.note") != null) {
@@ -82,14 +82,13 @@ public class DefaultLoginServlet extends AbstractServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-
+        Locale locale = req.getLocale();
         String userid = StringUtils.trim(req.getParameter("userid"));
         String password = StringUtils.trim(req.getParameter("password"));
 
         HttpSession session = req.getSession(true);
         if (isAccountLocked(userid)) {
-            session.setAttribute("authNMsg", "msg.account.locked");
-            res.sendRedirect("/login");
+            session.setAttribute("authNMsg", getErrMsg("msg.authentication.fail", locale));
         } else if (authUser(userid, password)) {
             /* Reset account lock count */
             resetAccountLock(userid);
@@ -104,15 +103,16 @@ public class DefaultLoginServlet extends AbstractServlet {
                 session.removeAttribute("target");
                 res.sendRedirect(target);
             }
+            return;
         } else {
             /* account lock count +1 */
-            incrementAccountLockNum(userid);
-            session.setAttribute("authNMsg", "msg.authentication.fail");
-            doGet(req, res) ;
+            session.setAttribute("authNMsg", getErrMsg("msg.authentication.fail", locale));
         }
+        incrementLoginFailedCount(userid);
+        doGet(req, res);
     }
 
-    protected void incrementAccountLockNum(String userid) {
+    protected void incrementLoginFailedCount(String userid) {
         User admin = getUser(userid);
         admin.setLoginFailedCount(admin.getLoginFailedCount() + 1);
         admin.setLastLoginFailedTime(new Date());
@@ -127,7 +127,7 @@ public class DefaultLoginServlet extends AbstractServlet {
     protected boolean isAccountLocked(String userid) {
         User admin = userLoginHistory.get(userid);
         return (admin != null
-                && admin.getLoginFailedCount() == ApplicationUtils.getAccountLockCount()
+                && admin.getLoginFailedCount() >= ApplicationUtils.getAccountLockCount()
                 && (new Date().getTime() - admin.getLastLoginFailedTime().getTime() < ApplicationUtils
                         .getAccountLockTime()));
     }

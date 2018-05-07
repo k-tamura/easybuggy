@@ -1,6 +1,7 @@
 package org.t246osslab.easybuggy.vulnerabilities;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +17,7 @@ import org.apache.directory.shared.ldap.message.AliasDerefMode;
 import org.apache.directory.shared.ldap.name.LdapDN;
 import org.t246osslab.easybuggy.core.dao.EmbeddedADS;
 import org.t246osslab.easybuggy.core.servlets.DefaultLoginServlet;
+import org.t246osslab.easybuggy.core.utils.ApplicationUtils;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/verbosemsg/login" })
@@ -29,20 +31,18 @@ public class VerboseErrorMessageServlet extends DefaultLoginServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-
+        Locale locale = req.getLocale();
         String userid = req.getParameter("userid");
         String password = req.getParameter("password");
 
         HttpSession session = req.getSession(true);
         if (isAccountLocked(userid)) {
-            session.setAttribute("authNMsg", "msg.account.locked");
-            doGet(req, res);
+            session.setAttribute("authNMsg", getErrMsg("msg.account.locked",
+                    new String[]{String.valueOf(ApplicationUtils.getAccountLockCount())}, locale));
         } else if (!isExistUser(userid)) {
-            session.setAttribute("authNMsg", "msg.user.not.exist");
-            doGet(req, res);
+            session.setAttribute("authNMsg", getErrMsg("msg.user.not.exist", locale));
         } else if (!password.matches("[0-9a-z]{8}")) {
-            session.setAttribute("authNMsg", "msg.low.alphnum8");
-            doGet(req, res);
+            session.setAttribute("authNMsg", getErrMsg("msg.low.alphnum8", locale));
         } else if (authUser(userid, password)) {
             /* Reset account lock count */
             resetAccountLock(userid);
@@ -57,13 +57,13 @@ public class VerboseErrorMessageServlet extends DefaultLoginServlet {
                 session.removeAttribute("target");
                 res.sendRedirect(target);
             }
+            return;
         } else {
-            /* account lock count +1 */
-            incrementAccountLockNum(userid);
-
-            session.setAttribute("authNMsg", "msg.password.not.match");
-            doGet(req, res);
+            session.setAttribute("authNMsg", getErrMsg("msg.password.not.match", locale));
         }
+        /* account lock count +1 */
+        incrementLoginFailedCount(userid);
+        doGet(req, res);
     }
     
     private boolean isExistUser(String username) {

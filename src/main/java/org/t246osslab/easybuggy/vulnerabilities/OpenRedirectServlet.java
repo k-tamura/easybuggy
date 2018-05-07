@@ -1,6 +1,7 @@
 package org.t246osslab.easybuggy.vulnerabilities;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +23,7 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-
+        Locale locale = req.getLocale();
         String userid = req.getParameter("userid");
         String password = req.getParameter("password");
         String loginQueryString = req.getParameter("loginquerystring");
@@ -34,7 +35,7 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
         
         HttpSession session = req.getSession(true);
         if (isAccountLocked(userid)) {
-            session.setAttribute("authNMsg", "msg.account.locked");
+            session.setAttribute("authNMsg", getErrMsg("msg.authentication.fail", locale));
             res.sendRedirect("/openredirect/login" + loginQueryString);
         } else if (authUser(userid, password)) {
             /* Reset account lock count */
@@ -57,9 +58,9 @@ public class OpenRedirectServlet extends DefaultLoginServlet {
             }
         } else {
             /* account lock count +1 */
-            incrementAccountLockNum(userid);
+            incrementLoginFailedCount(userid);
             
-            session.setAttribute("authNMsg", "msg.authentication.fail");
+            session.setAttribute("authNMsg", getErrMsg("msg.authentication.fail", locale));
             res.sendRedirect("/openredirect/login" + loginQueryString);
         }
     }
