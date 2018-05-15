@@ -37,7 +37,7 @@
     </p>
     <ul>
         <li><p>
-                <a href=includable.jsp><fmt:message key="style.name.noframe" /></a>:
+                <a href="includable.jsp"><fmt:message key="style.name.noframe" /></a>:
                 <fmt:message key="style.description.noframe" />
             </p></li>
         <li><p>
