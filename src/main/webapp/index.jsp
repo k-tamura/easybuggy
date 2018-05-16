@@ -32,18 +32,7 @@
     <header>
         <table style="width: 720px;">
             <tr>
-                <%
-                    if (isFirstLoad) {
-                        isFirstLoad = false;
-                %>
-                <td><img src="images/easybuggy.png" class="bounceInRight animated" /></td>
-                <%
-                    } else {
-                %>
-                <td><img src="images/easybuggy.png" /></td>
-                <%
-                    }
-                %>
+                <td><img src="images/easybuggy.png" class="bounceInRight animated" width="324px" height="116px" /></td>
                 <td><fmt:message key="description.all" /></td>
             </tr>
         </table>
