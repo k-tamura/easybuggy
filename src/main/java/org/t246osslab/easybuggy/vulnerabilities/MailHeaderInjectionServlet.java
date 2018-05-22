@@ -36,11 +36,6 @@ public class MailHeaderInjectionServlet extends AbstractServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Locale locale = req.getLocale();
-        if (!EmailUtils.isReadyToSendEmail()) {
-            responseToClient(req, res, getMsg("title.mailheaderinjection.page", locale),
-                    getInfoMsg("msg.smtp.server.not.setup", locale));
-            return;
-        }
         StringBuilder bodyHtml = new StringBuilder();
         bodyHtml.append(getMsg("description.send.mail", locale));
         bodyHtml.append("<br><br>");

@@ -37,15 +37,6 @@ public class EmailUtils {
     }
     
     /**
-     * Check if it is ready to send E-mail.
-     */
-    public static boolean isReadyToSendEmail() {
-        return !(StringUtils.isBlank(ApplicationUtils.getSmtpHost())
-                || StringUtils.isBlank(ApplicationUtils.getSmtpPort())
-                || StringUtils.isBlank(ApplicationUtils.getAdminAddress()));
-    }
-    
-    /**
      * Sends an e-mail message from a SMTP host with a list of attached files.
      * 
      * @param subject Mail subject
@@ -64,18 +55,22 @@ public class EmailUtils {
         properties.put("mail.password", ApplicationUtils.getSmtpPass());
  
         // creates a new session with an authenticator
-        Authenticator auth = new Authenticator() {
-            @Override
-            public PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(ApplicationUtils.getSmtpUser(), ApplicationUtils.getSmtpPass());
-            }
-        };
+        Authenticator auth = null;
+        if (!StringUtils.isBlank(ApplicationUtils.getSmtpUser()) && !StringUtils.isBlank(ApplicationUtils.getSmtpPass())) {
+            auth = new Authenticator() {
+                @Override
+                public PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(ApplicationUtils.getSmtpUser(), ApplicationUtils.getSmtpPass());
+                }
+            };
+        }
         Session session = Session.getInstance(properties, auth);
- 
+
         // creates a new e-mail message
         Message msg = new MimeMessage(session);
- 
-        msg.setFrom(new InternetAddress(ApplicationUtils.getSmtpUser()));
+        if (!StringUtils.isBlank(ApplicationUtils.getSmtpUser())){
+            msg.setFrom(new InternetAddress(ApplicationUtils.getSmtpUser()));
+        }
         InternetAddress[] toAddresses = { new InternetAddress(ApplicationUtils.getAdminAddress()) };
         msg.setRecipients(Message.RecipientType.TO, toAddresses);
         ((MimeMessage)msg).setSubject(subject,"UTF-8");
