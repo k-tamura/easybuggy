@@ -51,3 +51,9 @@ EasyBuggyを起動して、無限ループ、LDAPインジェクション、Unsa
   Kotlinで実装されたSpring BootベースのEasyBuggyクローン
 
   ![logo](https://raw.githubusercontent.com/wiki/k-tamura/easybuggy/images/mov_ebkt.gif)
+
+* [EasyBuggy Django](https://github.com/k-tamura/easybuggy4django)
+
+  Pythonで実装されたDjango 2ベースのEasyBuggyクローン
+
+  　![logo](https://github.com/k-tamura/easybuggy4django/blob/master/static/easybuggy.png)
