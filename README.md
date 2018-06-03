@@ -120,3 +120,9 @@ This demo shows: Start up -> Infinite Loop -> LDAP Injection -> UnsatisfiedLinkE
   EasyBuggy clone build on Spring Boot and written in Kotlin
 
   ![logo](https://raw.githubusercontent.com/wiki/k-tamura/easybuggy/images/mov_ebkt.gif)
+
+* [EasyBuggy Django](https://github.com/k-tamura/easybuggy4django)
+
+  EasyBuggy clone build on Django 2 and written in Python
+
+  　![logo](https://github.com/k-tamura/easybuggy4django/blob/master/static/easybuggy.png)
