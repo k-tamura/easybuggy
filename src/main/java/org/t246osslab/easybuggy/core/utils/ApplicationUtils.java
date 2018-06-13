@@ -171,7 +171,7 @@ public final class ApplicationUtils {
 
     private static String getProperty(ResourceBundle bundle, String key, String defaultValue) {
         try {
-            return bundle.getString(key);
+            return getProperty(bundle, key);
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         }
@@ -180,19 +180,23 @@ public final class ApplicationUtils {
     
     private static int getProperty(ResourceBundle bundle, String key, int defaultValue) {
         try {
-            return Integer.parseInt(bundle.getString(key));
+            return Integer.parseInt(getProperty(bundle, key));
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         }
         return defaultValue;
     }
-    
+
     private static long getProperty(ResourceBundle bundle, String key, long defaultValue) {
         try {
-            return Long.parseLong(bundle.getString(key));
+            return Long.parseLong(getProperty(bundle, key));
         } catch (Exception e) {
             log.error("Exception occurs: ", e);
         }
         return defaultValue;
+    }
+
+    private static String getProperty(ResourceBundle bundle, String key) {
+        return System.getProperty(key) != null ? System.getProperty(key) : bundle.getString(key);
     }
 }
