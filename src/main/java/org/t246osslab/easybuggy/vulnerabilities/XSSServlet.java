@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.t246osslab.easybuggy.core.servlets.AbstractServlet;
 
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
+
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = { "/xss" })
 public class XSSServlet extends AbstractServlet {
@@ -36,6 +38,8 @@ public class XSSServlet extends AbstractServlet {
             if (!StringUtils.isBlank(string)) {
                 // Reverse the given string
                 String reversedName = StringUtils.reverse(string);
+                reversedName = escapeHtml(reversedName);
+                
                 bodyHtml.append(getMsg("label.reversed.string", locale) + " : "
                         + reversedName);
             } else {
