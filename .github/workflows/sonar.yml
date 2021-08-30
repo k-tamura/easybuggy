@@ -1,0 +1,55 @@
+name: Run code analysis
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Fetch all history for SCM integration
+      - name: Fetch
+        if: github.event_name == 'pull_request'
+        run: git fetch origin $GITHUB_BASE_REF # Fetch base branch for PR analysis
+      - name: Setup Java 8
+        uses: actions/setup-java@v1
+        with:
+          java-version: "1.8"
+      - name: Maven verify
+        run: mvn verify
+      - name: Setup Java 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: "11"
+      - name: Maven sonar (push)
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.organization=wakabayashi \
+          -Dsonar.projectKey=my_project=wakabayashi_easybuggy \
+          -Dsonar.login=${SONAR_TOKEN} \
+          -Dsonar.branch.name="${${{ github.ref }}##*/}"
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Maven sonar (pull request)
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.organization=wakabayashi \
+          -Dsonar.projectKey=my_project=wakabayashi_easybuggy \
+          -Dsonar.login=${SONAR_TOKEN} \
+          -Dsonar.pullrequest.provider=GitHub \
+          -Dsonar.pullrequest.github.repository="${{ github.repository }}" \
+          -Dsonar.pullrequest.key="$(jq -r ".number" < "${{ github.event_path }}")"
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
