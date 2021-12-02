@@ -14,17 +14,40 @@
 		<!-- default properties (JDK 1.7 or earlier) -->
 		<jvm.args.perm.size>-XX:MaxPermSize=128m</jvm.args.perm.size>
 		<jvm.args.gc.log.path>-Xloggc:logs/gc.log</jvm.args.gc.log.path>
+		<jvm.args.print.heap.at.gc>-XX:+PrintHeapAtGC</jvm.args.print.heap.at.gc>
+		<jvm.args.print.gc.details>-XX:+PrintGCDetails</jvm.args.print.gc.details>
+		<jvm.args.print.gc.date.stamps>-XX:+PrintGCDateStamps</jvm.args.print.gc.date.stamps>
+		<jvm.args.gc.log.file.rotation>-XX:+UseGCLogFileRotation</jvm.args.gc.log.file.rotation>
+		<jvm.args.number.of.gc.log.files>-XX:NumberOfGCLogFiles=5</jvm.args.number.of.gc.log.files>
+		<jvm.args.gc.log.file.size>-XX:GCLogFileSize=10M</jvm.args.gc.log.file.size>
 	</properties>
 
 	<profiles>
 		<profile>
-			<id>JDK-Switch</id>
+			<id>JDK8-Switch</id>
 			<activation>
 				<jdk>1.8</jdk>
 			</activation>
 			<properties>
 				<jvm.args.perm.size>-XX:MaxMetaspaceSize=128m</jvm.args.perm.size>
 				<jvm.args.gc.log.path>-Xloggc:logs/gc_%p_%t.log</jvm.args.gc.log.path>
+			</properties>
+		</profile>
+		<profile>
+			<id>JDK11-Switch</id>
+			<activation>
+				<jdk>11</jdk>
+			</activation>
+			<properties>
+				<jvm.args.perm.size>-XX:MaxMetaspaceSize=128m</jvm.args.perm.size>
+				<jvm.args.gc.log.path>-Xlog:gc*:logs/gc_%p_%t.log:time,level,tags:filecount=5,filesize=10M</jvm.args.gc.log.path>
+				<!-- TODO Remove these properties -->
+				<jvm.args.print.heap.at.gc>-Dummy=Dummy</jvm.args.print.heap.at.gc>
+				<jvm.args.print.gc.details>-Dummy=Dummy</jvm.args.print.gc.details>
+				<jvm.args.print.gc.date.stamps>-Dummy=Dummy</jvm.args.print.gc.date.stamps>
+				<jvm.args.gc.log.file.rotation>-Dummy=Dummy</jvm.args.gc.log.file.rotation>
+				<jvm.args.number.of.gc.log.files>-Dummy=Dummy</jvm.args.number.of.gc.log.files>
+				<jvm.args.gc.log.file.size>-Dummy=Dummy</jvm.args.gc.log.file.size>
 			</properties>
 		</profile>
 	</profiles>
@@ -212,12 +235,12 @@
 								<argument>-Xmx256m</argument>
 								<argument>-XX:MaxDirectMemorySize=90m</argument>
 								<argument>-XX:+UseSerialGC</argument>
-								<argument>-XX:+PrintHeapAtGC</argument>
-								<argument>-XX:+PrintGCDetails</argument>
-								<argument>-XX:+PrintGCDateStamps</argument>
-								<argument>-XX:+UseGCLogFileRotation</argument>
-								<argument>-XX:NumberOfGCLogFiles=5</argument>
-								<argument>-XX:GCLogFileSize=10M</argument>
+								<argument>${jvm.args.print.heap.at.gc}</argument>
+								<argument>${jvm.args.print.gc.details}</argument>
+								<argument>${jvm.args.print.gc.date.stamps}</argument>
+								<argument>${jvm.args.gc.log.file.rotation}</argument>
+								<argument>${jvm.args.number.of.gc.log.files}</argument>
+								<argument>${jvm.args.gc.log.file.size}</argument>
 								<argument>-XX:GCTimeLimit=15</argument>
 								<argument>-XX:GCHeapFreeLimit=50</argument>
 								<argument>-XX:+HeapDumpOnOutOfMemoryError</argument>
