@@ -22,7 +22,6 @@ EasyBuggyは、[メモリリーク、デッドロック、JVMクラッシュ、S
 
 
 :clock4: クイックスタート(Docker)
-
 -
 
     $ docker build . -t easybuggy:local # Build container image

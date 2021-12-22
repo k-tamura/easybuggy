@@ -21,7 +21,6 @@ Access to
     http://localhost:8080
 
 :clock4: Quick Start(Docker)
-
 -
 
     $ docker build . -t easybuggy:local # Build container image
