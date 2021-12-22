@@ -21,6 +21,18 @@ EasyBuggyは、[メモリリーク、デッドロック、JVMクラッシュ、S
     http://localhost:8080
 
 
+:clock4: クイックスタート(Docker)
+
+-
+
+    $ docker build . -t easybuggy:local # Build container image
+    $ docker run -p 8080:8080 easybuggy:local # Start easybuggy
+
+以下にアクセス:
+
+    http://localhost:8080
+
+
 ### 停止するには:
 
   <kbd>CTRL</kbd>+<kbd>C</kbd>をクリック ( または: http://localhost:8080/exit にアクセス )

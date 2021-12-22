@@ -20,6 +20,17 @@ Access to
 
     http://localhost:8080
 
+:clock4: Quick Start(Docker)
+
+-
+
+    $ docker build . -t easybuggy:local # Build container image
+    $ docker run -p 8080:8080 easybuggy:local # Start easybuggy
+
+Access to
+
+    http://localhost:8080
+
 ### To stop:
 
   Use <kbd>CTRL</kbd>+<kbd>C</kbd> ( or access to: http://localhost:8080/exit )
