@@ -44,7 +44,7 @@ See [the wiki page](https://github.com/k-tamura/easybuggy/wiki).
 
 This demo shows: Start up -> Infinite Loop -> LDAP Injection -> UnsatisfiedLinkError -> BufferOverflowException -> Deadlock -> Memory Leak -> JVM Crash (Shut down)
 
-![demo](https://github.com/k-tamura/test/blob/master/demo_eb.gif)
+![demo](https://github.com/k-tamura/easybuggy/blob/master/demo_eb.gif)
 
 :clock4: EasyBuggy can reproduce:
 -
