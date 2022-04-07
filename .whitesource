@@ -1,0 +1,22 @@
+{
+  "scanSettings": {
+    "configMode": "AUTO",
+    "configExternalURL": "",
+    "enableLicenseViolations": "true",
+    "projectToken": "",
+    "enableIaC": "true",
+    "baseBranches": []
+  },
+  "checkRunSettings": {
+    "vulnerableCheckRunConclusionLevel": "failure",
+    "displayMode": "diff"
+  },
+  "issueSettings": {
+    "minSeverityLevel": "LOW",
+    "issueType": "DEPENDENCY"
+  },
+  "remediateSettings": {
+    "enableRenovate": true,
+    "extends": ["github>whitesource/merge-confidence:beta"]
+    }
+}
