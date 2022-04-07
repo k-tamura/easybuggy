@@ -1,0 +1,56 @@
+name: Whitesource Prioritize Java with Maven & Github Issue comments
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    env:
+      WS_APIKEY: ${{secrets.APIKEY}}
+      WS_WSS_URL: https://saas-eu.whitesourcesoftware.com/agent
+      WS_PRODUCTNAME: GH_${{github.event.repository.name}}
+      WS_PROJECTNAME: ${{github.event.repository.name}}_${{github.ref_name}}_Prioritize
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: '8'
+        distribution: 'adopt'
+    - name: Cache local Maven repository
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
+    - name: Build with Maven
+      run: mvn clean install -DskipTests=true
+    - name: WhiteSource Unified Agent Scan
+      env:
+        WS_ENABLEIMPACTANALYSIS: true
+        WS_RESOLVEALLDEPENDENCIES: false
+        WS_MAVEN_RESOLVEDEPENDENCIES: true
+        WS_MAVEN_AGGREGATEMODULES: true
+        WS_FILESYSTEMSCAN: false
+        WS_GENERATEPROJECTDETAILSJSON: true
+      run: |
+        curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar
+        echo Unified Agent downloaded successfully
+        WARFILE=$(find ./ -type f -wholename "*/target/*.war")
+        echo $WARFILE will be added to appPath
+        java -jar wss-unified-agent.jar -appPath $WARFILE -d ./
+    - name: Check Project State
+      run: |
+        curl -LJO https://raw.githubusercontent.com/whitesource-ft/ws-examples/main/Scripts/check-project-state.sh
+        chmod +x ./check-project-state.sh && ./check-project-state.sh
+    - name: Prioritize GH Issue Comments
+      run: |
+        curl -LJO https://raw.githubusercontent.com/whitesource-ft/ws-examples/main/Scripts/ghissue-eua.sh
+        chmod +x ./ghissue-eua.sh && ./ghissue-eua.sh
+        
