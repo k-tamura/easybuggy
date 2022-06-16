@@ -1,0 +1,29 @@
+name: Mend SAST
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  mend-sast:
+    name: Mend-SAST
+    runs-on: ubuntu-latest
+    env:
+      SAST_ORGANIZATION: ${{secrets.SAST_ORGANIZATION}}
+      SASTCLI_TOKEN: ${{secrets.SASTCLI_TOKEN}}
+      SAST_SERVER: https://sast-eu.whitesourcesoftware.com
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      # Download CLI
+      - name: Download CLI
+        run: curl -LJO https://downloads-sast.mend.io/sast-cli/linux/mendsastcli && chmod +x mendsastcli
+      # Run CLI
+      - name: Run Mend-SAST
+        run: |
+          ./mendsastcli --dir ./ --name=${{github.event.repository.name}}-${{github.ref_name}}-${{github.sha}} --app=${{github.event.repository.name}} --baseline=true --report=true --formats sarif --filename Mend_SAST
+      #         Upload ThunderScan Results to Github Security
+      - name: Github Security Results Upload
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: "Mend_SAST.sarif"
