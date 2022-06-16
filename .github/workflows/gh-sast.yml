@@ -2,7 +2,7 @@ name: Mend SAST
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   mend-sast:
