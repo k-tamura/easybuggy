@@ -1,4 +1,4 @@
-name: Whitesource Prioritize Java with Maven & Github Issue comments
+name: Mend Prioritize Java with Maven & Github Issue comments
 
 on:
   push:
@@ -31,7 +31,7 @@ jobs:
 
     - name: Build with Maven
       run: mvn clean install -DskipTests=true
-    - name: WhiteSource Unified Agent Scan
+    - name: Mend Unified Agent Scan
       env:
         WS_ENABLEIMPACTANALYSIS: true
         WS_RESOLVEALLDEPENDENCIES: false
