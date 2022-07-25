@@ -7,6 +7,7 @@
     "enableIaC": "true",
     "baseBranches": [],
     "enableSAST": true
+    "enableSASTRemediation": true
   },
   "checkRunSettings": {
     "vulnerableCheckRunConclusionLevel": "failure",
