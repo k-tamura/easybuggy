@@ -6,7 +6,7 @@
     "projectToken": "",
     "enableIaC": "true",
     "baseBranches": [],
-    "enableSAST": true
+    "enableSAST": true,
     "enableSASTRemediation": true
   },
   "checkRunSettings": {
