@@ -18,7 +18,8 @@
   },
   "remediateSettings": {
     "workflowRules": {
-      "enabled": true
+      "enabled": true,
+      "extends": ["github>whitesource/merge-confidence:beta"]
     }
   }
 }
