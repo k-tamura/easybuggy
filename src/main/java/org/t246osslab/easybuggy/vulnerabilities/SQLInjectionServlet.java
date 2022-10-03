@@ -60,12 +60,15 @@ public class SQLInjectionServlet extends AbstractServlet {
     private String selectUsers(String name, String password, HttpServletRequest req) {
         
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         ResultSet rs = null;
         String result = getErrMsg("msg.error.user.not.exist", req.getLocale());
         try {
             conn = DBClient.getConnection();
-            stmt = conn.createStatement();
+            stmt = conn.prepareStatement("SELECT name, secret FROM users WHERE ispublic = 'true' AND name='" + name
+                    "SELECT name, secret FROM users WHERE ispublic = 'true' AND name=" + "?" + " AND password=" + "?");
+            stmt.setString(1, name);
+            stmt.setString(2, password);
             rs = stmt.executeQuery("SELECT name, secret FROM users WHERE ispublic = 'true' AND name='" + name
                     + "' AND password='" + password + "'");
             StringBuilder sb = new StringBuilder();
