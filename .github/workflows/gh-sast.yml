@@ -11,7 +11,7 @@ jobs:
     env:
       SAST_ORGANIZATION: ${{secrets.SAST_ORGANIZATION}}
       SASTCLI_TOKEN: ${{secrets.SASTCLI_TOKEN}}
-      SAST_SERVER: https://sast-eu.whitesourcesoftware.com
+      SAST_SERVER: https://saas-eu.mend.io/sast/
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
