@@ -54,4 +54,3 @@ jobs:
       run: |
         curl -LJO https://raw.githubusercontent.com/whitesource-ft/ws-examples/main/Scripts/ghissue-eua.sh
         chmod +x ./ghissue-eua.sh && ./ghissue-eua.sh
-        
