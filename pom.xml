@@ -222,7 +222,7 @@
 				<executions>
 					<execution>
 						<id>startup-uber-start</id>
-						<phase>install</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
