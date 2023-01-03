@@ -3,20 +3,25 @@
     "configMode": "AUTO",
     "configExternalURL": "",
     "projectToken": "",
-    "baseBranches": []
+    "baseBranches": ["master","feature"],
+    "enableIaC": "true",
+    "enableSAST": "true"
   },
-  "checkRunSettings": {
-    "vulnerableCheckRunConclusionLevel": "failure",
+  "pullRequestStatusSettings": {
+    "vulnerablePullRequestStatus": "failed",
     "displayMode": "diff",
-    "useMendCheckNames": true
+    "useMendStatusNames": true
   },
   "issueSettings": {
     "minSeverityLevel": "LOW",
     "issueType": "DEPENDENCY"
   },
   "remediateSettings": {
-    "workflowRules": {
-      "enabled": true
-    }
+        "enableRenovate": true,
+        "workflowRules": {
+            "enabled": true,
+            "minVulnerabilitySeverity": "LOW"
+    },
+    "extends": ["github>whitesource/merge-confidence:beta"]
   }
 }
