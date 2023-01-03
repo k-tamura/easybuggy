@@ -1,0 +1,22 @@
+Name: Workflow_e477
+SchemaVersion: "1.0"
+
+# Required - Define action configurations.
+Actions:
+  MendSCA_cf:
+    Identifier: mend/mendsca@v1
+    Outputs:
+      Reports:
+        MendSCA:
+          IncludePaths:
+            - report.sarif
+          Format: SARIFSCA
+    Inputs:
+      Sources:
+        - WorkflowSource
+    Compute:
+      Type: EC2
+    Configuration:
+      MendLicenseKey: AAUVslHgRV7YR=4eGZYX|J7\jhXY{UKXxl[h^tp^9^qR85YieprXWZqU|h~UyIp^tFnQmt[RXtZiKNH^{spQmtrZ}oZi[Rn]:^5VoFLe}U[UWNX[{94Vnp\S}oZhKNn[6tof^|Kh\V6g9]I^5|qQ]xqX}kJgS5[W6o4UmFrV\NqVORn]{]Yfn9qZLV[hw5[W~p4UTFX[It5eKVYX8JpiRlqWxpZfO5[[7xqiSFXUItZRFVo[5o4ZRRXYu54hJNXX:Z4ZRJ~^:9YRFt\[v^IZRt7^:9Ie[VoX|Y5VTlqVLtJQrt[[v|KVSp6fupYR[N~Y9^pQnJnWH|YeNtqXtt4VSt\YItZfet\X9xKZSNXV}44eSVoX4opi^FXYL94QZNX[x^IVSh\[\54QnVp[~o5Z^xK^u5oeOt\[5IIVS|qYut5estq[4YIZeh\X:p5hN5[W6oYem|Kh}M[Zo56]6t4UQpKS\J[hV5q]wJXfQJnZ\|oiKhZ[:pXiQ^XXMRKQWlY]t=qeNRrW]^pQ5gpY:VqfNR\WXppQN5qXs^oe^h\Z\tZfGVpX:hqe^xqXu5IR^t\X4gKVexqZ}4IestqX5opeRJnZLtZh[hp]95I[^lqXypoRNp6]w|[feFrYyNKfWh5Y}Y~ZWtL^yp4gRVZX|YIVSRXW:9oQJt6XtJJ[^FrWH|Ye{Mn]uZ~YeprV}UKQeNn]:^pQ^prZ~Mqi[hI^{lqQoJYR\ppf946]tZ~YeNrZMN[ezt[W:9I[lp6htp4hWtqYS9oQm^ZQvZ[Z9Qp[utI[o^rX[tJQwhY]~sYeTp[W\VqiOp\^yonWt9YQNt\ZNtYeTp6]LNKeOp\^
+      MendProduct: CodeCatalyst
+      MendProject: easybuggy
