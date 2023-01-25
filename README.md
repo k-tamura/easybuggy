@@ -53,7 +53,7 @@ This demo shows: Start up -> Infinite Loop -> LDAP Injection -> UnsatisfiedLinkE
 
   * Memory Leak (Java heap space)
   * Memory Leak (PermGen space)
-  * Memory Leak (C heap space)
+  * Memory Leak (C heap space)cc
   * Deadlock (Java)
   * Deadlock (SQL)
   * Endless Waiting Process
