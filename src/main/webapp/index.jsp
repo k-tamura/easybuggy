@@ -321,7 +321,7 @@
         <li><p>
                 <a href="sofe" target="_blank">StackOverflowError</a>:
                 <fmt:message key="function.description.throwable">
-                    <fmt:param value="StackOverflowError" />
+                    <fmt:param value="somebigerror" />
                 </fmt:message>
             </p></li>
         <li><p>
