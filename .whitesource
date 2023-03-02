@@ -3,8 +3,13 @@
     "configMode": "AUTO",
     "configExternalURL": "",
     "projectToken": "",
-    "baseBranches": [],
-    "enableSAST": "true" 
+    "baseBranches": []
+  },
+  "scanSettingsSAST": {
+    "enableScan": true,
+    "scanPullRequests": true,
+    "incrementalScan": false,
+    "baseBranches": []
   },
   "checkRunSettings": {
     "vulnerableCheckRunConclusionLevel": "failure",
