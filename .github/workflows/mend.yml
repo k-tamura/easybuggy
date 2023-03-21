@@ -1,4 +1,4 @@
-name: Mend CLI Release Scan
+name: Mend CLI Scan
 
 on:
   workflow_dispatch
