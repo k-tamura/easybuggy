@@ -28,4 +28,4 @@ jobs:
             curl -LJO https://downloads.mend.io/production/unified/latest/linux_amd64/mend && chmod +x mend
             echo Start Mend CLI scan
             ./mend sca
-            ./mend sast
+            ./mend sast -j 2
