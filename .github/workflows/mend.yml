@@ -29,3 +29,4 @@ jobs:
             echo Start Mend CLI scan
             ./mend sca -u
             ./mend sast -j 2
+            ./mend image ubuntu:latest
