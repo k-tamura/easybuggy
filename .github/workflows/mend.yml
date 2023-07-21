@@ -28,5 +28,5 @@ jobs:
             curl -LJO https://downloads.mend.io/production/unified/latest/linux_amd64/mend && chmod +x mend
             echo Start Mend CLI scan
             ./mend deps -u
-            ./mend code -j 2
+            ./mend code -j 2 --remediate
             ./mend image ubuntu:latest
