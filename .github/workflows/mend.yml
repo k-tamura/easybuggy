@@ -10,8 +10,6 @@ jobs:
         steps:
         - uses: actions/checkout@v3
         # Add your package manager build here
-        # name: Build with NPM
-        # run: npm install
 
         - name: Mend CLI Scan
           env:
