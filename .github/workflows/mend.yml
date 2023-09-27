@@ -17,14 +17,10 @@ jobs:
             MEND_EMAIL: ${{secrets.MEND_SCA_EMAIL}}
             MEND_USER_KEY: ${{secrets.MEND_SCA_USERKEY}}
             MEND_URL: https://saas-eu.mend.io
-            #SAST
-            MEND_SAST_SERVER_URL: https://saas-eu.mend.io/sast
-            MEND_SAST_API_TOKEN: ${{secrets.MEND_SAST_API}}
-            MEND_SAST_ORGANIZATION: ${{secrets.MEND_SAST_ORGANIZATION}}
           run: |
             echo Downloading Mend CLI
             curl -LJO https://downloads.mend.io/production/unified/latest/linux_amd64/mend && chmod +x mend
             echo Start Mend CLI scan
-            ./mend dep -u
-            ./mend code -j 2 --remediate
+            ./mend dep -u -s "Luke Brogan Demo - Github.com//GitHubActions//Easybuggy"
+            ./mend code -j 2 -s "Luke Brogan Demo - Github.com///GitHubActions//Easybuggy" --remediate
             ./mend image ubuntu:latest
