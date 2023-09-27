@@ -22,5 +22,5 @@ jobs:
             curl -LJO https://downloads.mend.io/production/unified/latest/linux_amd64/mend && chmod +x mend
             echo Start Mend CLI scan
             ./mend dep -u -s "Luke Brogan Demo - Github.com//GitHubActions//Easybuggy"
-            ./mend code -j 2 -s "Luke Brogan Demo - Github.com///GitHubActions//Easybuggy" --remediate
+            ./mend code -j 2 -s "Luke Brogan Demo - Github.com//GitHubActions//Easybuggy" --remediate
             ./mend image ubuntu:latest
