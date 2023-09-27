@@ -14,8 +14,8 @@ jobs:
         - name: Mend CLI Scan
           env:
             #SCA
-            MEND_EMAIL: ${{secrets.MEND_SCA_EMAIL}}
-            MEND_USER_KEY: ${{secrets.MEND_SCA_USERKEY}}
+            MEND_EMAIL: ${{secrets.MEND_EMAIL}}
+            MEND_USER_KEY: ${{secrets.MEND_USERKEY}}
             MEND_URL: https://saas-eu.mend.io
           run: |
             echo Downloading Mend CLI
