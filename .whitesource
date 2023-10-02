@@ -3,6 +3,8 @@
     "configMode": "AUTO",
     "configExternalURL": "",
     "projectToken": "",
+    "enableIaC": true,
+    "enableLicenseViolations": true,
     "baseBranches": []
   },
   "scanSettingsSAST": {
