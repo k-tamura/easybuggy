@@ -12,7 +12,7 @@ public class User implements Serializable{
     private String secret = null;
     private String phone = null;
     private String mail = null;
-    private int loginFailedCount = 0;
+    private int loginFailedCount = 3;
     private Date lastLoginFailedTime = null;
 
     @Override
