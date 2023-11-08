@@ -5,7 +5,6 @@
     "projectToken": "",
     "enableIaC": true,
     "enableLicenseViolations": true,
-    "enableReachability": true,
     "baseBranches": []
   },
   "scanSettingsSAST": {
