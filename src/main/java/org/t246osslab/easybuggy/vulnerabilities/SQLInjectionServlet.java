@@ -65,8 +65,9 @@ public class SQLInjectionServlet extends AbstractServlet {
         String result = getErrMsg("msg.error.user.not.exist", req.getLocale());
         try {
             conn = DBClient.getConnection();
-            stmt = conn.prepareStatement("SELECT name, secret FROM users WHERE ispublic = 'true' AND name='" + name
+            /** stmt = conn.prepareStatement("SELECT name, secret FROM users WHERE ispublic = 'true' AND name='" + name
                     "SELECT name, secret FROM users WHERE ispublic = 'true' AND name=" + "?" + " AND password=" + "?");
+            */
             stmt.setString(1, name);
             stmt.setString(2, password);
             rs = stmt.executeQuery("SELECT name, secret FROM users WHERE ispublic = 'true' AND name='" + name
