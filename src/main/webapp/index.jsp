@@ -228,6 +228,10 @@
                 <a href="ssrf"><fmt:message key="function.name.ssrf" /></a>:
                 <fmt:message key="function.description.ssrf" />
             </p></li>
+        <li><p>
+                <a href="idor"><fmt:message key="function.name.idor" /></a>:
+                <fmt:message key="function.description.idor" />
+            </p></li>
     </ul>
 
     <%
