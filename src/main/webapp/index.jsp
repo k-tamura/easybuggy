@@ -232,6 +232,10 @@
                 <a href="idor"><fmt:message key="function.name.idor" /></a>:
                 <fmt:message key="function.description.idor" />
             </p></li>
+        <li><p>
+                <a href="union-sqli"><fmt:message key="function.name.union.sql.injection" /></a>:
+                <fmt:message key="function.description.union.sql.injection" />
+            </p></li>
     </ul>
 
     <%
