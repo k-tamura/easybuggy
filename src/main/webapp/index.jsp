@@ -224,6 +224,10 @@
                 <a href="xxe"><fmt:message key="function.name.xxe" /></a>:
                 <fmt:message key="function.description.xxe" />
             </p></li>
+        <li><p>
+                <a href="ssrf"><fmt:message key="function.name.ssrf" /></a>:
+                <fmt:message key="function.description.ssrf" />
+            </p></li>
     </ul>
 
     <%

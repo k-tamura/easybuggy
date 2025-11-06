@@ -1,0 +1,9 @@
+# Shell Aliases
+# Source: ~/.zshrc and ~/.profile
+
+alias run-help=man
+alias which-command=whence
+
+alias vima='vim aliases.txt'
+alias sa='source aliases.txt'
+
