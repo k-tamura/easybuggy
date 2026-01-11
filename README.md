@@ -8,7 +8,7 @@ EasyBuggy is a broken web application in order to understand behavior of bugs an
 
 ![logo](https://raw.githubusercontent.com/wiki/k-tamura/easybuggy/images/mov_eb.gif)
 
-:warning: **Currently, development of EasyBuggy has been temporarily suspended in order to focus on the development of [EasyBuggy Boot](https://github.com/k-tamura/easybuggy4sb/blob/master/README.jp.md). EasyBuggy Boot has more vulnerabilities built in than EasyBuggy, so we recommend using EasyBuggy Boot.**
+:warning: **Currently, development of EasyBuggy has been temporarily suspended in order to focus on the development of [EasyBuggy Boot](https://github.com/k-tamura/easybuggy4sb/blob/master/README.md). EasyBuggy Boot has more vulnerabilities built in than EasyBuggy, so we recommend using EasyBuggy Boot.**
 
 :clock4: Quick Start
 -
