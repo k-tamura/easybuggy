@@ -7,6 +7,7 @@ install: true
 
 script: mvn -DskipTests=true clean verify
 
+
 notifications:
   email:
     - ktamura.biz.80@gmail.com
