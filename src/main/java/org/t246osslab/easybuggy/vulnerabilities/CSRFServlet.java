@@ -50,6 +50,7 @@ public class CSRFServlet extends AbstractServlet {
         HttpSession session = req.getSession();
         if (session == null) {
             res.sendRedirect("/");
+            res.sendRedirect("");
             return;
         }
         String userid = (String) session.getAttribute("userid");
